@@ -9,8 +9,8 @@ database_name = "portal-db"
 database_id = "b9f5f23a-2ce4-4192-a8c0-39f973b48e4b" # TODO: 実際のD1データベースIDに置き換えてください
 
 # Workers AI binding for translation
-[ai]
-binding = "AI"
+# [ai]
+# binding = "AI"
 
 # Environment variables
 [vars]
