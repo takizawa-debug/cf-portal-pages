@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Nexus • Stories Without Borders</title>
+    <title>Global Nexus • Information Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,6 +15,9 @@
             --accent-glow: rgba(59, 130, 246, 0.4);
             --card-bg: rgba(17, 24, 39, 0.7);
             --card-border: rgba(255, 255, 255, 0.05);
+            --category-l1: rgba(59, 130, 246, 0.2);
+            --category-l2: rgba(16, 185, 129, 0.2);
+            --category-l3: rgba(139, 92, 246, 0.2);
         }
 
         body {
@@ -27,7 +30,6 @@
             overflow-x: hidden;
         }
 
-        /* Dynamic Background */
         .bg-shapes {
             position: fixed;
             top: 0;
@@ -41,32 +43,32 @@
 
         .shape {
             position: absolute;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: float 20s infinite ease-in-out alternate;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: float 25s infinite ease-in-out alternate;
         }
 
         .shape-1 {
             background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-            width: 400px;
-            height: 400px;
-            top: -100px;
-            left: -100px;
+            width: 50vw;
+            height: 50vw;
+            top: -20%;
+            left: -10%;
             border-radius: 50%;
         }
 
         .shape-2 {
             background: linear-gradient(135deg, #EC4899, #F43F5E);
-            width: 300px;
-            height: 300px;
-            bottom: 10%;
-            right: -50px;
+            width: 40vw;
+            height: 40vw;
+            bottom: -10%;
+            right: -10%;
             border-radius: 50%;
-            animation-delay: -5s;
+            animation-delay: -10s;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 2rem;
         }
@@ -132,11 +134,10 @@
         /* Grid Layout */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
         }
 
-        /* Card Design */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -150,6 +151,7 @@
             opacity: 0;
             animation: fadeInUp 0.8s forwards;
             height: 100%;
+            cursor: pointer;
         }
 
         .card:hover {
@@ -157,12 +159,57 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
-        .card-img {
+        .card-img-wrapper {
+            position: relative;
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 220px;
+            overflow: hidden;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             background-color: #1F2937;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-badges {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .badge.l1 {
+            background: var(--category-l1);
+        }
+
+        .badge.l2 {
+            background: var(--category-l2);
+        }
+
+        .badge.l3 {
+            background: var(--category-l3);
         }
 
         .card-content {
@@ -172,34 +219,6 @@
             flex: 1;
         }
 
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        .tag {
-            padding: 0.25rem 0.75rem;
-            border-radius: 99px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .tag.manual {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60A5FA;
-        }
-
-        .tag.instagram {
-            background: rgba(236, 72, 153, 0.2);
-            color: #F472B6;
-        }
-
         .card-title {
             font-size: 1.5rem;
             margin: 0 0 1rem 0;
@@ -207,12 +226,166 @@
             line-height: 1.3;
         }
 
+        .card-lead {
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin: 0 0 1rem 0;
+            line-height: 1.5;
+        }
+
         .card-body {
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.6;
             margin: 0;
             flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-header-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .modal-body {
+            padding: 3rem;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            background: linear-gradient(135deg, #FFFFFF, #9CA3AF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-lead {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .modal-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6B7280;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: var(--text-main);
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .info-value a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .info-value a:hover {
+            color: #60A5FA;
         }
 
         .loader {
@@ -232,7 +405,7 @@
             }
 
             100% {
-                transform: translate(20px, 40px);
+                transform: translate(30px, 60px);
             }
         }
 
@@ -276,9 +449,25 @@
             }
         }
 
-        </script>< !-- Wait,
-        css inside script tag? No,
-        it's just a misplaced closing tag. Fixing below. -->
+        /* Custom scrollbar for modal */
+        .modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--bg-color);
+            border-radius: 0 24px 24px 0;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            border: 3px solid var(--bg-color);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 
@@ -291,26 +480,37 @@
     <div class="container">
         <header>
             <h1>Global Nexus</h1>
-            <div class="subtitle">AI-Translated Insights & Stories</div>
+            <div class="subtitle">Next-gen Information Portal</div>
 
             <div class="lang-switcher">
-                <button class="lang-btn active" data-lang="jp">日本語</button>
-                <button class="lang-btn" data-lang="en">English</button>
-                <button class="lang-btn" data-lang="tw">中文</button>
+                <button class="lang-btn active" data-lang="">日本語</button>
+                <button class="lang-btn" data-lang="_en">English</button>
+                <button class="lang-btn" data-lang="_tw">中文</button>
             </div>
         </header>
 
         <main class="grid" id="postGrid">
-            <div class="loader">Loading intelligence...</div>
+            <div class="loader">Loading dataset...</div>
         </main>
     </div>
 
+    <!-- Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <div id="modalInner"></div>
+        </div>
+    </div>
+
     <script>
-        let currentLang = 'jp';
+        let currentLangSuffix = ''; // '', '_en', '_tw'
         let postsData = [];
 
         const grid = document.getElementById('postGrid');
         const langBtns = document.querySelectorAll('.lang-btn');
+        const modal = document.getElementById('detailModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalInner = document.getElementById('modalInner');
 
         // Fetch Data
         async function fetchPosts() {
@@ -320,8 +520,13 @@
                 postsData = await res.json();
                 renderPosts();
             } catch (err) {
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #EF4444;">Failed to load data.</div>`;
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #EF4444;">Failed to load data. API might be syncing.</div>`;
             }
+        }
+
+        // Helper to get localized value falling back to base (JP)
+        function getLocContent(item, key) {
+            return item[key + currentLangSuffix] || item[key] || '';
         }
 
         // Render Posts based on language
@@ -334,30 +539,83 @@
             grid.innerHTML = '';
 
             postsData.forEach((post, index) => {
-                const title = post[`title_${currentLang}`] || post.title_jp || '';
-                const body = post[`body_${currentLang}`] || post.body_jp || '';
-                const date = new Date(post.created_at).toLocaleDateString(
-                    currentLang === 'jp' ? 'ja-JP' : currentLang === 'en' ? 'en-US' : 'zh-TW',
-                    { year: 'numeric', month: 'short', day: 'numeric' }
-                );
+                const title = getLocContent(post, 'title');
+                const lead = getLocContent(post, 'lead_text');
+                const body = getLocContent(post, 'body_text');
+
+                const l1 = getLocContent(post, 'l1');
+                const l2 = getLocContent(post, 'l2');
+                const l3 = getLocContent(post, 'l3_label');
 
                 const card = document.createElement('article');
                 card.className = 'card fade-content';
-                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animationDelay = `${index * 0.05}s`;
+
+                let badgesHtml = '';
+                if (l1) badgesHtml += `<span class="badge l1">${escapeHtml(l1)}</span>`;
+                if (l2) badgesHtml += `<span class="badge l2">${escapeHtml(l2)}</span>`;
+                if (l3) badgesHtml += `<span class="badge l3">${escapeHtml(l3)}</span>`;
 
                 card.innerHTML = `
-                    ${post.image_url ? `<img src="${escapeHtml(post.image_url)}" class="card-img" alt="Cover Image" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.1);font-size:3rem;">❖</div>`}
-                    <div class="card-content">
-                        <div class="card-meta">
-                            <span class="tag ${post.type}">${post.type === 'instagram' ? 'Instagram' : 'Article'}</span>
-                            <span>${date}</span>
+                    <div class="card-img-wrapper">
+                        ${post.image1 ? `<img src="${escapeHtml(post.image1)}" class="card-img" alt="Cover Image" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.1);font-size:4rem;">✧</div>`}
+                        <div class="card-badges">
+                            ${badgesHtml}
                         </div>
+                    </div>
+                    <div class="card-content">
                         ${title ? `<h2 class="card-title">${escapeHtml(title)}</h2>` : ''}
-                        <p class="card-body">${escapeHtml(body).replace(/\\n/g, '<br>')}</p>
+                        ${lead ? `<div class="card-lead">${escapeHtml(lead)}</div>` : ''}
+                        <p class="card-body">${escapeHtml(body)}</p>
                     </div>
                 `;
+
+                // Add click listener for modal
+                card.addEventListener('click', () => openModal(post));
                 grid.appendChild(card);
             });
+        }
+
+        function openModal(post) {
+            const title = getLocContent(post, 'title');
+            const lead = getLocContent(post, 'lead_text');
+            const body = getLocContent(post, 'body_text');
+
+            const l1 = getLocContent(post, 'l1');
+            const l2 = getLocContent(post, 'l2');
+
+            let infoGridHtml = '';
+
+            const addInfo = (label, value, isLink = false) => {
+                if (!value) return;
+                infoGridHtml += `
+                    <div class="info-item">
+                        <span class="info-label">${escapeHtml(label)}</span>
+                        <span class="info-value">${isLink ? `<a href="${escapeHtml(value)}" target="_blank" rel="noopener noreferrer">${escapeHtml(value)}</a>` : escapeHtml(value)}</span>
+                    </div>
+                `;
+            };
+
+            addInfo('Category', `${l1} ${l2 ? ' / ' + l2 : ''}`);
+            addInfo('Homepage', post.homepage, true);
+            addInfo('Address', post.address);
+            addInfo('Fee', post.fee);
+            addInfo('Date', [post.start_date, post.end_date].filter(Boolean).join(' - '));
+            addInfo('Time', [post.start_time, post.end_time].filter(Boolean).join(' - '));
+
+            modalInner.innerHTML = `
+                ${post.image1 ? `<img src="${escapeHtml(post.image1)}" class="modal-header-img" alt="Header Image">` : ''}
+                <div class="modal-body">
+                    <h2 class="modal-title">${escapeHtml(title)}</h2>
+                    ${lead ? `<div class="modal-lead">${escapeHtml(lead)}</div>` : ''}
+                    <div class="modal-text">${escapeHtml(body).replace(/\\n/g, '<br>')}</div>
+                    
+                    ${infoGridHtml ? `<div class="modal-info-grid">${infoGridHtml}</div>` : ''}
+                </div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         // Language Switcher Logic
@@ -365,15 +623,27 @@
             btn.addEventListener('click', (e) => {
                 langBtns.forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
-                currentLang = e.target.getAttribute('data-lang');
+                currentLangSuffix = e.target.getAttribute('data-lang');
 
-                // Add tiny delay for visual fade effect
                 grid.style.opacity = '0';
                 setTimeout(() => {
                     renderPosts();
                     grid.style.opacity = '1';
-                }, 200);
+                }, 300);
             });
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
 
         function escapeHtml(unsafe) {

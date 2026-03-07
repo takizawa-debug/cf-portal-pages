@@ -4,7 +4,7 @@ export async function onRequestGet(context) {
     try {
         // Fetch posts descending by date
         const { results } = await env.DB.prepare(
-            "SELECT * FROM posts ORDER BY created_at DESC"
+            "SELECT * FROM contents ORDER BY created_at DESC"
         ).all();
 
         return new Response(JSON.stringify(results), {

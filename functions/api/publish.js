@@ -38,7 +38,7 @@ export async function onRequestPost(context) {
         const id = crypto.randomUUID();
 
         await env.DB.prepare(
-            `INSERT INTO posts (id, type, title_jp, title_en, title_tw, body_jp, body_en, body_tw, image_url)
+            `INSERT INTO contents (id, type, title, title_en, title_tw, body_text, body_text_en, body_text_tw, image1)
              VALUES (?, 'manual', ?, ?, ?, ?, ?, ?, ?)`
         ).bind(id, title, titleEn, titleTw, body, bodyEn, bodyTw, imageUrl || null).run();
 

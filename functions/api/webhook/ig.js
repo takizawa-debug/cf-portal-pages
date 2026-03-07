@@ -17,7 +17,7 @@ export async function onRequestPost(context) {
         const id = crypto.randomUUID();
 
         await env.DB.prepare(
-            `INSERT INTO posts (id, type, body_jp, body_en, body_tw, image_url)
+            `INSERT INTO contents (id, type, body_text, body_text_en, body_text_tw, image1)
              VALUES (?, 'instagram', ?, ?, ?, ?)`
         ).bind(id, caption, bodyEn, bodyTw, imageUrl).run();
 
