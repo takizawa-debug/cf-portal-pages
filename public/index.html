@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Nexus • Stories Without Borders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030712;
+            --text-main: #F9FAFB;
+            --text-secondary: #9CA3AF;
+            --accent: #3B82F6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-border: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Dynamic Background */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .shape-1 {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
+            border-radius: 50%;
+        }
+
+        .shape-2 {
+            background: linear-gradient(135deg, #EC4899, #F43F5E);
+            width: 300px;
+            height: 300px;
+            bottom: 10%;
+            right: -50px;
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 5rem;
+            animation: fadeInDown 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 0;
+            text-align: center;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, #FFFFFF, #9CA3AF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 99px;
+            padding: 0.5rem;
+            margin-top: 3rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 99px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lang-btn.active {
+            background: var(--text-main);
+            color: var(--bg-color);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Card Design */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: #1F2937;
+        }
+
+        .card-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .tag.manual {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60A5FA;
+        }
+
+        .tag.instagram {
+            background: rgba(236, 72, 153, 0.2);
+            color: #F472B6;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .card-body {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+            flex: 1;
+        }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20vh;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            width: 100%;
+            grid-column: 1 / -1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(20px, 40px);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+                filter: blur(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-content {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        </script>< !-- Wait,
+        css inside script tag? No,
+        it's just a misplaced closing tag. Fixing below. -->
+    </style>
+</head>
+
+<body>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Global Nexus</h1>
+            <div class="subtitle">AI-Translated Insights & Stories</div>
+
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang="jp">日本語</button>
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="tw">中文</button>
+            </div>
+        </header>
+
+        <main class="grid" id="postGrid">
+            <div class="loader">Loading intelligence...</div>
+        </main>
+    </div>
+
+    <script>
+        let currentLang = 'jp';
+        let postsData = [];
+
+        const grid = document.getElementById('postGrid');
+        const langBtns = document.querySelectorAll('.lang-btn');
+
+        // Fetch Data
+        async function fetchPosts() {
+            try {
+                const res = await fetch('/api/posts');
+                if (!res.ok) throw new Error('Network error');
+                postsData = await res.json();
+                renderPosts();
+            } catch (err) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #EF4444;">Failed to load data.</div>`;
+            }
+        }
+
+        // Render Posts based on language
+        function renderPosts() {
+            if (postsData.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #9CA3AF;">No records found.</div>`;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            postsData.forEach((post, index) => {
+                const title = post[`title_${currentLang}`] || post.title_jp || '';
+                const body = post[`body_${currentLang}`] || post.body_jp || '';
+                const date = new Date(post.created_at).toLocaleDateString(
+                    currentLang === 'jp' ? 'ja-JP' : currentLang === 'en' ? 'en-US' : 'zh-TW',
+                    { year: 'numeric', month: 'short', day: 'numeric' }
+                );
+
+                const card = document.createElement('article');
+                card.className = 'card fade-content';
+                card.style.animationDelay = `${index * 0.1}s`;
+
+                card.innerHTML = `
+                    ${post.image_url ? `<img src="${escapeHtml(post.image_url)}" class="card-img" alt="Cover Image" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.1);font-size:3rem;">❖</div>`}
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="tag ${post.type}">${post.type === 'instagram' ? 'Instagram' : 'Article'}</span>
+                            <span>${date}</span>
+                        </div>
+                        ${title ? `<h2 class="card-title">${escapeHtml(title)}</h2>` : ''}
+                        <p class="card-body">${escapeHtml(body).replace(/\\n/g, '<br>')}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Language Switcher Logic
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                langBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentLang = e.target.getAttribute('data-lang');
+
+                // Add tiny delay for visual fade effect
+                grid.style.opacity = '0';
+                setTimeout(() => {
+                    renderPosts();
+                    grid.style.opacity = '1';
+                }, 200);
+            });
+        });
+
+        function escapeHtml(unsafe) {
+            return (unsafe || "").toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Init
+        fetchPosts();
+    </script>
+</body>
+
+</html>

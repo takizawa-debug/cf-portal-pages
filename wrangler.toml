@@ -1,0 +1,17 @@
+name = "cf-portal-pages"
+compatibility_date = "2024-03-20"
+pages_build_output_dir = "public"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "portal-db"
+database_id = "b9f5f23a-2ce4-4192-a8c0-39f973b48e4b" # TODO: 実際のD1データベースIDに置き換えてください
+
+# Workers AI binding for translation
+[ai]
+binding = "AI"
+
+# Environment variables
+[vars]
+AUTH_TOKEN = "secret_token_123" # TODO: 実際のセキュアなトークンに変更してください

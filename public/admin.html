@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --bg-color: #0F172A;
+            --surface: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.15), transparent 25%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818CF8, #C084FC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.8s ease-out;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            min-height: 1.5rem;
+        }
+
+        .status.success { color: #34D399; }
+        .status.error { color: #F87171; }
+
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: none;
+        }
+
+        button.loading .loader { display: block; }
+        button.loading .btn-text { display: none; }
+
+        .post-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .post-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            background: rgba(79, 70, 229, 0.2);
+            color: #818CF8;
+            font-weight: 600;
+        }
+        
+        .badge.instagram {
+            background: rgba(236, 72, 153, 0.2);
+            color: #F472B6;
+        }
+
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Gateway</h1>
+            <p style="color: var(--text-muted)">Publish multilingual content via Workers AI</p>
+        </header>
+
+        <div class="card">
+            <form id="publishForm">
+                <div class="form-group">
+                    <label for="authToken">Authentication Token</label>
+                    <input type="password" id="authToken" placeholder="Enter secure token (e.g., secret_token_123)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Title (Japanese)</label>
+                    <input type="text" id="title" placeholder="記事のタイトルを入力">
+                </div>
+                
+                <div class="form-group">
+                    <label for="body">Content (Japanese)</label>
+                    <textarea id="body" placeholder="記事の本文を入力"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">Image URL (Optional)</label>
+                    <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <div class="loader"></div>
+                    <span class="btn-text">Publish & Translate</span>
+                </button>
+                <div id="statusMsg" class="status"></div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 1.25rem; margin-top: 0; margin-bottom: 1.5rem;">Recent Posts Dashboard</h2>
+            <ul id="postList" class="post-list">
+                <li style="text-align: center; color: var(--text-muted); font-size: 0.875rem;">Loading recent posts...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('publishForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const postList = document.getElementById('postList');
+
+        // Load recent posts
+        async function loadPosts() {
+            try {
+                const res = await fetch('/api/posts');
+                if (!res.ok) throw new Error('Failed to fetch posts');
+                const posts = await res.json();
+                
+                if (posts.length === 0) {
+                    postList.innerHTML = '<li style="text-align: center; color: var(--text-muted); font-size: 0.875rem;">No posts published yet.</li>';
+                    return;
+                }
+
+                postList.innerHTML = posts.map(post => `
+                    <li class="post-item">
+                        <div style="flex: 1; overflow: hidden;">
+                            <div style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                ${escapeHtml(post.title_jp || post.body_jp || 'No content')}
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                ${new Date(post.created_at).toLocaleString()}
+                            </div>
+                        </div>
+                        <span class="badge ${post.type === 'instagram' ? 'instagram' : ''}">${post.type.toUpperCase()}</span>
+                    </li>
+                `).join('');
+            } catch (error) {
+                console.error(error);
+                postList.innerHTML = '<li style="text-align: center; color: #F87171; font-size: 0.875rem;">Error loading posts</li>';
+            }
+        }
+
+        function escapeHtml(unsafe) {
+            return (unsafe || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('authToken').value;
+            const title = document.getElementById('title').value;
+            const body = document.getElementById('body').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+
+            if (!title && !body) {
+                statusMsg.textContent = 'Please enter a title or body.';
+                statusMsg.className = 'status error';
+                return;
+            }
+
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            statusMsg.textContent = '翻訳中... (Translating with Workers AI)';
+            statusMsg.className = 'status';
+
+            try {
+                const res = await fetch('/api/publish', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ title, body, imageUrl })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.error || 'Failed to publish');
+                }
+
+                statusMsg.textContent = 'Successfully published and translated!';
+                statusMsg.className = 'status success';
+                
+                // Clear form
+                document.getElementById('title').value = '';
+                document.getElementById('body').value = '';
+                document.getElementById('imageUrl').value = '';
+
+                // Reload posts
+                loadPosts();
+            } catch (error) {
+                statusMsg.textContent = error.message;
+                statusMsg.className = 'status error';
+            } finally {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Initial load
+        loadPosts();
+    </script>
+</body>
+</html>
