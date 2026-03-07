@@ -2,82 +2,32 @@ export async function onRequestPost(context) {
     const { request, env } = context;
 
     try {
-        // Simple AUTH_TOKEN verification
         const authHeader = request.headers.get('Authorization');
         if (authHeader !== `Bearer ${env.AUTH_TOKEN}`) {
-            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-                status: 401,
-                headers: getCorsHeaders()
-            });
+            return new Response('Unauthorized', { status: 401 });
         }
 
         const data = await request.json();
-        const { title, body, imageUrl } = data;
-
-        if (!title && !body) {
-            return new Response(JSON.stringify({ error: 'Title or body is required' }), {
-                status: 400,
-                headers: getCorsHeaders()
-            });
-        }
-
-        // Translation using Workers AI
-        let titleEn = title, titleTw = title;
-        let bodyEn = body, bodyTw = body;
-
-        if (title) {
-            titleEn = await translateText(env, title, 'ja', 'en');
-            titleTw = await translateText(env, title, 'ja', 'zh');
-        }
-
-        if (body) {
-            bodyEn = await translateText(env, body, 'ja', 'en');
-            bodyTw = await translateText(env, body, 'ja', 'zh');
-        }
-
         const id = crypto.randomUUID();
 
-        await env.DB.prepare(
-            `INSERT INTO contents (id, type, title, title_en, title_tw, body_text, body_text_en, body_text_tw, image1)
-             VALUES (?, 'manual', ?, ?, ?, ?, ?, ?, ?)`
-        ).bind(id, title, titleEn, titleTw, body, bodyEn, bodyTw, imageUrl || null).run();
+        // Use provided type or default to 'manual'
+        data.type = data.type || 'manual';
+        data.id = id;
+
+        // Build dynamic INSERT query
+        const keys = Object.keys(data);
+        const columns = keys.join(', ');
+        const placeholders = keys.map(() => '?').join(', ');
+        const values = keys.map(k => data[k]);
+
+        const query = `INSERT INTO contents (${columns}) VALUES (${placeholders})`;
+
+        await env.DB.prepare(query).bind(...values).run();
 
         return new Response(JSON.stringify({ success: true, id }), {
-            headers: getCorsHeaders()
+            headers: { 'Content-Type': 'application/json' }
         });
-
-    } catch (error) {
-        console.error("Publish Error:", error);
-        return new Response(JSON.stringify({ error: error.message }), {
-            status: 500,
-            headers: getCorsHeaders()
-        });
-    }
-}
-
-export async function onRequestOptions() {
-    return new Response(null, { headers: getCorsHeaders() });
-}
-
-function getCorsHeaders() {
-    return {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    };
-}
-
-async function translateText(env, text, sourceLang, targetLang) {
-    try {
-        const response = await env.AI.run('@cf/meta/m2m100-1.2b', {
-            text: text,
-            source_lang: sourceLang,
-            target_lang: targetLang
-        });
-        return response.translated_text || text;
-    } catch (e) {
-        console.error(`Translation failed (${sourceLang} -> ${targetLang}):`, e);
-        return text;
+    } catch (err) {
+        return new Response(err.message, { status: 500 });
     }
 }
