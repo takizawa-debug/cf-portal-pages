@@ -1,6 +1,11 @@
 export async function onRequestGet(context) {
     const { request, env, params } = context;
-    const path = params.path.join('/');
+    const rawPath = params.path.join('/');
+
+    // params.path is URL decoded by CF Pages.
+    // If the R2 key was created with URL encoding (%E7...), we might need to fallback.
+    const path = rawPath;
+    const encodedPath = encodeURIComponent(rawPath).replace(/%2F/g, '/');
 
     if (!path) {
         return new Response('Not Found', { status: 404 });
@@ -11,9 +16,16 @@ export async function onRequestGet(context) {
         return new Response('R2 Bucket not configured', { status: 500 });
     }
 
-    const object = await bucket.get(path);
+    let object = await bucket.get(path);
+
+    // If not found, try the encoded path (some uploads might have double-encoded strictly)
     if (!object) {
-        return new Response('File Not Found', { status: 404 });
+        object = await bucket.get(encodedPath);
+    }
+
+    if (!object) {
+        // Debugging output for troubleshooting missing files
+        return new Response(`File Not Found. Tried: [${path}] and [${encodedPath}]`, { status: 404 });
     }
 
     const headers = new Headers();
