@@ -2,8 +2,12 @@ export async function onRequestGet(context) {
     const { request, env, params } = context;
     const rawPath = params.path.join('/');
 
-    // params.path is URL decoded by CF Pages.
-    // If the R2 key was created with URL encoding (%E7...), we might need to fallback.
+    // We must decode the path in case Cloudflare Pages doesn't implicitly do it
+    let decodedPath = rawPath;
+    try {
+        decodedPath = decodeURIComponent(rawPath);
+    } catch (e) { }
+
     const path = rawPath;
     const encodedPath = encodeURIComponent(rawPath).replace(/%2F/g, '/');
 
@@ -17,6 +21,11 @@ export async function onRequestGet(context) {
     }
 
     let object = await bucket.get(path);
+
+    // If not found, try the fully decoded path (useful for Japanese URLs)
+    if (!object && decodedPath !== path) {
+        object = await bucket.get(decodedPath);
+    }
 
     // If not found, try the encoded path (some uploads might have double-encoded strictly)
     if (!object) {
