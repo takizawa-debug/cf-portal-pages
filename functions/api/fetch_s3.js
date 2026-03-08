@@ -45,7 +45,7 @@ export async function onRequestGet(context) {
         "ムーンルージュ", "夏あかり", "炎舞", "王林", "秋映", "紅玉", "高坂林檎", "黄王"
     ];
 
-    const tasks = [];
+    let tasks = [];
 
     // 1. New URLs mapping
     for (const url of newUrls) {
@@ -71,7 +71,11 @@ export async function onRequestGet(context) {
         tasks.push({ url: pngUrl, key: `apples/${apple}.png` });
     }
 
-    // Process tasks sequentially to avoid blowing up memory
+    // We already did the first 49 successfully, and hitting cloudflare limit
+    // We will start from task 45 just to be safe
+    tasks = tasks.slice(48);
+
+    // Process tasks sequentially
     for (const task of tasks) {
         try {
             const response = await fetch(task.url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
