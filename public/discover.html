@@ -46,11 +46,705 @@
 
 
 
-    <!-- 3. Dynamic Sections -->
-    <div class="content-wrap" style="margin-top: 60px; margin-bottom: 60px;">
-        <!-- Discover (知る) -->
-        <h2 style="text-align: center; color: #cf3a3a; font-size: 2rem; margin-bottom: 40px;" data-i18n="知る">知る</h2>
-        <div class="lz-section" data-l1="知る"></div>
+    <!-- 1. Slideshow: Why is Iizuna Town known as 'Apple Town'? -->
+    <div id="lz-slideshow-app" data-text-ja="飯綱町は、\nなぜ「りんごのまち」なの？"
+        data-text-en="Why is Iizuna Town\nknown as 'Apple Town'?" data-text-zh="為何飯綱町\n被譽為「蘋果小镇」？"
+        data-images='[       "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/b0aaae50-a041-013e-b18d-0a58a9feac02/20231013_sweet-12.jpg",       "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/cd850820-8d6a-013e-c3bf-0a58a9feac02/%E3%83%95%E3%82%99%E3%83%A9%E3%83%A0%E3%83%AA%E3%83%BC_5.jpg",       "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/8ae3ad00-8d6a-013e-bcd3-0a58a9feac02/IMG_2898.jpg",       "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/e08ff0b0-a041-013e-ff95-0a58a9feac02/fuji_20221121-17.jpg",       "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/3b8e8c20-8d6a-013e-ae94-0a58a9feac02/20231120_mitsudon-55.jpg"     ]'>
+    </div>
+
+    <!-- Main Content Flow -->
+    <div style="padding-top: 60px; padding-bottom: 60px;">
+
+        <!-- 2. Section: 飯綱町について -->
+        <div class="content-wrap" style="margin-bottom: 40px;">
+            <div class="lz-section" data-l1="知る" data-l2="飯綱町について" data-card-width="33.33%" data-card-width-sm="80%"
+                data-image-ratio="4:3" data-autoplay="false"></div>
+        </div>
+
+        <!-- 3. Video Block 1 -->
+        <div id="lz-video-block"></div>
+        <style>
+            #lz-video-block {
+                max-width: 1100px;
+                margin: 0 auto 30px;
+                padding: 0 20px;
+                font-family: 'Noto Sans JP', sans-serif;
+            }
+
+            .lz-v-flex {
+                display: flex;
+                gap: 20px;
+            }
+
+            .lz-v-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .lz-v-inner {
+                position: relative;
+                width: 100%;
+                padding-top: 56.25%;
+                background: #000;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .lz-v-inner iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+
+            .lz-v-cap {
+                font-size: 1.25rem;
+                line-height: 1.6;
+                color: #555;
+            }
+
+            @media (max-width: 768px) {
+                .lz-v-flex {
+                    flex-direction: column;
+                    gap: 25px;
+                }
+            }
+        </style>
+        <script>
+            (function() {
+            const VIDEO1_ID = "7WzcdCIbg4E";
+            const VIDEO2_ID = "GJC4_lPudPI";
+            const I18N = {
+                ja: {
+                v1: "飯綱町は、平成17年に合併して誕生。歴史と文化を大切に、20年の歩みを刻んできました。",
+                v2: "りんごを核に新たな価値を。地域内外と繋がる「輝く農山村地域創造プロジェクト」進行中。"
+                },
+                en: {
+                v1: "Iizuna Town was established in 2005. We have spent 20 years preserving its rich history.",
+                v2: "Creating new value with apples. Our project connects people to create a 'Shining Rural Village'."
+                },
+                zh: {
+                v1: "飯綱町於 2005 年合併誕生。傳承悠久的歷史與文化，共同走過了 20 年的歷程。",
+                v2: "以蘋果為核心。我們正推動「璀璨農山村」計畫，旨在創造新價值。"
+                }
+            };
+            const init = () => {
+                const root = document.getElementById('lz-video-block');
+                if (!root) return;
+                const urlParams = new URLSearchParams(window.location.search);
+                const lang = urlParams.get('lang') || window.LZ_CURRENT_LANG || "ja";
+                const d = I18N[lang] || I18N.ja;
+                root.innerHTML = `
+                <div class="lz-v-flex">
+                    <div class="lz-v-item">
+                    <div class="lz-v-inner"><iframe src="https://www.youtube.com/embed/${VIDEO1_ID}" allowfullscreen></iframe></div>
+                    <div class="lz-v-cap">${d.v1}</div>
+                    </div>
+                    <div class="lz-v-item">
+                    <div class="lz-v-inner"><iframe src="https://www.youtube.com/embed/${VIDEO2_ID}" allowfullscreen></iframe></div>
+                    <div class="lz-v-cap">${d.v2}</div>
+                    </div>
+                </div>`;
+            };
+            init();
+            })();
+        </script>
+
+        <!-- 4. Access Block -->
+        <div id="lz-access-block"></div>
+        <style>
+            #lz-access-block {
+                max-width: 1100px;
+                margin: 40px auto 30px;
+                padding: 0 20px;
+                font-family: 'Noto Sans JP', sans-serif;
+            }
+
+            .lz-acc-box {
+                background: #fff;
+                border: 1px solid #f0f0f0;
+                border-radius: 24px;
+                padding: 50px 45px;
+                box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+            }
+
+            .lz-acc-head {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 18px;
+                margin-bottom: 50px;
+            }
+
+            .lz-acc-head h2 {
+                font-size: 2.4rem;
+                font-weight: 950;
+                color: #cf3a3a;
+                margin: 0;
+                letter-spacing: -0.01em;
+                line-height: 1.2;
+                text-align: center;
+                white-space: nowrap;
+            }
+
+            .lz-acc-head span {
+                background: #cf3a3a;
+                color: #fff;
+                padding: 5px 14px;
+                border-radius: 6px;
+                font-size: 1.1rem;
+                font-weight: 900;
+                flex: 0 0 auto;
+            }
+
+            .lz-route-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 45px;
+                margin-bottom: 55px;
+            }
+
+            .lz-route-card {
+                border-left: 1px dashed #ddd;
+                padding-left: 35px;
+            }
+
+            .lz-route-card:first-child {
+                border-left: none;
+                padding-left: 0;
+            }
+
+            .lz-route-city {
+                font-size: 2.3rem;
+                font-weight: 950;
+                color: #333;
+                margin-bottom: 30px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .lz-route-city::before {
+                content: "";
+                width: 15px;
+                height: 15px;
+                background: #cf3a3a;
+                border-radius: 50%;
+            }
+
+            .lz-route-row {
+                margin-bottom: 30px;
+            }
+
+            .lz-route-main {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 10px;
+            }
+
+            .lz-route-icon {
+                width: 65px;
+                font-size: 1.1rem;
+                font-weight: 950;
+                color: #cf3a3a;
+                border: 1.8px solid #cf3a3a;
+                border-radius: 5px;
+                text-align: center;
+                line-height: 2;
+            }
+
+            .lz-route-time {
+                font-size: 2.1rem;
+                font-weight: 900;
+                color: #222;
+            }
+
+            .lz-route-detail {
+                font-size: 1.1rem;
+                color: #777;
+                line-height: 1.6;
+                padding-left: 2px;
+                letter-spacing: -0.01em;
+            }
+
+            .lz-local-guide {
+                display: flex;
+                gap: 40px;
+                padding-top: 50px;
+                border-top: 3px solid #f8f8f8;
+            }
+
+            .lz-local-item {
+                flex: 1;
+            }
+
+            .lz-local-label {
+                font-size: 1.25rem;
+                font-weight: 900;
+                color: #999;
+                margin-bottom: 15px;
+                text-transform: uppercase;
+                letter-spacing: 0.15em;
+            }
+
+            .lz-local-text {
+                font-size: 1.7rem;
+                font-weight: 700;
+                color: #333;
+                line-height: 1.5;
+            }
+
+            .lz-local-text strong {
+                color: #cf3a3a;
+                font-size: 2.2rem;
+                font-weight: 950;
+            }
+
+            @media (max-width: 768px) {
+                .lz-acc-box {
+                    padding: 45px 20px;
+                }
+
+                .lz-acc-head {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .lz-acc-head h2 {
+                    font-size: 1.4rem;
+                    white-space: normal;
+                }
+
+                .lz-route-grid {
+                    grid-template-columns: 1fr;
+                    gap: 40px;
+                }
+
+                .lz-route-card {
+                    border-left: none;
+                    padding-left: 0;
+                    border-bottom: 2px solid #f5f5f5;
+                    padding-bottom: 35px;
+                }
+
+                .lz-local-guide {
+                    flex-direction: column;
+                    gap: 35px;
+                }
+
+                .lz-local-text {
+                    font-size: 1.45rem;
+                }
+            }
+        </style>
+        <script>
+            (function () {
+                const I18N = {
+                    ja: {
+                        tag: "ACCESS", title: "東京からも意外に近い、ちょうどいい田舎。",
+                        tokyo: "東京から", osaka: "大阪から", nagoya: "名古屋から", train: "鉄道", car: "車",
+                        t_tokyo: "東京駅〜北陸新幹線〜長野駅〜しなの鉄道〜牟礼駅",
+                        c_tokyo: "東京〜関越道〜藤岡JCT〜上信越道〜信州中野IC〜国道18号",
+                        t_osaka: "新大阪〜特急サンダーバード〜敦賀駅〜北陸新幹線〜長野駅〜牟礼駅",
+                        c_osaka: "大阪〜名神〜小牧JCT〜中央道〜長野道〜上信越道〜信州中野IC",
+                        t_nagoya: "名古屋駅〜特急しなの〜長野駅〜しなの鉄道〜牟礼駅",
+                        c_nagoya: "名古屋〜東名〜小牧JCT〜中央道〜長野道〜上信越道〜信州中野IC",
+                        local_t: "公共交通機関での旅", local_t_text: "長野駅から北しなの線で<strong>約25分</strong>、牟礼駅下車。",
+                        local_c: "お車での旅", local_c_text: "信州中野ICより、りんご畑を抜けて<strong>約20分</strong>。"
+                    },
+                    en: {
+                        tag: "ACCESS", title: "Surprisingly close to Tokyo—the 'just right' countryside.",
+                        tokyo: "From Tokyo", osaka: "From Osaka", nagoya: "From Nagoya", train: "TRAIN", car: "CAR",
+                        t_tokyo: "Tokyo St. to Nagano via Shinkansen, then to Mure St.",
+                        c_tokyo: "Via Kan-etsu and Joshin-etsu Expwy to Shinshu-Nakano IC.",
+                        t_osaka: "Shin-Osaka to Nagano via Tsuruga (Thunderbird & Shinkansen).",
+                        c_osaka: "Via Meishin, Chuo, and Joshin-etsu Expwy to Shinshu-Nakano IC.",
+                        t_nagoya: "Nagoya St. to Nagano St. via Limited Express Shinano.",
+                        c_nagoya: "Via Tomei, Chuo, and Joshin-etsu Expwy to Shinshu-Nakano IC.",
+                        local_t: "Public Transport", local_t_text: "<strong>25 min</strong> from Nagano St. to Mure St. via Kita-Shinano Line.",
+                        local_c: "By Car", local_c_text: "<strong>20 min</strong> from Shinshu-Nakano IC through scenic orchards."
+                    },
+                    zh: {
+                        tag: "交通指南", title: "離東京意外地近，恰到好處的田園生活。",
+                        tokyo: "東京出發", osaka: "大阪出發", nagoya: "名古屋出發", train: "鐵路", car: "汽車",
+                        t_tokyo: "搭乘新幹線至長野站，轉乘北信濃線至牟禮站。",
+                        c_tokyo: "經上信越自動車道於信州中野 IC 下交流道。",
+                        t_osaka: "新大阪搭乘雷鳥號至敦賀，轉乘北信濃線至牟禮站。",
+                        c_osaka: "經由名神/中央/長野/上信越道至信州中野 IC。",
+                        t_nagoya: "搭乘特急信濃至長野站，轉乘北信濃線至牟禮站。",
+                        c_nagoya: "經由東名/中央/長野/上信越道至信州中野 IC。",
+                        local_t: "大眾運輸", local_t_text: "從長野站搭乘北信濃線約 <strong>25 分鐘</strong>，於牟禮站下車。",
+                        local_c: "開車前往", local_c_text: "從信州中野 IC 出發，穿過蘋果園約 <strong>20 分鐘</strong>。"
+                    }
+                };
+                const init = () => {
+                    const root = document.getElementById('lz-access-block');
+                    if (!root) return;
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const lang = urlParams.get('lang') || window.LZ_CURRENT_LANG || "ja";
+                    const d = I18N[lang] || I18N.ja;
+                    root.innerHTML = `
+                <div class="lz-acc-box">
+                    <div class="lz-acc-head"><span>${d.tag}</span><h2>${d.title}</h2></div>
+                    <div class="lz-route-grid">
+                    <div class="lz-route-card">
+                        <div class="lz-route-city">${d.tokyo}</div>
+                        <div class="lz-route-row"><div class="lz-route-main"><div class="lz-route-icon">${d.train}</div><div class="lz-route-time">2h</div></div><div class="lz-route-detail">${d.t_tokyo}</div></div>
+                        <div class="lz-route-row"><div class="lz-route-main"><div class="lz-route-icon">${d.car}</div><div class="lz-route-time">3h</div></div><div class="lz-route-detail">${d.c_tokyo}</div></div>
+                    </div>
+                    <div class="lz-route-card">
+                        <div class="lz-route-city">${d.osaka}</div>
+                        <div class="lz-route-row"><div class="lz-route-main"><div class="lz-route-icon">${d.train}</div><div class="lz-route-time">4h</div></div><div class="lz-route-detail">${d.t_osaka}</div></div>
+                        <div class="lz-route-row"><div class="lz-route-main"><div class="lz-route-icon">${d.car}</div><div class="lz-route-time">5h 20m</div></div><div class="lz-route-detail">${d.c_osaka}</div></div>
+                    </div>
+                    <div class="lz-route-card">
+                        <div class="lz-route-city">${d.nagoya}</div>
+                        <div class="lz-route-row"><div class="lz-route-main"><div class="lz-route-icon">${d.train}</div><div class="lz-route-time">3h 30m</div></div><div class="lz-route-detail">${d.t_nagoya}</div></div>
+                        <div class="lz-route-row"><div class="lz-route-main"><div class="lz-route-icon">${d.car}</div><div class="lz-route-time">4h 30m</div></div><div class="lz-route-detail">${d.c_nagoya}</div></div>
+                    </div>
+                    </div>
+                    <div class="lz-local-guide">
+                    <div class="lz-local-item"><div class="lz-local-label">${d.local_t}</div><div class="lz-local-text">${d.local_t_text}</div></div>
+                    <div class="lz-local-item"><div class="lz-local-label">${d.local_c}</div><div class="lz-local-text">${d.local_c_text}</div></div>
+                    </div>
+                </div>`;
+                };
+                init();
+            })();
+        </script>
+
+        <!-- 5. Section: いいづなりんごの特徴 -->
+        <div class="content-wrap" style="margin-top: 50px; margin-bottom: 40px;">
+            <div class="lz-section" data-l1="知る" data-l2="いいづなりんごの特徴" data-card-width="33.33%" data-card-width-sm="80%"
+                data-image-ratio="16:9" data-autoplay="false"></div>
+        </div>
+
+        <!-- 6. Science Block -->
+        <div id="lz-science-block"></div>
+        <style>
+            #lz-science-block {
+                max-width: 1100px;
+                margin: 5px auto 50px;
+                padding: 0 20px;
+                font-family: 'Noto Sans JP', sans-serif;
+                color: #333;
+            }
+
+            .lz-s-head {
+                border-bottom: 3px solid #cf3a3a;
+                margin-bottom: 35px;
+                padding-bottom: 10px;
+                display: flex;
+                align-items: baseline;
+                gap: 15px;
+            }
+
+            .lz-s-head h2 {
+                font-size: 2rem;
+                font-weight: 900;
+                margin: 0;
+                color: #cf3a3a;
+                letter-spacing: 0.05em;
+            }
+
+            .lz-s-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .lz-s-card {
+                background: #fff;
+                border: 1px solid #eee;
+                border-radius: 12px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                transition: all 0.3s ease;
+                text-decoration: none !important;
+                color: inherit;
+            }
+
+            .lz-s-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+                border-color: #cf3a3a;
+            }
+
+            .lz-s-meta {
+                font-size: 0.9rem;
+                color: #888;
+                margin-bottom: 12px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                font-weight: 600;
+                align-items: center;
+            }
+
+            .lz-s-year {
+                background: #f5f5f5;
+                padding: 2px 8px;
+                border-radius: 4px;
+                color: #444;
+            }
+
+            .lz-s-author {
+                color: #cf3a3a;
+                border: 1px solid #cf3a3a;
+                padding: 1px 6px;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                font-style: italic;
+            }
+
+            .lz-s-title {
+                font-size: 1.15rem;
+                font-weight: 800;
+                line-height: 1.45;
+                margin-bottom: 12px;
+                color: #222;
+                word-break: break-word;
+            }
+
+            [lang="ja"] .lz-s-title {
+                font-size: 1.25rem;
+            }
+
+            .lz-s-summary {
+                font-size: 1.05rem;
+                line-height: 1.6;
+                color: #555;
+                margin-bottom: 18px;
+                padding-left: 12px;
+                border-left: 2px solid #ddd;
+            }
+
+            .lz-s-link {
+                font-size: 0.95rem;
+                font-weight: 800;
+                color: #cf3a3a;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .lz-s-link svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            @media (max-width: 768px) {
+                .lz-s-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .lz-s-head h2 {
+                    font-size: 1.6rem;
+                }
+            }
+        </style>
+        <script>
+            (function () {
+                const I18N = {
+                    ja: {
+                        head: "科学的にみる、いいづなりんご",
+                        read: "論文（PDF）を読む",
+                        items: [
+                            { y: "2020", a: "山崎ら", j: "長野県工技センター", t: "飯綱町産リンゴの機能性成分に関する研究", s: "古来種や西洋種に健康成分「プロシアニジン」が豊富に含まれることを解明。" },
+                            { y: "2021", a: "山崎ら", j: "長野県工技センター", t: "飯綱町産リンゴの機能性成分に関する研究(第2報)", s: "加工工程での熱などが健康成分に与える影響を調査し、最適な加工法を検討。" },
+                            { y: "2023", a: "山崎ら", j: "長野県工技センター", t: "飯綱町産および他産地で収穫された\"ふじ\"の食味に影響する成分の比較", s: "糖度や酸度のバランスを数値化し、飯綱町産ならではの美味しさを科学的に実証。" },
+                            { y: "2025", a: "加藤ら", j: "長野県工技センター", t: "飯綱町産ブラムリーズ・シードリングに含まれる機能性成分の調査", s: "クッキングアップルの王様「ブラムリー」特有の栄養成分を詳細に分析。" },
+                            { y: "2021", a: "小木曽ら", j: "日本調理科学会", t: "長野県飯綱町におけるりんご（ふじ）の特徴", s: "飯綱町の「ふじ」が持つ香りと食感の際立った特徴を科学的に評価。" },
+                            { y: "2021", a: "中澤ら", j: "日本調理科学会", t: "長野県飯綱町産りんごの機能性を考慮した調理・加工方法の検討", s: "健康成分を損なわない、家庭でもできる効果的な調理法を提案。" }
+                        ]
+                    },
+                    en: {
+                        head: "Flavor & Science",
+                        read: "View Full Paper (PDF)",
+                        items: [
+                            { y: "2020", a: "Yamazaki et al.", j: "Nagano GITC", t: "Study on functional ingredients of apples produced in Iizuna Town", s: "Clarified that ancestral and Western varieties are rich in health-promoting procyanidins." },
+                            { y: "2021", a: "Yamazaki et al.", j: "Nagano GITC", t: "Study on functional ingredients of apples produced in Iizuna Town (Second report) - Effect of processing on procyanidins -", s: "Investigated optimal processing methods to preserve the health-promoting benefits of apples." },
+                            { y: "2023", a: "Yamazaki et al.", j: "Nagano GITC", t: "Comparison of components affecting the taste of 'Fuji' apples harvested in Iizuna Town and other production areas", s: "Demonstrated the unique deliciousness of Iizuna apples through sugar-acid balance quantification." },
+                            { y: "2025", a: "Kato et al.", j: "Nagano GITC", t: "A Study on the Functional Ingredients of Bramley's Seedling Produced in Iizuna Town", s: "Analyzed the unique nutritional characteristics of the 'King of Cooking Apples' - Bramley." },
+                            { y: "2021", a: "Ogiso et al.", j: "AJSC", t: "Characteristics of Apple (Fuji) Produced in Iizuna Town, Nagano Prefecture", s: "Scientifically evaluated the distinct aromatic and textural characteristics of local Fuji apples." },
+                            { y: "2021", a: "Nakazawa et al.", j: "AJSC", t: "Examination of cooking and processing methods of apples in Iizuna town, Nagano considering functionality", s: "Proposed cooking methods that preserve functional ingredients for home preparation." }
+                        ]
+                    },
+                    zh: {
+                        head: "科學解密美味的祕密",
+                        read: "阅读论文 (PDF)",
+                        items: [
+                            { y: "2020", a: "山崎等", j: "长野县工业技术中心", t: "Study on functional ingredients of apples produced in Iizuna Town", s: "阐明了古老品种和西洋品种中富含对健康有益的“原花青素”。" },
+                            { y: "2021", a: "山崎等", j: "长野县工业技術中心", t: "Study on functional ingredients of apples produced in Iizuna Town (Second report) - Effect of processing on procyanidins -", s: "调查了加工过程中的热量对健康成分的影响，探讨了最佳加工方法。" },
+                            { y: "2023", a: "山崎等", j: "长野县工业技術中心", t: "Comparison of components affecting the taste of 'Fuji' apples harvested in Iizuna Town and other production areas", s: "量化了糖度和酸度的平衡，证实了饭纲町产苹果独特的美味指标。" },
+                            { y: "2025", a: "加藤等", j: "长野县工业技術中心", t: "A Study on the Functional Ingredients of Bramley's Seedling Produced in Iizuna Town", s: "详细分析了烹饪苹果之王“布拉姆利”特有的营养成分。" },
+                            { y: "2021", a: "小木曾等", j: "日本烹饪科学学会", t: "Characteristics of Apple (Fuji) Produced in Iizuna Town, Nagano Prefecture", s: "科学评估了饭纲町“富士”苹果在香气和口感方面的显著特征。" },
+                            { y: "2021", a: "中泽等", j: "日本烹饪科学学会", t: "Examination of cooking and processing methods of apples in Iizuna town, Nagano considering functionality", s: "提出了在不損害健康成分的前提下，家庭也可實施的有效烹飪方法。" }
+                        ]
+                    }
+                };
+
+                const URLS = [
+                    "https://www.gitc.pref.nagano.lg.jp/reports/pdf/R2/R02F19.pdf",
+                    "https://www.gitc.pref.nagano.lg.jp/reports/pdf/R3/F06.pdf",
+                    "https://www.gitc.pref.nagano.lg.jp/reports/pdf/R5/R05F21_F24.pdf",
+                    "https://www.gitc.pref.nagano.lg.jp/reports/pdf/R7/R07_F32-F34.pdf",
+                    "https://www.jstage.jst.go.jp/article/ajscs/32/0/32_85/_pdf/-char/ja",
+                    "https://www.jstage.jst.go.jp/article/ajscs/32/0/32_86/_pdf/-char/ja"
+                ];
+
+                const init = () => {
+                    const root = document.getElementById('lz-science-block');
+                    if (!root) return;
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const lang = urlParams.get('lang') || window.LZ_CURRENT_LANG || "ja";
+                    const d = I18N[lang] || I18N.ja;
+
+                    let html = `<div class="lz-s-head"><h2>${d.head}</h2></div><div class="lz-s-grid">`;
+
+                    d.items.forEach((item, i) => {
+                        html += `
+                    <a class="lz-s-card" href="${URLS[i]}" target="_blank" rel="noopener">
+                    <div>
+                        <div class="lz-s-meta"><span class="lz-s-year">${item.y}</span><span class="lz-s-author">${item.a}</span><span>${item.j}</span></div>
+                        <h3 class="lz-s-title">${item.t}</h3>
+                        <div class="lz-s-summary">${item.s}</div>
+                    </div>
+                    <div class="lz-s-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        ${d.read}
+                    </div>
+                    </a>
+                `;
+                    });
+
+                    html += `</div>`;
+                    root.innerHTML = html;
+                };
+
+                init();
+            })();
+        </script>
+
+
+        <!-- 7. Section: 栽培されている品種 -->
+        <div class="content-wrap" style="margin-bottom: 40px;">
+            <div class="lz-section" data-l1="知る" data-l2="栽培されている品種" data-card-width="20%" data-card-width-sm="40%"
+                data-image-ratio="1:1" data-autoplay="true"></div>
+        </div>
+
+
+        <!-- 8. Section: 飯綱町のりんご愛 -->
+        <div class="content-wrap" style="margin-bottom: 40px;">
+            <div class="lz-section" data-l1="知る" data-l2="飯綱町のりんご愛" data-card-width="33.33%" data-card-width-sm="80%"
+                data-image-ratio="16:9" data-autoplay="false"></div>
+        </div>
+
+
+        <!-- 9. Video Block Gallery -->
+        <div id="lz-video-block-gallery"></div>
+        <style>
+            #lz-video-block-gallery {
+                max-width: 1100px;
+                margin: 0 auto 30px;
+                padding: 0 20px;
+                font-family: 'Noto Sans JP', sans-serif;
+            }
+
+            .lz-v-flex {
+                display: flex;
+                gap: 20px;
+            }
+
+            .lz-v-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .lz-v-inner {
+                position: relative;
+                width: 100%;
+                padding-top: 56.25%;
+                background: #000;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .lz-v-inner iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+
+            .lz-v-cap {
+                font-size: 1.25rem;
+                line-height: 1.6;
+                color: #555;
+            }
+
+            @media (max-width: 768px) {
+                .lz-v-flex {
+                    flex-direction: column;
+                    gap: 25px;
+                }
+            }
+        </style>
+        <script>
+            (function () {
+                const VIDEO1_ID = "sfG4L3uCn44"; // みつどん
+                const VIDEO2_ID = "Gk3HcX3HFHg"; // アップルミュージアム
+
+                const I18N = {
+                    ja: {
+                        v1: "「りんごのみつどん」は、小中学生の言葉を集めて歌詞を構成し、盆踊りのような太鼓のリズムと“りんごポーズ”の振り付けによって、町内の保育園や運動会でも踊られています。",
+                        v2: "りんごをまるごとテーマにした「いいづなアップルミュージアム」の館内紹介動画で、館の魅力を映像で体感できる内容になっています。"
+                    },
+                    en: {
+                        v1: "The song 'Ringo no Mitsudon' features lyrics composed from words collected from local students. With its Bon Odori-style drum rhythm and 'apple pose' choreography, it is a favorite dance at local preschools and sports festivals.",
+                        v2: "This video introduces the 'Iizuna Apple Museum,' a unique facility themed entirely around apples. Experience the museum's charm through these immersive visuals."
+                    },
+                    zh: {
+                        v1: "歌曲 'Ringo no Mitsudon' 的歌词由当地中小学生的话语汇集而成。凭借盆舞般的鼓点节奏和“苹果姿势”的编舞，町内的幼儿园和运动会也经常表演这支舞蹈。",
+                        v2: "这是以苹果为主题的“饭纲苹果博物馆”介绍视频。您可以通过影像身临其境地感受该馆的独特魅力。"
+                    }
+                };
+
+                const init = () => {
+                    const root = document.getElementById('lz-video-block-gallery');
+                    if (!root) return;
+
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const lang = urlParams.get('lang') || window.LZ_CURRENT_LANG || "ja";
+                    const d = I18N[lang] || I18N.ja;
+
+                    root.innerHTML = `
+                <div class="lz-v-flex">
+                    <div class="lz-v-item">
+                    <div class="lz-v-inner"><iframe src="https://www.youtube.com/embed/${VIDEO1_ID}" allowfullscreen></iframe></div>
+                    <div class="lz-v-cap">${d.v1}</div>
+                    </div>
+                    <div class="lz-v-item">
+                    <div class="lz-v-inner"><iframe src="https://www.youtube.com/embed/${VIDEO2_ID}" allowfullscreen></iframe></div>
+                    <div class="lz-v-cap">${d.v2}</div>
+                    </div>
+                </div>`;
+                };
+
+                init();
+            })();
+        </script>
     </div>
 
 
