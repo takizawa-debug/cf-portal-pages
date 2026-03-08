@@ -426,7 +426,21 @@
                             <h6 class="fw-bold border-bottom pb-2">基本情報</h6>
                             <div class="col-md-3">
                                 <label class="form-label text-muted fw-bold">収穫時期</label>
-                                <input type="text" class="form-control" id="apple_harvest_season" placeholder="例: 8月中旬">
+                                <select multiple class="form-select" id="apple_harvest_season" style="height: 120px;">
+                                    <option value="8月上旬">8月上旬</option>
+                                    <option value="8月中旬">8月中旬</option>
+                                    <option value="8月下旬">8月下旬</option>
+                                    <option value="9月上旬">9月上旬</option>
+                                    <option value="9月中旬">9月中旬</option>
+                                    <option value="9月下旬">9月下旬</option>
+                                    <option value="10月上旬">10月上旬</option>
+                                    <option value="10月中旬">10月中旬</option>
+                                    <option value="10月下旬">10月下旬</option>
+                                    <option value="11月上旬">11月上旬</option>
+                                    <option value="11月中旬">11月中旬</option>
+                                    <option value="11月下旬">11月下旬</option>
+                                </select>
+                                <div class="form-text small">※複数選択可 (Mac: Cmdキー, Win: Ctrlキー)</div>
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label text-muted fw-bold">収穫カテゴリ</label>
@@ -1750,8 +1764,14 @@
 
             applesMaster.forEach(a => {
                 const tr = document.createElement('tr');
+                const imgTag = a.official_image_url ? `<img src="${a.official_image_url}" alt="${a.name_ja}" class="rounded shadow-sm me-3" style="width: 48px; height: 48px; object-fit: cover; flex-shrink: 0;">` : `<div class="rounded bg-light border me-3 d-flex align-items-center justify-content-center text-muted" style="width: 48px; height: 48px; flex-shrink: 0;"><i class="fa-brands fa-apple"></i></div>`;
                 tr.innerHTML = `
-                    <td class="fw-bold">${a.name_ja}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            ${imgTag}
+                            <span class="fw-bold fs-6">${a.name_ja}</span>
+                        </div>
+                    </td>
                     <td class="small text-muted">
                         <div><span class="badge border text-dark me-1">EN</span>${a.name_en || '-'}</div>
                         <div><span class="badge border text-dark me-1">ZH</span>${a.name_zh || '-'}</div>
@@ -1789,7 +1809,12 @@
                 document.getElementById('apple_name_ja').value = apple.name_ja || "";
                 document.getElementById('apple_name_en').value = apple.name_en || "";
                 document.getElementById('apple_name_zh').value = apple.name_zh || "";
-                document.getElementById('apple_harvest_season').value = apple.harvest_season || "";
+
+                const seasons = (apple.harvest_season || "").split(',').map(s => s.trim());
+                Array.from(document.getElementById('apple_harvest_season').options).forEach(opt => {
+                    opt.selected = seasons.includes(opt.value);
+                });
+
                 document.getElementById('apple_harvest_category').value = apple.harvest_category || "";
                 document.getElementById('apple_lineage').value = apple.lineage || "";
                 document.getElementById('apple_origin').value = apple.origin || "";
@@ -1810,7 +1835,7 @@
                 name_ja: document.getElementById('apple_name_ja').value.trim(),
                 name_en: document.getElementById('apple_name_en').value.trim(),
                 name_zh: document.getElementById('apple_name_zh').value.trim(),
-                harvest_season: document.getElementById('apple_harvest_season').value.trim(),
+                harvest_season: Array.from(document.getElementById('apple_harvest_season').selectedOptions).map(opt => opt.value).join(', '),
                 harvest_category: document.getElementById('apple_harvest_category').value.trim(),
                 lineage: document.getElementById('apple_lineage').value.trim(),
                 origin: document.getElementById('apple_origin').value.trim(),
