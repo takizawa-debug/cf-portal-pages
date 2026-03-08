@@ -2506,6 +2506,9 @@
                     const date = new Date(m.uploaded).toLocaleString('ja-JP');
                     const size = (m.size / 1024).toFixed(1) + ' KB';
 
+                    let displayTitle = m.key.split('/').pop();
+                    try { displayTitle = decodeURIComponent(displayTitle); } catch (e) { }
+
                     html += `
                         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                             <div class="card h-100 border shadow-sm border-0 bg-white">
@@ -2513,7 +2516,7 @@
                                     ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover">` : `<i class="fa-solid fa-file fa-3x text-muted"></i>`}
                                 </div>
                                 <div class="card-body p-2" style="font-size: 0.8rem;">
-                                    <div class="text-truncate fw-bold text-dark" title="${m.key.replace('library/', '')}">${m.key.split('/').pop()}</div>
+                                    <div class="text-truncate fw-bold text-dark" title="${m.key}">${displayTitle}</div>
                                     <div class="text-muted d-flex justify-content-between mt-1" style="font-size: 0.75rem;"><span>${size}</span> <span>${date.split(' ')[0]}</span></div>
                                 </div>
                                 <div class="card-footer p-2 bg-white border-top-0 d-flex gap-2">
@@ -2536,12 +2539,16 @@
                     let pickerHtml = '';
                     mediaCache.forEach(m => {
                         const isImg = m.url.match(/\.(jpeg|jpg|gif|png|webp|svg)$/i) != null;
+
+                        let displayTitle = m.key.split('/').pop();
+                        try { displayTitle = decodeURIComponent(displayTitle); } catch (e) { }
+
                         pickerHtml += `
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                                 <div class="card h-100 border shadow-sm border-0 media-picker-card" style="cursor:pointer;" onclick="selectMediaUrl('${m.url}')">
                                     <div class="bg-light rounded d-flex align-items-center justify-content-center overflow-hidden" style="height: 140px; position:relative;">
                                         ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover hover-zoom">` : `<i class="fa-solid fa-file fa-3x text-muted"></i>`}
-                                        <div class="position-absolute bottom-0 w-100 p-2 text-white bg-dark bg-opacity-75 text-truncate small">${m.key.split('/').pop()}</div>
+                                        <div class="position-absolute bottom-0 w-100 p-2 text-white bg-dark bg-opacity-75 text-truncate small">${displayTitle}</div>
                                     </div>
                                 </div>
                             </div>
