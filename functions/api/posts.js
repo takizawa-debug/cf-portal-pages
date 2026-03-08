@@ -1,11 +1,23 @@
+import { authenticate } from "../utils/auth";
+
 export async function onRequestGet(context) {
-    const { env } = context;
+    const { request, env } = context;
 
     try {
-        // Fetch posts descending by date
-        const { results } = await env.DB.prepare(
-            "SELECT * FROM contents ORDER BY created_at DESC"
-        ).all();
+        const user = await authenticate(request, env);
+        if (!user) {
+            return new Response('Unauthorized', { status: 401 });
+        }
+
+        let query = "SELECT * FROM contents ORDER BY created_at DESC";
+        let binds = [];
+
+        if (user.role === 'contributor') {
+            query = "SELECT * FROM contents WHERE author_id = ? ORDER BY created_at DESC";
+            binds.push(user.id);
+        }
+
+        const { results } = await env.DB.prepare(query).bind(...binds).all();
 
         return new Response(JSON.stringify(results), {
             headers: {

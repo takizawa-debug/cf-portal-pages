@@ -1,11 +1,12 @@
+import { authenticate, requireRole } from "../utils/auth";
+
 export async function onRequestPost(context) {
     const { request, env } = context;
 
     try {
-        const authHeader = request.headers.get('Authorization');
-        if (authHeader !== `Bearer ${env.AUTH_TOKEN}`) {
-            return new Response('Unauthorized', { status: 401 });
-        }
+        const user = await authenticate(request, env);
+        const roleError = requireRole(user, ['admin', 'editor', 'contributor']);
+        if (roleError) return roleError;
 
         const data = await request.json();
         const id = crypto.randomUUID();
@@ -13,6 +14,7 @@ export async function onRequestPost(context) {
         // Use provided type or default to 'manual'
         data.type = data.type || 'manual';
         data.id = id;
+        data.author_id = user.id;
 
         // Build dynamic INSERT query
         const keys = Object.keys(data);

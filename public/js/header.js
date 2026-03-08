@@ -256,6 +256,15 @@
         }
       });
     }
+
+    // Assign globally so the admin dash and sidebar can call it
+    window.closeDrawer = function () {
+      const offcanvasEl = document.getElementById('offcanvasNavbar');
+      if (offcanvasEl) {
+        const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
+        if (bsOffcanvas) bsOffcanvas.hide();
+      }
+    };
   } catch (e) { console.error(e); }
 
   setupEvents();
