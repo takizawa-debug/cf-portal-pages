@@ -44,21 +44,250 @@
 
 <body>
 
-    <!-- Static Page Content -->
-    <div class="content-wrap" style="margin-top: 120px; margin-bottom: 60px;">
-        <h2 style="text-align: center; color: #cf3a3a; font-size: 2rem; margin-bottom: 40px;">Title Placeholder</h2>
-        
-    <div class="content-wrap" style="margin-top: 60px; margin-bottom: 60px;">
+    <!-- 1. Slideshow -->
+    <style>
+        /* 1枚画像バグ修正 & デザイン調整 */
+        #lz-slideshow-app .lz-ss-item:nth-child(2):last-child {
+            animation: none !important;
+            opacity: 1 !important;
+        }
 
-        <!-- Savor (味わう) -->
-        <div class="lz-container" data-l1="味わう"></div>
+        #lz-slideshow-app .lz-ss-text {
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
 
-        <!-- Experience (体験する) -->
-        <div class="lz-container" data-l1="体験する"></div>
-
-        <!-- Manage (営む) -->
-        <div class="lz-container" data-l1="営む"></div>
+    <div id="lz-slideshow-app" data-text-ja="個人情報保護方針" data-text-en="PRIVACY POLICY" data-text-zh="隱私政策"
+        data-images='["https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/cd850820-8d6a-013e-c3bf-0a58a9feac02/%E3%83%95%E3%82%99%E3%83%A9%E3%83%A0%E3%83%AA%E3%83%BC_5.jpg"]'>
     </div>
+
+    <!-- 2. Content: Privacy Policy -->
+    <style>
+        /* 高視認性デザイン設定 */
+        .lz-multi-content {
+            display: none;
+            padding: 60px 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.9;
+            color: #333;
+            font-family: var(--font-base, sans-serif);
+        }
+
+        .lz-multi-content h3 {
+            font-size: 1.9rem;
+            color: #5b3a1e;
+            border-bottom: 3px solid #cf3a3a;
+            padding-bottom: 10px;
+            margin: 50px 0 25px;
+            font-weight: 800;
+        }
+
+        .lz-multi-content p,
+        .lz-multi-content li {
+            margin-bottom: 1.4em;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .lz-multi-content .info-meta {
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+        }
+
+        .lz-multi-content .date {
+            text-align: right;
+            color: #999;
+        }
+
+        .lz-multi-content ul {
+            padding-left: 24px;
+            margin-bottom: 2em;
+        }
+
+        .lz-multi-content li {
+            margin-bottom: 0.8em;
+        }
+
+        .lz-multi-content .note {
+            font-size: 1.05rem;
+            color: #666;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .lz-multi-content h3 {
+                font-size: 1.6rem;
+            }
+
+            .lz-multi-content p,
+            .lz-multi-content li {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+
+    <div id="lzPrivacyApp">
+        <div class="lz-multi-content" data-lz-lang="ja">
+            <div class="info-meta">
+                <div class="date">制定・最終改定日：2025年10月20日</div>
+                <p>運営者：いいづなりんごPR事業（以下「本事業」）</p>
+            </div>
+            <p>本事業は、個人情報の保護を重要な責務と考え、以下の方針に基づき適正に取り扱います。<br>
+                <span
+                    style="font-size: 0.9em; opacity: 0.8;">※本方針は、飯綱町が公表する「個人情報収集及び使用」の趣旨（2018年12月18日）を参考に策定しています。</span>
+            </p>
+
+            <h3>1. 取得する個人情報の種類</h3>
+            <p>本サイトの運営・問い合わせ対応・広報活動等のため、必要な範囲で以下を取得することがあります。</p>
+            <ul>
+                <li>氏名、メールアドレス、住所、電話番号</li>
+                <li>アンケート実施時の属性情報（性別、年代、職種 等）</li>
+                <li>フォーム入力内容、イベント応募・参加情報</li>
+                <li>SNSアカウント名（利用者が当サイトに連携した場合）</li>
+            </ul>
+
+            <h3>2. 利用目的</h3>
+            <ul>
+                <li>お問い合わせへの回答・連絡、資料送付</li>
+                <li>イベント・企画への申込み受付、運営連絡</li>
+                <li>本事業に関する広報・情報提供（同意を得た場合に限る）</li>
+                <li>アンケートの実施、統計・分析（匿名化した状態での公開を含む）</li>
+                <li>セキュリティ対策、違反調査</li>
+            </ul>
+
+            <h3>3. 取得方法と同意</h3>
+            <p>入力フォーム、メール、イベント申込等、適正な手段で取得します。取得時には目的を明示し、必要に応じて同意を取得します。</p>
+
+            <h3>4. 第三者提供・委託</h3>
+            <p>本人の同意がある場合や法令に基づく場合を除き、第三者へ提供しません。業務委託を行う場合は、委託先を適切に監督します。</p>
+
+            <h3>5. サーバログ・Cookie等の利用</h3>
+            <p>アクセス分析・不正防止のため、IPアドレスやブラウザ情報を自動的に記録します。これらは個人を特定するものではありません。Cookieはブラウザ設定により拒否可能です。</p>
+
+            <h3>6. 安全管理措置</h3>
+            <p>漏えい・滅失の防止のため、暗号化やアクセス管理等の措置を講じます。インシデント発生時は速やかに対応します。</p>
+
+            <h3>7. 開示・訂正・利用停止</h3>
+            <p>本人からの請求には法令に基づき誠実に対応します。手続きは【お問い合わせフォーム】からご連絡ください。</p>
+
+            <h3>8. お問い合わせ窓口</h3>
+            <p>窓口：いいづなりんごPR事業 事務局<br>
+                連絡先：【お問い合わせフォーム】／ 受付時間：平日 9:00–17:00</p>
+        </div>
+
+        <div class="lz-multi-content" data-lz-lang="en">
+            <div class="info-meta">
+                <div class="date">Established/Last Updated: October 20, 2025</div>
+                <p>Operator: Iizuna Apple PR Project ("the Project")</p>
+            </div>
+            <p>The Project considers the protection of personal information a vital responsibility and handles it
+                appropriately based on the following policy.</p>
+
+            <h3>1. Types of Personal Information Collected</h3>
+            <p>We may collect the following to the extent necessary for operations and inquiries:</p>
+            <ul>
+                <li>Name, email address, address, and phone number</li>
+                <li>Demographic information from surveys (gender, age, occupation, etc.)</li>
+                <li>Content from forms and event participation data</li>
+                <li>SNS account names (if linked by the user)</li>
+            </ul>
+
+            <h3>2. Purpose of Use</h3>
+            <ul>
+                <li>Responding to inquiries and sending materials</li>
+                <li>Managing event applications and operational communications</li>
+                <li>Public relations and information provision (only with consent)</li>
+                <li>Surveys and statistical analysis (published in anonymized form)</li>
+                <li>Security measures and violation investigations</li>
+            </ul>
+
+            <h3>3. Collection and Consent</h3>
+            <p>Information is collected through proper means such as web forms and emails. We clarify the purpose at the
+                time of collection and obtain consent as required.</p>
+
+            <h3>4. Third-Party Provision and Outsourcing</h3>
+            <p>Information will not be provided to third parties without consent, except as required by law. We strictly
+                supervise any external contractors.</p>
+
+            <h3>5. Server Logs and Cookies</h3>
+            <p>We automatically record IP addresses and browser types for analysis and security. These do not identify
+                individuals. Cookies can be disabled via browser settings.</p>
+
+            <h3>6. Safety Measures</h3>
+            <p>We implement encryption and access controls to prevent data leaks. We will respond promptly in the event
+                of any security incident.</p>
+
+            <h3>7. Disclosure and Correction</h3>
+            <p>We respond sincerely to requests for data disclosure or correction. Please contact us via the [Inquiry
+                Form].</p>
+
+            <h3>8. Contact Information</h3>
+            <p>Secretariat: Iizuna Apple PR Project<br>
+                Contact: [Inquiry Form] / Hours: Weekdays 9:00–17:00</p>
+        </div>
+
+        <div class="lz-multi-content" data-lz-lang="zh">
+            <div class="info-meta">
+                <div class="date">制定・最後修訂日期：2025年10月20日</div>
+                <p>營運單位：飯綱町蘋果公關事業（以下簡稱「本事業」）</p>
+            </div>
+            <p>本事業將個人資料保護視為重要責任，並根據以下方針進行妥善處理。</p>
+
+            <h3>1. 取得個人資料的種類</h3>
+            <p>為了網站營運、諮詢回覆及公關活動，我們可能在必要範圍內取得以下資訊：</p>
+            <ul>
+                <li>姓名、電子郵件、地址、電話號碼</li>
+                <li>問卷調查時的屬性資訊（性別、年齡層、職業等）</li>
+                <li>表單填寫內容、活動報名與參加資訊</li>
+                <li>SNS 帳號名稱（若使用者與本網站連動）</li>
+            </ul>
+
+            <h3>2. 利用目的</h3>
+            <ul>
+                <li>諮詢回覆、聯絡及資料寄送</li>
+                <li>活動報名受理及營運聯絡</li>
+                <li>本事業相關公關與資訊提供（僅限取得同意時）</li>
+                <li>問卷實施與統計分析（包括以匿名形式公開）</li>
+                <li>資訊安全對策與違規調查</li>
+            </ul>
+
+            <h3>3. 取得方式與同意</h3>
+            <p>透過表單、郵件、活動報名等適當手段取得。取得時會明確標示目的，並根據需要取得使用者同意。</p>
+
+            <h3>4. 第三方提供與委託</h3>
+            <p>除取得本人同意或符合法令規定外，不會提供給第三方。若有業務委託需求，將對委託對象進行妥善監督。</p>
+
+            <h3>5. 伺服器日誌與 Cookie 的利用</h3>
+            <p>為進行存取分析與防止舞弊，系統會自動記錄 IP 位址與瀏覽器資訊。這些資訊無法識別特定個人。使用者可透過瀏覽器設定拒絕 Cookie。</p>
+
+            <h3>6. 安全管理措施</h3>
+            <p>為防止資料外洩，本事業採取加密與存取管理等措施。若發生事故，將迅速調查原因並防止再次發生。</p>
+
+            <h3>7. 揭露、更正與停止利用</h3>
+            <p>我們將依法誠實處理本人的資料揭露或更正請求。請透過【聯絡表單】與我們聯繫。</p>
+
+            <h3>8. 諮詢窗口</h3>
+            <p>窗口：飯綱町蘋果公關事業 事務局<br>
+                聯絡方式：【聯絡表單】/ 受理時間：平日 9:00–17:00</p>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            function switchPrivacy() {
+                if (!window.LZ_COMMON || !window.LZ_CURRENT_LANG) return setTimeout(switchPrivacy, 50);
+                const lang = window.LZ_CURRENT_LANG;
+                const contents = document.querySelectorAll('#lzPrivacyApp .lz-multi-content');
+                contents.forEach(el => {
+                    el.style.display = (el.dataset.lzLang === lang) ? 'block' : 'none';
+                });
+            }
+            switchPrivacy();
+        })();
+    </script>
 
 
     <!-- Base UI Components -->
