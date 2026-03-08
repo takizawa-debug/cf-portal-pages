@@ -19,12 +19,12 @@ window.LZ_CONFIG = {
   },
 
   // ④ ナビゲーション設定
-  MENU_ORDER: ["知る", "味わう", "体験する", "暮らす", "営む"],
+  MENU_ORDER: ["知る", "味わう", "暮らす", "体験する", "営む"],
   MENU_URL: {
     "知る": "/discover",
     "味わう": "/savor",
-    "体験する": "/experience",
     "暮らす": "/lifestyle",
+    "体験する": "/experience",
     "営む": "/business"
   },
 
