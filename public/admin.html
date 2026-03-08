@@ -1286,6 +1286,26 @@
             setTimeout(() => st.classList.remove('show'), 3000);
         }
 
+        async function apiFetch(url, options = {}, isFormData = false) {
+            if (!isFormData && options.body && typeof options.body === 'object' && !(options.body instanceof FormData)) {
+                options.body = JSON.stringify(options.body);
+            }
+            const res = await fetch(url, options);
+            if (res.status === 401 || res.status === 403) {
+                window.location.href = '/login.html';
+                throw new Error("Unauthorized");
+            }
+            if (!res.ok) {
+                let errText = res.statusText;
+                try {
+                    const errObj = await res.json();
+                    errText = errObj.error || errText;
+                } catch (e) { }
+                throw new Error(errText);
+            }
+            return await res.json();
+        }
+
         /* ====== CONTENT API ====== */
         const contentModal = new bootstrap.Modal(document.getElementById('contentModal'));
         const contentFields = [
