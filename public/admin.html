@@ -238,21 +238,9 @@
                     </div>
                 </div>
 
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle m-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th data-i18n="th_category">カテゴリ</th>
-                                    <th data-i18n="th_title">タイトル</th>
-                                    <th data-i18n="th_date">登録日</th>
-                                    <th class="text-end" data-i18n="th_action">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="contentTableBody">
-                                <!-- dynamic -->
-                            </tbody>
-                        </table>
+                <div class="card shadow-sm border-0 bg-transparent">
+                    <div class="card-body p-0" id="contentSitemapContainer">
+                        <div class="text-center text-muted py-5 bg-white rounded shadow-sm">読み込み中...</div>
                     </div>
                 </div>
             </div>
@@ -473,6 +461,34 @@
             </div>
 
         </main>
+    </div>
+
+    <!-- Article Preview Modal -->
+    <div class="modal fade" id="articlePreviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0 flex-column align-items-start position-relative">
+                    <button type="button"
+                        class="btn-close position-absolute top-0 end-0 m-3 bg-white border shadow-sm rounded-circle"
+                        data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
+                    <div id="previewHeaderImage" class="w-100 rounded-top mb-3"
+                        style="height: 250px; background-size: cover; background-position: center; display:none;"></div>
+                    <div class="d-flex flex-wrap w-100 gap-2 mb-2" id="previewCategories"></div>
+                    <h3 class="modal-title fw-bold text-dark w-100" id="previewTitle"></h3>
+                </div>
+                <div class="modal-body pt-2 px-4 pb-4">
+                    <p class="lead fw-bold text-muted mb-4" id="previewLead"></p>
+                    <div class="mb-4 text-dark" id="previewBody" style="line-height: 1.8;"></div>
+                    <div class="row g-2 mb-4" id="previewGallery"></div>
+                    <div class="bg-light p-3 rounded text-sm text-muted" id="previewMeta" style="display:none;"></div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-brand fw-bold" id="previewEditBtn"><i
+                            class="fa-solid fa-pen"></i> 編集する</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Inquiry Detail Modal -->
@@ -1029,6 +1045,16 @@
         // Check Auth
         checkAuth();
 
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         // UI Translation Dictionary
         const i18n = {
             ja: {
@@ -1184,37 +1210,149 @@
         let isContentEditing = false;
 
         async function fetchContent() {
-            document.getElementById('contentTableBody').innerHTML = '<tr><td colspan="4" class="text-center text-muted">Loading...</td></tr>';
+            document.getElementById('contentSitemapContainer').innerHTML = '<div class="text-center text-muted py-5 bg-white rounded shadow-sm"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
             try {
                 const res = await fetch('/api/posts');
                 const data = await res.json();
-                renderContentTable(data);
+                renderContentSitemap(data);
             } catch (e) { showStatus('エラーが発生しました', 'error'); }
         }
 
-        function renderContentTable(data) {
-            const tbody = document.getElementById('contentTableBody');
-            tbody.innerHTML = '';
-            if (!data.length) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">記事がありません</td></tr>'; return; }
+        function renderContentSitemap(data) {
+            const container = document.getElementById('contentSitemapContainer');
+            container.innerHTML = '';
+            if (!data.length) { container.innerHTML = '<div class="text-center text-muted py-5 bg-white rounded shadow-sm">記事がありません</div>'; return; }
 
+            const sitemap = {};
             data.forEach(item => {
-                const cat = [item.l1, item.l2].filter(Boolean).join(' / ') || '未分類';
-                const date = item.created_at ? new Date(item.created_at).toLocaleDateString() : '-';
-                const title = item.title || '<span class="text-muted fst-italic">無題</span>';
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><span class="badge bg-light text-dark border">${cat}</span></td>
-                    <td class="fw-bold">${title}</td>
-                    <td class="text-muted small">${date}</td>
-                    <td class="text-end">
-                        <button class="btn btn-sm btn-outline-secondary fw-bold" onclick='openContentEditor(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
-                            <i class="fa-solid fa-pen"></i> 編集
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
+                const l1 = item.l1 || '未分類';
+                const l2 = item.l2 || '未分類';
+                if (!sitemap[l1]) sitemap[l1] = {};
+                if (!sitemap[l1][l2]) sitemap[l1][l2] = [];
+                sitemap[l1][l2].push(item);
             });
+
+            let html = '<div class="accordion" id="sitemapAccordion">';
+            let counter = 0;
+
+            for (const [l1, l2Group] of Object.entries(sitemap)) {
+                html += `<div class="bg-white rounded shadow-sm border p-3 mb-4">`;
+                html += `<h4 class="fw-bold mb-3" style="color:var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px;"><i class="fa-solid fa-folder-open me-2"></i>${escapeHtml(l1)}</h4>`;
+
+                for (const [l2, items] of Object.entries(l2Group)) {
+                    const collapseId = 'collapse_' + counter++;
+                    html += `
+                    <div class="accordion-item border-0 mb-2">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-light rounded text-dark fw-bold border" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
+                                <i class="fa-solid fa-folder me-2 text-warning"></i> ${escapeHtml(l2)} <span class="badge bg-secondary ms-2">${items.length}件</span>
+                            </button>
+                        </h2>
+                        <div id="${collapseId}" class="accordion-collapse collapse">
+                            <div class="accordion-body p-2 pt-3 bg-white">
+                                <div class="row g-3">
+                    `;
+
+                    items.forEach(item => {
+                        const title = item.title || '<span class="text-muted fst-italic">無題</span>';
+                        let l3Html = '';
+                        if (item.l3_label) l3Html = `<span class="badge bg-danger mb-2">${escapeHtml(item.l3_label)}</span>`;
+                        const imgSrc = item.image1 || 'https://images.unsplash.com/photo-1579619195026-6a56e5f8ceb0?q=80&w=300&auto=format&fit=crop'; // fallback apple
+                        const date = item.created_at ? new Date(item.created_at).toLocaleDateString() : '-';
+
+                        html += `
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                            <div class="card h-100 border shadow-sm article-card overflow-hidden" style="cursor:pointer; transition: 0.2s;" onclick='openArticlePreview(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                                <img src="${imgSrc}" class="card-img-top object-fit-cover" style="height: 140px;" alt="画像">
+                                <div class="card-body p-3">
+                                    ${l3Html}
+                                    <h6 class="card-title fw-bold mb-1" style="font-size:0.95rem;">${title}</h6>
+                                    <div class="text-muted small mb-2"><i class="fa-regular fa-clock me-1"></i> ${date}</div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0 pt-0 text-end">
+                                    <button class="btn btn-sm btn-outline-brand fw-bold" onclick='event.stopPropagation(); openContentEditor(${JSON.stringify(item).replace(/'/g, "&apos;")})'><i class="fa-solid fa-pen"></i> 編集</button>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    });
+                    html += `</div></div></div></div>`;
+                }
+                html += `</div>`;
+            }
+            html += '</div>';
+
+            if (!document.getElementById('sitemapStyle')) {
+                const style = document.createElement('style');
+                style.id = 'sitemapStyle';
+                style.innerHTML = `
+                    .article-card:hover { transform: translateY(-3px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; border-color: var(--accent)!important; }
+                    .btn-outline-brand { color: var(--accent); border-color: var(--accent); }
+                    .btn-outline-brand:hover { background-color: var(--accent); color: white; }
+                    .accordion-button:not(.collapsed) { background-color: #f8dbdb; color: var(--accent); }
+                `;
+                document.head.appendChild(style);
+            }
+            container.innerHTML = html;
+        }
+
+        let articlePreviewModalInstance = null;
+
+        function openArticlePreview(item) {
+            if (!articlePreviewModalInstance) {
+                articlePreviewModalInstance = new bootstrap.Modal(document.getElementById('articlePreviewModal'));
+            }
+
+            document.getElementById('previewTitle').innerHTML = item.title ? escapeHtml(item.title) : '<span class="text-muted fst-italic">無題</span>';
+
+            const catHtml = [];
+            if (item.l1) catHtml.push(`<span class="badge bg-dark">${escapeHtml(item.l1)}</span>`);
+            if (item.l2) catHtml.push(`<span class="badge bg-secondary">${escapeHtml(item.l2)}</span>`);
+            if (item.l3_label) catHtml.push(`<span class="badge bg-danger">${escapeHtml(item.l3_label)}</span>`);
+            document.getElementById('previewCategories').innerHTML = catHtml.join('');
+
+            const hdrImg = document.getElementById('previewHeaderImage');
+            if (item.image1) {
+                hdrImg.style.backgroundImage = `url('${item.image1}')`;
+                hdrImg.style.display = 'block';
+            } else {
+                hdrImg.style.display = 'none';
+            }
+
+            document.getElementById('previewLead').innerText = item.lead_text || '';
+
+            let bodyText = item.body_text || '';
+            bodyText = escapeHtml(bodyText).replace(/\n/g, '<br>');
+            document.getElementById('previewBody').innerHTML = bodyText;
+
+            let galleryHtml = '';
+            const images = [item.image2, item.image3, item.image4, item.image5, item.image6].filter(Boolean);
+            if (images.length > 0) {
+                images.forEach(img => {
+                    galleryHtml += `<div class="col-6 col-md-4"><img src="${img}" class="img-fluid rounded shadow-sm object-fit-cover" style="height: 120px; width: 100%;"></div>`;
+                });
+            }
+            document.getElementById('previewGallery').innerHTML = galleryHtml;
+
+            let metaHtml = '<ul class="list-unstyled mb-0">';
+            if (item.address) metaHtml += `<li><i class="fa-solid fa-location-dot me-2"></i>${escapeHtml(item.address)}</li>`;
+            if (item.homepage) metaHtml += `<li><i class="fa-solid fa-link me-2"></i><a href="${item.homepage}" target="_blank" class="text-decoration-none">${escapeHtml(item.homepage)}</a></li>`;
+            metaHtml += '</ul>';
+
+            const metaDiv = document.getElementById('previewMeta');
+            if (item.address || item.homepage) {
+                metaDiv.innerHTML = metaHtml;
+                metaDiv.style.display = 'block';
+            } else {
+                metaDiv.style.display = 'none';
+            }
+
+            document.getElementById('previewEditBtn').onclick = () => {
+                articlePreviewModalInstance.hide();
+                openContentEditor(item);
+            };
+
+            articlePreviewModalInstance.show();
         }
 
         function openContentEditor(item) {
