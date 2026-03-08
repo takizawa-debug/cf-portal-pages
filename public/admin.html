@@ -1344,7 +1344,18 @@
             let html = '<div class="accordion" id="sitemapAccordion">';
             let counter = 0;
 
-            for (const [l1, l2Group] of Object.entries(sitemap)) {
+            const l1Order = ['知る', '味わう', '暮らす', '体験する', '営む'];
+            const l1Keys = Object.keys(sitemap).sort((a, b) => {
+                const idxA = l1Order.indexOf(a);
+                const idxB = l1Order.indexOf(b);
+                if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+                if (idxA !== -1) return -1;
+                if (idxB !== -1) return 1;
+                return a.localeCompare(b, 'ja');
+            });
+
+            for (const l1 of l1Keys) {
+                const l2Group = sitemap[l1];
                 html += `<div class="bg-white rounded shadow-sm border p-3 mb-4">`;
                 html += `<h4 class="fw-bold mb-3" style="color:var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px;"><i class="fa-solid fa-folder-open me-2"></i>${escapeHtml(l1)}</h4>`;
 
