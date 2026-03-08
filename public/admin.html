@@ -79,6 +79,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            font-size: 0.85rem;
         }
 
         .nav-item-custom {
@@ -835,25 +836,68 @@
                                                     class="fa-regular fa-images"></i> 選択</button>
                                         </div>
                                     </div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像4 URL</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="field_image4">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="openMediaSelector('field_image4')"><i
+                                                    class="fa-regular fa-images"></i> 選択</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像5 URL</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="field_image5">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="openMediaSelector('field_image5')"><i
+                                                    class="fa-regular fa-images"></i> 選択</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像6 URL</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="field_image6">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="openMediaSelector('field_image6')"><i
+                                                    class="fa-regular fa-images"></i> 選択</button>
+                                        </div>
+                                    </div>
                                     <hr>
-                                    <div class="col-12"><label class="form-label text-muted fw-bold">ホームページ
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">ホームページ
                                             URL</label><input type="url" class="form-control" id="field_homepage"></div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">Instagram
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">ECサイト
+                                            URL</label><input type="url" class="form-control" id="field_ec_site"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">関連記事1
+                                            タイトル</label><input type="text" class="form-control"
+                                            id="field_related1_title"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">関連記事1
+                                            URL</label><input type="url" class="form-control" id="field_related1_url">
+                                    </div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">関連記事2
+                                            タイトル</label><input type="text" class="form-control"
+                                            id="field_related2_title"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">関連記事2
+                                            URL</label><input type="url" class="form-control" id="field_related2_url">
+                                    </div>
+                                    <hr>
+                                    <div class="col-md-4"><label class="form-label text-muted fw-bold">Instagram
                                             URL</label><input type="url" class="form-control" id="field_sns_instagram">
                                     </div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">Facebook
+                                    <div class="col-md-4"><label class="form-label text-muted fw-bold">Facebook
                                             URL</label><input type="url" class="form-control" id="field_sns_facebook">
                                     </div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">X (Twitter)
+                                    <div class="col-md-4"><label class="form-label text-muted fw-bold">X (Twitter)
                                             URL</label><input type="url" class="form-control" id="field_sns_x"></div>
                                     <div class="col-md-6"><label class="form-label text-muted fw-bold">LINE
                                             URL</label><input type="url" class="form-control" id="field_sns_line"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">TikTok
+                                            URL</label><input type="url" class="form-control" id="field_sns_tiktok">
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Contact -->
                             <div class="tab-pane fade" id="tab-contact" role="tabpanel">
                                 <div class="row g-3">
+                                    <h6 class="col-12 fw-bold border-bottom pb-2 text-muted">連絡先・基本情報</h6>
                                     <div class="col-12"><label class="form-label text-muted fw-bold">住所</label><input
                                             type="text" class="form-control" id="field_address"></div>
                                     <div class="col-md-6"><label
@@ -862,6 +906,28 @@
                                     <div class="col-md-6"><label
                                             class="form-label text-muted fw-bold">メールアドレス</label><input type="text"
                                             class="form-control" id="field_contact_email"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">問い合わせフォームURL</label><input type="url"
+                                            class="form-control" id="field_contact_form_url"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">ダウンロードURL</label><input type="url"
+                                            class="form-control" id="field_download_url"></div>
+
+                                    <h6 class="col-12 fw-bold border-bottom pb-2 mt-4 text-muted">営業情報</h6>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">営業曜日</label><input type="text"
+                                            class="form-control" id="field_business_days"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">定休日</label><input
+                                            type="text" class="form-control" id="field_closed_days"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">営業開始時刻</label><input type="text"
+                                            class="form-control" id="field_business_start" placeholder="HH:MM"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">営業終了時刻</label><input type="text"
+                                            class="form-control" id="field_business_end" placeholder="HH:MM"></div>
+                                    <div class="col-12"><label
+                                            class="form-label text-muted fw-bold">営業に関する注意事項</label><textarea
+                                            class="form-control" id="field_business_remarks" rows="2"></textarea></div>
 
                                     <h6 class="col-12 fw-bold border-bottom pb-2 mt-4 text-muted">イベント情報</h6>
                                     <div class="col-md-6"><label class="form-label text-muted fw-bold">開始日</label><input
@@ -876,9 +942,28 @@
                                     <div class="col-md-6"><label
                                             class="form-label text-muted fw-bold">終了時間</label><input type="text"
                                             class="form-control" id="field_end_time" placeholder="HH:MM"></div>
-                                    <div class="col-12"><label class="form-label text-muted fw-bold">参加費</label><input
+                                    <div class="col-md-4"><label class="form-label text-muted fw-bold">参加費</label><input
                                             type="text" class="form-control" id="field_fee"></div>
-                                    <div class="col-12"><label class="form-label text-muted fw-bold">備考</label><textarea
+                                    <div class="col-md-4"><label class="form-label text-muted fw-bold">対象</label><input
+                                            type="text" class="form-control" id="field_target_audience"></div>
+                                    <div class="col-md-4"><label
+                                            class="form-label text-muted fw-bold">もちもの</label><input type="text"
+                                            class="form-control" id="field_belongings"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">主催者名</label><input type="text"
+                                            class="form-control" id="field_organizer_name"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">主催者連絡先</label><input type="text"
+                                            class="form-control" id="field_organizer_contact"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">申し込み方法</label><input type="text"
+                                            class="form-control" id="field_application_method"></div>
+                                    <div class="col-12"><label
+                                            class="form-label text-muted fw-bold">会場に関する注意事項</label><textarea
+                                            class="form-control" id="field_venue_remarks" rows="2"></textarea></div>
+
+                                    <div class="col-12 mt-4"><label
+                                            class="form-label text-muted fw-bold">備考（フリーテキスト）</label><textarea
                                             class="form-control" id="field_remarks"></textarea></div>
                                 </div>
                             </div>
@@ -1314,11 +1399,15 @@
         const contentModal = new bootstrap.Modal(document.getElementById('contentModal'));
         const contentFields = [
             'id', 'l1', 'l2', 'l3_label', 'title', 'lead_text', 'body_text',
-            'l1_en', 'l2_en', 'title_en', 'lead_text_en', 'body_text_en',
-            'l1_tw', 'l2_tw', 'title_tw', 'lead_text_tw', 'body_text_tw',
-            'image1', 'image2', 'image3', 'homepage', 'sns_instagram', 'sns_facebook', 'sns_x', 'sns_line',
-            'address', 'contact_email', 'contact_phone', 'remarks',
-            'start_date', 'end_date', 'start_time', 'end_time', 'fee'
+            'l1_en', 'l2_en', 'l3_label_en', 'title_en', 'lead_text_en', 'body_text_en',
+            'l1_tw', 'l2_tw', 'l3_label_tw', 'title_tw', 'lead_text_tw', 'body_text_tw',
+            'image1', 'image2', 'image3', 'image4', 'image5', 'image6',
+            'homepage', 'related1_url', 'related1_title', 'related2_url', 'related2_title', 'ec_site',
+            'sns_instagram', 'sns_facebook', 'sns_x', 'sns_line', 'sns_tiktok',
+            'address', 'contact_form_url', 'contact_email', 'contact_phone', 'remarks', 'download_url',
+            'business_days', 'business_start', 'business_end', 'closed_days', 'business_remarks',
+            'start_date', 'end_date', 'start_time', 'end_time', 'fee', 'belongings', 'target_audience',
+            'organizer_name', 'organizer_contact', 'application_method', 'venue_remarks'
         ];
         let isContentEditing = false;
 
