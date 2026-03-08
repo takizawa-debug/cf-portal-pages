@@ -145,5 +145,6 @@ CREATE TABLE apple_varieties (
     yokai_card_url TEXT,
     summary TEXT,
     description TEXT,
+    display_order INTEGER,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

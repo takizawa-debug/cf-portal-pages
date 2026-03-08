@@ -2,9 +2,9 @@ export async function onRequestGet(context) {
     try {
         const db = context.env.DB;
 
-        // Fetch all apple varieties ordered by id
+        // Fetch all apple varieties ordered by display_order
         const { results } = await db.prepare(
-            `SELECT * FROM apple_varieties ORDER BY id DESC`
+            `SELECT * FROM apple_varieties ORDER BY display_order ASC`
         ).all();
 
         return new Response(JSON.stringify({ success: true, apples: results }), {
@@ -47,14 +47,14 @@ export async function onRequestPost({ request, env }) {
                 harvest_season, harvest_category,
                 lineage, origin,
                 official_image_url, yokai_card_url,
-                summary, description
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                summary, description, display_order
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).bind(
             id, name_ja || '', name_en || '', name_zh || '',
             harvest_season || '', harvest_category || '',
             lineage || '', origin || '',
             official_image_url || '', yokai_card_url || '',
-            summary || '', description || ''
+            summary || '', description || '', 999
         ).run();
 
         if (result.success) {
