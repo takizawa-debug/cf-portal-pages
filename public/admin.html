@@ -2493,6 +2493,13 @@
             }
         }
 
+        let currentMediaDir = null; // null means viewing root folders
+
+        function setMediaDir(dir) {
+            currentMediaDir = dir;
+            renderMediaGrid();
+        }
+
         function renderMediaGrid() {
             const grid1 = document.getElementById('mediaGrid');
             const grid2 = document.getElementById('mediaSelectGrid');
@@ -2516,11 +2523,39 @@
             // Helper to generate grid HTML
             const generateHtml = (isPicker) => {
                 let html = '';
-                Object.keys(groups).sort().forEach(dir => {
-                    // Category Header
-                    html += `<div class="col-12 mt-3 mb-1"><h5 class="fw-bold text-secondary border-bottom pb-2 d-flex align-items-center gap-2"><i class="fa-regular fa-folder-open text-warning"></i><span>${dir}</span></h5></div>`;
 
-                    groups[dir].forEach(m => {
+                if (currentMediaDir === null) {
+                    // Show folders
+                    html += `<div class="col-12 mb-2"><span class="fw-bold text-secondary">フォルダを選択</span></div>`;
+                    Object.keys(groups).sort().forEach(dir => {
+                        const count = groups[dir].length;
+                        html += `
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                                <div class="card h-100 border shadow-sm border-0 bg-white" style="cursor:pointer;" onclick="setMediaDir('${dir}')">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center py-4 folder-card" style="position:relative;">
+                                        <i class="fa-solid fa-folder fa-4x text-warning"></i>
+                                        <span class="position-absolute bottom-0 end-0 mb-2 me-2 badge bg-secondary">${count}</span>
+                                    </div>
+                                    <div class="card-body p-2 text-center text-truncate fw-bold text-dark">${dir}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    // Show contents of selected folder
+                    html += `
+                        <div class="col-12 mb-3 d-flex align-items-center gap-2">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="setMediaDir(null)"><i class="fa-solid fa-arrow-left"></i> 戻る</button>
+                            <span class="fw-bold fs-5 text-secondary"><i class="fa-solid fa-folder-open text-warning me-2"></i>${currentMediaDir}</span>
+                        </div>
+                    `;
+
+                    const items = groups[currentMediaDir] || [];
+                    if (items.length === 0) {
+                        html += '<div class="col-12 text-muted mt-3">このフォルダは空です。</div>';
+                    }
+
+                    items.forEach(m => {
                         const isImg = m.url.match(/\.(jpeg|jpg|gif|png|webp|svg)$/i) != null;
                         const date = m.uploaded ? new Date(m.uploaded).toLocaleString('ja-JP') : '';
                         const size = m.size ? (m.size / 1024).toFixed(1) + ' KB' : '';
@@ -2559,7 +2594,7 @@
                             `;
                         }
                     });
-                });
+                }
                 return html;
             };
 
@@ -2570,7 +2605,7 @@
                     const mStyle = document.createElement('style');
                     mStyle.id = 'mediaSelectStyle';
                     mStyle.innerHTML = `
-                        .media-picker-card:hover { border: 2px solid var(--accent) !important; transform: translateY(-2px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;}
+                        .media-picker-card:hover, .folder-card:hover { border: 2px solid var(--accent) !important; transform: translateY(-2px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;}
                         .hover-zoom { transition: transform 0.3s; }
                         .media-picker-card:hover .hover-zoom { transform: scale(1.05); }
                     `;
@@ -2591,6 +2626,9 @@
             for (let i = 0; i < files.length; i++) {
                 const formData = new FormData();
                 formData.append('file', files[i]);
+                if (currentMediaDir) {
+                    formData.append('folder', currentMediaDir);
+                }
                 try {
                     await apiFetch('/api/media', { method: 'POST', body: formData }, true);
                 } catch (e) { failures++; }

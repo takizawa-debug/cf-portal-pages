@@ -45,9 +45,15 @@ export async function onRequestPost(context) {
         const ext = file.name.split('.').pop() || 'jpg';
         // Sanitize name
         let sanitizedName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+
+        // Handle custom folder
+        let folder = formData.get('folder') || 'library';
+        folder = folder.replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/^\/+|\/+$/g, '');
+        if (!folder) folder = 'library';
+
         // Prepend uuid to avoid collisions
         const uuid = crypto.randomUUID().split('-')[0];
-        const key = `library/${uuid}_${sanitizedName}`;
+        const key = `${folder}/${uuid}_${sanitizedName}`;
 
         await env.UPLOAD_BUCKET.put(key, await file.arrayBuffer(), {
             httpMetadata: { contentType: file.type }
