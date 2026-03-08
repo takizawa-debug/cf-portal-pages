@@ -8,7 +8,8 @@
 
     <!-- Peraichi Base Styles & Fonts -->
     <link href="//assets.peraichi.com/template_root/v2/template_files/css/style.css?1772770402" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/pageCustomStylesheets/2300389/themeColor_1762752043.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/pageCustomStylesheets/2300389/themeColor_1762752043.css">
     <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -211,6 +212,9 @@
             <button class="nav-item-custom d-none" id="navAppleMgt" onclick="switchMainPanel('apple-panel', this)">
                 <i class="fa-brands fa-apple"></i> <span data-i18n="menu_apples">品種管理マスタ</span>
             </button>
+            <button class="nav-item-custom d-none" id="navInquiryMgt" onclick="switchMainPanel('inquiry-panel', this)">
+                <i class="fa-solid fa-envelope"></i> <span data-i18n="menu_inquiries">お問い合わせ一覧</span>
+            </button>
         </aside>
 
         <!-- Content Area -->
@@ -394,7 +398,57 @@
                 </div>
             </div>
 
+            <!-- Panel 7: Inquiry Management (Admin/Editor) -->
+            <div id="inquiry-panel" class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold m-0" style="color:var(--accent);"><i
+                            class="fa-solid fa-envelope me-2"></i>お問い合わせ管理</h3>
+                    <button class="btn btn-brand fw-bold" onclick="fetchInquiries()">
+                        <i class="fa-solid fa-rotate-right"></i> 更新
+                    </button>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle m-0" style="min-width: 900px;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>状態</th>
+                                        <th>投稿日</th>
+                                        <th>フォーム種別</th>
+                                        <th>添付ファイル</th>
+                                        <th class="text-end">詳細確認</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inquiryTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">読み込み中...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
+    </div>
+
+    <!-- Inquiry Detail Modal -->
+    <div class="modal fade" id="inquiryDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" style="color:var(--accent);"><i
+                            class="fa-solid fa-envelope-open-text me-2"></i>お問い合わせ詳細</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="inquiryDetailBody">
+                    <div class="text-center text-muted">読み込み中...</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Apple Variety Editor Modal -->
@@ -927,9 +981,9 @@
         const i18n = {
             ja: {
                 nav_title: "りんごのまち・いいづな 管理ダッシュボード",
-                menu_content: "記事管理", menu_users: "ユーザー管理", menu_keywords: "SEOキーワード管理", menu_knowledge: "ナレッジベース管理",
+                menu_content: "記事管理", menu_users: "ユーザー管理", menu_keywords: "SEOキーワード管理", menu_knowledge: "ナレッジベース管理", menu_categories: "カテゴリマスタ管理", menu_apples: "品種管理マスタ", menu_inquiries: "お問い合わせ一覧",
                 logout: "ログアウト", panel_content_title: "記事一覧", panel_users_title: "ユーザー一覧", panel_keyword_title: "SEOキーワード管理", panel_knowledge_title: "ナレッジベース",
-                btn_refresh: "更新", btn_create: "新規作成", btn_create_user: "ユーザー追加", btn_create_keyword: "キーワード追加", btn_create_knowledge: "ドキュメント追加",
+                btn_refresh: "更新", btn_create: "新規作成", btn_create_user: "ユーザー追加", btn_create_keyword: "キーワード追加", btn_create_knowledge: "ドキュメント追加", btn_create_category: "カテゴリ追加",
                 th_category: "カテゴリ", th_title: "タイトル", th_date: "登録日", th_action: "操作",
                 th_userid: "ユーザーID", th_role: "権限", th_created: "作成日",
                 th_keyword: "キーワード", th_priority: "重要度", th_doc_title: "ドキュメント名",
@@ -937,9 +991,9 @@
             },
             en: {
                 nav_title: "Iizuna Apple Town Admin Dashboard",
-                menu_content: "Content", menu_users: "Users", menu_keywords: "Keywords", menu_knowledge: "Knowledge Base",
+                menu_content: "Content", menu_users: "Users", menu_keywords: "Keywords", menu_knowledge: "Knowledge Base", menu_categories: "Categories", menu_apples: "Apple Varieties", menu_inquiries: "Inquiries",
                 logout: "Logout", panel_content_title: "Content List", panel_users_title: "User List", panel_keyword_title: "Keywords", panel_knowledge_title: "Knowledge",
-                btn_refresh: "Refresh", btn_create: "Create New", btn_create_user: "Add User", btn_create_keyword: "Add Keyword", btn_create_knowledge: "Add Doc",
+                btn_refresh: "Refresh", btn_create: "Create New", btn_create_user: "Add User", btn_create_keyword: "Add Keyword", btn_create_knowledge: "Add Doc", btn_create_category: "Add Category",
                 th_category: "Category", th_title: "Title", th_date: "Date", th_action: "Action",
                 th_userid: "User ID", th_role: "Role", th_created: "Created At",
                 th_keyword: "Keyword", th_priority: "Priority", th_doc_title: "Doc Title",
@@ -947,9 +1001,9 @@
             },
             zh: {
                 nav_title: "飯綱町蘋果 入口網站 管理介面",
-                menu_content: "內容管理", menu_users: "用戶管理", menu_keywords: "關鍵字管理", menu_knowledge: "知識庫管理",
+                menu_content: "內容管理", menu_users: "用戶管理", menu_keywords: "關鍵字管理", menu_knowledge: "知識庫管理", menu_categories: "類別管理", menu_apples: "蘋果品種管理", menu_inquiries: "諮詢列表",
                 logout: "登出", panel_content_title: "文章列表", panel_users_title: "用戶列表", panel_keyword_title: "關鍵字管理", panel_knowledge_title: "知識庫",
-                btn_refresh: "更新", btn_create: "建立內容", btn_create_user: "新增用戶", btn_create_keyword: "添加關鍵字", btn_create_knowledge: "上傳文檔",
+                btn_refresh: "更新", btn_create: "建立內容", btn_create_user: "新增用戶", btn_create_keyword: "添加關鍵字", btn_create_knowledge: "上傳文檔", btn_create_category: "新增類別",
                 th_category: "類別", th_title: "標題", th_date: "註冊日期", th_action: "操作",
                 th_userid: "用戶 ID", th_role: "權限", th_created: "創建日期",
                 th_keyword: "關鍵字", th_priority: "重要度", th_doc_title: "文件標題",
@@ -981,6 +1035,8 @@
             if (m4) knowledgeModal = new bootstrap.Modal(m4);
             const m5 = document.getElementById('categoryMasterModal');
             if (m5) categoryModal = new bootstrap.Modal(m5);
+            const m6 = document.getElementById('inquiryDetailModal');
+            if (m6) inquiryDetailModal = new bootstrap.Modal(m6);
             // Modal lazy load for apples is handled inside openAppleEditor
 
             // Admin features
@@ -991,11 +1047,13 @@
                 document.getElementById('navKnowledgeMgt').classList.remove('d-none');
                 document.getElementById('navCategoryMgt').classList.remove('d-none');
                 document.getElementById('navAppleMgt').classList.remove('d-none');
+                document.getElementById('navInquiryMgt').classList.remove('d-none');
                 fetchUsers();
                 fetchKeywords();
                 fetchKnowledge();
                 fetchCategoriesMaster();
                 fetchApplesMaster();
+                fetchInquiries();
             }
 
             fetchCategoriesMaster().then(() => {
@@ -1013,14 +1071,18 @@
                 document.getElementById('displayUsername').innerText = data.user.username;
                 document.getElementById('displayRole').innerText = data.user.role.toUpperCase();
 
-                if (data.user.role === 'admin' || data.user.role === 'editor') {
-                    if (data.user.role === 'admin') {
-                        document.getElementById('navUserMgt').classList.remove('d-none');
-                        document.getElementById('navAppleMgt').classList.remove('d-none');
-                    }
+                if (data.user.role === 'admin') {
+                    document.getElementById('navUserMgt').classList.remove('d-none');
                     document.getElementById('navKeywordMgt').classList.remove('d-none');
                     document.getElementById('navKnowledgeMgt').classList.remove('d-none');
                     document.getElementById('navCategoryMgt').classList.remove('d-none');
+                    document.getElementById('navAppleMgt').classList.remove('d-none');
+                    document.getElementById('navInquiryMgt').classList.remove('d-none');
+                } else if (data.user.role === 'editor') {
+                    document.getElementById('navKeywordMgt').classList.remove('d-none');
+                    document.getElementById('navKnowledgeMgt').classList.remove('d-none');
+                    document.getElementById('navCategoryMgt').classList.remove('d-none');
+                    document.getElementById('navInquiryMgt').classList.remove('d-none');
                 }
                 fetchCategoriesMaster();
                 fetchContent();
@@ -1045,6 +1107,7 @@
             else if (panelId === 'knowledge-panel') fetchKnowledge();
             else if (panelId === 'category-panel') fetchCategoriesMaster();
             else if (panelId === 'apple-panel') fetchApplesMaster();
+            else if (panelId === 'inquiry-panel') fetchInquiries();
             else fetchContent();
         }
 
@@ -1948,6 +2011,129 @@
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
+        }
+
+        // ==========================================
+        //  Inquiry Management
+        // ==========================================
+        async function fetchInquiries() {
+            setLoading('inquiryTableBody', 5);
+            try {
+                const res = await apiFetch('/api/inquiries');
+                const tbody = document.getElementById('inquiryTableBody');
+                tbody.innerHTML = '';
+                if (!res.length) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">お問い合わせはありません</td></tr>';
+                    return;
+                }
+
+                res.forEach(item => {
+                    const statusBadge = item.status === 'unread'
+                        ? '<span class="badge bg-danger rounded-pill">未読</span>'
+                        : '<span class="badge bg-secondary rounded-pill">確認済</span>';
+
+                    let filesHTML = '-';
+                    try {
+                        const files = JSON.parse(item.files_json || '[]');
+                        if (files.length > 0) {
+                            filesHTML = `<span class="badge bg-info"><i class="fa-solid fa-paperclip"></i> ${files.length}件の添付</span>`;
+                        }
+                    } catch (e) { }
+
+                    const tr = document.createElement('tr');
+                    tr.style.cursor = 'pointer';
+                    // Allow clicking whole row to view
+                    tr.onclick = (e) => {
+                        if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'I') {
+                            viewInquiry(item);
+                        }
+                    };
+
+                    tr.innerHTML = `
+                        <td>${statusBadge}</td>
+                        <td class="small">${new Date(item.created_at).toLocaleString('ja-JP')}</td>
+                        <td><span class="badge bg-light text-dark border">${item.form_type}</span></td>
+                        <td>${filesHTML}</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-brand" onclick="viewInquiry(${escapeHtml(JSON.stringify(item))})">
+                                詳細確認
+                            </button>
+                            ${item.status === 'unread' ? `
+                            <button class="btn btn-sm btn-outline-secondary" onclick="markInquiry('${item.id}', 'read', event)">
+                                既読
+                            </button>` : ''}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                document.getElementById('inquiryTableBody').innerHTML = `<tr><td colspan="5" class="text-danger text-center"><i class="fa-solid fa-triangle-exclamation"></i> 取得に失敗: ${err.message}</td></tr>`;
+            }
+        }
+
+        async function markInquiry(id, targetStatus, event) {
+            if (event) event.stopPropagation();
+            try {
+                await apiFetch('/api/inquiries/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ id, status: targetStatus })
+                });
+                fetchInquiries();
+            } catch (err) {
+                alert('ステータスの更新に失敗しました: ' + err.message);
+            }
+        }
+
+        function viewInquiry(itemObj) {
+            // Because itemObj may be passed as string from HTML escaping, parse if needed
+            const item = typeof itemObj === 'string' ? JSON.parse(itemObj) : itemObj;
+
+            const tbody = document.getElementById('inquiryDetailBody');
+
+            let payload = {};
+            try { payload = JSON.parse(item.payload_json); } catch (e) { }
+
+            let files = [];
+            try { files = JSON.parse(item.files_json); } catch (e) { }
+
+            let html = `
+                <div class="bg-white p-3 border rounded mb-3 shadow-sm">
+                    <h6 class="fw-bold border-bottom pb-2 text-brand">送信メタデータ</h6>
+                    <div class="row text-sm">
+                        <div class="col-6 mb-2"><strong>ID:</strong> <span class="text-muted">${item.id}</span></div>
+                        <div class="col-6 mb-2"><strong>投稿日時:</strong> <span class="text-muted">${new Date(item.created_at).toLocaleString('ja-JP')}</span></div>
+                        <div class="col-6 mb-2"><strong>フォーム種別:</strong> <span class="badge bg-secondary">${item.form_type}</span></div>
+                    </div>
+                </div>
+            `;
+
+            html += `<h6 class="fw-bold text-dark mb-3 mt-4"><i class="fa-solid fa-list-ul"></i> 入力情報</h6><table class="table table-bordered table-striped" style="font-size:0.9rem;"><tbody>`;
+            for (let [key, val] of Object.entries(payload)) {
+                if (typeof val === 'object') val = JSON.stringify(val);
+                html += `<tr><th style="width:30%; background:#f8f9fa;">${escapeHtml(key)}</th><td>${escapeHtml(String(val)).replace(/\n/g, '<br>')}</td></tr>`;
+            }
+            html += `</tbody></table>`;
+
+            if (files && files.length > 0) {
+                html += `<h6 class="fw-bold text-dark mt-4 mb-3"><i class="fa-solid fa-folder-open"></i> 添付ファイル (R2 Storage)</h6><ul class="list-group list-group-flush border rounded">`;
+                files.forEach(f => {
+                    // Since it is private, generating a signed URL would be standard. For now we will just show the Object Key paths as it is admin panel.
+                    html += `<li class="list-group-item d-flex justify-content-between align-items-center bg-light text-sm">
+                        <span><i class="fa-solid ${f.type === 'image' ? 'fa-image' : 'fa-file-pdf'} text-muted me-2"></i> ${escapeHtml(f.fileName || f.key.split('/').pop())}</span>
+                        <span class="badge bg-secondary rounded-pill">Object Key: ${f.key}</span>
+                    </li>`;
+                });
+                html += `</ul>`;
+            }
+
+            // Mark as read immediately if unread
+            if (item.status === 'unread') {
+                markInquiry(item.id, 'read', null);
+            }
+
+            tbody.innerHTML = html;
+            const modal = new bootstrap.Modal(document.getElementById('inquiryDetailModal'));
+            modal.show();
         }
 
     </script>
