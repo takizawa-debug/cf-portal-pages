@@ -2665,9 +2665,23 @@
 
         function openMediaSelector(targetElementId) {
             curMediaTargetId = targetElementId;
-            let mModal = bootstrap.Modal.getInstance(document.getElementById('mediaSelectModal'));
-            if (!mModal) mModal = new bootstrap.Modal(document.getElementById('mediaSelectModal'));
+            let el = document.getElementById('mediaSelectModal');
+            let mModal = bootstrap.Modal.getInstance(el);
+            if (!mModal) mModal = new bootstrap.Modal(el);
+
+            // Set style before showing to prevent flicker, BS5 z-index is 1055 default
+            el.style.zIndex = "1060";
+
             mModal.show();
+
+            // Fix backdrop z-index logic dynamically 
+            setTimeout(() => {
+                const backdrops = document.querySelectorAll('.modal-backdrop');
+                if (backdrops.length > 1) {
+                    // Make the latest backdrop cover the previous modal
+                    backdrops[backdrops.length - 1].style.zIndex = "1059";
+                }
+            }, 150);
         }
 
         function selectMediaUrl(url) {
