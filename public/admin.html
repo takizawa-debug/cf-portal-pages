@@ -994,7 +994,10 @@
                 document.getElementById('displayRole').innerText = data.user.role.toUpperCase();
 
                 if (data.user.role === 'admin' || data.user.role === 'editor') {
-                    if (data.user.role === 'admin') document.getElementById('navUserMgt').classList.remove('d-none');
+                    if (data.user.role === 'admin') {
+                        document.getElementById('navUserMgt').classList.remove('d-none');
+                        document.getElementById('navAppleMgt').classList.remove('d-none');
+                    }
                     document.getElementById('navKeywordMgt').classList.remove('d-none');
                     document.getElementById('navKnowledgeMgt').classList.remove('d-none');
                     document.getElementById('navCategoryMgt').classList.remove('d-none');
