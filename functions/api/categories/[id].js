@@ -12,13 +12,14 @@ export async function onRequestPut(context) {
     const id = params.id;
     try {
         const body = await request.json();
-        const { l1, l2, l3, l1_en, l2_en, l3_en, l1_zh, l2_zh, l3_zh } = body;
+        const { form_type, l1, l2, l3, l1_en, l2_en, l3_en, l1_zh, l2_zh, l3_zh } = body;
+        const typeToSave = form_type || 'shop';
 
         await env.DB.prepare(`
             UPDATE categories
-            SET l1=?, l2=?, l3=?, l1_en=?, l2_en=?, l3_en=?, l1_zh=?, l2_zh=?, l3_zh=?
+            SET form_type=?, l1=?, l2=?, l3=?, l1_en=?, l2_en=?, l3_en=?, l1_zh=?, l2_zh=?, l3_zh=?
             WHERE id=?
-        `).bind(l1, l2 || "", l3 || "", l1_en || "", l2_en || "", l3_en || "", l1_zh || "", l2_zh || "", l3_zh || "", id).run();
+        `).bind(typeToSave, l1, l2 || "", l3 || "", l1_en || "", l2_en || "", l3_en || "", l1_zh || "", l2_zh || "", l3_zh || "", id).run();
 
         return Response.json({ success: true });
     } catch (e) {

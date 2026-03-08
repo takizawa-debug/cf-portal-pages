@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS knowledge_base (
 
 CREATE TABLE IF NOT EXISTS categories (
     id TEXT PRIMARY KEY,
+    form_type TEXT DEFAULT 'shop',
     l1 TEXT,
     l2 TEXT,
     l3 TEXT,

@@ -352,6 +352,7 @@
                         <table class="table table-hover align-middle m-0 table-sm" style="font-size: 0.85rem;">
                             <thead class="table-light">
                                 <tr>
+                                    <th>分類(フォーム)</th>
                                     <th>L1 (大)</th>
                                     <th>L2 (中)</th>
                                     <th>L3 (小)</th>
@@ -832,6 +833,18 @@
                 <div class="modal-body p-4">
                     <form id="categoryMasterForm">
                         <input type="hidden" id="cat_id">
+                        <div class="row g-2 mb-3">
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">分類 (紐づくフォーム種別)</label>
+                                <select class="form-select" id="cat_form_type">
+                                    <option value="article">記事・コンテンツ (article)</option>
+                                    <option value="shop">店舗・施設 (shop)</option>
+                                    <option value="event">イベント (event)</option>
+                                    <option value="farmer">生産体制 (farmer)</option>
+                                    <option value="other">その他 (other)</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="row g-2 mb-3">
                             <div class="col-4"><label class="form-label small fw-bold">L1 (大)</label><input type="text"
                                     class="form-control" id="cat_l1" required></div>
@@ -1640,7 +1653,7 @@
             const currentVal = l1Select.value;
             l1Select.innerHTML = '<option value="">選択してください</option>';
 
-            const l1s = [...new Set(categoriesMaster.map(c => c.l1).filter(Boolean))];
+            const l1s = [...new Set(categoriesMaster.filter(c => c.form_type === 'article').map(c => c.l1).filter(Boolean))];
             l1s.forEach(val => {
                 const opt = document.createElement('option');
                 opt.value = val; opt.textContent = val;
@@ -1660,7 +1673,7 @@
 
             if (!l1) return;
 
-            const l2s = [...new Set(categoriesMaster.filter(c => c.l1 === l1).map(c => c.l2).filter(Boolean))];
+            const l2s = [...new Set(categoriesMaster.filter(c => c.l1 === l1 && c.form_type === 'article').map(c => c.l2).filter(Boolean))];
             l2s.forEach(val => {
                 const opt = document.createElement('option');
                 opt.value = val; opt.textContent = val;
@@ -1679,7 +1692,7 @@
 
             if (!l1 || !l2) return;
 
-            const l3s = [...new Set(categoriesMaster.filter(c => c.l1 === l1 && c.l2 === l2).map(c => c.l3).filter(Boolean))];
+            const l3s = [...new Set(categoriesMaster.filter(c => c.l1 === l1 && c.l2 === l2 && c.form_type === 'article').map(c => c.l3).filter(Boolean))];
             l3s.forEach(val => {
                 const opt = document.createElement('option');
                 opt.value = val; opt.textContent = val;
@@ -1694,12 +1707,12 @@
             const l2 = document.getElementById('field_l2').value;
             const l3 = document.getElementById('field_l3_label').value;
 
-            let match = categoriesMaster.find(c => c.l1 === l1 && c.l2 === (l2 || "") && c.l3 === (l3 || ""));
+            let match = categoriesMaster.find(c => c.l1 === l1 && c.l2 === (l2 || "") && c.l3 === (l3 || "") && c.form_type === 'article');
             if (!match && !l3) {
-                match = categoriesMaster.find(c => c.l1 === l1 && c.l2 === (l2 || ""));
+                match = categoriesMaster.find(c => c.l1 === l1 && c.l2 === (l2 || "") && c.form_type === 'article');
             }
             if (!match && !l2) {
-                match = categoriesMaster.find(c => c.l1 === l1);
+                match = categoriesMaster.find(c => c.l1 === l1 && c.form_type === 'article');
             }
 
             if (match) {
@@ -1730,8 +1743,11 @@
             if (!categoriesMaster.length) { tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">カテゴリがありません</td></tr>'; return; }
 
             categoriesMaster.forEach(c => {
+                const typeLabel = c.form_type === 'event' ? 'イベント' : c.form_type === 'farmer' ? '生産体制' : c.form_type === 'other' ? 'その他' : c.form_type === 'article' ? '記事' : '店舗・施設';
+                const typeBadge = `<span class="badge bg-secondary rounded-pill px-2 py-1">${typeLabel}</span>`;
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
+                    <td>${typeBadge}</td>
                     <td class="fw-bold">${c.l1}</td>
                     <td>${c.l2 || '<span class="text-muted">-</span>'}</td>
                     <td>${c.l3 || '<span class="text-muted">-</span>'}</td>
@@ -1763,6 +1779,7 @@
 
             if (item) {
                 document.getElementById('cat_id').value = item.id;
+                document.getElementById('cat_form_type').value = item.form_type || 'shop';
                 document.getElementById('cat_l1').value = item.l1 || "";
                 document.getElementById('cat_l2').value = item.l2 || "";
                 document.getElementById('cat_l3').value = item.l3 || "";
@@ -1783,6 +1800,7 @@
             const url = isCategoryEditing ? '/api/categories/' + id : '/api/categories';
 
             const payload = {
+                form_type: document.getElementById('cat_form_type').value,
                 l1: document.getElementById('cat_l1').value.trim(),
                 l2: document.getElementById('cat_l2').value.trim(),
                 l3: document.getElementById('cat_l3').value.trim(),

@@ -17,8 +17,12 @@ export async function onRequest(context) {
     // 1. GET /api/contact?mode=form_genres
     if (request.method === 'GET' && mode === 'form_genres') {
         try {
-            // Fetch L1 and L2 combinations
-            const { results: categories } = await env.DB.prepare('SELECT DISTINCT l1, l2 FROM categories WHERE l1 IS NOT NULL AND l2 IS NOT NULL').all();
+            const typeParam = url.searchParams.get('type') || 'shop'; // Default to shop
+
+            // Fetch L1 and L2 combinations filtered by form_type
+            const { results: categories } = await env.DB.prepare(
+                'SELECT DISTINCT l1, l2 FROM categories WHERE l1 IS NOT NULL AND l2 IS NOT NULL AND form_type = ?'
+            ).bind(typeParam).all();
 
             const items = {};
             categories.forEach(row => {
