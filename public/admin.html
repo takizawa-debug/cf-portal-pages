@@ -219,6 +219,9 @@
             <button class="nav-item-custom d-none" id="navInquiryMgt" onclick="switchMainPanel('inquiry-panel', this)">
                 <i class="fa-solid fa-envelope"></i> <span data-i18n="menu_inquiries">お問い合わせ一覧</span>
             </button>
+            <button class="nav-item-custom d-none" id="navMediaMgt" onclick="switchMainPanel('media-panel', this)">
+                <i class="fa-solid fa-images"></i> <span data-i18n="menu_media">メディア管理</span>
+            </button>
         </aside>
 
         <!-- Content Area -->
@@ -460,6 +463,26 @@
                 </div>
             </div>
 
+            <!-- Panel 8: Media Management -->
+            <div id="media-panel" class="panel d-none">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold m-0" style="color:var(--accent);" data-i18n="panel_media_title">メディア管理</h3>
+                    <button class="btn btn-brand fw-bold shadow-sm"
+                        onclick="document.getElementById('mediaUploadInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> <span data-i18n="btn_upload_media">アップロード</span>
+                    </button>
+                    <input type="file" id="mediaUploadInput" class="d-none" accept="image/*" multiple
+                        onchange="uploadMedia(event)">
+                </div>
+                <div class="card shadow-sm border-0 bg-transparent">
+                    <div class="card-body p-0">
+                        <div id="mediaGrid" class="row g-3">
+                            <div class="col-12 text-center text-muted py-5 bg-white rounded shadow-sm">読み込み中...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
@@ -486,6 +509,31 @@
                     <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">閉じる</button>
                     <button type="button" class="btn btn-brand fw-bold" id="previewEditBtn"><i
                             class="fa-solid fa-pen"></i> 編集する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Media Selector Modal -->
+    <div class="modal fade" id="mediaSelectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title fw-bold text-dark"><i class="fa-regular fa-images me-2 text-brand"></i>画像を選択
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <div class="row g-3" id="mediaSelectGrid">
+                        <!-- dynamic -->
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0 py-2">
+                    <span class="text-muted small me-auto">※画像をアップロードする場合は左側の「メディア管理」メニューから行ってください。</span>
+                    <button type="button" class="btn btn-secondary fw-bold shadow-sm"
+                        data-bs-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-brand fw-bold shadow-sm" onclick="fetchMedia()"><i
+                            class="fa-solid fa-rotate"></i> 更新</button>
                 </div>
             </div>
         </div>
@@ -759,13 +807,30 @@
                             <!-- Media -->
                             <div class="tab-pane fade" id="tab-media" role="tabpanel">
                                 <div class="row g-3">
-                                    <div class="col-12"><label
-                                            class="form-label text-muted fw-bold">メイン画像URL</label><input type="url"
-                                            class="form-control" id="field_image1"></div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像2
-                                            URL</label><input type="url" class="form-control" id="field_image2"></div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像3
-                                            URL</label><input type="url" class="form-control" id="field_image3"></div>
+                                    <div class="col-12"><label class="form-label text-muted fw-bold">メイン画像URL</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="field_image1">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="openMediaSelector('field_image1')"><i
+                                                    class="fa-regular fa-images"></i> 選択</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像2 URL</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="field_image2">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="openMediaSelector('field_image2')"><i
+                                                    class="fa-regular fa-images"></i> 選択</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像3 URL</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="field_image3">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="openMediaSelector('field_image3')"><i
+                                                    class="fa-regular fa-images"></i> 選択</button>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="col-12"><label class="form-label text-muted fw-bold">ホームページ
                                             URL</label><input type="url" class="form-control" id="field_homepage"></div>
@@ -1059,9 +1124,9 @@
         const i18n = {
             ja: {
                 nav_title: "りんごのまち・いいづな 管理ダッシュボード",
-                menu_content: "記事管理", menu_users: "ユーザー管理", menu_keywords: "SEOキーワード管理", menu_knowledge: "ナレッジベース管理", menu_categories: "カテゴリマスタ管理", menu_apples: "品種管理マスタ", menu_inquiries: "お問い合わせ一覧",
-                logout: "ログアウト", panel_content_title: "記事一覧", panel_users_title: "ユーザー一覧", panel_keyword_title: "SEOキーワード管理", panel_knowledge_title: "ナレッジベース",
-                btn_refresh: "更新", btn_create: "新規作成", btn_create_user: "ユーザー追加", btn_create_keyword: "キーワード追加", btn_create_knowledge: "ドキュメント追加", btn_create_category: "カテゴリ追加",
+                menu_content: "記事管理", menu_users: "ユーザー管理", menu_keywords: "SEOキーワード管理", menu_knowledge: "ナレッジベース管理", menu_categories: "カテゴリマスタ管理", menu_apples: "品種管理マスタ", menu_inquiries: "お問い合わせ一覧", menu_media: "メディア管理",
+                logout: "ログアウト", panel_content_title: "記事一覧", panel_users_title: "ユーザー一覧", panel_keyword_title: "SEOキーワード管理", panel_knowledge_title: "ナレッジベース", panel_media_title: "メディア管理",
+                btn_refresh: "更新", btn_create: "新規作成", btn_create_user: "ユーザー追加", btn_create_keyword: "キーワード追加", btn_create_knowledge: "ドキュメント追加", btn_create_category: "カテゴリ追加", btn_upload_media: "アップロード",
                 th_category: "カテゴリ", th_title: "タイトル", th_date: "登録日", th_action: "操作",
                 th_userid: "ユーザーID", th_role: "権限", th_created: "作成日",
                 th_keyword: "キーワード", th_priority: "重要度", th_doc_title: "ドキュメント名",
@@ -1069,9 +1134,9 @@
             },
             en: {
                 nav_title: "Iizuna Apple Town Admin Dashboard",
-                menu_content: "Content", menu_users: "Users", menu_keywords: "Keywords", menu_knowledge: "Knowledge Base", menu_categories: "Categories", menu_apples: "Apple Varieties", menu_inquiries: "Inquiries",
-                logout: "Logout", panel_content_title: "Content List", panel_users_title: "User List", panel_keyword_title: "Keywords", panel_knowledge_title: "Knowledge",
-                btn_refresh: "Refresh", btn_create: "Create New", btn_create_user: "Add User", btn_create_keyword: "Add Keyword", btn_create_knowledge: "Add Doc", btn_create_category: "Add Category",
+                menu_content: "Content", menu_users: "Users", menu_keywords: "Keywords", menu_knowledge: "Knowledge Base", menu_categories: "Categories", menu_apples: "Apple Varieties", menu_inquiries: "Inquiries", menu_media: "Media",
+                logout: "Logout", panel_content_title: "Content List", panel_users_title: "User List", panel_keyword_title: "Keywords", panel_knowledge_title: "Knowledge", panel_media_title: "Media Library",
+                btn_refresh: "Refresh", btn_create: "Create New", btn_create_user: "Add User", btn_create_keyword: "Add Keyword", btn_create_knowledge: "Add Doc", btn_create_category: "Add Category", btn_upload_media: "Upload",
                 th_category: "Category", th_title: "Title", th_date: "Date", th_action: "Action",
                 th_userid: "User ID", th_role: "Role", th_created: "Created At",
                 th_keyword: "Keyword", th_priority: "Priority", th_doc_title: "Doc Title",
@@ -1079,9 +1144,9 @@
             },
             zh: {
                 nav_title: "飯綱町蘋果 入口網站 管理介面",
-                menu_content: "內容管理", menu_users: "用戶管理", menu_keywords: "關鍵字管理", menu_knowledge: "知識庫管理", menu_categories: "類別管理", menu_apples: "蘋果品種管理", menu_inquiries: "諮詢列表",
-                logout: "登出", panel_content_title: "文章列表", panel_users_title: "用戶列表", panel_keyword_title: "關鍵字管理", panel_knowledge_title: "知識庫",
-                btn_refresh: "更新", btn_create: "建立內容", btn_create_user: "新增用戶", btn_create_keyword: "添加關鍵字", btn_create_knowledge: "上傳文檔", btn_create_category: "新增類別",
+                menu_content: "內容管理", menu_users: "用戶管理", menu_keywords: "關鍵字管理", menu_knowledge: "知識庫管理", menu_categories: "類別管理", menu_apples: "蘋果品種管理", menu_inquiries: "諮詢列表", menu_media: "媒體管理",
+                logout: "登出", panel_content_title: "文章列表", panel_users_title: "用戶列表", panel_keyword_title: "關鍵字管理", panel_knowledge_title: "知識庫", panel_media_title: "媒體管理",
+                btn_refresh: "更新", btn_create: "建立內容", btn_create_user: "新增用戶", btn_create_keyword: "添加關鍵字", btn_create_knowledge: "上傳文檔", btn_create_category: "新增類別", btn_upload_media: "上傳",
                 th_category: "類別", th_title: "標題", th_date: "註冊日期", th_action: "操作",
                 th_userid: "用戶 ID", th_role: "權限", th_created: "創建日期",
                 th_keyword: "關鍵字", th_priority: "重要度", th_doc_title: "文件標題",
@@ -1115,6 +1180,7 @@
             if (m5) categoryModal = new bootstrap.Modal(m5);
             const m6 = document.getElementById('inquiryDetailModal');
             if (m6) inquiryDetailModal = new bootstrap.Modal(m6);
+            let mediaModalInstance = null; // Media Modal is lazy-loaded
             // Modal lazy load for apples is handled inside openAppleEditor
 
             // Admin features
@@ -1126,6 +1192,7 @@
                 document.getElementById('navCategoryMgt').classList.remove('d-none');
                 document.getElementById('navAppleMgt').classList.remove('d-none');
                 document.getElementById('navInquiryMgt').classList.remove('d-none');
+                document.getElementById('navMediaMgt').classList.remove('d-none');
                 fetchUsers();
                 fetchKeywords();
                 fetchKnowledge();
@@ -1156,12 +1223,22 @@
                     document.getElementById('navCategoryMgt').classList.remove('d-none');
                     document.getElementById('navAppleMgt').classList.remove('d-none');
                     document.getElementById('navInquiryMgt').classList.remove('d-none');
+                    document.getElementById('navMediaMgt').classList.remove('d-none');
                 } else if (data.user.role === 'editor') {
                     document.getElementById('navKeywordMgt').classList.remove('d-none');
                     document.getElementById('navKnowledgeMgt').classList.remove('d-none');
                     document.getElementById('navCategoryMgt').classList.remove('d-none');
+                    document.getElementById('navAppleMgt').classList.remove('d-none');
                     document.getElementById('navInquiryMgt').classList.remove('d-none');
+                    document.getElementById('navMediaMgt').classList.remove('d-none');
+                    fetchKeywords();
+                    fetchCategoriesMaster();
+                    fetchApplesMaster();
+                    fetchInquiries();
                 }
+
+                // Initial fetch
+                fetchMedia();
                 fetchCategoriesMaster();
                 fetchContent();
             } catch (e) { window.location.href = '/login.html'; }
@@ -1186,6 +1263,7 @@
             else if (panelId === 'category-panel') fetchCategoriesMaster();
             else if (panelId === 'apple-panel') fetchApplesMaster();
             else if (panelId === 'inquiry-panel') fetchInquiries();
+            else if (panelId === 'media-panel') fetchMedia();
             else fetchContent();
         }
 
@@ -2361,6 +2439,160 @@
             tbody.innerHTML = html;
             const modal = new bootstrap.Modal(document.getElementById('inquiryDetailModal'));
             modal.show();
+        }
+
+        // ==========================================
+        //  Media Management & Picker
+        // ==========================================
+        let mediaCache = [];
+        let curMediaTargetId = null;
+
+        async function fetchMedia() {
+            setLoading('mediaGrid', 6);
+            if (document.getElementById('mediaSelectGrid')) {
+                setLoading('mediaSelectGrid', 4);
+            }
+            try {
+                const res = await apiFetch('/api/media');
+                mediaCache = res;
+                renderMediaGrid();
+            } catch (err) {
+                console.error("Media Error:", err);
+                showStatus("メディアの取得に失敗しました", "error");
+            }
+        }
+
+        function renderMediaGrid() {
+            const grid1 = document.getElementById('mediaGrid');
+            const grid2 = document.getElementById('mediaSelectGrid');
+            let html = '';
+
+            if (!mediaCache.length) {
+                html = '<div class="col-12 text-center text-muted py-5"><i class="fa-regular fa-image display-4 mb-3 d-block opacity-25"></i>画像がありません。アップロードしてください。</div>';
+            } else {
+                mediaCache.forEach(m => {
+                    const isImg = m.url.match(/\.(jpeg|jpg|gif|png|webp|svg)$/i) != null;
+                    const date = new Date(m.uploaded).toLocaleString('ja-JP');
+                    const size = (m.size / 1024).toFixed(1) + ' KB';
+
+                    html += `
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="card h-100 border shadow-sm border-0 bg-white">
+                                <div class="bg-light rounded-top d-flex align-items-center justify-content-center overflow-hidden" style="height: 120px; position:relative;">
+                                    ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover">` : `<i class="fa-solid fa-file fa-3x text-muted"></i>`}
+                                </div>
+                                <div class="card-body p-2" style="font-size: 0.8rem;">
+                                    <div class="text-truncate fw-bold text-dark" title="${m.key.replace('library/', '')}">${m.key.split('/').pop()}</div>
+                                    <div class="text-muted d-flex justify-content-between mt-1" style="font-size: 0.75rem;"><span>${size}</span> <span>${date.split(' ')[0]}</span></div>
+                                </div>
+                                <div class="card-footer p-2 bg-white border-top-0 d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-brand flex-fill fw-bold" onclick="copyMediaUrl('${m.url}')" title="URLをコピー"><i class="fa-regular fa-copy"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger flex-fill fw-bold" onclick="deleteMedia('${m.key}')" title="削除"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            if (grid1) grid1.innerHTML = html;
+
+            // Picker Grid Logic
+            if (grid2) {
+                if (!mediaCache.length) {
+                    grid2.innerHTML = html;
+                } else {
+                    let pickerHtml = '';
+                    mediaCache.forEach(m => {
+                        const isImg = m.url.match(/\.(jpeg|jpg|gif|png|webp|svg)$/i) != null;
+                        pickerHtml += `
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                                <div class="card h-100 border shadow-sm border-0 media-picker-card" style="cursor:pointer;" onclick="selectMediaUrl('${m.url}')">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center overflow-hidden" style="height: 140px; position:relative;">
+                                        ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover hover-zoom">` : `<i class="fa-solid fa-file fa-3x text-muted"></i>`}
+                                        <div class="position-absolute bottom-0 w-100 p-2 text-white bg-dark bg-opacity-75 text-truncate small">${m.key.split('/').pop()}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    grid2.innerHTML = pickerHtml;
+                    if (!document.getElementById('mediaSelectStyle')) {
+                        const mStyle = document.createElement('style');
+                        mStyle.id = 'mediaSelectStyle';
+                        mStyle.innerHTML = `
+                            .media-picker-card:hover { border: 2px solid var(--accent) !important; transform: translateY(-2px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;}
+                            .hover-zoom { transition: transform 0.3s; }
+                            .media-picker-card:hover .hover-zoom { transform: scale(1.05); }
+                        `;
+                        document.head.appendChild(mStyle);
+                    }
+                }
+            }
+        }
+
+        async function uploadMedia(evt) {
+            const files = evt.target.files;
+            if (!files || files.length === 0) return;
+            showStatus("アップロード中...", "info");
+
+            let failures = 0;
+            const btn = evt.target.previousElementSibling;
+            if (btn) btn.disabled = true;
+
+            for (let i = 0; i < files.length; i++) {
+                const formData = new FormData();
+                formData.append('file', files[i]);
+                try {
+                    await apiFetch('/api/media', { method: 'POST', body: formData }, true);
+                } catch (e) { failures++; }
+            }
+            evt.target.value = ''; // reset
+            if (btn) btn.disabled = false;
+
+            if (failures > 0) showStatus(failures + "件のアップロードに失敗しました", "error");
+            else showStatus("画像がアップロードされました", "success");
+
+            fetchMedia();
+        }
+
+        async function deleteMedia(key) {
+            if (!confirm("本当にこの画像を削除しますか？\n※既に記事で使われている場合、画像が表示されなくなります！")) return;
+            try {
+                await apiFetch('/api/media', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key })
+                });
+                showStatus("削除しました", "success");
+                fetchMedia();
+            } catch (err) {
+                showStatus(err.message, "error");
+            }
+        }
+
+        function copyMediaUrl(url) {
+            const loc = window.location.origin + url;
+            navigator.clipboard.writeText(loc);
+            showStatus("URLをコピーしました", "success");
+        }
+
+        function openMediaSelector(targetElementId) {
+            curMediaTargetId = targetElementId;
+            let mModal = bootstrap.Modal.getInstance(document.getElementById('mediaSelectModal'));
+            if (!mModal) mModal = new bootstrap.Modal(document.getElementById('mediaSelectModal'));
+            mModal.show();
+        }
+
+        function selectMediaUrl(url) {
+            if (curMediaTargetId) {
+                const el = document.getElementById(curMediaTargetId);
+                if (el) {
+                    el.value = window.location.origin + url;
+                }
+            }
+            let mModal = bootstrap.Modal.getInstance(document.getElementById('mediaSelectModal'));
+            if (mModal) mModal.hide();
         }
 
     </script>
