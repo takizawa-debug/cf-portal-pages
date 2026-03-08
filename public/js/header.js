@@ -251,8 +251,8 @@
           if (l2Data.length > 0) {
             area.innerHTML = links;
             arrow.onclick = (e) => { e.preventDefault(); dwGroups[i].classList.toggle('is-active'); arrow.style.transform = dwGroups[i].classList.contains('is-active') ? 'rotate(180deg)' : 'rotate(0)'; };
-            link.onclick = (e) => { if (!dwGroups[i].classList.contains('is-active')) arrow.click(); else closeDrawer(); };
-          } else { area.innerHTML = ''; if (arrow) arrow.style.display = 'none'; link.onclick = closeDrawer; }
+            link.onclick = (e) => { if (!dwGroups[i].classList.contains('is-active')) arrow.click(); else window.closeDrawer(); };
+          } else { area.innerHTML = ''; if (arrow) arrow.style.display = 'none'; link.onclick = window.closeDrawer; }
         }
       });
     }

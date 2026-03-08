@@ -21,19 +21,19 @@ window.LZ_CONFIG = {
   // ④ ナビゲーション設定
   MENU_ORDER: ["知る", "味わう", "体験する", "暮らす", "営む"],
   MENU_URL: {
-    "知る": "https://appletown-iizuna.com/discover",
-    "味わう": "https://appletown-iizuna.com/savor",
-    "体験する": "https://appletown-iizuna.com/experience",
-    "暮らす": "https://appletown-iizuna.com/lifestyle",
-    "営む": "https://appletown-iizuna.com/business"
+    "知る": "/discover",
+    "味わう": "/savor",
+    "体験する": "/experience",
+    "暮らす": "/lifestyle",
+    "営む": "/business"
   },
 
   // ⑤ フッター用設定
   FOOTER_LINKS: [
-    { label: "お問い合わせ", url: "https://appletown-iizuna.com/contact" },
-    { label: "サイトマップ", url: "https://appletown-iizuna.com/site-map" },
-    { label: "サイトポリシー", url: "https://appletown-iizuna.com/site-policy" },
-    { label: "個人情報保護方針", url: "https://appletown-iizuna.com/privacy-policy" }
+    { label: "お問い合わせ", url: "/contact" },
+    { label: "サイトマップ", url: "/site-map" },
+    { label: "サイトポリシー", url: "/site-policy" },
+    { label: "個人情報保護方針", url: "/privacy-policy" }
   ],
   COPYRIGHT: "© 2026 Iizuna Town All Rights Reserved.",
 
