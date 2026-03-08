@@ -44,21 +44,252 @@
 
 <body>
 
-    <!-- Static Page Content -->
-    <div class="content-wrap" style="margin-top: 120px; margin-bottom: 60px;">
-        <h2 style="text-align: center; color: #cf3a3a; font-size: 2rem; margin-bottom: 40px;">Title Placeholder</h2>
-        
-    <div class="content-wrap" style="margin-top: 60px; margin-bottom: 60px;">
+    <!-- 1. Slideshow -->
+    <style>
+        /* 1枚画像バグ修正 & デザイン調整 */
+        #lz-slideshow-app .lz-ss-item:nth-child(2):last-child {
+            animation: none !important;
+            opacity: 1 !important;
+        }
 
-        <!-- Savor (味わう) -->
-        <div class="lz-container" data-l1="味わう"></div>
+        #lz-slideshow-app .lz-ss-text {
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
 
-        <!-- Experience (体験する) -->
-        <div class="lz-container" data-l1="体験する"></div>
-
-        <!-- Manage (営む) -->
-        <div class="lz-container" data-l1="営む"></div>
+    <div id="lz-slideshow-app" data-text-ja="サイトポリシー" data-text-en="SITE POLICY" data-text-zh="網站政策"
+        data-images='["https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/d3038120-8d6a-013e-c3c9-0a58a9feac02/%E5%87%9B%E5%A4%8F2.jpg"]'>
     </div>
+
+
+    <!-- 2. Content: Site Policy -->
+    <style>
+        /* ? 全体的なフォントサイズを一回り大きく調整 */
+        .lz-multi-content {
+            display: none;
+            padding: 60px 24px;
+            max-width: 1000px;
+            /* 横幅も少し拡大 */
+            margin: 0 auto;
+            line-height: 1.9;
+            /* 行間も少し広げて読みやすく */
+            color: #333;
+            font-family: var(--font-base, sans-serif);
+        }
+
+        /* ? 見出しサイズを拡大 (1.6rem -> 1.9rem) */
+        .lz-multi-content h3 {
+            font-size: 1.9rem;
+            color: #5b3a1e;
+            border-bottom: 3px solid #cf3a3a;
+            padding-bottom: 10px;
+            margin: 50px 0 25px;
+            font-weight: 800;
+        }
+
+        /* ? 本文サイズを拡大 (1.1rem -> 1.25rem) */
+        .lz-multi-content p,
+        .lz-multi-content li {
+            margin-bottom: 1.4em;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        /* ? 日付・運営者情報のサイズ拡大 */
+        .lz-multi-content .info-meta {
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+        }
+
+        .lz-multi-content .date {
+            text-align: right;
+            color: #999;
+        }
+
+        .lz-multi-content ul {
+            padding-left: 24px;
+            margin-bottom: 2em;
+        }
+
+        .lz-multi-content li {
+            margin-bottom: 0.8em;
+        }
+
+        .lz-multi-content strong {
+            color: #cf3a3a;
+            font-weight: 700;
+        }
+
+        @media (max-width: 600px) {
+            .lz-multi-content h3 {
+                font-size: 1.6rem;
+            }
+
+            .lz-multi-content p,
+            .lz-multi-content li {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+
+    <div id="lzPolicyApp">
+        <div class="lz-multi-content" data-lz-lang="ja">
+            <div class="info-meta">
+                <div class="date">最終改定日：2025年10月20日</div>
+                <p>運営者：いいづなりんごPR事業（以下「本事業」）</p>
+            </div>
+
+            <h3>1. 適用範囲</h3>
+            <p>本サイト（以下「本サイト」）の利用に関して定める条件です。利用者は、本サイトを利用することで本ポリシーに同意したものとみなします。</p>
+
+            <h3>2. 著作権・商標</h3>
+            <p>本サイトに掲載する文章、画像、動画、デザイン、データ、プログラム等の著作権・その他知的財産権は、本事業または正当な権利者に帰属します。私的使用の範囲を超える複製・改変・転載・頒布・公衆送信等を禁止します（第3条の「シェア・印刷機能」に定める範囲を除く）。
+            </p>
+
+            <h3>3. シェア・印刷機能の利用条件</h3>
+            <p>本サイトには掲載コンテンツのシェア（SNS・メッセージ等）や印刷を行える機能があります。これらは「いいづなりんごのPRおよび情報発信」を目的とする場合に限り利用可能です。</p>
+            <p>利用の際は、本事業における発信物である旨を明記してください：<br>
+                <strong>記載例：</strong>「本コンテンツは『いいづなりんごPR事業』の発信物です。」<br>
+                <strong>英語例：</strong>“This post is part of the Iizuna Apple PR Project.”
+            </p>
+            <p>印刷物・SNS投稿ともに、出所が本事業であること、内容を改変していないことが分かる形で表示してください。営利目的の二次配布・素材転用・ロゴ等の流用は不可です。</p>
+
+            <h3>4. 免責事項</h3>
+            <p>掲載情報の正確性・最新性の確保に努めますが、内容の完全性を保証するものではありません。本サイトの利用、または利用不能により利用者に生じたいかなる損害についても、本事業は責任を負いません。</p>
+
+            <h3>5. 外部リンク</h3>
+            <p>本サイトは第三者サイトへのリンクを含む場合があります。リンク先の内容や安全性、個人情報の取扱いについて本事業は責任を負いません。各サイトのポリシーをご確認ください。</p>
+
+            <h3>6. 推奨環境・技術要件</h3>
+            <p>最新の主要ブラウザでの閲覧を推奨します。JavaScriptやCookie、画像の表示を有効にしてご利用ください。</p>
+
+            <h3>7. セキュリティ</h3>
+            <p>本サイトは必要に応じて通信の暗号化等の安全管理措置を講じますが、完全な安全を保証するものではありません。</p>
+
+            <h3>8. 禁止事項</h3>
+            <ul>
+                <li>(1) 法令または公序良俗に反する行為</li>
+                <li>(2) 本事業、他者の権利・名誉・信用を侵害する行為</li>
+                <li>(3) 本サイトの運営を妨げる行為</li>
+                <li>(4) 不正アクセス、スクレイピングによる大量取得</li>
+                <li>(5) 第3条の条件に反するシェア・印刷・二次利用</li>
+            </ul>
+
+            <h3>9. ポリシーの変更</h3>
+            <p>本ポリシーは予告なく変更する場合があります。変更後の内容は本サイトに掲載した時点で効力を生じます。</p>
+
+            <h3>10. 準拠法・裁判管轄</h3>
+            <p>本ポリシーは日本法に準拠します。本サイトに関して紛争が生じた場合、長野地方裁判所を第一審の専属的合意管轄裁判所とします。</p>
+        </div>
+
+        <div class="lz-multi-content" data-lz-lang="en">
+            <div class="info-meta">
+                <div class="date">Last Updated: October 20, 2025</div>
+                <p>Operator: Iizuna Apple PR Project ("the Project")</p>
+            </div>
+
+            <h3>1. Scope</h3>
+            <p>These terms and conditions govern the use of this website. By using this site, users are deemed to have
+                agreed to this policy.</p>
+
+            <h3>2. Copyright and Trademarks</h3>
+            <p>Copyrights and other intellectual property rights for text, images, videos, designs, data, programs,
+                etc., published on this site belong to the Project or legitimate right holders. Reproduction,
+                modification, reprinting, distribution, or public transmission beyond the scope of private use is
+                prohibited (except as specified in Section 3).</p>
+
+            <h3>3. Terms for Share and Print</h3>
+            <p>This site includes functions for sharing and printing content. These are available only for the purpose
+                of "PR and information dissemination for Iizuna Apples."</p>
+            <p>When using these functions, please clearly state that the content is from the Project:<br>
+                <strong>Example:</strong> "This content is part of the Iizuna Apple PR Project."
+            </p>
+            <p>Secondary distribution for commercial purposes is prohibited.</p>
+
+            <h3>4. Disclaimer</h3>
+            <p>While we strive for accuracy, we do not guarantee completeness. The Project is not liable for any damages
+                arising from the use of this site.</p>
+
+            <h3>5. External Links</h3>
+            <p>This site may contain links to third-party sites. The Project is not responsible for the content, safety,
+                or privacy practices of these sites.</p>
+
+            <h3>6. Technical Requirements</h3>
+            <p>Viewing on the latest versions of major browsers is recommended with JavaScript, Cookies, and image
+                display enabled.</p>
+
+            <h3>7. Security</h3>
+            <p>The Project implements security measures such as encryption, but total safety cannot be guaranteed.</p>
+
+            <h3>8. Prohibitions</h3>
+            <p>Illegal acts, infringement of rights, interference with site operations, and unauthorized data scraping
+                are strictly prohibited.</p>
+
+            <h3>9. Changes to Policy</h3>
+            <p>This policy may change without notice, effective immediately upon posting on the site.</p>
+
+            <h3>10. Governing Law</h3>
+            <p>Governed by Japanese law. Any disputes shall be subject to the exclusive jurisdiction of the Nagano
+                District Court.</p>
+        </div>
+
+        <div class="lz-multi-content" data-lz-lang="zh">
+            <div class="info-meta">
+                <div class="date">最後修訂日期：2025年10月20日</div>
+                <p>營運單位：飯綱町蘋果公關事業（以下簡稱「本事業」）</p>
+            </div>
+
+            <h3>1. 適用範圍</h3>
+            <p>關於本網站（以下簡稱「本網站」）利用之相關條款。利用本網站即視為使用者同意本政策。</p>
+
+            <h3>2. 著作權與商標</h3>
+            <p>本網站刊載之文章、圖像、影片、設計、數據及程式等著作權歸屬本事業或正當權利人。除個人利用外，禁止未經授權之複製、轉載或散佈。</p>
+
+            <h3>3. 分享與列印功能的利用條件</h3>
+            <p>本網站設有分享及列印功能。這些功能僅限用於「飯綱町蘋果的公關及資訊發佈」。</p>
+            <p>利用時請註明來源：「本內容由『飯綱町蘋果公關事業』發佈。」</p>
+            <p>禁止營利目的之二次分發、素材轉用或商標流用。</p>
+
+            <h3>4. 免責事項</h3>
+            <p>我們致力於確保資訊準確，但不保證其完整性。本事業對因利用本網站所生之損害概不負責。</p>
+
+            <h3>5. 外部連結</h3>
+            <p>本事業對第三方網站之內容、安全性或隱私處理概不負責。請確認各網站之政策。</p>
+
+            <h3>6. 技術要求</h3>
+            <p>建議使用最新版本的主流瀏覽器，並開啟 JavaScript、Cookie 與圖像顯示。</p>
+
+            <h3>7. 資訊安全</h3>
+            <p>本網站採取加密等安全措施，但無法保證絕對安全。</p>
+
+            <h3>8. 禁止事項</h3>
+            <p>禁止法令違法行為、侵害他人權利、干擾網站營運及未經授權之數據爬取。</p>
+
+            <h3>9. 政策變更</h3>
+            <p>本政策可能未經預告進行變更，自發佈於網站時起生效。</p>
+
+            <h3>10. 準據法與管轄權</h3>
+            <p>本政策準據日本法。若有爭議，以長野地方裁判所為第一審專屬合意管轄法院。</p>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            function switchPolicy() {
+                // common.js の設定読み込みを待機
+                if (!window.LZ_COMMON || !window.LZ_CURRENT_LANG) return setTimeout(switchPolicy, 50);
+
+                const lang = window.LZ_CURRENT_LANG;
+                const contents = document.querySelectorAll('#lzPolicyApp .lz-multi-content');
+
+                contents.forEach(el => {
+                    el.style.display = (el.dataset.lzLang === lang) ? 'block' : 'none';
+                });
+            }
+            switchPolicy();
+        })();
+    </script>
 
 
     <!-- Base UI Components -->
