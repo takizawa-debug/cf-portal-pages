@@ -267,100 +267,264 @@
                         <div class="alert alert-info py-2 small"><i class="fa-solid fa-circle-info"></i>
                             ※ここで登録した情報は、お店や農家としての紹介ページなどに反映される基本情報となります。ニュースやイベントの発信は別途「記事管理」から行ってください。</div>
 
-                        <div class="row g-3 mt-2">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label text-muted fw-bold">事業者のカテゴリ</label>
-                                <select class="form-select" id="page_biz_b_type" onchange="togglePageBizFormType()">
-                                    <option value="">（選択しない）</option>
-                                    <option value="shop">お店として</option>
-                                    <option value="farmer">生産者・農家として</option>
-                                </select>
+                        <div class="row g-4 mt-2">
+                            <!-- Type Selection -->
+                            <div class="col-12 border-bottom pb-3">
+                                <label class="form-label text-brand fw-bold fs-5 mb-3"><i
+                                        class="fa-solid fa-check-square"></i> 登録内容の選択 (複数選択可)</label>
+                                <div class="d-flex gap-4">
+                                    <div class="form-check fs-5">
+                                        <input class="form-check-input" type="checkbox" id="page_biz_type_shop"
+                                            onchange="togglePageBizFormType()">
+                                        <label class="form-check-label fw-bold"
+                                            for="page_biz_type_shop">お店・施設として登録する</label>
+                                    </div>
+                                    <div class="form-check fs-5">
+                                        <input class="form-check-input" type="checkbox" id="page_biz_type_farmer"
+                                            onchange="togglePageBizFormType()">
+                                        <label class="form-check-label fw-bold"
+                                            for="page_biz_type_farmer">生産者・農家として登録する</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Basic Info (General) -->
+                            <div class="col-12">
+                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-circle-info"></i> 基本情報</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <label class="form-label text-muted fw-bold">概要（100文字以内で内容を一言で）</label>
+                                        <input type="text" class="form-control" id="page_biz_summary"
+                                            placeholder="例：飯綱町で採れた新鮮な野菜を使ったレストランです。">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label text-muted fw-bold">詳細本文（詳しい内容・紹介）</label>
+                                        <textarea class="form-control" id="page_biz_description" rows="5"></textarea>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Shop Block -->
                             <div class="col-12 d-none" id="page-biz-shop-block">
-                                <h6 class="fw-bold border-bottom pb-2 mt-2 text-muted">お店としての詳細情報</h6>
-                                <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">営業形式</label>
-                                        <select class="form-select" id="page_biz_shop_mode">
-                                            <option value="simple">通常営業（曜日や時間が定まっている）</option>
-                                            <option value="custom">その都度異なるスケジュール</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">休業日の傾向</label>
-                                        <select class="form-select" id="page_biz_shop_holiday_type">
-                                            <option value="">指定なし</option>
-                                            <option value="follow_regular">定休日に準ずる</option>
-                                            <option value="always_open">年中無休</option>
-                                            <option value="always_closed">当面の間休業</option>
-                                            <option value="irregular">不定休</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12"><label
-                                            class="form-label text-muted fw-bold">お店の案内・付帯設備など特記事項</label>
-                                        <textarea class="form-control" id="page_biz_shop_notes" rows="3"
-                                            placeholder="例：駐車場あり、バリアフリー対応、ペット同伴不可など"></textarea>
+                                <div class="p-3 bg-light rounded border border-secondary mb-3">
+                                    <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-store"></i> お店・施設としての情報
+                                    </h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted fw-bold">店名・施設名（お店の屋号）</label>
+                                            <input type="text" class="form-control" id="page_biz_shop_name"
+                                                placeholder="例：カフェいいづな">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted fw-bold">お店のカテゴリ</label>
+                                            <select class="form-select" id="page_biz_shop_category">
+                                                <option value="">選択してください</option>
+                                                <option value="food">飲食</option>
+                                                <option value="shopping">買い物</option>
+                                                <option value="stay">宿泊</option>
+                                                <option value="tourism">観光</option>
+                                                <option value="consult">相談</option>
+                                                <option value="industry">産業</option>
+                                                <option value="life">暮らし</option>
+                                                <option value="other">その他</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6"><label class="form-label text-muted fw-bold">営業形式</label>
+                                            <select class="form-select" id="page_biz_shop_mode">
+                                                <option value="simple">通常営業（曜日や時間が定まっている）</option>
+                                                <option value="custom">その都度異なるスケジュール</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6"><label
+                                                class="form-label text-muted fw-bold">休業日の傾向</label>
+                                            <select class="form-select" id="page_biz_shop_holiday_type">
+                                                <option value="">指定なし</option>
+                                                <option value="follow_regular">定休日に準ずる</option>
+                                                <option value="always_open">年中無休</option>
+                                                <option value="always_closed">当面の間休業</option>
+                                                <option value="irregular">不定休</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12"><label
+                                                class="form-label text-muted fw-bold">お店の案内・付帯設備など特記事項</label>
+                                            <textarea class="form-control" id="page_biz_shop_notes" rows="2"
+                                                placeholder="例：駐車場あり、バリアフリー対応、ペット同伴不可など"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Farmer Block -->
                             <div class="col-12 d-none" id="page-biz-farmer-block">
-                                <h6 class="fw-bold border-bottom pb-2 mt-2 text-muted">生産者・農家としての詳細情報</h6>
-                                <div class="row g-3">
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">主な栽培品目</label><input type="text"
-                                            class="form-control" id="page_biz_pr_variety" placeholder="例：ふじ、シナノスイートなど">
-                                    </div>
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">主な加工品目</label><input type="text"
-                                            class="form-control" id="page_biz_pr_product" placeholder="例：りんごジュース、ジャム">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold">栽培面積</label>
-                                        <div class="input-group">
-                                            <input type="number" class="form-control" id="page_biz_pr_area"
-                                                placeholder="数字">
-                                            <select class="form-select" id="page_biz_pr_area_unit"
-                                                style="max-width:30%;">
-                                                <option value="a">a (アール)</option>
-                                                <option value="ha">ha (ヘクタール)</option>
-                                                <option value="反">反</option>
-                                                <option value="町">町</option>
+                                <div class="p-3 bg-light rounded border mb-3" style="border-color:#10b981!important;">
+                                    <h5 class="fw-bold mb-3" style="color:#10b981;"><i class="fa-solid fa-leaf"></i>
+                                        生産者・農家としての情報</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted fw-bold">農園名・生産者名（農家としての屋号）</label>
+                                            <input type="text" class="form-control" id="page_biz_farmer_name"
+                                                placeholder="例：いいづな農園">
+                                        </div>
+                                        <div class="col-md-6"><label
+                                                class="form-label text-muted fw-bold">代表者名</label><input type="text"
+                                                class="form-control" id="page_biz_pr_rep_name"></div>
+
+                                        <div class="col-md-6"><label
+                                                class="form-label text-muted fw-bold">主な栽培品目</label><input type="text"
+                                                class="form-control" id="page_biz_pr_variety"
+                                                placeholder="例：ふじ、シナノスイートなど"></div>
+                                        <div class="col-md-6"><label
+                                                class="form-label text-muted fw-bold">主な加工品目</label><input type="text"
+                                                class="form-control" id="page_biz_pr_product"
+                                                placeholder="例：りんごジュース、ジャム"></div>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted fw-bold">栽培面積</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="page_biz_pr_area"
+                                                    placeholder="数字">
+                                                <select class="form-select" id="page_biz_pr_area_unit"
+                                                    style="max-width:40%;">
+                                                    <option value="a">a (アール)</option>
+                                                    <option value="ha">ha (ヘクタール)</option>
+                                                    <option value="反">反</option>
+                                                    <option value="町">町</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"><label
+                                                class="form-label text-muted fw-bold">その他の取扱い農産物</label><input
+                                                type="text" class="form-control" id="page_biz_pr_other_crops"
+                                                placeholder="例：米、そば、野菜全般など"></div>
+
+                                        <div class="col-md-4"><label class="form-label text-muted fw-bold">経営形態</label>
+                                            <select class="form-select" id="page_biz_pr_ent_type">
+                                                <option value="individual">個人農家等</option>
+                                                <option value="corp">農業法人等</option>
                                             </select>
                                         </div>
+                                        <div class="col-md-4"><label
+                                                class="form-label text-muted fw-bold">従業員数</label><input type="number"
+                                                class="form-control" id="page_biz_pr_staff"></div>
+                                        <div class="col-md-4"><label class="form-label text-muted fw-bold">インボイス対応 /
+                                                登録番号</label>
+                                            <input type="text" class="form-control" id="page_biz_pr_invoice_num"
+                                                placeholder="T1234...">
+                                        </div>
                                     </div>
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">従業員数</label><input type="number"
-                                            class="form-control" id="page_biz_pr_staff"></div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">経営形態</label>
-                                        <select class="form-select" id="page_biz_pr_ent_type">
-                                            <option value="individual">個人農家等</option>
-                                            <option value="corp">農業法人等</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">代表者名</label><input type="text"
-                                            class="form-control" id="page_biz_pr_rep_name"></div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">インボイス対応</label>
-                                        <select class="form-select" id="page_biz_pr_invoice">
-                                            <option value="no">未対応 / 記載しない</option>
-                                            <option value="yes">対応している</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">インボイス登録番号</label><input type="text"
-                                            class="form-control" id="page_biz_pr_invoice_num"></div>
-                                    <div class="col-12"><label
-                                            class="form-label text-muted fw-bold">その他の取扱い農産物</label><input type="text"
-                                            class="form-control" id="page_biz_pr_other_crops"
-                                            placeholder="例：米、そば、野菜全般など"></div>
                                 </div>
                             </div>
 
-                            <div class="col-12 mt-4 text-end border-top pt-3">
-                                <button class="btn btn-brand fw-bold px-4" onclick="saveBusinessProfile()"><i
-                                        class="fa-solid fa-floppy-disk"></i> 保存する</button>
+                            <!-- Location Info -->
+                            <div class="col-12 mt-4">
+                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-map-location-dot"></i> 場所の情報
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted fw-bold">郵便番号</label>
+                                        <input type="text" class="form-control" id="page_biz_zip"
+                                            placeholder="例：389-1211">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <label class="form-label text-muted fw-bold">住所</label>
+                                        <input type="text" class="form-control" id="page_biz_address"
+                                            placeholder="例：長野県上水内郡飯綱町...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Operating Info -->
+                            <div class="col-12 mt-4">
+                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-clock"></i> 営業に関する情報</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-label text-muted fw-bold">営業曜日</label>
+                                        <div class="d-flex flex-wrap gap-3">
+                                            <div class="form-check"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_mon"><label class="form-check-label"
+                                                    for="page_biz_day_mon">月</label></div>
+                                            <div class="form-check"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_tue"><label class="form-check-label"
+                                                    for="page_biz_day_tue">火</label></div>
+                                            <div class="form-check"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_wed"><label class="form-check-label"
+                                                    for="page_biz_day_wed">水</label></div>
+                                            <div class="form-check"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_thu"><label class="form-check-label"
+                                                    for="page_biz_day_thu">木</label></div>
+                                            <div class="form-check"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_fri"><label class="form-check-label"
+                                                    for="page_biz_day_fri">金</label></div>
+                                            <div class="form-check"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_sat"><label class="form-check-label"
+                                                    for="page_biz_day_sat">土</label></div>
+                                            <div class="form-check"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_sun"><label class="form-check-label"
+                                                    for="page_biz_day_sun">日</label></div>
+                                            <div class="form-check ms-3"><input type="checkbox" class="form-check-input"
+                                                    id="page_biz_day_holiday"><label class="form-check-label"
+                                                    for="page_biz_day_holiday">祝日も営業</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold">標準営業時間</label>
+                                        <div class="input-group">
+                                            <input type="time" class="form-control" id="page_biz_hour_start">
+                                            <span class="input-group-text">〜</span>
+                                            <input type="time" class="form-control" id="page_biz_hour_end">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label text-muted fw-bold">営業に関する注意事項</label>
+                                        <textarea class="form-control" id="page_biz_ops_remarks" rows="2"
+                                            placeholder="例：毎月最終月曜日は定休日です。ランチは売切次第終了。"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Links & Contact -->
+                            <div class="col-12 mt-4">
+                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-link"></i> リンク・お問い合わせ先</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">公式ホームページURL</label><input type="url"
+                                            class="form-control" id="page_biz_url_home"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">オンラインショップ(EC)URL</label><input
+                                            type="url" class="form-control" id="page_biz_url_ec"></div>
+                                    <div class="col-md-3"><label class="form-label text-muted fw-bold">Instagram
+                                            URL</label><input type="url" class="form-control" id="page_biz_url_ig">
+                                    </div>
+                                    <div class="col-md-3"><label class="form-label text-muted fw-bold">Facebook
+                                            URL</label><input type="url" class="form-control" id="page_biz_url_fb">
+                                    </div>
+                                    <div class="col-md-3"><label class="form-label text-muted fw-bold">X(Twitter)
+                                            URL</label><input type="url" class="form-control" id="page_biz_url_x"></div>
+                                    <div class="col-md-3"><label class="form-label text-muted fw-bold">LINE公式
+                                            URL</label><input type="url" class="form-control" id="page_biz_url_line">
+                                    </div>
+
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">問い合わせメールアドレス</label><input
+                                            type="email" class="form-control" id="page_biz_email"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">問い合わせ電話番号</label><input type="tel"
+                                            class="form-control" id="page_biz_phone"></div>
+                                    <div class="col-12"><label
+                                            class="form-label text-muted fw-bold">問い合わせに関する注意事項</label>
+                                        <textarea class="form-control" id="page_biz_contact_remarks" rows="1"
+                                            placeholder="例：対応時間は平日10:00〜17:00です。"></textarea>
+                                    </div>
+                                    <div class="col-12"><label class="form-label text-muted fw-bold">備考（補足情報）</label>
+                                        <textarea class="form-control" id="page_biz_remarks" rows="2"
+                                            placeholder="その他補足など"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4 text-end border-top pt-4">
+                                <button class="btn btn-brand fw-bold px-4 py-2 fs-5" onclick="saveBusinessProfile()">
+                                    <i class="fa-solid fa-floppy-disk"></i> 情報を保存・公開する
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1631,11 +1795,10 @@
         let cachedBusinessId = null;
 
         function togglePageBizFormType() {
-            const el = document.getElementById('page_biz_b_type');
-            if (!el) return;
-            const type = el.value;
-            document.getElementById('page-biz-shop-block').classList.toggle('d-none', type !== 'shop');
-            document.getElementById('page-biz-farmer-block').classList.toggle('d-none', type !== 'farmer');
+            const isShop = document.getElementById('page_biz_type_shop')?.checked;
+            const isFarmer = document.getElementById('page_biz_type_farmer')?.checked;
+            document.getElementById('page-biz-shop-block').classList.toggle('d-none', !isShop);
+            document.getElementById('page-biz-farmer-block').classList.toggle('d-none', !isFarmer);
         }
 
         async function loadBusinessProfile() {
@@ -1649,14 +1812,18 @@
                 const profile = data.find(i => i.type === 'business_profile');
                 if (profile) {
                     cachedBusinessId = profile.id;
-                    const bEl = document.getElementById('page_biz_b_type');
-                    if (bEl) bEl.value = profile.business_b_type || '';
                     if (profile.business_metadata) {
                         try {
                             const bizObj = JSON.parse(profile.business_metadata);
                             for (let k in bizObj) {
                                 const el = document.getElementById('page_biz_' + k);
-                                if (el) el.value = bizObj[k];
+                                if (el) {
+                                    if (el.type === 'checkbox') {
+                                        el.checked = bizObj[k] === true || bizObj[k] === 'true';
+                                    } else {
+                                        el.value = bizObj[k];
+                                    }
+                                }
                             }
                         } catch (e) { }
                     }
@@ -1677,17 +1844,24 @@
             const bizData = {};
             document.querySelectorAll('[id^="page_biz_"]').forEach(el => {
                 const key = el.id.replace('page_biz_', '');
-                if (key === 'b_type') return;
-                if (el.value.trim() !== '') bizData[key] = el.value.trim();
+                if (el.type === 'checkbox') {
+                    bizData[key] = el.checked;
+                } else {
+                    if (el.value.trim() !== '') bizData[key] = el.value.trim();
+                }
             });
 
-            const bTypeEl = document.getElementById('page_biz_b_type');
+            // Derive overall type strictly for database or search logic (optional but useful)
+            let bType = 'none';
+            if (bizData['type_shop'] && bizData['type_farmer']) bType = 'both';
+            else if (bizData['type_shop']) bType = 'shop';
+            else if (bizData['type_farmer']) bType = 'farmer';
 
             const payload = {
                 type: 'business_profile',
                 l1: 'business_root',
                 title: document.getElementById('displayUsername').innerText + ' の事業者情報',
-                business_b_type: bTypeEl ? bTypeEl.value : null,
+                business_b_type: bType,
                 business_metadata: Object.keys(bizData).length > 0 ? JSON.stringify(bizData) : ''
             };
 
