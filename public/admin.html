@@ -1456,11 +1456,6 @@
                     document.getElementById('navAppleMgt').classList.remove('d-none');
                     document.getElementById('navInquiryMgt').classList.remove('d-none');
                     document.getElementById('navMediaMgt').classList.remove('d-none');
-                    // Contributor Specific UI for Content Editor
-                    document.getElementById('lang-tab').parentElement.style.display = 'none';
-                    document.getElementById('ai-generation-box').style.display = 'none';
-                    document.getElementById('business-tab-li').style.display = 'block';
-                    document.getElementById('field_business_metadata') || document.body.insertAdjacentHTML('beforeend', '<input type="hidden" id="field_business_metadata">');
                 } else if (data.user.role === 'editor') {
                     document.getElementById('navKeywordMgt').classList.remove('d-none');
                     document.getElementById('navKnowledgeMgt').classList.remove('d-none');
@@ -1472,6 +1467,16 @@
                     fetchCategoriesMaster();
                     fetchApplesMaster();
                     fetchInquiries();
+                } else if (data.user.role === 'contributor') {
+                    document.getElementById('navMediaMgt').classList.remove('d-none');
+                    // Contributor Specific UI for Content Editor
+                    const langTab = document.getElementById('lang-tab');
+                    if (langTab && langTab.parentElement) langTab.parentElement.style.display = 'none';
+                    const aiBox = document.getElementById('ai-generation-box');
+                    if (aiBox) aiBox.style.display = 'none';
+                    const bizTab = document.getElementById('business-tab-li');
+                    if (bizTab) bizTab.style.display = 'block';
+                    document.getElementById('field_business_metadata') || document.body.insertAdjacentHTML('beforeend', '<input type="hidden" id="field_business_metadata">');
                 }
 
                 // Initial fetch
