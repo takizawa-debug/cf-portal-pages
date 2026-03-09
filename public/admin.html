@@ -1293,11 +1293,748 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="sub_shop_name" placeholder="例：カフェいいづな">
                                 </div>
-                                <div class="col-md-6"><label class="form-label text-muted fw-bold">営業形式</label>
-                                    <select class="form-select" id="sub_shop_mode">
-                                        <option value="simple">通常営業（曜日や時間が定まっている）</option>
-                                        <option value="custom">その都度異なるスケジュール</option>
-                                    </select>
+                                <div class="col-12"><label class="form-label text-muted fw-bold mb-2">営業に関する情報</label>
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <div class="btn-group w-100" role="group">
+                                                <input type="radio" class="btn-check" name="sub_shop_mode"
+                                                    id="sub_shop_mode_simple" value="simple" checked
+                                                    onchange="document.getElementById('sub_shop_simple_pane').style.display='block'; document.getElementById('sub_shop_custom_pane').style.display='none';">
+                                                <label class="btn btn-outline-danger fw-bold"
+                                                    for="sub_shop_mode_simple">標準設定</label>
+
+                                                <input type="radio" class="btn-check" name="sub_shop_mode"
+                                                    id="sub_shop_mode_custom" value="custom"
+                                                    onchange="document.getElementById('sub_shop_simple_pane').style.display='none'; document.getElementById('sub_shop_custom_pane').style.display='block';">
+                                                <label class="btn btn-outline-danger fw-bold"
+                                                    for="sub_shop_mode_custom">曜日別設定</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <!-- Simple Mode -->
+                                            <div id="sub_shop_simple_pane">
+                                                <label class="form-label text-muted fw-bold">営業曜日</label><br>
+                                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                                    <input type="checkbox" class="btn-check" id="sub_shop_simple_day_0"
+                                                        value="月">
+                                                    <label class="btn btn-outline-secondary rounded-circle"
+                                                        style="width: 40px; height: 40px; line-height: 26px;"
+                                                        for="sub_shop_simple_day_0">月</label>
+                                                    <input type="checkbox" class="btn-check" id="sub_shop_simple_day_1"
+                                                        value="火">
+                                                    <label class="btn btn-outline-secondary rounded-circle"
+                                                        style="width: 40px; height: 40px; line-height: 26px;"
+                                                        for="sub_shop_simple_day_1">火</label>
+                                                    <input type="checkbox" class="btn-check" id="sub_shop_simple_day_2"
+                                                        value="水">
+                                                    <label class="btn btn-outline-secondary rounded-circle"
+                                                        style="width: 40px; height: 40px; line-height: 26px;"
+                                                        for="sub_shop_simple_day_2">水</label>
+                                                    <input type="checkbox" class="btn-check" id="sub_shop_simple_day_3"
+                                                        value="木">
+                                                    <label class="btn btn-outline-secondary rounded-circle"
+                                                        style="width: 40px; height: 40px; line-height: 26px;"
+                                                        for="sub_shop_simple_day_3">木</label>
+                                                    <input type="checkbox" class="btn-check" id="sub_shop_simple_day_4"
+                                                        value="金">
+                                                    <label class="btn btn-outline-secondary rounded-circle"
+                                                        style="width: 40px; height: 40px; line-height: 26px;"
+                                                        for="sub_shop_simple_day_4">金</label>
+                                                    <input type="checkbox" class="btn-check" id="sub_shop_simple_day_5"
+                                                        value="土">
+                                                    <label class="btn btn-outline-secondary rounded-circle"
+                                                        style="width: 40px; height: 40px; line-height: 26px;"
+                                                        for="sub_shop_simple_day_5">土</label>
+                                                    <input type="checkbox" class="btn-check" id="sub_shop_simple_day_6"
+                                                        value="日">
+                                                    <label class="btn btn-outline-secondary rounded-circle"
+                                                        style="width: 40px; height: 40px; line-height: 26px;"
+                                                        for="sub_shop_simple_day_6">日</label>
+                                                </div>
+                                                <label class="form-label text-muted fw-bold">標準営業時間</label>
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <span class="text-muted" style="width: 70px;">営業開始</span>
+                                                    <select class="form-select d-inline-block w-auto"
+                                                        id="sub_shop_simple_s_h">
+                                                        <option value="">時</option>
+                                                        <option value="00">0</option>
+                                                        <option value="01">1</option>
+                                                        <option value="02">2</option>
+                                                        <option value="03">3</option>
+                                                        <option value="04">4</option>
+                                                        <option value="05">5</option>
+                                                        <option value="06">6</option>
+                                                        <option value="07">7</option>
+                                                        <option value="08">8</option>
+                                                        <option value="09">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                    </select> : <select class="form-select d-inline-block w-auto"
+                                                        id="sub_shop_simple_s_m">
+                                                        <option value="">分</option>
+                                                        <option value="00">00</option>
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="30">30</option>
+                                                        <option value="40">40</option>
+                                                        <option value="50">50</option>
+                                                    </select>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="text-muted" style="width: 70px;">営業終了</span>
+                                                    <select class="form-select d-inline-block w-auto"
+                                                        id="sub_shop_simple_e_h">
+                                                        <option value="">時</option>
+                                                        <option value="00">0</option>
+                                                        <option value="01">1</option>
+                                                        <option value="02">2</option>
+                                                        <option value="03">3</option>
+                                                        <option value="04">4</option>
+                                                        <option value="05">5</option>
+                                                        <option value="06">6</option>
+                                                        <option value="07">7</option>
+                                                        <option value="08">8</option>
+                                                        <option value="09">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                    </select> : <select class="form-select d-inline-block w-auto"
+                                                        id="sub_shop_simple_e_m">
+                                                        <option value="">分</option>
+                                                        <option value="00">00</option>
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="30">30</option>
+                                                        <option value="40">40</option>
+                                                        <option value="50">50</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Custom Mode -->
+                                            <div id="sub_shop_custom_pane" style="display:none;">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered align-middle text-center mb-0">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th>曜日</th>
+                                                                <th>休業</th>
+                                                                <th>営業開始</th>
+                                                                <th>営業終了</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="sub_shop_custom_row_0">
+                                                                <td>月曜日</td>
+                                                                <td><input class="form-check-input" type="checkbox"
+                                                                        id="sub_shop_c_closed_0"
+                                                                        onchange="document.getElementById('sub_shop_custom_row_0').style.opacity = this.checked ? '0.5' : '1';">
+                                                                </td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_0_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_0_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_0_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_0_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                            </tr>
+                                                            <tr id="sub_shop_custom_row_1">
+                                                                <td>火曜日</td>
+                                                                <td><input class="form-check-input" type="checkbox"
+                                                                        id="sub_shop_c_closed_1"
+                                                                        onchange="document.getElementById('sub_shop_custom_row_1').style.opacity = this.checked ? '0.5' : '1';">
+                                                                </td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_1_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_1_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_1_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_1_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                            </tr>
+                                                            <tr id="sub_shop_custom_row_2">
+                                                                <td>水曜日</td>
+                                                                <td><input class="form-check-input" type="checkbox"
+                                                                        id="sub_shop_c_closed_2"
+                                                                        onchange="document.getElementById('sub_shop_custom_row_2').style.opacity = this.checked ? '0.5' : '1';">
+                                                                </td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_2_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_2_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_2_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_2_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                            </tr>
+                                                            <tr id="sub_shop_custom_row_3">
+                                                                <td>木曜日</td>
+                                                                <td><input class="form-check-input" type="checkbox"
+                                                                        id="sub_shop_c_closed_3"
+                                                                        onchange="document.getElementById('sub_shop_custom_row_3').style.opacity = this.checked ? '0.5' : '1';">
+                                                                </td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_3_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_3_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_3_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_3_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                            </tr>
+                                                            <tr id="sub_shop_custom_row_4">
+                                                                <td>金曜日</td>
+                                                                <td><input class="form-check-input" type="checkbox"
+                                                                        id="sub_shop_c_closed_4"
+                                                                        onchange="document.getElementById('sub_shop_custom_row_4').style.opacity = this.checked ? '0.5' : '1';">
+                                                                </td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_4_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_4_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_4_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_4_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                            </tr>
+                                                            <tr id="sub_shop_custom_row_5">
+                                                                <td>土曜日</td>
+                                                                <td><input class="form-check-input" type="checkbox"
+                                                                        id="sub_shop_c_closed_5"
+                                                                        onchange="document.getElementById('sub_shop_custom_row_5').style.opacity = this.checked ? '0.5' : '1';">
+                                                                </td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_5_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_5_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_5_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_5_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                            </tr>
+                                                            <tr id="sub_shop_custom_row_6">
+                                                                <td>日曜日</td>
+                                                                <td><input class="form-check-input" type="checkbox"
+                                                                        id="sub_shop_c_closed_6"
+                                                                        onchange="document.getElementById('sub_shop_custom_row_6').style.opacity = this.checked ? '0.5' : '1';">
+                                                                </td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_6_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_s_6_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                                <td><select class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_6_h">
+                                                                        <option value="">時</option>
+                                                                        <option value="00">0</option>
+                                                                        <option value="01">1</option>
+                                                                        <option value="02">2</option>
+                                                                        <option value="03">3</option>
+                                                                        <option value="04">4</option>
+                                                                        <option value="05">5</option>
+                                                                        <option value="06">6</option>
+                                                                        <option value="07">7</option>
+                                                                        <option value="08">8</option>
+                                                                        <option value="09">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select> : <select
+                                                                        class="form-select d-inline-block w-auto"
+                                                                        id="sub_shop_c_e_6_m">
+                                                                        <option value="">分</option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="50">50</option>
+                                                                    </select></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6"><label class="form-label text-muted fw-bold">休業日の傾向</label>
                                     <select class="form-select" id="sub_shop_holiday_type">
@@ -2029,7 +2766,36 @@
                             chk.checked = selCats.includes(chk.value);
                         });
 
-                        document.getElementById('sub_shop_mode').value = dataObj.mode || 'simple';
+                        const mode = dataObj.mode || 'simple';
+                        const modeRadio = document.querySelector(`input[name="sub_shop_mode"][value="${mode}"]`);
+                        if (modeRadio) {
+                            modeRadio.checked = true;
+                            modeRadio.dispatchEvent(new Event('change'));
+                        }
+
+                        const sDays = dataObj.simple_days || [];
+                        ["月", "火", "水", "木", "金", "土", "日"].forEach((d, i) => {
+                            const chk = document.getElementById(`sub_shop_simple_day_${i}`);
+                            if (chk) chk.checked = sDays.includes(d);
+                        });
+                        document.getElementById('sub_shop_simple_s_h').value = dataObj.simple_s_h || '';
+                        document.getElementById('sub_shop_simple_s_m').value = dataObj.simple_s_m || '';
+                        document.getElementById('sub_shop_simple_e_h').value = dataObj.simple_e_h || '';
+                        document.getElementById('sub_shop_simple_e_m').value = dataObj.simple_e_m || '';
+
+                        for (let i = 0; i < 7; i++) {
+                            const isClosed = dataObj[`c_closed_${i}`] || false;
+                            const chk = document.getElementById(`sub_shop_c_closed_${i}`);
+                            if (chk) {
+                                chk.checked = isClosed;
+                                chk.dispatchEvent(new Event('change'));
+                            }
+                            const elSh = document.getElementById(`sub_shop_c_s_${i}_h`); if (elSh) elSh.value = dataObj[`c_s_${i}_h`] || '';
+                            const elSm = document.getElementById(`sub_shop_c_s_${i}_m`); if (elSm) elSm.value = dataObj[`c_s_${i}_m`] || '';
+                            const elEh = document.getElementById(`sub_shop_c_e_${i}_h`); if (elEh) elEh.value = dataObj[`c_e_${i}_h`] || '';
+                            const elEm = document.getElementById(`sub_shop_c_e_${i}_m`); if (elEm) elEm.value = dataObj[`c_e_${i}_m`] || '';
+                        }
+
                         document.getElementById('sub_shop_holiday_type').value = dataObj.holiday_type || '';
                         document.getElementById('sub_shop_notes').value = dataObj.notes || '';
                         document.getElementById('sub_shop_intro').value = dataObj.intro || '';
@@ -2116,7 +2882,24 @@
             if (isShop) {
                 const cats = Array.from(document.querySelectorAll('#sub_shop_categories_container input[type="checkbox"]:checked')).map(chk => chk.value);
                 obj.category = cats.join(', ');
-                obj.mode = document.getElementById('sub_shop_mode').value;
+                const checkedMode = document.querySelector('input[name="sub_shop_mode"]:checked');
+                obj.mode = checkedMode ? checkedMode.value : 'simple';
+
+                obj.simple_days = Array.from(document.querySelectorAll('input[id^="sub_shop_simple_day_"]:checked')).map(chk => chk.value);
+                obj.simple_s_h = document.getElementById('sub_shop_simple_s_h').value;
+                obj.simple_s_m = document.getElementById('sub_shop_simple_s_m').value;
+                obj.simple_e_h = document.getElementById('sub_shop_simple_e_h').value;
+                obj.simple_e_m = document.getElementById('sub_shop_simple_e_m').value;
+
+                for (let i = 0; i < 7; i++) {
+                    const chk = document.getElementById(`sub_shop_c_closed_${i}`);
+                    obj[`c_closed_${i}`] = chk ? chk.checked : false;
+                    const elSh = document.getElementById(`sub_shop_c_s_${i}_h`); obj[`c_s_${i}_h`] = elSh ? elSh.value : '';
+                    const elSm = document.getElementById(`sub_shop_c_s_${i}_m`); obj[`c_s_${i}_m`] = elSm ? elSm.value : '';
+                    const elEh = document.getElementById(`sub_shop_c_e_${i}_h`); obj[`c_e_${i}_h`] = elEh ? elEh.value : '';
+                    const elEm = document.getElementById(`sub_shop_c_e_${i}_m`); obj[`c_e_${i}_m`] = elEm ? elEm.value : '';
+                }
+
                 obj.holiday_type = document.getElementById('sub_shop_holiday_type').value;
                 obj.notes = document.getElementById('sub_shop_notes').value.trim();
                 obj.intro = document.getElementById('sub_shop_intro').value.trim();
