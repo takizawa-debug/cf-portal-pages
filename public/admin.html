@@ -2171,7 +2171,12 @@
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label text-muted fw-bold">主な栽培品目</label>
-                                    <div id="sub_farmer_variety_container" class="d-flex flex-wrap gap-2"></div>
+                                    <input type="text" class="form-control form-control-sm mb-2"
+                                        id="farmer_variety_search" placeholder="品種を検索して絞り込む（空白で全表示）"
+                                        oninput="filterFarmerVarieties(this.value)">
+                                    <div id="sub_farmer_variety_container" class="d-flex flex-wrap gap-2"
+                                        style="max-height:200px; overflow-y:auto; padding: 10px; border: 1px solid #ced4da; border-radius: 4px;">
+                                    </div>
                                     <input type="text" class="form-control mt-2" id="sub_farmer_variety_other"
                                         placeholder="その他の品種を具体的に記入" style="display:none;">
                                 </div>
@@ -2758,7 +2763,7 @@
                 // Initial fetch
                 fetchMedia();
                 fetchCategoriesMaster();
-                    fetchApplesMaster();
+                fetchApplesMaster();
                 fetchContent();
             } catch (e) { window.location.href = '/login.html'; }
         }
@@ -2793,6 +2798,23 @@
         let currentBizFarmers = [];
         let currentEditingSubId = null;
         let currentEditingSubType = null;
+
+        function filterFarmerVarieties(query) {
+            const lowerq = query.toLowerCase();
+            const container = document.getElementById('sub_farmer_variety_container');
+            if (!container) return;
+            const items = container.querySelectorAll('.form-check-inline');
+            items.forEach(item => {
+                const label = item.querySelector('label');
+                if (!label) return;
+                const text = label.innerText.toLowerCase();
+                if (text.includes(lowerq)) {
+                    item.style.setProperty('display', 'inline-flex', 'important');
+                } else {
+                    item.style.setProperty('display', 'none', 'important');
+                }
+            });
+        }
 
         function toggleSubContactFields() {
             const isChecked = document.getElementById('sub_use_custom_contact').checked;
@@ -2959,11 +2981,13 @@
             } else {
                 const vCont = document.getElementById('sub_farmer_variety_container');
                 vCont.innerHTML = '';
-                
+                const searchInput = document.getElementById('farmer_variety_search');
+                if (searchInput) searchInput.value = '';
+
                 let vars = applesMaster.map(a => a.name_ja);
                 // Fallback only if master really didn't load (prevent breaking completely)
                 if (vars.length === 0) vars = ['ふじ', 'シナノスイート', '秋映', 'シナノゴールド', '紅玉'];
-                
+
                 vars.forEach((v, i) => {
                     const div = document.createElement('div');
                     div.className = 'form-check form-check-inline';
@@ -2977,14 +3001,14 @@
 
                 const pCont = document.getElementById('sub_farmer_product_container');
                 pCont.innerHTML = '';
-                
+
                 // Fetch from CategoriesMaster where l1 = '主な加工品目'
                 let prodsMaster = categoriesMaster.filter(c => c.form_type === 'farmer' && c.l1 === '主な加工品目');
                 let prods = prodsMaster.map(c => c.l2).filter(l2 => l2 && l2 !== 'その他');
-                
+
                 // Keep fallback in case they haven't set it in master yet, but let master override it fully if they do set it!
                 if (prods.length === 0) prods = ["シードル", "ジュース", "ジャム", "お菓子", "スイーツ"];
-                
+
                 prods.forEach((p, i) => {
                     const div = document.createElement('div');
                     div.className = 'form-check form-check-inline';
