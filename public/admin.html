@@ -2712,29 +2712,41 @@
                     if (c.l2) grouped[c.l1].push(c.l2);
                 });
 
-                Object.keys(grouped).forEach((l1, i) => {
+                                Object.keys(grouped).forEach((l1, i) => {
                     const l2s = [...new Set(grouped[l1])];
                     const div = document.createElement('div');
                     div.className = 'col-12 mb-2 p-2 border rounded bg-white shadow-sm';
-
+                    
                     let l2Html = '';
                     if (l2s.length > 0) {
                         l2Html += `<div class="d-flex flex-wrap gap-2 mt-2 pt-2 border-top" id="sub_shop_l2_container_${i}" style="display:none !important;">`;
                         l2s.forEach((l2, j) => {
+                            const isOther = l2 === 'その他' || l2 === 'その他の観光' || l2 === 'その他の相談' || l2 === 'その他の産業' || l2 === 'その他の体験' || l2 === 'その他（特産品など）' || l2 === 'その他の暮らし' || l2 === 'その他のサービス';
+                            const otherInputId = `sub_shop_cat_other_${i}_${j}`;
+                            
+                            const onchangeCb = isOther ? `onchange="document.getElementById('${otherInputId}').style.display=this.checked?'block':'none';"` : '';
+                            const otherInputNode = isOther ? `<input type="text" class="form-control form-control-sm mt-1 mb-2 sub-shop-l2-other" id="${otherInputId}" placeholder="具体的な内容をご記入ください" style="display:none;" data-parent="${l2}">` : '';
+
                             l2Html += `
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input sub-shop-l2" type="checkbox" id="scat_${i}_${j}" value="${l2}">
+                            <div class="form-check form-check-inline align-items-center mb-0">
+                                <input class="form-check-input sub-shop-l2" type="checkbox" id="scat_${i}_${j}" value="${l2}" ${onchangeCb}>
                                 <label class="form-check-label text-muted small" for="scat_${i}_${j}">${l2}</label>
-                            </div>`;
+                            </div>${otherInputNode}`;
                         });
                         l2Html += `</div>`;
                     }
 
+                    const isL1Other = l1 === 'その他';
+                    const l1OtherInputId = `sub_shop_l1_other_${i}`;
+                    const l1OnchangeCb = isL1Other ? `onchange="document.getElementById('${l1OtherInputId}').style.display=this.checked?'block':'none'; document.getElementById('sub_shop_l2_container_${i}').style.setProperty('display', this.checked ? 'flex' : 'none', 'important');"` : `onchange="const c = document.getElementById('sub_shop_l2_container_${i}'); if(c) c.style.setProperty('display', this.checked ? 'flex' : 'none', 'important');"`;
+                    const l1OtherInputNode = isL1Other ? `<div class="mt-2" style="display:none;" id="${l1OtherInputId}"><input type="text" class="form-control form-control-sm sub-shop-l1-other" placeholder="具体的なカテゴリをご記入ください"></div>` : '';
+
                     div.innerHTML = `
                         <div class="form-check fw-bold">
-                            <input class="form-check-input sub-shop-l1" type="checkbox" id="scat_l1_${i}" value="${l1}" onchange="document.getElementById('sub_shop_l2_container_${i}').style.setProperty('display', this.checked ? 'flex' : 'none', 'important');">
+                            <input class="form-check-input sub-shop-l1" type="checkbox" id="scat_l1_${i}" value="${l1}" ${l1OnchangeCb}>
                             <label class="form-check-label text-dark" for="scat_l1_${i}">${l1}</label>
                         </div>
+                        ${l1OtherInputNode}
                         ${l2Html}
                     `;
                     cont.appendChild(div);
@@ -2800,10 +2812,65 @@
 
                     if (type === 'shop') {
                         document.getElementById('sub_shop_name').value = dataObj.name || '';
+                        document.getElementById('sub_shop_intro').value = dataObj.intro || '';
 
                         const selCats = Array.isArray(dataObj.category) ? dataObj.category : (dataObj.category ? dataObj.category.split(',').map(s => s.trim()) : []);
-                        document.querySelectorAll('#sub_shop_categories_container input[type="checkbox"]').forEach(chk => {
-                            chk.checked = selCats.includes(chk.value);
+                        
+                        // L1 Checkboxes
+                        document.querySelectorAll('#sub_shop_categories_container .sub-shop-l1').forEach(chk => {
+                            const isL1Other = chk.value === 'その他';
+                            let matched = false;
+                            
+                            if (isL1Other) {
+                                const l1OtherItem = selCats.find(c => c === 'その他' || c.startsWith('その他('));
+                                if (l1OtherItem) {
+                                    matched = true;
+                                    const otherInput = document.querySelector(`#${chk.id.replace('scat_l1_', 'sub_shop_l1_other_')}`);
+                                    if(otherInput) {
+                                        const pm = l1OtherItem.match(/その他\((.+)\)/);
+                                        otherInput.value = pm ? pm[1] : '';
+                                    }
+                                }
+                            } else {
+                                matched = selCats.includes(chk.value);
+                            }
+                            
+                            if(matched) {
+                                chk.checked = true;
+                                chk.dispatchEvent(new Event('change'));
+                            } else {
+                                chk.checked = false;
+                            }
+                        });
+                        
+                        // L2 Checkboxes
+                        document.querySelectorAll('#sub_shop_categories_container .sub-shop-l2').forEach(chk => {
+                            const val = chk.value;
+                            const isL2Other = val === 'その他' || val === 'その他の観光' || val === 'その他の相談' || val === 'その他の産業' || val === 'その他の体験' || val === 'その他（特産品など）' || val === 'その他の暮らし' || val === 'その他のサービス';
+                            let matched = false;
+                            
+                            if (isL2Other) {
+                                const escapeRegExp = (string) => string.replace(/[.*+?^${()|[\]\\]/g, '\\$&');
+                                const l2OtherItem = selCats.find(c => c === val || c.startsWith(`${val}(`));
+                                if (l2OtherItem) {
+                                    matched = true;
+                                    const otherInput = document.querySelector(`#${chk.id.replace('scat_', 'sub_shop_cat_other_')}`);
+                                    if(otherInput) {
+                                        const re = new RegExp(`^${escapeRegExp(val)}\\((.+)\\)$`);
+                                        const pm = l2OtherItem.match(re);
+                                        otherInput.value = pm ? pm[1] : '';
+                                    }
+                                }
+                            } else {
+                                matched = selCats.includes(val);
+                            }
+                            
+                            if(matched) {
+                                chk.checked = true;
+                                chk.dispatchEvent(new Event('change'));
+                            } else {
+                                chk.checked = false;
+                            }
                         });
 
                         const mode = dataObj.mode || 'simple';
@@ -2919,9 +2986,31 @@
                 phone: document.getElementById('sub_phone').value.trim()
             };
 
-            if (isShop) {
-                const cats = Array.from(document.querySelectorAll('#sub_shop_categories_container input[type="checkbox"]:checked')).map(chk => chk.value);
-                obj.category = cats.join(', ');
+                        if (isShop) {
+                const cats = [];
+                document.querySelectorAll('#sub_shop_categories_container .sub-shop-l1:checked').forEach(l1Chk => {
+                    let l1Val = l1Chk.value;
+                    if(l1Val === 'その他') {
+                        const l1OtherInput = document.querySelector(`#${l1Chk.id.replace('scat_l1_', 'sub_shop_l1_other_')}`);
+                        if(l1OtherInput && l1OtherInput.value.trim() !== '') {
+                            l1Val = `その他(${l1OtherInput.value.trim()})`;
+                        }
+                    }
+                    cats.push(l1Val);
+                });
+                document.querySelectorAll('#sub_shop_categories_container .sub-shop-l2:checked').forEach(l2Chk => {
+                    let l2Val = l2Chk.value;
+                    const isOther = l2Val === 'その他' || l2Val === 'その他の観光' || l2Val === 'その他の相談' || l2Val === 'その他の産業' || l2Val === 'その他の体験' || l2Val === 'その他（特産品など）' || l2Val === 'その他の暮らし' || l2Val === 'その他のサービス';
+                    if(isOther) {
+                        const l2OtherInput = document.querySelector(`#${l2Chk.id.replace('scat_', 'sub_shop_cat_other_')}`);
+                        if(l2OtherInput && l2OtherInput.value.trim() !== '') {
+                            l2Val = `${l2Val}(${l2OtherInput.value.trim()})`;
+                        }
+                    }
+                    cats.push(l2Val);
+                });
+                
+                obj.category = cats.filter(c => c).join(', ');
                 const checkedMode = document.querySelector('input[name="sub_shop_mode"]:checked');
                 obj.mode = checkedMode ? checkedMode.value : 'simple';
 
