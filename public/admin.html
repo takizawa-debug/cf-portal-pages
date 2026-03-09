@@ -1187,6 +1187,11 @@
                                                 </select>
                                             </div>
                                             <div class="col-12"><label
+                                                    class="form-label text-muted fw-bold">営業に関する注意事項</label>
+                                                <textarea class="form-control" id="biz_shop_biz_note" rows="2"
+                                                    placeholder="（例）毎月最終月曜日は定休日です。ランチは売切次第終了。最新情報は公式Instagramをご確認ください。"></textarea>
+                                            </div>
+                                            <div class="col-12"><label
                                                     class="form-label text-muted fw-bold">お店の案内・付帯設備など特記事項</label>
                                                 <textarea class="form-control" id="biz_shop_notes" rows="3"
                                                     placeholder="例：駐車場あり、バリアフリー対応、ペット同伴不可など"></textarea>
@@ -2057,6 +2062,10 @@
                                         <option value="irregular">不定休・特別ダイヤ</option>
                                     </select>
                                 </div>
+                                <div class="col-12"><label class="form-label text-muted fw-bold">営業に関する注意事項</label>
+                                    <textarea class="form-control" id="sub_shop_biz_note" rows="2"
+                                        placeholder="（例）毎月最終月曜日は定休日です。ランチは売切次第終了。最新情報は公式Instagramをご確認ください。"></textarea>
+                                </div>
                                 <div class="col-12"><label
                                         class="form-label text-muted fw-bold">お店の案内・付帯設備など特記事項</label>
                                     <textarea class="form-control" id="sub_shop_notes" rows="2"
@@ -2904,6 +2913,7 @@
                         }
 
                         document.getElementById('sub_shop_holiday_type').value = dataObj.holiday_type || '';
+                        document.getElementById('sub_shop_biz_note').value = dataObj.biz_note || '';
                         document.getElementById('sub_shop_notes').value = dataObj.notes || '';
                         document.getElementById('sub_shop_intro').value = dataObj.intro || '';
                     } else {
@@ -3030,6 +3040,7 @@
                 }
 
                 obj.holiday_type = document.getElementById('sub_shop_holiday_type').value;
+                obj.biz_note = document.getElementById('sub_shop_biz_note').value.trim();
                 obj.notes = document.getElementById('sub_shop_notes').value.trim();
                 obj.intro = document.getElementById('sub_shop_intro').value.trim();
 
