@@ -338,12 +338,36 @@
                                 </div>
                             </div>
 
-
-
                             <!-- Links & Contact -->
                             <div class="col-12 mt-4">
                                 <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-link"></i> リンク・お問い合わせ先</h5>
                                 <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_email"
+                                                onchange="document.getElementById('container_page_biz_email').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_email').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_email">問い合わせメールアドレス</label>
+                                        </div>
+                                        <div id="container_page_biz_email" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="email" class="form-control" id="page_biz_email"
+                                                placeholder="問い合わせメールアドレス">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_phone"
+                                                onchange="document.getElementById('container_page_biz_phone').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_phone').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_phone">問い合わせ電話番号</label>
+                                        </div>
+                                        <div id="container_page_biz_phone" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="tel" class="form-control" id="page_biz_phone"
+                                                placeholder="問い合わせ電話番号">
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-check mb-2">
                                             <input class="form-check-input fs-5" type="checkbox"
@@ -428,32 +452,7 @@
                                                 placeholder="LINE公式 URL">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_email"
-                                                onchange="document.getElementById('container_page_biz_email').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_email').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1"
-                                                style="cursor:pointer;" for="chk_page_biz_email">問い合わせメールアドレス</label>
-                                        </div>
-                                        <div id="container_page_biz_email" style="display:none;"
-                                            class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="email" class="form-control" id="page_biz_email"
-                                                placeholder="問い合わせメールアドレス">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_phone"
-                                                onchange="document.getElementById('container_page_biz_phone').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_phone').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1"
-                                                style="cursor:pointer;" for="chk_page_biz_phone">問い合わせ電話番号</label>
-                                        </div>
-                                        <div id="container_page_biz_phone" style="display:none;"
-                                            class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="tel" class="form-control" id="page_biz_phone"
-                                                placeholder="問い合わせ電話番号">
-                                        </div>
-                                    </div>
+
                                     <div class="col-12 mt-3"><label
                                             class="form-label text-muted fw-bold">問い合わせに関する注意事項</label>
                                         <textarea class="form-control" id="page_biz_contact_remarks" rows="1"
@@ -901,7 +900,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Content Editor Modal (Bootstrap) -->
     <div class="modal fade" id="contentModal" tabindex="-1" aria-hidden="true">
