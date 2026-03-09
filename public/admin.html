@@ -268,156 +268,51 @@
                             ※ここで登録した情報は、お店や農家としての紹介ページなどに反映される基本情報となります。ニュースやイベントの発信は別途「記事管理」から行ってください。</div>
 
                         <div class="row g-4 mt-2">
-                            <!-- Type Selection -->
-                            <div class="col-12 border-bottom pb-3">
-                                <label class="form-label text-brand fw-bold fs-5 mb-3"><i
-                                        class="fa-solid fa-check-square"></i> 登録内容の選択 (複数選択可)</label>
-                                <div class="d-flex gap-4">
-                                    <div class="form-check fs-5">
-                                        <input class="form-check-input" type="checkbox" id="page_biz_type_shop"
-                                            onchange="togglePageBizFormType()">
-                                        <label class="form-check-label fw-bold"
-                                            for="page_biz_type_shop">お店・施設として登録する</label>
-                                    </div>
-                                    <div class="form-check fs-5">
-                                        <input class="form-check-input" type="checkbox" id="page_biz_type_farmer"
-                                            onchange="togglePageBizFormType()">
-                                        <label class="form-check-label fw-bold"
-                                            for="page_biz_type_farmer">生産者・農家として登録する</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Basic Info (General) -->
+                            <!-- Main Business Info (General) -->
                             <div class="col-12">
-                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-circle-info"></i> 基本情報</h5>
+                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-building"></i> 事業者の基本情報</h5>
                                 <div class="row g-3">
-                                    <div class="col-md-12">
-                                        <label class="form-label text-muted fw-bold">概要（100文字以内で内容を一言で）</label>
-                                        <input type="text" class="form-control" id="page_biz_summary"
-                                            placeholder="例：飯綱町で採れた新鮮な野菜を使ったレストランです。">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold">事業者名（会社名・屋号等）</label>
+                                        <input type="text" class="form-control" id="page_biz_corp_name"
+                                            placeholder="例：株式会社いいづなファーム">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold">代表者名</label>
+                                        <input type="text" class="form-control" id="page_biz_rep_name"
+                                            placeholder="例：山田 太郎">
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label text-muted fw-bold">詳細本文（詳しい内容・紹介）</label>
-                                        <textarea class="form-control" id="page_biz_description" rows="5"></textarea>
+                                        <label class="form-label text-muted fw-bold">事業者の紹介文</label>
+                                        <textarea class="form-control" id="page_biz_description" rows="3"
+                                            placeholder="会社や事業全体の紹介文"></textarea>
                                     </div>
-                                </div>
-                            </div>
 
-                            <!-- Shop Block -->
-                            <div class="col-12 d-none" id="page-biz-shop-block">
-                                <div class="p-3 bg-light rounded border border-secondary mb-3">
-                                    <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-store"></i> お店・施設としての情報
-                                    </h5>
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label text-muted fw-bold">店名・施設名（お店の屋号）</label>
-                                            <input type="text" class="form-control" id="page_biz_shop_name"
-                                                placeholder="例：カフェいいづな">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label text-muted fw-bold">お店のカテゴリ</label>
-                                            <select class="form-select" id="page_biz_shop_category">
-                                                <option value="">選択してください</option>
-                                                <option value="food">飲食</option>
-                                                <option value="shopping">買い物</option>
-                                                <option value="stay">宿泊</option>
-                                                <option value="tourism">観光</option>
-                                                <option value="consult">相談</option>
-                                                <option value="industry">産業</option>
-                                                <option value="life">暮らし</option>
-                                                <option value="other">その他</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6"><label class="form-label text-muted fw-bold">営業形式</label>
-                                            <select class="form-select" id="page_biz_shop_mode">
-                                                <option value="simple">通常営業（曜日や時間が定まっている）</option>
-                                                <option value="custom">その都度異なるスケジュール</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6"><label
-                                                class="form-label text-muted fw-bold">休業日の傾向</label>
-                                            <select class="form-select" id="page_biz_shop_holiday_type">
-                                                <option value="">指定なし</option>
-                                                <option value="follow_regular">定休日に準ずる</option>
-                                                <option value="always_open">年中無休</option>
-                                                <option value="always_closed">当面の間休業</option>
-                                                <option value="irregular">不定休</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12"><label
-                                                class="form-label text-muted fw-bold">お店の案内・付帯設備など特記事項</label>
-                                            <textarea class="form-control" id="page_biz_shop_notes" rows="2"
-                                                placeholder="例：駐車場あり、バリアフリー対応、ペット同伴不可など"></textarea>
-                                        </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted fw-bold">経営形態</label>
+                                        <select class="form-select" id="page_biz_ent_type">
+                                            <option value="">選択してください</option>
+                                            <option value="individual">個人事業主</option>
+                                            <option value="corp">法人</option>
+                                            <option value="npo">NPO・団体等</option>
+                                        </select>
                                     </div>
-                                </div>
-                            </div>
-
-                            <!-- Farmer Block -->
-                            <div class="col-12 d-none" id="page-biz-farmer-block">
-                                <div class="p-3 bg-light rounded border mb-3" style="border-color:#10b981!important;">
-                                    <h5 class="fw-bold mb-3" style="color:#10b981;"><i class="fa-solid fa-leaf"></i>
-                                        生産者・農家としての情報</h5>
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label text-muted fw-bold">農園名・生産者名（農家としての屋号）</label>
-                                            <input type="text" class="form-control" id="page_biz_farmer_name"
-                                                placeholder="例：いいづな農園">
-                                        </div>
-                                        <div class="col-md-6"><label
-                                                class="form-label text-muted fw-bold">代表者名</label><input type="text"
-                                                class="form-control" id="page_biz_pr_rep_name"></div>
-
-                                        <div class="col-md-6"><label
-                                                class="form-label text-muted fw-bold">主な栽培品目</label><input type="text"
-                                                class="form-control" id="page_biz_pr_variety"
-                                                placeholder="例：ふじ、シナノスイートなど"></div>
-                                        <div class="col-md-6"><label
-                                                class="form-label text-muted fw-bold">主な加工品目</label><input type="text"
-                                                class="form-control" id="page_biz_pr_product"
-                                                placeholder="例：りんごジュース、ジャム"></div>
-                                        <div class="col-md-6">
-                                            <label class="form-label text-muted fw-bold">栽培面積</label>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" id="page_biz_pr_area"
-                                                    placeholder="数字">
-                                                <select class="form-select" id="page_biz_pr_area_unit"
-                                                    style="max-width:40%;">
-                                                    <option value="a">a (アール)</option>
-                                                    <option value="ha">ha (ヘクタール)</option>
-                                                    <option value="反">反</option>
-                                                    <option value="町">町</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6"><label
-                                                class="form-label text-muted fw-bold">その他の取扱い農産物</label><input
-                                                type="text" class="form-control" id="page_biz_pr_other_crops"
-                                                placeholder="例：米、そば、野菜全般など"></div>
-
-                                        <div class="col-md-4"><label class="form-label text-muted fw-bold">経営形態</label>
-                                            <select class="form-select" id="page_biz_pr_ent_type">
-                                                <option value="individual">個人農家等</option>
-                                                <option value="corp">農業法人等</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4"><label
-                                                class="form-label text-muted fw-bold">従業員数</label><input type="number"
-                                                class="form-control" id="page_biz_pr_staff"></div>
-                                        <div class="col-md-4"><label class="form-label text-muted fw-bold">インボイス対応 /
-                                                登録番号</label>
-                                            <input type="text" class="form-control" id="page_biz_pr_invoice_num"
-                                                placeholder="T1234...">
-                                        </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted fw-bold">従業員数</label>
+                                        <input type="number" class="form-control" id="page_biz_staff" placeholder="例：5">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted fw-bold">インボイス対応 / 登録番号</label>
+                                        <input type="text" class="form-control" id="page_biz_invoice_num"
+                                            placeholder="T1234...">
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Location Info -->
                             <div class="col-12 mt-4">
-                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-map-location-dot"></i> 場所の情報
-                                </h5>
+                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-map-location-dot"></i>
+                                    場所の情報（本社や代表拠点の住所）</h5>
                                 <div class="row g-3">
                                     <div class="col-md-3">
                                         <label class="form-label text-muted fw-bold">郵便番号</label>
@@ -432,54 +327,7 @@
                                 </div>
                             </div>
 
-                            <!-- Operating Info -->
-                            <div class="col-12 mt-4">
-                                <h5 class="fw-bold text-muted mb-3"><i class="fa-solid fa-clock"></i> 営業に関する情報</h5>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <label class="form-label text-muted fw-bold">営業曜日</label>
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_mon"><label class="form-check-label"
-                                                    for="page_biz_day_mon">月</label></div>
-                                            <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_tue"><label class="form-check-label"
-                                                    for="page_biz_day_tue">火</label></div>
-                                            <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_wed"><label class="form-check-label"
-                                                    for="page_biz_day_wed">水</label></div>
-                                            <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_thu"><label class="form-check-label"
-                                                    for="page_biz_day_thu">木</label></div>
-                                            <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_fri"><label class="form-check-label"
-                                                    for="page_biz_day_fri">金</label></div>
-                                            <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_sat"><label class="form-check-label"
-                                                    for="page_biz_day_sat">土</label></div>
-                                            <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_sun"><label class="form-check-label"
-                                                    for="page_biz_day_sun">日</label></div>
-                                            <div class="form-check ms-3"><input type="checkbox" class="form-check-input"
-                                                    id="page_biz_day_holiday"><label class="form-check-label"
-                                                    for="page_biz_day_holiday">祝日も営業</label></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold">標準営業時間</label>
-                                        <div class="input-group">
-                                            <input type="time" class="form-control" id="page_biz_hour_start">
-                                            <span class="input-group-text">〜</span>
-                                            <input type="time" class="form-control" id="page_biz_hour_end">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label text-muted fw-bold">営業に関する注意事項</label>
-                                        <textarea class="form-control" id="page_biz_ops_remarks" rows="2"
-                                            placeholder="例：毎月最終月曜日は定休日です。ランチは売切次第終了。"></textarea>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <!-- Links & Contact -->
                             <div class="col-12 mt-4">
@@ -521,9 +369,27 @@
                                 </div>
                             </div>
 
+                            <!-- Registered Sub Entities Block -->
+                            <div class="col-12 mt-5">
+                                <h5 class="fw-bold text-muted mb-3 border-bottom pb-2"><i
+                                        class="fa-solid fa-list-check"></i> 登録されている店舗・施設・農園</h5>
+                                <div id="sub-entity-cards-container" class="row g-3 mb-3">
+                                    <div class="col-12 text-center text-muted small py-4 bg-light rounded border">
+                                        登録されている店舗等はありません。</div>
+                                </div>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <button class="btn btn-outline-brand fw-bold"
+                                        onclick="openSubEntityModal('shop')"><i class="fa-solid fa-store"></i>
+                                        お店・施設を追加する</button>
+                                    <button class="btn btn-outline-success fw-bold"
+                                        onclick="openSubEntityModal('farmer')"><i class="fa-solid fa-leaf"></i>
+                                        生産者・農家を追加する</button>
+                                </div>
+                            </div>
+
                             <div class="col-12 mt-4 text-end border-top pt-4">
                                 <button class="btn btn-brand fw-bold px-4 py-2 fs-5" onclick="saveBusinessProfile()">
-                                    <i class="fa-solid fa-floppy-disk"></i> 情報を保存・公開する
+                                    <i class="fa-solid fa-floppy-disk"></i> 事業者全体情報を保存・公開する
                                 </button>
                             </div>
                         </div>
@@ -1393,6 +1259,134 @@
         </div>
     </div>
 
+    <!-- Sub Entity Modal (Shop / Farmer) -->
+    <div class="modal fade" id="subEntityModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="background:var(--surface-hover); border-bottom:2px solid var(--accent);">
+                    <h5 class="modal-title fw-bold" id="subEntityModalTitle" style="color:var(--accent);">追加・編集</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="subEntityForm">
+                        <input type="hidden" id="sub_id">
+                        <input type="hidden" id="sub_type">
+
+                        <!-- Shop Fields -->
+                        <div id="sub_shop_fields" class="d-none">
+                            <h6 class="fw-bold border-bottom pb-2 mb-3 text-brand"><i class="fa-solid fa-store"></i>
+                                お店・施設の情報</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted fw-bold">店名・施設名（お店の屋号） <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="sub_shop_name" placeholder="例：カフェいいづな">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted fw-bold">お店のカテゴリ</label>
+                                    <select class="form-select" id="sub_shop_category">
+                                        <option value="">選択してください</option>
+                                        <option value="food">飲食</option>
+                                        <option value="shopping">買い物</option>
+                                        <option value="stay">宿泊</option>
+                                        <option value="tourism">観光</option>
+                                        <option value="consult">相談</option>
+                                        <option value="industry">産業</option>
+                                        <option value="life">暮らし</option>
+                                        <option value="other">その他</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6"><label class="form-label text-muted fw-bold">営業形式</label>
+                                    <select class="form-select" id="sub_shop_mode">
+                                        <option value="simple">通常営業（曜日や時間が定まっている）</option>
+                                        <option value="custom">その都度異なるスケジュール</option>
+                                    </select>
+                                </div>
+                                <div class="col-12"><label class="form-label text-muted fw-bold">お店の紹介文</label>
+                                    <textarea class="form-control" id="sub_shop_intro" rows="3"
+                                        placeholder="お店の特徴や紹介"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Farmer Fields -->
+                        <div id="sub_farmer_fields" class="d-none">
+                            <h6 class="fw-bold border-bottom pb-2 mb-3 text-success"><i class="fa-solid fa-leaf"></i>
+                                農園・生産者の情報</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted fw-bold">農園名・生産者名（農家としての屋号） <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="sub_farmer_name" placeholder="例：いいづな農園">
+                                </div>
+                                <div class="col-md-6"><label class="form-label text-muted fw-bold">主な栽培品目</label><input
+                                        type="text" class="form-control" id="sub_farmer_variety"
+                                        placeholder="例：ふじ、シナノスイートなど"></div>
+                                <div class="col-md-6"><label class="form-label text-muted fw-bold">主な加工品目</label><input
+                                        type="text" class="form-control" id="sub_farmer_product"
+                                        placeholder="例：りんごジュース、ジャム"></div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted fw-bold">栽培面積</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="sub_farmer_area" placeholder="数字">
+                                        <select class="form-select" id="sub_farmer_area_unit" style="max-width:40%;">
+                                            <option value="a">a (アール)</option>
+                                            <option value="ha">ha (ヘクタール)</option>
+                                            <option value="反">反</option>
+                                            <option value="町">町</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12"><label class="form-label text-muted fw-bold">農園の紹介文</label>
+                                    <textarea class="form-control" id="sub_farmer_intro" rows="3"
+                                        placeholder="農園の特徴やこだわりなど"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Override Contact Info -->
+                        <div class="mt-4 pt-3 border-top">
+                            <div class="form-check form-switch fs-5 mb-3">
+                                <input class="form-check-input" type="checkbox" id="sub_use_custom_contact"
+                                    onchange="toggleSubContactFields()">
+                                <label class="form-check-label fw-bold"
+                                    for="sub_use_custom_contact">事業者の基本情報と異なるリンクやお問い合わせ先を設定する</label>
+                            </div>
+
+                            <div id="sub_contact_fields" class="d-none p-3 bg-light rounded border">
+                                <h6 class="fw-bold text-muted mb-3"><i class="fa-solid fa-link"></i> 個別のリンク・お問い合わせ先</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">郵便番号</label><input type="text"
+                                            class="form-control" id="sub_zip"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">住所</label><input
+                                            type="text" class="form-control" id="sub_address"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">ホームページURL</label><input type="url"
+                                            class="form-control" id="sub_url_home"></div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">電話番号</label><input type="tel"
+                                            class="form-control" id="sub_phone"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer bg-light d-flex justify-content-between">
+                    <button class="btn btn-outline-danger fw-bold" id="btnDeleteSubEntity" onclick="deleteSubEntity()"
+                        style="display:none;"><i class="fa-solid fa-trash"></i> 削除</button>
+                    <div class="d-flex gap-2 ms-auto">
+                        <button class="btn btn-secondary fw-bold" data-bs-dismiss="modal">キャンセル</button>
+                        <button class="btn btn-brand fw-bold" onclick="saveSubEntity()"><i
+                                class="fa-solid fa-check"></i> 確定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- User Editor Modal -->
     <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -1793,12 +1787,14 @@
 
         // ---------- BUSINESS PROFILE LOGIC -----------
         let cachedBusinessId = null;
+        let currentBizShops = [];
+        let currentBizFarmers = [];
+        let currentEditingSubId = null;
+        let currentEditingSubType = null;
 
-        function togglePageBizFormType() {
-            const isShop = document.getElementById('page_biz_type_shop')?.checked;
-            const isFarmer = document.getElementById('page_biz_type_farmer')?.checked;
-            document.getElementById('page-biz-shop-block').classList.toggle('d-none', !isShop);
-            document.getElementById('page-biz-farmer-block').classList.toggle('d-none', !isFarmer);
+        function toggleSubContactFields() {
+            const isChecked = document.getElementById('sub_use_custom_contact').checked;
+            document.getElementById('sub_contact_fields').classList.toggle('d-none', !isChecked);
         }
 
         async function loadBusinessProfile() {
@@ -1806,7 +1802,6 @@
             if (btn) btn.disabled = true;
 
             try {
-                // Find specialized article of 'business_profile' type
                 const res = await fetch('/api/posts');
                 const data = await res.json();
                 const profile = data.find(i => i.type === 'business_profile');
@@ -1816,23 +1811,177 @@
                         try {
                             const bizObj = JSON.parse(profile.business_metadata);
                             for (let k in bizObj) {
-                                const el = document.getElementById('page_biz_' + k);
-                                if (el) {
-                                    if (el.type === 'checkbox') {
-                                        el.checked = bizObj[k] === true || bizObj[k] === 'true';
-                                    } else {
-                                        el.value = bizObj[k];
+                                if (k === 'shops') {
+                                    currentBizShops = bizObj[k] || [];
+                                } else if (k === 'farmers') {
+                                    currentBizFarmers = bizObj[k] || [];
+                                } else {
+                                    const el = document.getElementById('page_biz_' + k);
+                                    if (el) {
+                                        if (el.type === 'checkbox') {
+                                            el.checked = bizObj[k] === true || bizObj[k] === 'true';
+                                        } else {
+                                            el.value = bizObj[k];
+                                        }
                                     }
                                 }
                             }
-                        } catch (e) { }
+                        } catch (e) { console.error('Error parsing business metadata', e); }
                     }
                 }
-                togglePageBizFormType();
+                renderSubEntities();
             } catch (e) {
                 console.error(e);
             }
             if (btn) btn.disabled = false;
+        }
+
+        function renderSubEntities() {
+            const container = document.getElementById('sub-entity-cards-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (currentBizShops.length === 0 && currentBizFarmers.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center text-muted small py-4 bg-light rounded border">登録されている店舗等はありません。</div>';
+                return;
+            }
+
+            currentBizShops.forEach(shop => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6';
+                col.innerHTML = `
+                    <div class="card h-100 border-primary cursor-pointer shadow-sm hover-elevate transition-all" onclick="openSubEntityModal('shop', '${shop.id}')">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary"><i class="fa-solid fa-store"></i> お店・施設</span>
+                                <i class="fa-solid fa-pen text-muted small"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-dark m-0">${shop.name}</h5>
+                            <p class="small text-muted mt-2 mb-0 text-truncate">${shop.intro || '概要未入力'}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+
+            currentBizFarmers.forEach(farmer => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6';
+                col.innerHTML = `
+                    <div class="card h-100 border-success cursor-pointer shadow-sm hover-elevate transition-all" onclick="openSubEntityModal('farmer', '${farmer.id}')">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-success"><i class="fa-solid fa-leaf"></i> 農園・生産者</span>
+                                <i class="fa-solid fa-pen text-muted small"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-dark m-0">${farmer.name}</h5>
+                            <p class="small text-muted mt-2 mb-0 text-truncate">${farmer.intro || '概要未入力'}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        function openSubEntityModal(type, id = null) {
+            currentEditingSubType = type;
+            currentEditingSubId = id || 'sub_' + Date.now();
+            document.getElementById('subEntityForm').reset();
+            document.getElementById('sub_id').value = currentEditingSubId;
+            document.getElementById('sub_type').value = type;
+
+            document.getElementById('sub_shop_fields').classList.toggle('d-none', type !== 'shop');
+            document.getElementById('sub_farmer_fields').classList.toggle('d-none', type !== 'farmer');
+            document.getElementById('btnDeleteSubEntity').style.display = id ? 'block' : 'none';
+
+            let dataObj = null;
+            if (id) {
+                if (type === 'shop') dataObj = currentBizShops.find(s => s.id === id);
+                if (type === 'farmer') dataObj = currentBizFarmers.find(f => f.id === id);
+            }
+
+            if (dataObj) {
+                document.getElementById('sub_use_custom_contact').checked = dataObj.use_custom_contact || false;
+                document.getElementById('sub_zip').value = dataObj.zip || '';
+                document.getElementById('sub_address').value = dataObj.address || '';
+                document.getElementById('sub_url_home').value = dataObj.url_home || '';
+                document.getElementById('sub_phone').value = dataObj.phone || '';
+
+                if (type === 'shop') {
+                    document.getElementById('sub_shop_name').value = dataObj.name || '';
+                    document.getElementById('sub_shop_category').value = dataObj.category || '';
+                    document.getElementById('sub_shop_mode').value = dataObj.mode || 'simple';
+                    document.getElementById('sub_shop_intro').value = dataObj.intro || '';
+                } else {
+                    document.getElementById('sub_farmer_name').value = dataObj.name || '';
+                    document.getElementById('sub_farmer_variety').value = dataObj.variety || '';
+                    document.getElementById('sub_farmer_product').value = dataObj.product || '';
+                    document.getElementById('sub_farmer_area').value = dataObj.area || '';
+                    document.getElementById('sub_farmer_area_unit').value = dataObj.area_unit || 'a';
+                    document.getElementById('sub_farmer_intro').value = dataObj.intro || '';
+                }
+            }
+
+            toggleSubContactFields();
+            const sm = new bootstrap.Modal(document.getElementById('subEntityModal'));
+            sm.show();
+        }
+
+        function saveSubEntity() {
+            const type = currentEditingSubType;
+            const isShop = type === 'shop';
+            const nameEl = document.getElementById(isShop ? 'sub_shop_name' : 'sub_farmer_name');
+            if (!nameEl.value.trim()) {
+                alert('屋号・名称を入力してください。');
+                return;
+            }
+
+            const obj = {
+                id: currentEditingSubId,
+                type: type,
+                name: nameEl.value.trim(),
+                use_custom_contact: document.getElementById('sub_use_custom_contact').checked,
+                zip: document.getElementById('sub_zip').value.trim(),
+                address: document.getElementById('sub_address').value.trim(),
+                url_home: document.getElementById('sub_url_home').value.trim(),
+                phone: document.getElementById('sub_phone').value.trim()
+            };
+
+            if (isShop) {
+                obj.category = document.getElementById('sub_shop_category').value;
+                obj.mode = document.getElementById('sub_shop_mode').value;
+                obj.intro = document.getElementById('sub_shop_intro').value.trim();
+
+                const idx = currentBizShops.findIndex(s => s.id === obj.id);
+                if (idx > -1) currentBizShops[idx] = obj; else currentBizShops.push(obj);
+            } else {
+                obj.variety = document.getElementById('sub_farmer_variety').value.trim();
+                obj.product = document.getElementById('sub_farmer_product').value.trim();
+                obj.area = document.getElementById('sub_farmer_area').value.trim();
+                obj.area_unit = document.getElementById('sub_farmer_area_unit').value;
+                obj.intro = document.getElementById('sub_farmer_intro').value.trim();
+
+                const idx = currentBizFarmers.findIndex(f => f.id === obj.id);
+                if (idx > -1) currentBizFarmers[idx] = obj; else currentBizFarmers.push(obj);
+            }
+
+            const mo = bootstrap.Modal.getInstance(document.getElementById('subEntityModal'));
+            if (mo) mo.hide();
+
+            renderSubEntities();
+
+            // Note: Does not save to server immediately, requires pushing main Save Business Profile
+        }
+
+        function deleteSubEntity() {
+            if (!confirm('この情報を削除してもよろしいですか？')) return;
+            const id = currentEditingSubId;
+            if (currentEditingSubType === 'shop') currentBizShops = currentBizShops.filter(s => s.id !== id);
+            if (currentEditingSubType === 'farmer') currentBizFarmers = currentBizFarmers.filter(f => f.id !== id);
+
+            const mo = bootstrap.Modal.getInstance(document.getElementById('subEntityModal'));
+            if (mo) mo.hide();
+            renderSubEntities();
         }
 
         async function saveBusinessProfile() {
@@ -1851,17 +2000,14 @@
                 }
             });
 
-            // Derive overall type strictly for database or search logic (optional but useful)
-            let bType = 'none';
-            if (bizData['type_shop'] && bizData['type_farmer']) bType = 'both';
-            else if (bizData['type_shop']) bType = 'shop';
-            else if (bizData['type_farmer']) bType = 'farmer';
+            bizData.shops = currentBizShops;
+            bizData.farmers = currentBizFarmers;
 
             const payload = {
                 type: 'business_profile',
                 l1: 'business_root',
                 title: document.getElementById('displayUsername').innerText + ' の事業者情報',
-                business_b_type: bType,
+                business_b_type: (currentBizShops.length > 0 && currentBizFarmers.length > 0) ? 'both' : (currentBizShops.length > 0 ? 'shop' : (currentBizFarmers.length > 0 ? 'farmer' : 'none')),
                 business_metadata: Object.keys(bizData).length > 0 ? JSON.stringify(bizData) : ''
             };
 
