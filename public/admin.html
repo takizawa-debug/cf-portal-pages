@@ -1293,6 +1293,13 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="sub_shop_name" placeholder="例：カフェいいづな">
                                 </div>
+
+                                <div class="col-12">
+                                    <label class="form-label text-muted fw-bold">お店のカテゴリ（複数選択可）</label>
+                                    <div id="sub_shop_categories_container" class="d-flex flex-wrap gap-2">
+                                        <!-- Dynamically generated checkboxes -->
+                                    </div>
+                                </div>
                                 <div class="col-12"><label class="form-label text-muted fw-bold mb-2">営業に関する情報</label>
                                     <div class="row g-3">
                                         <div class="col-12">
@@ -2045,12 +2052,6 @@
                                         <option value="irregular">不定休・特別ダイヤ</option>
                                     </select>
                                 </div>
-                                <div class="col-12">
-                                    <label class="form-label text-muted fw-bold">お店のカテゴリ（複数選択可）</label>
-                                    <div id="sub_shop_categories_container" class="d-flex flex-wrap gap-2">
-                                        <!-- Dynamically generated checkboxes -->
-                                    </div>
-                                </div>
                                 <div class="col-12"><label
                                         class="form-label text-muted fw-bold">お店の案内・付帯設備など特記事項</label>
                                     <textarea class="form-control" id="sub_shop_notes" rows="2"
@@ -2691,12 +2692,50 @@
             if (type === 'shop') {
                 const cont = document.getElementById('sub_shop_categories_container');
                 cont.innerHTML = '';
-                const shopCats = [...new Set(categoriesMaster.filter(c => c.form_type === 'shop' && c.l1).map(c => c.l1))];
-                if (shopCats.length === 0) shopCats.push('飲食', '買い物', '宿泊', '観光', '相談', '産業', '暮らし', 'その他');
-                shopCats.forEach((cat, i) => {
+                const shopCatsData = categoriesMaster.filter(c => c.form_type === 'shop' && c.l1);
+
+                if (shopCatsData.length === 0) {
+                    const defaultCats = ['飲食', '買い物', '宿泊', '観光', '相談', '産業', '暮らし', 'その他'];
+                    defaultCats.forEach((cat, i) => {
+                        const div = document.createElement('div');
+                        div.className = 'form-check form-check-inline';
+                        div.innerHTML = `<input class="form-check-input sub-shop-l1" type="checkbox" id="scat_${i}" value="${cat}"><label class="form-check-label" for="scat_${i}">${cat}</label>`;
+                        cont.appendChild(div);
+                    });
+                    return;
+                }
+
+                const grouped = {};
+                shopCatsData.forEach(c => {
+                    if (!grouped[c.l1]) grouped[c.l1] = [];
+                    if (c.l2) grouped[c.l1].push(c.l2);
+                });
+
+                Object.keys(grouped).forEach((l1, i) => {
+                    const l2s = [...new Set(grouped[l1])];
                     const div = document.createElement('div');
-                    div.className = 'form-check form-check-inline';
-                    div.innerHTML = `<input class="form-check-input" type="checkbox" id="scat_${i}" value="${cat}"><label class="form-check-label" for="scat_${i}">${cat}</label>`;
+                    div.className = 'col-12 mb-2 p-2 border rounded bg-white shadow-sm';
+
+                    let l2Html = '';
+                    if (l2s.length > 0) {
+                        l2Html += `<div class="d-flex flex-wrap gap-2 mt-2 pt-2 border-top" id="sub_shop_l2_container_${i}" style="display:none !important;">`;
+                        l2s.forEach((l2, j) => {
+                            l2Html += `
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input sub-shop-l2" type="checkbox" id="scat_${i}_${j}" value="${l2}">
+                                <label class="form-check-label text-muted small" for="scat_${i}_${j}">${l2}</label>
+                            </div>`;
+                        });
+                        l2Html += `</div>`;
+                    }
+
+                    div.innerHTML = `
+                        <div class="form-check fw-bold">
+                            <input class="form-check-input sub-shop-l1" type="checkbox" id="scat_l1_${i}" value="${l1}" onchange="document.getElementById('sub_shop_l2_container_${i}').style.setProperty('display', this.checked ? 'flex' : 'none', 'important');">
+                            <label class="form-check-label text-dark" for="scat_l1_${i}">${l1}</label>
+                        </div>
+                        ${l2Html}
+                    `;
                     cont.appendChild(div);
                 });
             } else {
