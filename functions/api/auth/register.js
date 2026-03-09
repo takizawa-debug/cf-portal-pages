@@ -3,10 +3,10 @@ export async function onRequestPost(context) {
 
     try {
         const body = await request.json();
-        const { username, password } = body;
+        const { username, password, display_name } = body;
 
-        if (!username || !password) {
-            return new Response(JSON.stringify({ error: "ユーザーID（またはメールアドレス）とパスワードは必須です" }), {
+        if (!username || !password || !display_name) {
+            return new Response(JSON.stringify({ error: "全ての項目を入力してください" }), {
                 status: 400,
                 headers: { "Content-Type": "application/json" }
             });
@@ -36,8 +36,8 @@ export async function onRequestPost(context) {
 
         // Insert new user into the database as 'contributor'
         await env.DB.prepare(
-            "INSERT INTO users (id, username, password_hash, role) VALUES (?, ?, ?, 'contributor')"
-        ).bind(userId, username, passwordHash).run();
+            "INSERT INTO users (id, username, password_hash, role, display_name) VALUES (?, ?, ?, 'contributor', ?)"
+        ).bind(userId, username, passwordHash, display_name).run();
 
         // For now, since email sending is not natively built-in without a provider, 
         // we'll return a success payload so the frontend can redirect to login.

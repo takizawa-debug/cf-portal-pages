@@ -85,15 +85,27 @@
             <div id="errorMsg" class="alert alert-danger d-none py-2" style="font-size: 0.9rem;" role="alert"></div>
 
             <div class="mb-3">
+                <label for="display_name" class="form-label text-muted fw-bold">ユーザーネーム（事業者名など）</label>
+                <input type="text" class="form-control bg-light" id="display_name" required placeholder="株式会社〇〇りんご園">
+                <div class="form-text" style="font-size: 0.8rem;">管理画面上で表示されるお名前です</div>
+            </div>
+
+            <div class="mb-3">
                 <label for="username" class="form-label text-muted fw-bold">ログインID（メールアドレス推奨）</label>
                 <input type="text" class="form-control bg-light" id="username" required placeholder="example@email.com">
                 <div class="form-text" style="font-size: 0.8rem;">ログインに利用するIDを入力してください</div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-3">
                 <label for="password" class="form-label text-muted fw-bold">パスワード新規設定</label>
                 <input type="password" class="form-control bg-light" id="password" required minlength="8"
                     placeholder="8文字以上の英数字">
+            </div>
+
+            <div class="mb-4">
+                <label for="password_confirm" class="form-label text-muted fw-bold">パスワード（確認用）</label>
+                <input type="password" class="form-control bg-light" id="password_confirm" required minlength="8"
+                    placeholder="もう一度入力してください">
             </div>
 
             <button type="submit" class="btn btn-brand w-100 py-2 fs-5"><i class="fa-solid fa-user-plus me-2"></i>
@@ -125,10 +137,18 @@
     <script>
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const displayName = document.getElementById('display_name').value;
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password_confirm').value;
             const errorMsg = document.getElementById('errorMsg');
             const submitBtn = document.querySelector('button[type="submit"]');
+
+            if (password !== passwordConfirm) {
+                errorMsg.textContent = 'パスワードが一致しません。';
+                errorMsg.classList.remove('d-none');
+                return;
+            }
 
             errorMsg.classList.add('d-none');
             submitBtn.disabled = true;
@@ -138,7 +158,7 @@
                 const res = await fetch('/api/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ display_name: displayName, username, password })
                 });
 
                 const data = await res.json();
