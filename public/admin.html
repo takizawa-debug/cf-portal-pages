@@ -204,6 +204,10 @@
             <button class="nav-item-custom active" onclick="switchMainPanel('content-panel', this)">
                 <i class="fa-solid fa-file-lines"></i> <span data-i18n="menu_content">記事管理</span>
             </button>
+            <button class="nav-item-custom d-none" id="navBusinessProfile"
+                onclick="switchMainPanel('business-panel', this)">
+                <i class="fa-solid fa-store"></i> <span data-i18n="menu_business">事業者情報登録</span>
+            </button>
             <button class="nav-item-custom d-none" id="navUserMgt" onclick="switchMainPanel('user-panel', this)">
                 <i class="fa-solid fa-users"></i> <span data-i18n="menu_users">ユーザー管理</span>
             </button>
@@ -249,6 +253,116 @@
                 <div class="card shadow-sm border-0 bg-transparent">
                     <div class="card-body p-0" id="contentSitemapContainer">
                         <div class="text-center text-muted py-5 bg-white rounded shadow-sm">読み込み中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 1.5: Business Profile Data -->
+            <div id="business-panel" class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold m-0" style="color:var(--accent);" data-i18n="panel_business_title">事業者情報登録</h3>
+                </div>
+                <div class="card shadow-sm border-0 bg-white">
+                    <div class="card-body p-4">
+                        <div class="alert alert-info py-2 small"><i class="fa-solid fa-circle-info"></i>
+                            ※ここで登録した情報は、お店や農家としての紹介ページなどに反映される基本情報となります。ニュースやイベントの発信は別途「記事管理」から行ってください。</div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted fw-bold">事業者のカテゴリ</label>
+                                <select class="form-select" id="page_biz_b_type" onchange="togglePageBizFormType()">
+                                    <option value="">（選択しない）</option>
+                                    <option value="shop">お店として</option>
+                                    <option value="farmer">生産者・農家として</option>
+                                </select>
+                            </div>
+
+                            <!-- Shop Block -->
+                            <div class="col-12 d-none" id="page-biz-shop-block">
+                                <h6 class="fw-bold border-bottom pb-2 mt-2 text-muted">お店としての詳細情報</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">営業形式</label>
+                                        <select class="form-select" id="page_biz_shop_mode">
+                                            <option value="simple">通常営業（曜日や時間が定まっている）</option>
+                                            <option value="custom">その都度異なるスケジュール</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">休業日の傾向</label>
+                                        <select class="form-select" id="page_biz_shop_holiday_type">
+                                            <option value="">指定なし</option>
+                                            <option value="follow_regular">定休日に準ずる</option>
+                                            <option value="always_open">年中無休</option>
+                                            <option value="always_closed">当面の間休業</option>
+                                            <option value="irregular">不定休</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12"><label
+                                            class="form-label text-muted fw-bold">お店の案内・付帯設備など特記事項</label>
+                                        <textarea class="form-control" id="page_biz_shop_notes" rows="3"
+                                            placeholder="例：駐車場あり、バリアフリー対応、ペット同伴不可など"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Farmer Block -->
+                            <div class="col-12 d-none" id="page-biz-farmer-block">
+                                <h6 class="fw-bold border-bottom pb-2 mt-2 text-muted">生産者・農家としての詳細情報</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">主な栽培品目</label><input type="text"
+                                            class="form-control" id="page_biz_pr_variety" placeholder="例：ふじ、シナノスイートなど">
+                                    </div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">主な加工品目</label><input type="text"
+                                            class="form-control" id="page_biz_pr_product" placeholder="例：りんごジュース、ジャム">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold">栽培面積</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="page_biz_pr_area"
+                                                placeholder="数字">
+                                            <select class="form-select" id="page_biz_pr_area_unit"
+                                                style="max-width:30%;">
+                                                <option value="a">a (アール)</option>
+                                                <option value="ha">ha (ヘクタール)</option>
+                                                <option value="反">反</option>
+                                                <option value="町">町</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">従業員数</label><input type="number"
+                                            class="form-control" id="page_biz_pr_staff"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">経営形態</label>
+                                        <select class="form-select" id="page_biz_pr_ent_type">
+                                            <option value="individual">個人農家等</option>
+                                            <option value="corp">農業法人等</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">代表者名</label><input type="text"
+                                            class="form-control" id="page_biz_pr_rep_name"></div>
+                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">インボイス対応</label>
+                                        <select class="form-select" id="page_biz_pr_invoice">
+                                            <option value="no">未対応 / 記載しない</option>
+                                            <option value="yes">対応している</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6"><label
+                                            class="form-label text-muted fw-bold">インボイス登録番号</label><input type="text"
+                                            class="form-control" id="page_biz_pr_invoice_num"></div>
+                                    <div class="col-12"><label
+                                            class="form-label text-muted fw-bold">その他の取扱い農産物</label><input type="text"
+                                            class="form-control" id="page_biz_pr_other_crops"
+                                            placeholder="例：米、そば、野菜全般など"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4 text-end border-top pt-3">
+                                <button class="btn btn-brand fw-bold px-4" onclick="saveBusinessProfile()"><i
+                                        class="fa-solid fa-floppy-disk"></i> 保存する</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1469,11 +1583,7 @@
                     fetchInquiries();
                 } else if (data.user.role === 'contributor') {
                     document.getElementById('navMediaMgt').classList.remove('d-none');
-                    // Change UI terminology for contributor
-                    const menuTitle = document.querySelector('[data-i18n="menu_content"]');
-                    if (menuTitle) menuTitle.innerText = '事業者情報登録';
-                    const panelTitle = document.querySelector('[data-i18n="panel_content_title"]');
-                    if (panelTitle) panelTitle.innerText = '事業者・店舗記事一覧';
+                    document.getElementById('navBusinessProfile').classList.remove('d-none');
 
                     // Contributor Specific UI for Content Editor
                     const langTab = document.getElementById('lang-tab');
@@ -1481,7 +1591,8 @@
                     const aiBox = document.getElementById('ai-generation-box');
                     if (aiBox) aiBox.style.display = 'none';
                     const bizTab = document.getElementById('business-tab-li');
-                    if (bizTab) bizTab.style.display = 'block';
+                    if (bizTab) bizTab.style.display = 'none'; // Ensure it is hidden inline!
+
                     document.getElementById('field_business_metadata') || document.body.insertAdjacentHTML('beforeend', '<input type="hidden" id="field_business_metadata">');
                 }
 
@@ -1506,6 +1617,7 @@
             btnEl.classList.add('active');
 
             if (panelId === 'user-panel') fetchUsers();
+            else if (panelId === 'business-panel') loadBusinessProfile();
             else if (panelId === 'keyword-panel') fetchKeywords();
             else if (panelId === 'knowledge-panel') fetchKnowledge();
             else if (panelId === 'category-panel') fetchCategoriesMaster();
@@ -1513,6 +1625,86 @@
             else if (panelId === 'inquiry-panel') fetchInquiries();
             else if (panelId === 'media-panel') fetchMedia();
             else fetchContent();
+        }
+
+        // ---------- BUSINESS PROFILE LOGIC -----------
+        let cachedBusinessId = null;
+
+        function togglePageBizFormType() {
+            const el = document.getElementById('page_biz_b_type');
+            if (!el) return;
+            const type = el.value;
+            document.getElementById('page-biz-shop-block').classList.toggle('d-none', type !== 'shop');
+            document.getElementById('page-biz-farmer-block').classList.toggle('d-none', type !== 'farmer');
+        }
+
+        async function loadBusinessProfile() {
+            const btn = document.querySelector('#business-panel .btn-brand');
+            if (btn) btn.disabled = true;
+
+            try {
+                // Find specialized article of 'business_profile' type
+                const res = await fetch('/api/posts');
+                const data = await res.json();
+                const profile = data.find(i => i.type === 'business_profile');
+                if (profile) {
+                    cachedBusinessId = profile.id;
+                    const bEl = document.getElementById('page_biz_b_type');
+                    if (bEl) bEl.value = profile.business_b_type || '';
+                    if (profile.business_metadata) {
+                        try {
+                            const bizObj = JSON.parse(profile.business_metadata);
+                            for (let k in bizObj) {
+                                const el = document.getElementById('page_biz_' + k);
+                                if (el) el.value = bizObj[k];
+                            }
+                        } catch (e) { }
+                    }
+                }
+                togglePageBizFormType();
+            } catch (e) {
+                console.error(e);
+            }
+            if (btn) btn.disabled = false;
+        }
+
+        async function saveBusinessProfile() {
+            const btn = document.querySelector('#business-panel .btn-brand');
+            const bt = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 保存中';
+            btn.disabled = true;
+
+            const bizData = {};
+            document.querySelectorAll('[id^="page_biz_"]').forEach(el => {
+                const key = el.id.replace('page_biz_', '');
+                if (key === 'b_type') return;
+                if (el.value.trim() !== '') bizData[key] = el.value.trim();
+            });
+
+            const bTypeEl = document.getElementById('page_biz_b_type');
+
+            const payload = {
+                type: 'business_profile',
+                l1: 'business_root',
+                title: document.getElementById('displayUsername').innerText + ' の事業者情報',
+                business_b_type: bTypeEl ? bTypeEl.value : null,
+                business_metadata: Object.keys(bizData).length > 0 ? JSON.stringify(bizData) : ''
+            };
+
+            const method = cachedBusinessId ? 'PUT' : 'POST';
+            const url = cachedBusinessId ? '/api/content/' + cachedBusinessId : '/api/publish';
+
+            try {
+                const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const r = await res.json();
+                if (res.ok) {
+                    showStatus('保存しました');
+                    if (r.id) cachedBusinessId = r.id;
+                } else { showStatus('保存エラー', 'error'); }
+            } catch (e) { showStatus('通信エラー', 'error'); }
+
+            btn.innerHTML = bt;
+            btn.disabled = false;
         }
 
         function showStatus(msg, type = 'success') {
