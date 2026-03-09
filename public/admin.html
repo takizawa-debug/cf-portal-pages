@@ -277,6 +277,10 @@
                         <div class="alert alert-info py-2 small"><i class="fa-solid fa-circle-info"></i>
                             ※ここで登録した情報は、お店や農家としての紹介ページなどに反映される基本情報となります。ニュースやイベントの発信は別途「記事管理」から行ってください。</div>
 
+                        <div class="d-flex justify-content-end mb-3" id="business_edit_button_container" style="display:none;">
+                            <button class="btn btn-warning fw-bold px-4 text-dark" onclick="enableBusinessEdit()"><i class="fa-solid fa-pen"></i> 事業者情報の編集を開始する</button>
+                        </div>
+                        <fieldset id="business_form_fieldset" disabled>
                         <div class="row g-4 mt-2">
                             <!-- Main Business Info (General) -->
                             <div class="col-12">
@@ -483,12 +487,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mt-4 text-end border-top pt-4">
+                            <div class="col-12 mt-4 text-end border-top pt-4" id="business_save_button_container" style="display:none;">
+                                <button type="button" class="btn btn-secondary me-2 fw-bold" onclick="cancelBusinessEdit()"><i class="fa-solid fa-xmark"></i> 編集をキャンセル</button>
                                 <button class="btn btn-brand fw-bold px-4 py-2 fs-5" onclick="saveBusinessProfile()">
                                     <i class="fa-solid fa-floppy-disk"></i> 事業者全体情報を保存・公開する
                                 </button>
                             </div>
                         </div>
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -2827,6 +2833,25 @@
             });
         }
 
+        function enableBusinessEdit() {
+            const fs = document.getElementById('business_form_fieldset');
+            if(fs) fs.disabled = false;
+            document.getElementById('business_edit_button_container').style.display = 'none';
+            document.getElementById('business_save_button_container').style.display = 'block';
+        }
+
+        function disableBusinessEdit() {
+            const fs = document.getElementById('business_form_fieldset');
+            if(fs) fs.disabled = true;
+            document.getElementById('business_edit_button_container').style.display = 'flex';
+            document.getElementById('business_save_button_container').style.display = 'none';
+        }
+        
+        function cancelBusinessEdit() {
+            disableBusinessEdit();
+            loadBusinessProfile(); // Reset to loaded state
+        }
+
         function toggleSubContactFields() {
             const isChecked = document.getElementById('sub_use_custom_contact').checked;
             document.getElementById('sub_contact_fields').classList.toggle('d-none', !isChecked);
@@ -2874,6 +2899,11 @@
                     }
                 }
                 renderSubEntities();
+                if (cachedBusinessId) {
+                    disableBusinessEdit();
+                } else {
+                    enableBusinessEdit(); // Brand new registration
+                }
             } catch (e) {
                 console.error(e);
             }
@@ -3385,6 +3415,7 @@
                 if (res.ok) {
                     showStatus('保存しました');
                     if (r.id) cachedBusinessId = r.id;
+                    disableBusinessEdit();
                 } else { showStatus('保存エラー', 'error'); }
             } catch (e) { showStatus('通信エラー', 'error'); }
 
