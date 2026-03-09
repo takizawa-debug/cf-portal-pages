@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事業者登録 - りんごのまち・いいづな 管理画面</title>
+
+    <!-- Peraichi Base Styles & Fonts -->
+    <link href="//assets.peraichi.com/template_root/v2/template_files/css/style.css?1772770402" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/pageCustomStylesheets/2300389/themeColor_1762752043.css">
+    <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #FFF5F5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            border-top: 5px solid #d32f2f;
+        }
+
+        .brand-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-title {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .btn-brand {
+            background-color: #d32f2f;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-brand:hover {
+            background-color: #b71c1c;
+            color: white;
+        }
+
+        .success-pane {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <div class="brand-logo">
+            <h1 class="brand-title">🍎 りんごのまち・いいづな<br><small class="text-muted"
+                    style="font-size: 0.9rem; margin-top: 5px; display:inline-block;">事業者 新規登録</small></h1>
+        </div>
+
+        <!-- 登録フォーム -->
+        <form id="registerForm">
+            <div class="alert alert-info py-2" style="font-size: 0.85rem;">
+                <i class="fa-solid fa-circle-info me-1"></i>
+                農家様・店舗様向けの事業者登録画面です。登録後、管理ダッシュボードから詳細な情報を設定していただけます。
+            </div>
+
+            <div id="errorMsg" class="alert alert-danger d-none py-2" style="font-size: 0.9rem;" role="alert"></div>
+
+            <div class="mb-3">
+                <label for="username" class="form-label text-muted fw-bold">ログインID（メールアドレス推奨）</label>
+                <input type="text" class="form-control bg-light" id="username" required placeholder="example@email.com">
+                <div class="form-text" style="font-size: 0.8rem;">ログインに利用するIDを入力してください</div>
+            </div>
+
+            <div class="mb-4">
+                <label for="password" class="form-label text-muted fw-bold">パスワード新規設定</label>
+                <input type="password" class="form-control bg-light" id="password" required minlength="8"
+                    placeholder="8文字以上の英数字">
+            </div>
+
+            <button type="submit" class="btn btn-brand w-100 py-2 fs-5"><i class="fa-solid fa-user-plus me-2"></i>
+                登録する</button>
+
+            <div class="mt-4 text-center">
+                <a href="/login.html" class="text-decoration-none text-muted small">既にアカウントをお持ちの方・ログインはこちら <i
+                        class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="mt-2 text-center">
+                <a href="/" class="text-decoration-none text-muted small"><i class="fa-solid fa-house me-1"></i>
+                    TOPページに戻る</a>
+            </div>
+        </form>
+
+        <!-- 成功完了ペイン -->
+        <div id="successPane" class="success-pane">
+            <i class="fa-solid fa-circle-check text-success" style="font-size: 4rem; margin-bottom: 20px;"></i>
+            <h4 class="fw-bold mb-3">登録が完了しました！</h4>
+            <p class="text-muted small mb-4 text-start">
+                事業者としてのアカウント登録が完了しました。<br>
+                ご入力いただいたログインIDで管理ダッシュボードにログインし、「記事管理（店舗・農家情報）」や「メディア管理」から詳細情報の登録を行ってください。
+            </p>
+            <a href="/login.html" class="btn btn-brand w-100 py-2 fs-5"><i
+                    class="fa-solid fa-right-to-bracket me-2"></i> ログイン画面へ</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const submitBtn = document.querySelector('button[type="submit"]');
+
+            errorMsg.classList.add('d-none');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 処理中...';
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.ok) {
+                    // Hide form, show success
+                    document.getElementById('registerForm').style.display = 'none';
+                    document.getElementById('successPane').style.display = 'block';
+                } else {
+                    errorMsg.textContent = data.error || '登録処理に失敗しました。';
+                    errorMsg.classList.remove('d-none');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-user-plus me-2"></i> 登録する';
+                }
+            } catch (err) {
+                errorMsg.textContent = '通信エラーが発生しました。';
+                errorMsg.classList.remove('d-none');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-user-plus me-2"></i> 登録する';
+            }
+        });
+    </script>
+</body>
+
+</html>
