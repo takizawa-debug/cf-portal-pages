@@ -2206,22 +2206,44 @@
                                 </div>
 
                                 <div class="col-12"><label class="form-label text-muted fw-bold">その他の取扱い農産物</label>
-                                    <div id="sub_farmer_other_crops_container" class="d-flex flex-wrap gap-2">
-                                        <div class="form-check form-check-inline"><input class="form-check-input"
-                                                type="checkbox" id="crop_fruit" value="fruit"><label
-                                                class="form-check-label" for="crop_fruit">りんご以外の果物</label></div>
-                                        <div class="form-check form-check-inline"><input class="form-check-input"
+                                    <div id="sub_farmer_other_crops_container"
+                                        class="d-flex flex-wrap gap-2 align-items-center">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input class="form-check-input" type="checkbox" id="crop_fruit"
+                                                value="fruit"
+                                                onchange="document.getElementById('crop_fruit_detail').style.display=this.checked?'block':'none';">
+                                            <label class="form-check-label" for="crop_fruit">りんご以外の果物</label>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm me-2"
+                                            id="crop_fruit_detail" placeholder="具体的な果物名"
+                                            style="display:none; width:auto;">
+
+                                        <div class="form-check form-check-inline mb-0"><input class="form-check-input"
                                                 type="checkbox" id="crop_rice" value="rice"><label
                                                 class="form-check-label" for="crop_rice">米</label></div>
-                                        <div class="form-check form-check-inline"><input class="form-check-input"
+                                        <div class="form-check form-check-inline mb-0"><input class="form-check-input"
                                                 type="checkbox" id="crop_soba" value="soba"><label
                                                 class="form-check-label" for="crop_soba">そば</label></div>
-                                        <div class="form-check form-check-inline"><input class="form-check-input"
-                                                type="checkbox" id="crop_veg" value="vegetable"><label
-                                                class="form-check-label" for="crop_veg">野菜類</label></div>
-                                        <div class="form-check form-check-inline"><input class="form-check-input"
-                                                type="checkbox" id="crop_other" value="other"><label
-                                                class="form-check-label" for="crop_other">その他</label></div>
+
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input class="form-check-input" type="checkbox" id="crop_veg"
+                                                value="vegetable"
+                                                onchange="document.getElementById('crop_veg_detail').style.display=this.checked?'block':'none';">
+                                            <label class="form-check-label" for="crop_veg">野菜類</label>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm me-2"
+                                            id="crop_veg_detail" placeholder="具体的な野菜名"
+                                            style="display:none; width:auto;">
+
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input class="form-check-input" type="checkbox" id="crop_other"
+                                                value="other"
+                                                onchange="document.getElementById('crop_other_detail').style.display=this.checked?'block':'none';">
+                                            <label class="form-check-label" for="crop_other">その他</label>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm me-2"
+                                            id="crop_other_detail" placeholder="その他の農産物"
+                                            style="display:none; width:auto;">
                                     </div>
                                 </div>
 
@@ -2996,7 +3018,7 @@
                 let prods = prodsMaster.map(c => c.l2).filter(l2 => l2 && l2 !== 'その他');
 
                 // Keep fallback in case they haven't set it in master yet, but let master override it fully if they do set it!
-                if (prods.length === 0) prods = ["シードル", "ジュース", "ジャム", "お菓子", "スイーツ"];
+                if (prods.length === 0) prods = ["シードル", "ジュース", "ジャム", "スイーツ"];
 
                 prods.forEach((p, i) => {
                     const div = document.createElement('div');
@@ -3189,7 +3211,11 @@
                         const otherCrops = Array.isArray(dataObj.other_crops) ? dataObj.other_crops : (dataObj.other_crops ? dataObj.other_crops.split(',').map(s => s.trim()) : []);
                         document.querySelectorAll('#sub_farmer_other_crops_container input[type="checkbox"]').forEach(chk => {
                             chk.checked = otherCrops.includes(chk.value);
+                            chk.dispatchEvent(new Event('change'));
                         });
+                        document.getElementById('crop_fruit_detail').value = dataObj.crop_fruit_detail || '';
+                        document.getElementById('crop_veg_detail').value = dataObj.crop_veg_detail || '';
+                        document.getElementById('crop_other_detail').value = dataObj.crop_other_detail || '';
 
                         document.getElementById('sub_farmer_intro').value = dataObj.intro || '';
                     }
@@ -3294,6 +3320,9 @@
 
                 const crops = Array.from(document.querySelectorAll('#sub_farmer_other_crops_container input[type="checkbox"]:checked')).map(chk => chk.value);
                 obj.other_crops = crops.join(', ');
+                obj.crop_fruit_detail = document.getElementById('crop_fruit_detail').value.trim();
+                obj.crop_veg_detail = document.getElementById('crop_veg_detail').value.trim();
+                obj.crop_other_detail = document.getElementById('crop_other_detail').value.trim();
 
                 obj.intro = document.getElementById('sub_farmer_intro').value.trim();
 
