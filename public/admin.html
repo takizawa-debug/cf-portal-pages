@@ -2200,18 +2200,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6"><label class="form-label text-muted fw-bold">従業員数</label>
-                                    <input type="number" class="form-control" id="sub_farmer_staff" placeholder="人数">
-                                </div>
-                                <div class="col-md-6"><label class="form-label text-muted fw-bold">経営形態</label>
-                                    <select class="form-select" id="sub_farmer_ent_type">
-                                        <option value="individual">個人やグループ等</option>
-                                        <option value="corp">農業法人等</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6"><label class="form-label text-muted fw-bold">代表者名</label>
-                                    <input type="text" class="form-control" id="sub_farmer_rep_name">
-                                </div>
+
 
                                 <div class="col-12"><label class="form-label text-muted fw-bold">その他の取扱い農産物</label>
                                     <div id="sub_farmer_other_crops_container" class="d-flex flex-wrap gap-2">
@@ -3197,9 +3186,7 @@
 
                         document.getElementById('sub_farmer_area').value = dataObj.area || '';
                         document.getElementById('sub_farmer_area_unit').value = dataObj.area_unit || 'a';
-                        document.getElementById('sub_farmer_staff').value = dataObj.staff || '';
-                        document.getElementById('sub_farmer_ent_type').value = dataObj.ent_type || 'individual';
-                        document.getElementById('sub_farmer_rep_name').value = dataObj.rep_name || '';
+
 
 
                         const otherCrops = Array.isArray(dataObj.other_crops) ? dataObj.other_crops : (dataObj.other_crops ? dataObj.other_crops.split(',').map(s => s.trim()) : []);
@@ -3307,9 +3294,7 @@
 
                 obj.area = document.getElementById('sub_farmer_area').value.trim();
                 obj.area_unit = document.getElementById('sub_farmer_area_unit').value;
-                obj.staff = document.getElementById('sub_farmer_staff').value.trim();
-                obj.ent_type = document.getElementById('sub_farmer_ent_type').value;
-                obj.rep_name = document.getElementById('sub_farmer_rep_name').value.trim();
+
 
 
                 const crops = Array.from(document.querySelectorAll('#sub_farmer_other_crops_container input[type="checkbox"]:checked')).map(chk => chk.value);
