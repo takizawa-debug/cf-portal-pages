@@ -2169,6 +2169,10 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="sub_farmer_name" placeholder="例：いいづな農園">
                                 </div>
+                                <div class="col-12"><label class="form-label text-muted fw-bold">農園の紹介文</label>
+                                    <textarea class="form-control" id="sub_farmer_intro" rows="3"
+                                        placeholder="農園の特徴やこだわりなど"></textarea>
+                                </div>
                                 <div class="col-12">
                                     <label class="form-label text-muted fw-bold">主な栽培品目</label>
                                     <input type="text" class="form-control form-control-sm mb-2"
@@ -2201,7 +2205,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-12"><label class="form-label text-muted fw-bold">その他の取扱い農産物</label>
                                     <div id="sub_farmer_other_crops_container" class="d-flex flex-wrap gap-2">
                                         <div class="form-check form-check-inline"><input class="form-check-input"
@@ -2221,10 +2224,7 @@
                                                 class="form-check-label" for="crop_other">その他</label></div>
                                     </div>
                                 </div>
-                                <div class="col-12"><label class="form-label text-muted fw-bold">農園の紹介文</label>
-                                    <textarea class="form-control" id="sub_farmer_intro" rows="3"
-                                        placeholder="農園の特徴やこだわりなど"></textarea>
-                                </div>
+
                             </div>
                         </div>
 
@@ -3053,7 +3053,6 @@
                         }
                     });
 
-
                     if (type === 'shop') {
                         document.getElementById('sub_shop_name').value = dataObj.name || '';
                         document.getElementById('sub_shop_intro').value = dataObj.intro || '';
@@ -3187,8 +3186,6 @@
                         document.getElementById('sub_farmer_area').value = dataObj.area || '';
                         document.getElementById('sub_farmer_area_unit').value = dataObj.area_unit || 'a';
 
-
-
                         const otherCrops = Array.isArray(dataObj.other_crops) ? dataObj.other_crops : (dataObj.other_crops ? dataObj.other_crops.split(',').map(s => s.trim()) : []);
                         document.querySelectorAll('#sub_farmer_other_crops_container input[type="checkbox"]').forEach(chk => {
                             chk.checked = otherCrops.includes(chk.value);
@@ -3294,8 +3291,6 @@
 
                 obj.area = document.getElementById('sub_farmer_area').value.trim();
                 obj.area_unit = document.getElementById('sub_farmer_area_unit').value;
-
-
 
                 const crops = Array.from(document.querySelectorAll('#sub_farmer_other_crops_container input[type="checkbox"]:checked')).map(chk => chk.value);
                 obj.other_crops = crops.join(', ');
