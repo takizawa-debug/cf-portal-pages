@@ -2257,18 +2257,96 @@
                             <div id="sub_contact_fields" class="d-none p-3 bg-light rounded border">
                                 <h6 class="fw-bold text-muted mb-3"><i class="fa-solid fa-link"></i> 個別のリンク・お問い合わせ先</h6>
                                 <div class="row g-3">
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">郵便番号</label><input type="text"
-                                            class="form-control" id="sub_zip"
-                                            oninput="fetchAddressFromZip('sub_zip', 'sub_address')"></div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">住所</label><input
-                                            type="text" class="form-control" id="sub_address"></div>
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">ホームページURL</label><input type="url"
-                                            class="form-control" id="sub_url_home"></div>
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">電話番号</label><input type="tel"
-                                            class="form-control" id="sub_phone"></div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_zip" onchange="document.getElementById('container_sub_zip').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_zip').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_zip">郵便番号</label>
+                                        </div>
+                                        <div id="container_sub_zip" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="text" class="form-control" id="sub_zip" placeholder="郵便番号" oninput="fetchAddressFromZip('sub_zip', 'sub_address')">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_address" onchange="document.getElementById('container_sub_address').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_address').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_address">住所</label>
+                                        </div>
+                                        <div id="container_sub_address" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="text" class="form-control" id="sub_address" placeholder="住所" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_email" onchange="document.getElementById('container_sub_email').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_email').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_email">問い合わせメールアドレス</label>
+                                        </div>
+                                        <div id="container_sub_email" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="email" class="form-control" id="sub_email" placeholder="問い合わせメールアドレス" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_phone" onchange="document.getElementById('container_sub_phone').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_phone').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_phone">問い合わせ電話番号</label>
+                                        </div>
+                                        <div id="container_sub_phone" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="tel" class="form-control" id="sub_phone" placeholder="問い合わせ電話番号" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_url_home" onchange="document.getElementById('container_sub_url_home').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_url_home').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_url_home">公式ホームページURL</label>
+                                        </div>
+                                        <div id="container_sub_url_home" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="sub_url_home" placeholder="公式ホームページURL" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_url_ec" onchange="document.getElementById('container_sub_url_ec').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_url_ec').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_url_ec">オンラインショップ(EC)URL</label>
+                                        </div>
+                                        <div id="container_sub_url_ec" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="sub_url_ec" placeholder="オンラインショップ(EC)URL" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_url_ig" onchange="document.getElementById('container_sub_url_ig').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_url_ig').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_url_ig">Instagram URL</label>
+                                        </div>
+                                        <div id="container_sub_url_ig" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="sub_url_ig" placeholder="Instagram URL" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_url_fb" onchange="document.getElementById('container_sub_url_fb').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_url_fb').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_url_fb">Facebook URL</label>
+                                        </div>
+                                        <div id="container_sub_url_fb" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="sub_url_fb" placeholder="Facebook URL" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_url_x" onchange="document.getElementById('container_sub_url_x').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_url_x').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_url_x">X(Twitter) URL</label>
+                                        </div>
+                                        <div id="container_sub_url_x" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="sub_url_x" placeholder="X(Twitter) URL" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_sub_url_line" onchange="document.getElementById('container_sub_url_line').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('sub_url_line').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_sub_url_line">LINE公式 URL</label>
+                                        </div>
+                                        <div id="container_sub_url_line" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="sub_url_line" placeholder="LINE公式 URL" >
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2909,10 +2987,19 @@
 
                 if (dataObj) {
                     document.getElementById('sub_use_custom_contact').checked = dataObj.use_custom_contact || false;
-                    document.getElementById('sub_zip').value = dataObj.zip || '';
-                    document.getElementById('sub_address').value = dataObj.address || '';
-                    document.getElementById('sub_url_home').value = dataObj.url_home || '';
-                    document.getElementById('sub_phone').value = dataObj.phone || '';
+                    
+                    ['zip', 'address', 'url_home', 'url_ec', 'url_ig', 'url_fb', 'url_x', 'url_line', 'email', 'phone'].forEach(k => {
+                        const el = document.getElementById('sub_' + k);
+                        const chk = document.getElementById('chk_sub_' + k);
+                        if (el) {
+                            el.value = dataObj[k] || '';
+                        }
+                        if (chk && el) {
+                            chk.checked = !!el.value;
+                            chk.dispatchEvent(new Event('change'));
+                        }
+                    });
+
 
                     if (type === 'shop') {
                         document.getElementById('sub_shop_name').value = dataObj.name || '';
@@ -3085,10 +3172,16 @@
                 type: type,
                 name: nameEl.value.trim(),
                 use_custom_contact: document.getElementById('sub_use_custom_contact').checked,
-                zip: document.getElementById('sub_zip').value.trim(),
-                address: document.getElementById('sub_address').value.trim(),
-                url_home: document.getElementById('sub_url_home').value.trim(),
-                phone: document.getElementById('sub_phone').value.trim()
+                zip: document.getElementById('sub_zip') ? document.getElementById('sub_zip').value.trim() : '',
+                address: document.getElementById('sub_address') ? document.getElementById('sub_address').value.trim() : '',
+                url_home: document.getElementById('sub_url_home') ? document.getElementById('sub_url_home').value.trim() : '',
+                phone: document.getElementById('sub_phone') ? document.getElementById('sub_phone').value.trim() : '',
+                url_ec: document.getElementById('sub_url_ec') ? document.getElementById('sub_url_ec').value.trim() : '',
+                url_ig: document.getElementById('sub_url_ig') ? document.getElementById('sub_url_ig').value.trim() : '',
+                url_fb: document.getElementById('sub_url_fb') ? document.getElementById('sub_url_fb').value.trim() : '',
+                url_x: document.getElementById('sub_url_x') ? document.getElementById('sub_url_x').value.trim() : '',
+                url_line: document.getElementById('sub_url_line') ? document.getElementById('sub_url_line').value.trim() : '',
+                email: document.getElementById('sub_email') ? document.getElementById('sub_email').value.trim() : ''
             };
 
             if (isShop) {
