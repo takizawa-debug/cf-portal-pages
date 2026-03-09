@@ -2207,18 +2207,7 @@
                                 <div class="col-md-6"><label class="form-label text-muted fw-bold">代表者名</label>
                                     <input type="text" class="form-control" id="sub_farmer_rep_name">
                                 </div>
-                                <div class="col-md-6"><label class="form-label text-muted fw-bold">インボイス対応</label>
-                                    <select class="form-select" id="sub_farmer_invoice"
-                                        onchange="document.getElementById('sub_farmer_invoice_num_box').style.display = this.value === 'yes' ? 'block' : 'none';">
-                                        <option value="no">未対応 / 記載しない</option>
-                                        <option value="yes">対応している</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6" id="sub_farmer_invoice_num_box" style="display:none;">
-                                    <label class="form-label text-muted fw-bold">インボイス登録番号</label>
-                                    <input type="text" class="form-control" id="sub_farmer_invoice_num"
-                                        placeholder="T1234567890123">
-                                </div>
+
                                 <div class="col-12"><label class="form-label text-muted fw-bold">その他の取扱い農産物</label>
                                     <div id="sub_farmer_other_crops_container" class="d-flex flex-wrap gap-2">
                                         <div class="form-check form-check-inline"><input class="form-check-input"
@@ -2769,6 +2758,7 @@
                 // Initial fetch
                 fetchMedia();
                 fetchCategoriesMaster();
+                    fetchApplesMaster();
                 fetchContent();
             } catch (e) { window.location.href = '/login.html'; }
         }
@@ -2969,8 +2959,11 @@
             } else {
                 const vCont = document.getElementById('sub_farmer_variety_container');
                 vCont.innerHTML = '';
+                
                 let vars = applesMaster.map(a => a.name_ja);
+                // Fallback only if master really didn't load (prevent breaking completely)
                 if (vars.length === 0) vars = ['ふじ', 'シナノスイート', '秋映', 'シナノゴールド', '紅玉'];
+                
                 vars.forEach((v, i) => {
                     const div = document.createElement('div');
                     div.className = 'form-check form-check-inline';
@@ -2984,7 +2977,14 @@
 
                 const pCont = document.getElementById('sub_farmer_product_container');
                 pCont.innerHTML = '';
-                const prods = ["シードル", "ジュース", "ジャム", "お菓子", "スイーツ"];
+                
+                // Fetch from CategoriesMaster where l1 = '主な加工品目'
+                let prodsMaster = categoriesMaster.filter(c => c.form_type === 'farmer' && c.l1 === '主な加工品目');
+                let prods = prodsMaster.map(c => c.l2).filter(l2 => l2 && l2 !== 'その他');
+                
+                // Keep fallback in case they haven't set it in master yet, but let master override it fully if they do set it!
+                if (prods.length === 0) prods = ["シードル", "ジュース", "ジャム", "お菓子", "スイーツ"];
+                
                 prods.forEach((p, i) => {
                     const div = document.createElement('div');
                     div.className = 'form-check form-check-inline';
@@ -3176,9 +3176,7 @@
                         document.getElementById('sub_farmer_staff').value = dataObj.staff || '';
                         document.getElementById('sub_farmer_ent_type').value = dataObj.ent_type || 'individual';
                         document.getElementById('sub_farmer_rep_name').value = dataObj.rep_name || '';
-                        document.getElementById('sub_farmer_invoice').value = dataObj.invoice || 'no';
-                        document.getElementById('sub_farmer_invoice_num_box').style.display = dataObj.invoice === 'yes' ? 'block' : 'none';
-                        document.getElementById('sub_farmer_invoice_num').value = dataObj.invoice_num || '';
+
 
                         const otherCrops = Array.isArray(dataObj.other_crops) ? dataObj.other_crops : (dataObj.other_crops ? dataObj.other_crops.split(',').map(s => s.trim()) : []);
                         document.querySelectorAll('#sub_farmer_other_crops_container input[type="checkbox"]').forEach(chk => {
@@ -3288,8 +3286,7 @@
                 obj.staff = document.getElementById('sub_farmer_staff').value.trim();
                 obj.ent_type = document.getElementById('sub_farmer_ent_type').value;
                 obj.rep_name = document.getElementById('sub_farmer_rep_name').value.trim();
-                obj.invoice = document.getElementById('sub_farmer_invoice').value;
-                obj.invoice_num = document.getElementById('sub_farmer_invoice_num').value.trim();
+
 
                 const crops = Array.from(document.querySelectorAll('#sub_farmer_other_crops_container input[type="checkbox"]:checked')).map(chk => chk.value);
                 obj.other_crops = crops.join(', ');
