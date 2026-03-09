@@ -145,6 +145,16 @@
             color: white;
         }
 
+        .btn-outline-brand {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .btn-outline-brand:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
         /* Status Toast */
         #status {
             position: fixed;
@@ -378,7 +388,7 @@
                                         登録されている店舗等はありません。</div>
                                 </div>
                                 <div class="d-flex gap-2 justify-content-center">
-                                    <button type="button" class="btn btn-outline-brand fw-bold"
+                                    <button type="button" class="btn btn-outline-primary fw-bold"
                                         onclick="openSubEntityModal('shop')"><i class="fa-solid fa-store"></i>
                                         お店・施設を追加する</button>
                                     <button type="button" class="btn btn-outline-success fw-bold"
@@ -1884,47 +1894,52 @@
         }
 
         function openSubEntityModal(type, id = null) {
-            currentEditingSubType = type;
-            currentEditingSubId = id || 'sub_' + Date.now();
-            document.getElementById('subEntityForm').reset();
-            document.getElementById('sub_id').value = currentEditingSubId;
-            document.getElementById('sub_type').value = type;
+            try {
+                currentEditingSubType = type;
+                currentEditingSubId = id || 'sub_' + Date.now();
+                document.getElementById('subEntityForm').reset();
+                document.getElementById('sub_id').value = currentEditingSubId;
+                document.getElementById('sub_type').value = type;
 
-            document.getElementById('sub_shop_fields').classList.toggle('d-none', type !== 'shop');
-            document.getElementById('sub_farmer_fields').classList.toggle('d-none', type !== 'farmer');
-            document.getElementById('btnDeleteSubEntity').style.display = id ? 'block' : 'none';
+                document.getElementById('sub_shop_fields').classList.toggle('d-none', type !== 'shop');
+                document.getElementById('sub_farmer_fields').classList.toggle('d-none', type !== 'farmer');
+                document.getElementById('btnDeleteSubEntity').style.display = id ? 'block' : 'none';
 
-            let dataObj = null;
-            if (id) {
-                if (type === 'shop') dataObj = currentBizShops.find(s => s.id === id);
-                if (type === 'farmer') dataObj = currentBizFarmers.find(f => f.id === id);
-            }
-
-            if (dataObj) {
-                document.getElementById('sub_use_custom_contact').checked = dataObj.use_custom_contact || false;
-                document.getElementById('sub_zip').value = dataObj.zip || '';
-                document.getElementById('sub_address').value = dataObj.address || '';
-                document.getElementById('sub_url_home').value = dataObj.url_home || '';
-                document.getElementById('sub_phone').value = dataObj.phone || '';
-
-                if (type === 'shop') {
-                    document.getElementById('sub_shop_name').value = dataObj.name || '';
-                    document.getElementById('sub_shop_category').value = dataObj.category || '';
-                    document.getElementById('sub_shop_mode').value = dataObj.mode || 'simple';
-                    document.getElementById('sub_shop_intro').value = dataObj.intro || '';
-                } else {
-                    document.getElementById('sub_farmer_name').value = dataObj.name || '';
-                    document.getElementById('sub_farmer_variety').value = dataObj.variety || '';
-                    document.getElementById('sub_farmer_product').value = dataObj.product || '';
-                    document.getElementById('sub_farmer_area').value = dataObj.area || '';
-                    document.getElementById('sub_farmer_area_unit').value = dataObj.area_unit || 'a';
-                    document.getElementById('sub_farmer_intro').value = dataObj.intro || '';
+                let dataObj = null;
+                if (id) {
+                    if (type === 'shop') dataObj = currentBizShops.find(s => s.id === id);
+                    if (type === 'farmer') dataObj = currentBizFarmers.find(f => f.id === id);
                 }
-            }
 
-            toggleSubContactFields();
-            const sm = bootstrap.Modal.getOrCreateInstance(document.getElementById('subEntityModal'));
-            sm.show();
+                if (dataObj) {
+                    document.getElementById('sub_use_custom_contact').checked = dataObj.use_custom_contact || false;
+                    document.getElementById('sub_zip').value = dataObj.zip || '';
+                    document.getElementById('sub_address').value = dataObj.address || '';
+                    document.getElementById('sub_url_home').value = dataObj.url_home || '';
+                    document.getElementById('sub_phone').value = dataObj.phone || '';
+
+                    if (type === 'shop') {
+                        document.getElementById('sub_shop_name').value = dataObj.name || '';
+                        document.getElementById('sub_shop_category').value = dataObj.category || '';
+                        document.getElementById('sub_shop_mode').value = dataObj.mode || 'simple';
+                        document.getElementById('sub_shop_intro').value = dataObj.intro || '';
+                    } else {
+                        document.getElementById('sub_farmer_name').value = dataObj.name || '';
+                        document.getElementById('sub_farmer_variety').value = dataObj.variety || '';
+                        document.getElementById('sub_farmer_product').value = dataObj.product || '';
+                        document.getElementById('sub_farmer_area').value = dataObj.area || '';
+                        document.getElementById('sub_farmer_area_unit').value = dataObj.area_unit || 'a';
+                        document.getElementById('sub_farmer_intro').value = dataObj.intro || '';
+                    }
+                }
+
+                toggleSubContactFields();
+                const sm = bootstrap.Modal.getOrCreateInstance(document.getElementById('subEntityModal'));
+                sm.show();
+            } catch (e) {
+                alert("モーダル起動エラー: " + e.message);
+                console.error("Modal Error:", e);
+            }
         }
 
         function saveSubEntity() {
@@ -2162,8 +2177,6 @@
                 style.id = 'sitemapStyle';
                 style.innerHTML = `
                     .article-card:hover { transform: translateY(-3px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; border-color: var(--accent)!important; }
-                    .btn-outline-brand { color: var(--accent); border-color: var(--accent); }
-                    .btn-outline-brand:hover { background-color: var(--accent); color: white; }
                     .accordion-button:not(.collapsed) { background-color: #f8dbdb; color: var(--accent); }
                 `;
                 document.head.appendChild(style);
