@@ -820,6 +820,15 @@
                                                     class="fa-regular fa-images"></i> 選択</button>
                                         </div>
                                     </div>
+                                    <div class="col-12"><label class="form-label text-muted fw-bold">ダウンロード素材URL</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="field_download_url"
+                                                placeholder="(PDF, docx等)">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="openMediaSelector('field_download_url')"><i
+                                                    class="fa-solid fa-file-arrow-down"></i> 選択</button>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6"><label class="form-label text-muted fw-bold">画像2 URL</label>
                                         <div class="input-group">
                                             <input type="url" class="form-control" id="field_image2">
@@ -909,9 +918,6 @@
                                     <div class="col-md-6"><label
                                             class="form-label text-muted fw-bold">問い合わせフォームURL</label><input type="url"
                                             class="form-control" id="field_contact_form_url"></div>
-                                    <div class="col-md-6"><label
-                                            class="form-label text-muted fw-bold">ダウンロードURL</label><input type="url"
-                                            class="form-control" id="field_download_url"></div>
 
                                     <h6 class="col-12 fw-bold border-bottom pb-2 mt-4 text-muted">営業情報</h6>
                                     <div class="col-md-6"><label
