@@ -327,7 +327,8 @@
                                     <div class="col-md-3">
                                         <label class="form-label text-muted fw-bold">郵便番号</label>
                                         <input type="text" class="form-control" id="page_biz_zip"
-                                            placeholder="例：389-1211">
+                                            placeholder="例：389-1211"
+                                            oninput="fetchAddressFromZip('page_biz_zip', 'page_biz_address')">
                                     </div>
                                     <div class="col-md-9">
                                         <label class="form-label text-muted fw-bold">住所</label>
@@ -345,74 +346,112 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_url_home" onchange="document.getElementById('container_page_biz_url_home').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_home').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_url_home">公式ホームページURL</label>
+                                            <input class="form-check-input fs-5" type="checkbox"
+                                                id="chk_page_biz_url_home"
+                                                onchange="document.getElementById('container_page_biz_url_home').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_home').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_url_home">公式ホームページURL</label>
                                         </div>
-                                        <div id="container_page_biz_url_home" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="url" class="form-control" id="page_biz_url_home" placeholder="公式ホームページURL">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_url_ec" onchange="document.getElementById('container_page_biz_url_ec').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_ec').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_url_ec">オンラインショップ(EC)URL</label>
-                                        </div>
-                                        <div id="container_page_biz_url_ec" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="url" class="form-control" id="page_biz_url_ec" placeholder="オンラインショップ(EC)URL">
+                                        <div id="container_page_biz_url_home" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="page_biz_url_home"
+                                                placeholder="公式ホームページURL">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_url_ig" onchange="document.getElementById('container_page_biz_url_ig').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_ig').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_url_ig">Instagram URL</label>
+                                            <input class="form-check-input fs-5" type="checkbox"
+                                                id="chk_page_biz_url_ec"
+                                                onchange="document.getElementById('container_page_biz_url_ec').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_ec').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;"
+                                                for="chk_page_biz_url_ec">オンラインショップ(EC)URL</label>
                                         </div>
-                                        <div id="container_page_biz_url_ig" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="url" class="form-control" id="page_biz_url_ig" placeholder="Instagram URL">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_url_fb" onchange="document.getElementById('container_page_biz_url_fb').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_fb').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_url_fb">Facebook URL</label>
-                                        </div>
-                                        <div id="container_page_biz_url_fb" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="url" class="form-control" id="page_biz_url_fb" placeholder="Facebook URL">
+                                        <div id="container_page_biz_url_ec" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="page_biz_url_ec"
+                                                placeholder="オンラインショップ(EC)URL">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_url_x" onchange="document.getElementById('container_page_biz_url_x').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_x').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_url_x">X(Twitter) URL</label>
+                                            <input class="form-check-input fs-5" type="checkbox"
+                                                id="chk_page_biz_url_ig"
+                                                onchange="document.getElementById('container_page_biz_url_ig').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_ig').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_url_ig">Instagram URL</label>
                                         </div>
-                                        <div id="container_page_biz_url_x" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="url" class="form-control" id="page_biz_url_x" placeholder="X(Twitter) URL">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_url_line" onchange="document.getElementById('container_page_biz_url_line').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_line').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_url_line">LINE公式 URL</label>
-                                        </div>
-                                        <div id="container_page_biz_url_line" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="url" class="form-control" id="page_biz_url_line" placeholder="LINE公式 URL">
+                                        <div id="container_page_biz_url_ig" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="page_biz_url_ig"
+                                                placeholder="Instagram URL">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_email" onchange="document.getElementById('container_page_biz_email').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_email').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_email">問い合わせメールアドレス</label>
+                                            <input class="form-check-input fs-5" type="checkbox"
+                                                id="chk_page_biz_url_fb"
+                                                onchange="document.getElementById('container_page_biz_url_fb').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_fb').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_url_fb">Facebook URL</label>
                                         </div>
-                                        <div id="container_page_biz_email" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="email" class="form-control" id="page_biz_email" placeholder="問い合わせメールアドレス">
+                                        <div id="container_page_biz_url_fb" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="page_biz_url_fb"
+                                                placeholder="Facebook URL">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_phone" onchange="document.getElementById('container_page_biz_phone').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_phone').value='';">
-                                            <label class="form-check-label fw-bold text-muted pt-1" style="cursor:pointer;" for="chk_page_biz_phone">問い合わせ電話番号</label>
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_url_x"
+                                                onchange="document.getElementById('container_page_biz_url_x').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_x').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_url_x">X(Twitter) URL</label>
                                         </div>
-                                        <div id="container_page_biz_phone" style="display:none;" class="mb-3 ps-4 border-start border-3 border-brand">
-                                            <input type="tel" class="form-control" id="page_biz_phone" placeholder="問い合わせ電話番号">
+                                        <div id="container_page_biz_url_x" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="page_biz_url_x"
+                                                placeholder="X(Twitter) URL">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox"
+                                                id="chk_page_biz_url_line"
+                                                onchange="document.getElementById('container_page_biz_url_line').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_url_line').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_url_line">LINE公式 URL</label>
+                                        </div>
+                                        <div id="container_page_biz_url_line" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="url" class="form-control" id="page_biz_url_line"
+                                                placeholder="LINE公式 URL">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_email"
+                                                onchange="document.getElementById('container_page_biz_email').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_email').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_email">問い合わせメールアドレス</label>
+                                        </div>
+                                        <div id="container_page_biz_email" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="email" class="form-control" id="page_biz_email"
+                                                placeholder="問い合わせメールアドレス">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input fs-5" type="checkbox" id="chk_page_biz_phone"
+                                                onchange="document.getElementById('container_page_biz_phone').style.display=this.checked?'block':'none'; if(!this.checked) document.getElementById('page_biz_phone').value='';">
+                                            <label class="form-check-label fw-bold text-muted pt-1"
+                                                style="cursor:pointer;" for="chk_page_biz_phone">問い合わせ電話番号</label>
+                                        </div>
+                                        <div id="container_page_biz_phone" style="display:none;"
+                                            class="mb-3 ps-4 border-start border-3 border-brand">
+                                            <input type="tel" class="form-control" id="page_biz_phone"
+                                                placeholder="問い合わせ電話番号">
                                         </div>
                                     </div>
                                     <div class="col-12 mt-3"><label
@@ -2222,7 +2261,8 @@
                                 <div class="row g-3">
                                     <div class="col-md-6"><label
                                             class="form-label text-muted fw-bold">郵便番号</label><input type="text"
-                                            class="form-control" id="sub_zip"></div>
+                                            class="form-control" id="sub_zip"
+                                            oninput="fetchAddressFromZip('sub_zip', 'sub_address')"></div>
                                     <div class="col-md-6"><label class="form-label text-muted fw-bold">住所</label><input
                                             type="text" class="form-control" id="sub_address"></div>
                                     <div class="col-md-6"><label
@@ -2689,7 +2729,7 @@
                                     }
                                 }
                             }
-                        
+
                             ['url_home', 'url_ec', 'url_ig', 'url_fb', 'url_x', 'url_line', 'email', 'phone'].forEach(k => {
                                 const el = document.getElementById('page_biz_' + k);
                                 const chk = document.getElementById('chk_page_biz_' + k);
@@ -3189,6 +3229,28 @@
 
             btn.innerHTML = bt;
             btn.disabled = false;
+        }
+
+        async function fetchAddressFromZip(zipInputId, addressInputId) {
+            const zipInput = document.getElementById(zipInputId);
+            const addressInput = document.getElementById(addressInputId);
+            if (!zipInput || !addressInput) return;
+
+            let zip = zipInput.value.replace(/[^0-9]/g, '');
+            if (zip.length === 7) {
+                try {
+                    const res = await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`);
+                    const data = await res.json();
+                    if (data.status === 200 && data.results && data.results.length > 0) {
+                        const addr = data.results[0];
+                        const fullAddress = (addr.address1 || '') + (addr.address2 || '') + (addr.address3 || '');
+                        addressInput.value = fullAddress;
+                        addressInput.dispatchEvent(new Event('input'));
+                    }
+                } catch (e) {
+                    console.error('Zip code fetch error', e);
+                }
+            }
         }
 
         function showStatus(msg, type = 'success') {
