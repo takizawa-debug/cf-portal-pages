@@ -1469,6 +1469,12 @@
                     fetchInquiries();
                 } else if (data.user.role === 'contributor') {
                     document.getElementById('navMediaMgt').classList.remove('d-none');
+                    // Change UI terminology for contributor
+                    const menuTitle = document.querySelector('[data-i18n="menu_content"]');
+                    if (menuTitle) menuTitle.innerText = '事業者情報登録';
+                    const panelTitle = document.querySelector('[data-i18n="panel_content_title"]');
+                    if (panelTitle) panelTitle.innerText = '事業者・店舗記事一覧';
+
                     // Contributor Specific UI for Content Editor
                     const langTab = document.getElementById('lang-tab');
                     if (langTab && langTab.parentElement) langTab.parentElement.style.display = 'none';
