@@ -89,7 +89,8 @@ function renderContentSitemap(data) {
                             <h6 class="card-title fw-bold mb-1" style="font-size:0.95rem;">${title}</h6>
                             <div class="text-muted small mb-2"><i class="fa-regular fa-clock me-1"></i> ${date}</div>
                         </div>
-                        <div class="card-footer bg-white border-top-0 pt-0 text-end">
+                        <div class="card-footer bg-white border-top-0 pt-0 text-end d-flex justify-content-end gap-2">
+                            <button class="btn btn-sm btn-outline-danger fw-bold" onclick='event.stopPropagation(); deleteContentById("${item.id}")'><i class="fa-solid fa-trash"></i> 削除</button>
                             <button class="btn btn-sm btn-outline-brand fw-bold" onclick='event.stopPropagation(); openContentEditor(${JSON.stringify(item).replace(/'/g, "&apos;")})'><i class="fa-solid fa-pen"></i> 編集</button>
                         </div>
                     </div>
@@ -274,6 +275,21 @@ async function deleteContent() {
             fetchContent();
         }
     } catch (e) { showStatus('削除エラー', 'error'); }
+}
+
+async function deleteContentById(id) {
+    if (!confirm('本当にこの記事を削除しますか？')) return;
+    try {
+        const res = await fetch('/api/content/' + id, { method: 'DELETE' });
+        if (res.ok) {
+            showStatus('記事を削除しました');
+            fetchContent();
+        } else {
+            showStatus('削除に失敗しました', 'error');
+        }
+    } catch (e) {
+        showStatus('削除エラー', 'error');
+    }
 }
 
 async function runAutoTranslate() {

@@ -32,35 +32,42 @@ export async function onRequestGet(context) {
         const q = url.searchParams.get('q');
         let dbRows = [];
 
+        // 共通のJOIN句とSELECT句を定義（V2スキーマ対応）
+        const flatSelect = `
+            c.*,
+            t_en.title as title_en, t_en.lead_text as lead_text_en, t_en.body_text as body_text_en,
+            t_tw.title as title_tw, t_tw.lead_text as lead_text_tw, t_tw.body_text as body_text_tw
+        `;
+        const joinClause = `
+            LEFT JOIN content_translations t_en ON c.id = t_en.content_id AND t_en.locale = 'en'
+            LEFT JOIN content_translations t_tw ON c.id = t_tw.content_id AND t_tw.locale = 'zh-TW'
+        `;
+
         if (q) {
-            // Search via keyword (q)
             let searchPattern = `%${q}%`;
-            // If the query is just spaces (used in sitemap to fetch all), we match everything
-            if (q.trim() === '') {
-                searchPattern = '%';
-            }
+            if (q.trim() === '') searchPattern = '%';
 
             const { results: searchRows } = await env.DB.prepare(`
-                SELECT * FROM contents 
-                WHERE title LIKE ? 
-                   OR lead_text LIKE ? 
-                   OR body_text LIKE ? 
-                   OR l1 LIKE ? 
-                   OR l2 LIKE ?
-                ORDER BY created_at DESC
+                SELECT ${flatSelect} FROM contents c
+                ${joinClause}
+                WHERE c.title LIKE ? 
+                   OR c.lead_text LIKE ? 
+                   OR c.body_text LIKE ? 
+                   OR c.l1 LIKE ? 
+                   OR c.l2 LIKE ?
+                ORDER BY c.created_at DESC
                 LIMIT 1000
             `).bind(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern).all();
             dbRows = searchRows;
         } else if (all === '1') {
-            // header.js navigation expects basic l1 -> l2 mapping
+            // allモード（sitemap向け）でも一式の情報を返す
             const { results: allRows } = await env.DB.prepare(
-                "SELECT l1, l2, l3_label as l3, l1_en, l2_en, l3_label_en as l3_en, l1_tw as l1_zh, l2_tw as l2_zh, l3_label_tw as l3_zh FROM contents"
+                `SELECT ${flatSelect} FROM contents c ${joinClause}`
             ).all();
-            results = allRows; // direct assignment for 'all' mode
+            results = allRows; 
         } else if (l1 && l2) {
-            // section.js expects full data filtered by l1 and l2
             const { results: catRows } = await env.DB.prepare(
-                "SELECT * FROM contents WHERE l1 = ? AND l2 = ?"
+                `SELECT ${flatSelect} FROM contents c ${joinClause} WHERE c.l1 = ? AND c.l2 = ?`
             ).bind(l1, l2).all();
             dbRows = catRows;
         }
@@ -80,8 +87,18 @@ export async function onRequestGet(context) {
                 if (row.related1_url) relatedArticles.push({ url: row.related1_url, title: row.related1_title });
                 if (row.related2_url) relatedArticles.push({ url: row.related2_url, title: row.related2_title });
 
+                let assets = [];
+                try {
+                    if (row.media_assets) {
+                        assets = JSON.parse(row.media_assets);
+                        if (!Array.isArray(assets)) assets = [];
+                    }
+                } catch (e) {
+                    assets = [];
+                }
+
                 const subImages = [
-                    row.image2, row.image3, row.image4, row.image5, row.image6
+                    assets[1], assets[2], assets[3], assets[4], assets[5]
                 ].filter(Boolean);
 
                 // Create the mapped object
@@ -109,7 +126,7 @@ export async function onRequestGet(context) {
                         lead: row.lead_text_tw,
                         body: row.body_text_tw
                     },
-                    mainImage: row.image1,
+                    mainImage: assets[0] || null,
                     subImages: subImages,
                     home: row.homepage,
                     relatedArticles: relatedArticles,
