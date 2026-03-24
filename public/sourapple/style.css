@@ -13,7 +13,7 @@ html {
    1. 変数定義
 ======================================================= */
 :root {
-    --color-main-green: var(--color-main-green);
+    --color-main-green: #ABC10D;
     --color-dark-green: #486815;
     --color-text-main: #222222;
     --color-text-dark: #1F1F1F;
