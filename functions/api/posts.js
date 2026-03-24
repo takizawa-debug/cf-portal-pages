@@ -14,13 +14,7 @@ export async function onRequestGet(context) {
             c.*,
             u.display_name as author_name,
             t_en.title as title_en, t_en.lead_text as lead_text_en, t_en.body_text as body_text_en,
-            t_tw.title as title_tw, t_tw.lead_text as lead_text_tw, t_tw.body_text as body_text_tw,
-            json_extract(c.media_assets, '$[0]') as image1,
-            json_extract(c.media_assets, '$[1]') as image2,
-            json_extract(c.media_assets, '$[2]') as image3,
-            json_extract(c.media_assets, '$[3]') as image4,
-            json_extract(c.media_assets, '$[4]') as image5,
-            json_extract(c.media_assets, '$[5]') as image6
+            t_tw.title as title_tw, t_tw.lead_text as lead_text_tw, t_tw.body_text as body_text_tw
         `;
         const joinClause = `
             LEFT JOIN users u ON c.author_id = u.id
@@ -38,7 +32,30 @@ export async function onRequestGet(context) {
 
         const { results } = await env.DB.prepare(query).bind(...binds).all();
 
-        return jsonResponse(results);
+        // JS側で安全にJSONをパースしてimage1〜6のプロパティをアタッチする
+        const processedResults = results.map(row => {
+            let assets = [];
+            try {
+                if (row.media_assets) {
+                    assets = JSON.parse(row.media_assets);
+                    if (!Array.isArray(assets)) assets = [];
+                }
+            } catch (e) {
+                // パース失敗時（空文字など）は空配列として扱う
+                assets = [];
+            }
+            return {
+                ...row,
+                image1: assets[0] || null,
+                image2: assets[1] || null,
+                image3: assets[2] || null,
+                image4: assets[3] || null,
+                image5: assets[4] || null,
+                image6: assets[5] || null
+            };
+        });
+
+        return jsonResponse(processedResults);
     } catch (error) {
         return errorResponse(error.message, 500);
     }
