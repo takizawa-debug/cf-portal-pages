@@ -1420,6 +1420,112 @@ a {
 }
 
 /* =======================================================
+   5. Contact Page
+======================================================= */
+.contact-page-container {
+    max-width: 800px;
+    margin: 150px auto 100px;
+    padding: 0 40px;
+    font-family: var(--font-jp);
+}
+
+.contact-title-block {
+    text-align: left;
+    margin-bottom: 60px;
+}
+
+.contact-en {
+    display: block;
+    color: var(--color-main-green);
+    font-family: var(--font-en);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.contact-ja {
+    color: var(--color-main-green);
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.form-group.row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-main-green);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.required-badge {
+    background-color: var(--color-main-green);
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 16px;
+    font-family: var(--font-jp);
+    box-sizing: border-box;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--color-main-green);
+}
+
+.form-input {
+    height: 50px;
+}
+
+.form-textarea {
+    height: 200px;
+    resize: vertical;
+}
+
+.form-submit-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-submit-btn {
+    background-color: var(--color-main-green);
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-jp);
+    border: none;
+    border-radius: 35px;
+    padding: 20px 80px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.form-submit-btn:hover {
+    opacity: 0.8;
+}
+
+/* =======================================================
    SP対応 (max-width: 768px)
 ======================================================= */
 @media (max-width: 768px) {
@@ -1989,5 +2095,17 @@ a {
         margin-top: 20px;
         font-size: 12px;
     }
-}
 
+    /* --- Contact Page --- */
+    .contact-page-container {
+        margin: 100px auto 60px;
+        padding: 0 20px;
+    }
+    .contact-ja {
+        font-size: 28px;
+    }
+    .form-submit-btn {
+        width: 100%;
+        padding: 15px 0;
+    }
+}
