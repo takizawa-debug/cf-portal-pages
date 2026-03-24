@@ -1,14 +1,9 @@
+import { errorResponse, jsonResponse, optionsResponse } from "../../utils/response";
 export async function onRequest(context) {
     const { request, env } = context;
 
     if (request.method === 'OPTIONS') {
-        return new Response(null, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'PUT, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            }
-        });
+        return optionsResponse();
     }
 
     if (request.method === 'PUT') {
@@ -19,13 +14,11 @@ export async function onRequest(context) {
                 .bind(status, id)
                 .run();
 
-            return new Response(JSON.stringify({ ok: true }), {
-                headers: { 'Content-Type': 'application/json' }
-            });
+            return jsonResponse({ ok: true });
         } catch (error) {
-            return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+            return errorResponse(error.message, 500);
         }
     }
 
-    return new Response('Method Not Allowed', { status: 405 });
+    return errorResponse('Method Not Allowed', 405);
 }

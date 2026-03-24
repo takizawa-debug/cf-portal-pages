@@ -1,3 +1,4 @@
+import { jsonResponse, optionsResponse } from "../utils/response";
 export async function onRequestGet(context) {
     const { request, env } = context;
     const url = new URL(request.url);
@@ -25,12 +26,7 @@ export async function onRequestGet(context) {
                 item.ja = kw.split('(')[0].trim();
                 return item;
             });
-            return new Response(JSON.stringify({ ok: true, items }), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                }
-            });
+            return jsonResponse({ ok: true, items });
         }
 
         const q = url.searchParams.get('q');
@@ -143,28 +139,12 @@ export async function onRequestGet(context) {
         }
 
         // Return the payload wrapped in { ok: true, items: [...] } exactly as the GAS endpoint did
-        return new Response(JSON.stringify({ ok: true, items: results }), {
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            }
-        });
+        return jsonResponse({ ok: true, items: results });
     } catch (error) {
-        return new Response(JSON.stringify({ ok: false, error: error.message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return jsonResponse({ ok: false, error: error.message }, 500);
     }
 }
 
 export async function onRequestOptions() {
-    return new Response(null, {
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        }
-    });
+    return optionsResponse();
 }

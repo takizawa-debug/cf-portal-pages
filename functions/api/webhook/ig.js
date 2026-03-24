@@ -1,3 +1,4 @@
+import { optionsResponse } from "../../utils/response";
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -35,7 +36,7 @@ export async function onRequestPost(context) {
 }
 
 export async function onRequestOptions() {
-    return new Response(null, { headers: getCorsHeaders() });
+    return optionsResponse();
 }
 
 function getCorsHeaders() {

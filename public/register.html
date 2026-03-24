@@ -90,28 +90,24 @@
                 <div class="form-text" style="font-size: 0.8rem;">管理画面上で表示されるお名前です</div>
             </div>
 
-            <div class="mb-3">
-                <label for="username" class="form-label text-muted fw-bold">ログインID（メールアドレス推奨）</label>
-                <input type="text" class="form-control bg-light" id="username" required placeholder="example@email.com">
-                <div class="form-text" style="font-size: 0.8rem;">ログインに利用するIDを入力してください</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="password" class="form-label text-muted fw-bold">パスワード新規設定</label>
-                <input type="password" class="form-control bg-light" id="password" required minlength="8"
-                    placeholder="8文字以上の英数字">
-            </div>
-
             <div class="mb-4">
-                <label for="password_confirm" class="form-label text-muted fw-bold">パスワード（確認用）</label>
-                <input type="password" class="form-control bg-light" id="password_confirm" required minlength="8"
-                    placeholder="もう一度入力してください">
+                <label for="username" class="form-label text-muted fw-bold">メールアドレス（必須）</label>
+                <input type="email" class="form-control bg-light" id="username" required placeholder="example@email.com">
+                <div class="form-text" style="font-size: 0.8rem;">本登録用のURLをお送りします。このアドレスがログインIDとなります。</div>
             </div>
 
-            <button type="submit" class="btn btn-brand w-100 py-2 fs-5"><i class="fa-solid fa-user-plus me-2"></i>
-                登録する</button>
+            <button type="submit" class="btn btn-brand w-100 py-2 fs-5"><i class="fa-solid fa-envelope me-2"></i>メールアドレスで仮登録</button>
 
-            <div class="mt-4 text-center">
+            <hr class="my-4 text-muted">
+            
+            <a href="/api/auth/google" class="btn btn-outline-dark w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2" style="margin-bottom: 8px;">
+                <i class="fa-brands fa-google text-danger"></i> Googleアカウントで連携・新規登録
+            </a>
+            <a href="/api/auth/line" class="btn text-white w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2" style="background-color: #06C755; margin-bottom: 20px;">
+                <i class="fa-brands fa-line fs-5"></i> LINEアカウントで連携・新規登録
+            </a>
+
+            <div class="mt-3 text-center">
                 <a href="/login.html" class="text-decoration-none text-muted small">既にアカウントをお持ちの方・ログインはこちら <i
                         class="fa-solid fa-arrow-right"></i></a>
             </div>
@@ -123,14 +119,19 @@
 
         <!-- 成功完了ペイン -->
         <div id="successPane" class="success-pane">
-            <i class="fa-solid fa-circle-check text-success" style="font-size: 4rem; margin-bottom: 20px;"></i>
-            <h4 class="fw-bold mb-3">登録が完了しました！</h4>
-            <p class="text-muted small mb-4 text-start">
-                事業者としてのアカウント登録が完了しました。<br>
-                ご入力いただいたログインIDで管理ダッシュボードにログインし、「記事管理（店舗・農家情報）」や「メディア管理」から詳細情報の登録を行ってください。
-            </p>
-            <a href="/login.html" class="btn btn-brand w-100 py-2 fs-5"><i
-                    class="fa-solid fa-right-to-bracket me-2"></i> ログイン画面へ</a>
+            <i class="fa-regular fa-envelope text-primary" style="font-size: 4rem; margin-bottom: 20px;"></i>
+            <h4 class="fw-bold mb-3">仮登録が完了しました！</h4>
+            <div class="text-start mb-4">
+                <p class="text-muted small">
+                    ご入力いただいたメールアドレス宛に、<strong>本登録（パスワード設定）用のURL</strong>をお送りいたしました。
+                </p>
+                <div class="alert alert-warning py-2" style="font-size: 0.85rem;">
+                    <i class="fa-solid fa-triangle-exclamation me-1"></i>
+                    <strong>まだ登録は完了していません。</strong><br>
+                    メールボックスをご確認いただき、記載されているリンクをクリックしてパスワードを設定してください。
+                </div>
+            </div>
+            <a href="/" class="btn btn-outline-secondary w-100 py-2 fs-6"><i class="fa-solid fa-house me-2"></i>表のTOPページへ戻る</a>
         </div>
     </div>
 
@@ -139,26 +140,18 @@
             e.preventDefault();
             const displayName = document.getElementById('display_name').value;
             const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('password_confirm').value;
             const errorMsg = document.getElementById('errorMsg');
             const submitBtn = document.querySelector('button[type="submit"]');
 
-            if (password !== passwordConfirm) {
-                errorMsg.textContent = 'パスワードが一致しません。';
-                errorMsg.classList.remove('d-none');
-                return;
-            }
-
             errorMsg.classList.add('d-none');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 処理中...';
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 送信中...';
 
             try {
                 const res = await fetch('/api/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ display_name: displayName, username, password })
+                    body: JSON.stringify({ display_name: displayName, username })
                 });
 
                 const data = await res.json();

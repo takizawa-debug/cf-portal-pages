@@ -1,3 +1,4 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 import { authenticate, requireRole } from "../../utils/auth";
 
 export async function onRequestGet(context) {
@@ -13,14 +14,9 @@ export async function onRequestGet(context) {
             "SELECT id, username, display_name, role, created_at FROM users ORDER BY created_at DESC"
         ).all();
 
-        return new Response(JSON.stringify({ ok: true, items: results }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return jsonResponse({ ok: true, items: results });
     } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
+        return errorResponse(e.message, 500);
     }
 }
 
@@ -37,7 +33,7 @@ export async function onRequestPost(context) {
         const { username, display_name, password, role } = body;
 
         if (!username || !password || !role) {
-            return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+            return errorResponse("Missing required fields", 400);
         }
 
         // Hash the password
@@ -54,14 +50,9 @@ export async function onRequestPost(context) {
             "INSERT INTO users (id, username, password_hash, role, display_name) VALUES (?, ?, ?, ?, ?)"
         ).bind(id, username, passwordHash, role, display_name || null).run();
 
-        return new Response(JSON.stringify({ ok: true, id }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return jsonResponse({ ok: true, id });
 
     } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
-    }
+        return errorResponse(e.message, 500);
+        }
 }

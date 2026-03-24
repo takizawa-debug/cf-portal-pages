@@ -1,3 +1,4 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 import { authenticate, requireRole } from "../../utils/auth";
 import * as xlsx from 'xlsx';
 import mammoth from 'mammoth';
@@ -6,13 +7,13 @@ export async function onRequestPut(context) {
     const { request, env, params } = context;
 
     const user = await authenticate(request, env);
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) return errorResponse("Unauthorized", 401);
 
     const roleError = requireRole(user, ['admin', 'editor']);
     if (roleError) return roleError;
 
     const id = params.id;
-    if (!id) return Response.json({ error: "Missing ID" }, { status: 400 });
+    if (!id) return errorResponse("Missing ID", 400);
 
     try {
         const contentType = request.headers.get('content-type') || '';
@@ -49,7 +50,7 @@ export async function onRequestPut(context) {
                     }
                     if (!content) throw new Error("Empty scrape result");
                 } catch (e) {
-                    return Response.json({ error: "Could not scrape the provided URL." }, { status: 400 });
+                    return errorResponse("Could not scrape the provided URL.", 400);
                 }
             }
         } else if (contentType.includes('multipart/form-data')) {
@@ -108,7 +109,7 @@ export async function onRequestPut(context) {
             }
         }
 
-        if (!title) return Response.json({ error: "Title is required." }, { status: 400 });
+        if (!title) return errorResponse("Title is required.", 400);
 
         const now = new Date().toISOString();
         const updateResult = await env.DB.prepare(`
@@ -117,11 +118,11 @@ export async function onRequestPut(context) {
             WHERE id=?
         `).bind(title, content, type, source_url, type === 'url' ? now : null, id).run();
 
-        if (updateResult.meta.changes === 0) return Response.json({ error: "Knowledge item not found" }, { status: 404 });
-        return Response.json({ success: true, id, title });
+        if (updateResult.meta.changes === 0) return errorResponse("Knowledge item not found", 404);
+        return jsonResponse({ success: true, id, title });
 
     } catch (e) {
-        return Response.json({ error: e.message }, { status: 500 });
+        return errorResponse(e.message, 500);
     }
 }
 
@@ -130,23 +131,23 @@ export async function onRequestDelete(context) {
 
     // Auth Check
     const user = await authenticate(request, env);
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) return errorResponse("Unauthorized", 401);
 
     const roleError = requireRole(user, ['admin', 'editor']);
     if (roleError) return roleError;
 
     try {
         const id = params.id;
-        if (!id) return Response.json({ error: "Missing ID" }, { status: 400 });
+        if (!id) return errorResponse("Missing ID", 400);
 
         const result = await env.DB.prepare("DELETE FROM knowledge_base WHERE id = ?").bind(id).run();
 
         if (result.meta.changes === 0) {
-            return Response.json({ error: "Knowledge item not found" }, { status: 404 });
+            return errorResponse("Knowledge item not found", 404);
         }
 
-        return Response.json({ success: true });
+        return jsonResponse({ success: true });
     } catch (e) {
-        return Response.json({ error: e.message }, { status: 500 });
+        return errorResponse(e.message, 500);
     }
 }

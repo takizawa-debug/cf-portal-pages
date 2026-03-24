@@ -1,0 +1,181 @@
+/* ============================
+   Admin Dashboard Styles
+   ============================ */
+
+:root {
+    --bg-color: #FFF5F5;
+    --surface: #ffffff;
+    --surface-hover: #fce4e4;
+    --text-main: #333333;
+    --text-muted: #666666;
+    --accent: #d32f2f;
+    --accent-hover: #b71c1c;
+    --danger: #ef4444;
+    --border: #e0e0e0;
+}
+
+html {
+    font-size: 18px !important;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.navbar-custom {
+    background: var(--surface);
+    border-bottom: 3px solid var(--accent);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.navbar-custom .brand {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.85rem;
+}
+
+.nav-item-custom {
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-main);
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+}
+
+.nav-item-custom:hover {
+    background: var(--surface-hover);
+    color: var(--accent);
+}
+
+.nav-item-custom.active {
+    background: var(--accent);
+    color: white;
+}
+
+.content-area {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background: var(--bg-color);
+}
+
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.btn-brand {
+    background-color: var(--accent);
+    color: white;
+    font-weight: bold;
+}
+
+.btn-brand:hover {
+    background-color: var(--accent-hover);
+    color: white;
+}
+
+.btn-outline-brand {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.btn-outline-brand:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+/* Status Toast */
+#status {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 9999;
+    font-weight: bold;
+}
+
+#status.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Modal Overrides */
+.modal-xl-custom {
+    max-width: 1100px;
+}
+
+/* Form Label Enhancements */
+label.form-label {
+    font-weight: 700 !important;
+    color: var(--text-main) !important;
+    font-size: 0.95rem;
+    border-left: 4px solid var(--accent);
+    padding: 6px 12px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 8px;
+    display: block;
+    width: 100%;
+}
+
+/* Fix subtle margin for checkboxes to match the new label boldness */
+.form-check-label {
+    color: var(--text-main) !important;
+}

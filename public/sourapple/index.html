@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>まちがつなぐ、飯綱りんご｜飯綱町クッキングアップル</title>
+    <link rel="stylesheet" href="./style.css?v=5">
+</head>
+<body>
+
+    <!-- Header: White logo box on left, circular menu on right -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <!-- Placing a stylized SVG to mimic the "green i, apple shape, mountain" logo -->
+                <svg width="100" height="auto" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40 30 C 20 30 10 50 10 70 L 70 70 C 70 50 60 30 40 30 Z" fill="#b2cc35"/>
+                    <path d="M40 10 C 35 15 40 25 40 25" stroke="#b2cc35" stroke-width="3" fill="none"/>
+                    <!-- Mountain stroke approximation -->
+                    <path d="M45 45 L 55 35 L 65 40 L 80 25 L 90 40" stroke="#b2cc35" stroke-width="2" fill="none"/>
+                    <!-- The "i" stalk -->
+                    <rect x="35" y="10" width="4" height="15" fill="#b2cc35"/>
+                    <circle cx="37" cy="5" r="3" fill="#b2cc35"/>
+                </svg>
+                <div style="font-family: 'Jost', sans-serif; font-weight: 700; color: #b2cc35; line-height: 1; margin-left: 10px;">
+                    iizuna<br>sour apple
+                </div>
+            </div>
+            
+            <div class="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="catchphrase">
+                    まちがつなぐ、<br>
+                    飯綱りんご
+                </p>
+            </div>
+        </section>
+
+        <!-- About Section - Absolute Geometry Layout -->
+        <section id="about" class="section-about">
+            <div class="about-container">
+                
+                <!-- Title Block (Top Left Offset) -->
+                <div class="about-title-block">
+                    <p class="section-en">About</p>
+                    <h2 class="section-title">飯綱町の紹介</h2>
+                </div>
+
+                <!-- Text Block (Below Title, Left Offset) -->
+                <div class="about-text-block">
+                    <h3 class="sub-title">飯綱町の風土と<br>自然の恵み</h3>
+                    <p class="description">
+                        飯綱町は長野県の北部に位置する標高500〜<br>
+                        700mの丘陵地で、県庁所在地の長野市に隣接し<br>
+                        ています。飯縄山と斑尾山に挟まれたこの地域<br>
+                        では、豊かな自然と清らかな水を活かした農業<br>
+                        が盛んです。特に、日本有数の高品質なりんご<br>
+                        の産地として知られています。<br>
+                        <br>
+                        美しい田園風景の広がる飯綱町のりんごは、積<br>
+                        雪寒冷地で内陸性気候のため昼夜の気温差が大<br>
+                        きく、日当たりにも良質な土壌の質にも恵まれ<br>
+                        た丘陵地ならではの「大地の贈り物」です。
+                    </p>
+                </div>
+
+                <!-- Main Giant Apple (Top Right) -->
+                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?q=80&w=800&auto=format&fit=crop" class="about-img-main" alt="Green Apple Full">
+
+                <!-- Apple Tree Branch Left Bleed -->
+                <img src="https://images.unsplash.com/photo-1627986295507-6ba797c2e008?q=80&w=400&auto=format&fit=crop" class="about-img-left" alt="Apple Branch Left">
+
+                <!-- Farmers Group (Bottom Right) -->
+                <img src="https://images.unsplash.com/photo-1595856417740-420d404dce54?q=80&w=600&auto=format&fit=crop" class="about-img-right" alt="Farmers Group">
+
+                <!-- Bottom Apple Branch (Bottom Left) -->
+                <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6caa6?q=80&w=400&auto=format&fit=crop" class="about-img-bottom" alt="Apple Tree Bottom">
+
+            </div>
+        </section>
+
+        <!-- History -->
+        <section id="history" class="section-history">
+            <div class="history-container">
+                
+                <div class="history-title-block">
+                    <p class="section-en">History</p>
+                    <h2 class="section-title">
+                        飯綱町の<br>
+                        <span class="has-underline">りんごの歴史</span>
+                    </h2>
+                </div>
+                
+                <div class="history-block-1">
+                    <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=1600&auto=format&fit=crop" class="history-main-img" alt="Apple Orchard">
+                    
+                    <div class="history-text-row">
+                        <div class="history-vertical-title">
+                            りんご作りへの<br>想い
+                        </div>
+                        <div class="history-paragraph">
+                            <p class="description">
+                                飯綱町のりんご農家は、気候変動の影響など一次産業を<br>
+                                取り巻く厳しい環境の中でも、品質へのこだわりと探求<br>
+                                心を持ち続けています。「よりよいりんごを作りたい」<br>
+                                という強いプロ意識と責任感が、地域のりんご栽培を支<br>
+                                えています。町内には、りんご作りへの想いを伝える博<br>
+                                物館「いいづなアップルミュージアム」があり、りんご<br>
+                                栽培の歴史や四季の成長の様子を紹介し、関連する農具<br>
+                                やオブジェなどを展示しています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 以下、追加指示待ちだったブロック -->
+            </div><!-- /history-container (Block 1の終了) -->
+
+            <!-- History Block 2: 50品種以上 -->
+            <div class="history-block-2">
+                <div class="history-container" style="height: 100%;">
+                    <div class="hb2-text-bg-blob"></div>
+                    
+                    <div class="hb2-text-block">
+                        <h3 class="hb2-title">50品種以上の<br>多彩な品種</h3>
+                        <p class="description">
+                            飯綱町では、50品種以上のりんごが栽培されています。収穫時<br>
+                            期は8月中旬から12月まで、それぞれ甘みや酸味、果汁、食感、<br>
+                            香りが異なります。<br>
+                            主な品種として、早生種の「つがる」、長野県オリジナル品種<br>
+                            の「シナノスイート」、「秋映」、「シナノゴールド」、町内<br>
+                            で最も多く生産され、蜜がたっぷり入った「ふじ」、そして希<br>
+                            少な和りんご「高坂林檎」などがあります。
+                        </p>
+                    </div>
+
+                    <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6caa6?q=80&w=600&auto=format&fit=crop" class="hb2-img-top" alt="Table Apples">
+                    <img src="https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?q=80&w=600&auto=format&fit=crop" class="hb2-img-bottom" alt="Branch Apple">
+                </div>
+            </div>
+
+            <!-- History Block 3: イギリスとの交流 -->
+            <div class="history-block-3">
+                <div class="history-container hb3-container-inner">
+                    
+                    <div class="hb3-text-block">
+                        <h3 class="hb3-title">イギリスとの<br>交流の歴史</h3>
+                        <p class="description">
+                            飯綱町では、海外品種のりんごも多く栽培されています。<br>
+                            歴史を紐解くと、飯綱町の前身にあたる旧三水村が、村制百周<br>
+                            年を記念して「アップルランド事業」を計画しました。1987<br>
+                            年、株式会社斑尾高原農場（現サンクゼール）の協力を得てイ<br>
+                            ギリス王立園芸協会に現地品種の譲渡を依頼。幾度も書簡を交<br>
+                            わした結果、承諾されました。同協会から提供された16品種を<br>
+                            植樹し、町内の熱意をもつ農家が大切に育てています。
+                        </p>
+                    </div>
+
+                    <img src="https://images.unsplash.com/photo-1627986295507-6ba797c2e008?q=80&w=600&auto=format&fit=crop" class="hb3-img-left" alt="Holding apple">
+                    <img src="https://images.unsplash.com/photo-1595856417740-420d404dce54?q=80&w=800&auto=format&fit=crop" class="hb3-img-bottom" alt="Farmer examining tree">
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature -->
+        <section id="feature" class="section-feature">
+            <div class="feature-container">
+                
+                <div class="feature-title-block">
+                    <p class="section-en">Feature</p>
+                    <h2 class="section-title">海外品種の特徴</h2>
+                </div>
+                
+                <img src="https://images.unsplash.com/photo-1542152341-ce92f15ffb96?q=80&w=2000&auto=format&fit=crop" class="feature-hero-img" alt="Apples on table">
+                
+                <div class="feature-text-row">
+                    <div class="feature-subtitle">
+                        クッキング<br>アップルとは
+                    </div>
+                    <div class="feature-paragraph">
+                        <p class="description">
+                            ブラムリーズ・シードリングなど海外品種のりんごの特<br>
+                            徴は、酸味が強いこと、調理・加工に適していることな<br>
+                            どです。りんご栽培の歴史の長いヨーロッパでは、料<br>
+                            理・製菓に使う品種を「クッキングアップル」と呼び、<br>
+                            用途に応じて使い分けています。調理・加工用のりんご<br>
+                            は、近年日本でも注目され、レストランや洋菓子店での<br>
+                            需要が高まっており、ジャムやジュース、シード<br>
+                            ルの原材料としても活用されています。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="feature-list">
+                    <!-- Card 1: ブラムリーズ・シードリング -->
+                    <div class="feature-card">
+                        <div class="fc-bg"></div>
+                        <div class="fc-content">
+                            <div class="fc-title-row">
+                                <h4 class="fc-title">ブラムリーズ・<br>シードリング</h4>
+                                <img src="https://images.unsplash.com/photo-1619642880735-cbabdce55047?q=80&w=200&auto=format&fit=crop" class="fc-small-apple" alt="Bramley cut">
+                            </div>
+                            <p class="fc-desc">
+                                イギリス原産、8月下旬〜9月中旬に収穫される明緑色の<br>
+                                青りんごです。酸味が強く、イギリスでは料理・製菓に<br>
+                                用いられ、クッキングアップルの王様と呼ばれていま<br>
+                                す。加熱するとすぐに煮崩れしますが、爽やかな風味が<br>
+                                しっかり残るのが特徴です。
+                            </p>
+                            <h5 class="fc-sub">おすすめの調理例</h5>
+                            <p class="fc-sub-desc">
+                                ジャム、アップルパイ、肉類の煮込み、<br>
+                                料理の付け合わせなど
+                            </p>
+                        </div>
+                        <div class="fc-visual">
+                            <img src="https://images.unsplash.com/photo-1484723091791-0016e45de21b?q=80&w=800&auto=format&fit=crop" class="circle-main-img" alt="Apple Toast">
+                        </div>
+                    </div>
+
+                    <!-- Card 2: ベル・ド・ボスクープ -->
+                    <div class="feature-card reverse">
+                        <div class="fc-bg"></div>
+                        <div class="fc-content">
+                            <div class="fc-title-row">
+                                <h4 class="fc-title">ベル・ド・<br>ボスクープ</h4>
+                                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?q=80&w=200&auto=format&fit=crop" class="fc-small-apple" alt="Boskoop cut">
+                            </div>
+                            <p class="fc-desc">
+                                オランダ原産、9月下旬から10月上旬に収穫される金茶色<br>
+                                のりんごです。酸味の中に甘みもあるので、そのまま食<br>
+                                べてもおいしい生食・調理両用の品種です。加熱しても<br>
+                                煮崩れしないので、焼き菓子に最適です。香りが良く、<br>
+                                ビタミンCが多く含まれています。
+                            </p>
+                            <h5 class="fc-sub">おすすめの調理例</h5>
+                            <p class="fc-sub-desc">
+                                アップルケーキ、アップルマフィン、サラダなど
+                            </p>
+                        </div>
+                        <div class="fc-visual">
+                            <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=800&auto=format&fit=crop" class="circle-main-img" alt="Apple Tart">
+                        </div>
+                    </div>
+
+                    <!-- Card 3: グラニー・スミス -->
+                    <div class="feature-card">
+                        <div class="fc-bg"></div>
+                        <div class="fc-content">
+                            <div class="fc-title-row">
+                                <h4 class="fc-title">グラニー・<br>スミス</h4>
+                                <img src="https://images.unsplash.com/photo-1590005354167-6da97ce231ce?q=80&w=200&auto=format&fit=crop" class="fc-small-apple" alt="Granny Smith cut">
+                            </div>
+                            <p class="fc-desc">
+                                オーストラリア原産、11月中旬〜下旬に収穫される明緑<br>
+                                色の青りんごです。酸味と甘みのバランスがよく、生<br>
+                                食・調理両用。国内では生産量が少ない品種です。果実<br>
+                                はさくさくした食感と爽やかな風味があり、「昔ながらの<br>
+                                りんご」を思わせる味わいがあります。
+                            </p>
+                            <h5 class="fc-sub">おすすめの調理例</h5>
+                            <p class="fc-sub-desc">
+                                ジャム、アップルパイ、アップルマフィン、サラダなど
+                            </p>
+                        </div>
+                        <div class="fc-visual">
+                            <img src="https://images.unsplash.com/photo-1621236378699-8597faa6a71e?q=80&w=800&auto=format&fit=crop" class="circle-main-img" alt="Apple Pie Slice">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Image Banner -->
+        <div class="image-banner">
+            <div class="banner-track">
+                <!-- 5 images + 5 duplicated for infinite loop = 10 images -->
+                <img src="https://images.unsplash.com/photo-1484723091791-0016e45de21b?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Jam">
+                <img src="https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Red Apple">
+                <img src="https://images.unsplash.com/photo-1595856417740-420d404dce54?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Farmers">
+                <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6caa6?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Green Apples">
+                <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Orchard">
+                
+                <!-- Duplicate for seamless loop -->
+                <img src="https://images.unsplash.com/photo-1484723091791-0016e45de21b?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Jam">
+                <img src="https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Red Apple">
+                <img src="https://images.unsplash.com/photo-1595856417740-420d404dce54?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Farmers">
+                <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6caa6?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Green Apples">
+                <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=600&auto=format&fit=crop" class="banner-img" alt="Orchard">
+            </div>
+        </div>
+
+        <!-- News -->
+        <section id="news" class="section-news">
+            <div class="news-container">
+                <div class="news-title-block">
+                    <p class="section-en">News</p>
+                    <h2 class="section-title">お知らせ</h2>
+                </div>
+                
+                <ul class="news-list">
+                    <li class="news-item">
+                        <a href="#">
+                            <span class="news-date">2026.04.01</span>
+                            <span class="news-txt">ダミー文章お知らせが入りますダミー文章お知らせが入ります</span>
+                            <div class="news-arrow">→</div>
+                        </a>
+                    </li>
+                    <li class="news-item">
+                        <a href="#">
+                            <span class="news-date">2026.04.01</span>
+                            <span class="news-txt">ダミー文章お知らせが入りますダミー文章お知らせが入ります</span>
+                            <div class="news-arrow">→</div>
+                        </a>
+                    </li>
+                    <li class="news-item">
+                        <a href="#">
+                            <span class="news-date">2026.04.01</span>
+                            <span class="news-txt">ダミー文章お知らせが入りますダミー文章お知らせが入ります</span>
+                            <div class="news-arrow">→</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section id="gallery" class="section-gallery">
+            <div class="gallery-bg-text">
+                <div class="scroll-text-inner">iizuna sour apple iizuna sour apple</div>
+            </div>
+
+            <!-- Outline Mountain -->
+            <svg class="gallery-svg-mountain" viewBox="0 0 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 250 L 150 200 L 250 150 L 300 120 L 350 150 L 450 200 C 600 250, 800 270, 1000 280" stroke="white" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+
+            <!-- Outline Apple Logo (Solid White SVG cutout) -->
+            <svg class="gallery-svg-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 20 C 20 20 10 50 10 80 C 10 90 20 100 50 100 C 80 100 90 90 90 80 C 90 50 80 20 50 20 Z" fill="white"/>
+                <rect x="70" y="40" width="10" height="40" fill="#dcecb4"/>
+                <circle cx="75" cy="25" r="5" fill="#dcecb4"/>
+            </svg>
+
+            <div class="gallery-container">
+                <div class="gallery-title-block">
+                    <p class="section-en">Photo Gallery</p>
+                    <h2 class="section-title">フォトギャラリー</h2>
+                </div>
+
+                <!-- Scattered Gallery Images -->
+                <img src="https://images.unsplash.com/photo-1619642880735-cbabdce55047?q=80&w=800&auto=format&fit=crop" class="g-img g-img-1" alt="Gallery">
+                <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=800&auto=format&fit=crop" class="g-img g-img-2" alt="Gallery">
+                <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop" class="g-img g-img-3" alt="Gallery">
+                <img src="https://images.unsplash.com/photo-1558774720-745d1f8680ad?q=80&w=800&auto=format&fit=crop" class="g-img g-img-4" alt="Gallery">
+                <img src="https://images.unsplash.com/photo-1595856417740-420d404dce54?q=80&w=800&auto=format&fit=crop" class="g-img g-img-5" alt="Gallery">
+                <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6caa6?q=80&w=800&auto=format&fit=crop" class="g-img g-img-6" alt="Gallery">
+                <img src="https://images.unsplash.com/photo-1627986295507-6ba797c2e008?q=80&w=800&auto=format&fit=crop" class="g-img g-img-7" alt="Gallery">
+                <img src="https://images.unsplash.com/photo-1483726234545-481d6e880fc6?q=80&w=800&auto=format&fit=crop" class="g-img g-img-8" alt="Gallery Lake">
+            </div>
+        </section>
+
+        <!-- Map Placeholder -->
+        <section class="section-map">
+            マップ
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Left Header Logo & Address -->
+            <div class="footer-left">
+                <svg class="footer-logo-svg" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Solid White Apple -->
+                    <path d="M45 25 C 20 25 10 50 10 75 C 10 95 25 105 45 105 C 65 105 75 95 75 75 C 75 50 65 25 45 25 Z" fill="white"/>
+                    <!-- 'i' Stalk and Dot (Cutout effect using background color) -->
+                    <rect x="40" y="35" width="8" height="35" fill="#b2cc35"/>
+                    <circle cx="44" cy="18" r="6" fill="#b2cc35"/>
+                    <!-- Mountain Line Sweep -->
+                    <path d="M72 70 L 85 55 L 105 75 L 130 40 L 160 80" stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/>
+                </svg>
+                <div class="footer-logo-text">iizuna<br>sour apple</div>
+                <address class="footer-address">
+                    飯綱町役場 産業観光課 農政係<br>
+                    〒389-1211<br>
+                    長野県上水内郡飯綱町牟礼2795-1
+                </address>
+            </div>
+
+            <!-- Right Site Navigation Links & CTA -->
+            <div class="footer-right">
+                <div class="footer-links">
+                    <ul class="footer-link-col">
+                        <li><a href="#about">飯綱町の紹介</a></li>
+                        <li><a href="#history">飯綱町のりんごの歴史</a></li>
+                        <li><a href="#feature">海外品種の特徴</a></li>
+                    </ul>
+                    <ul class="footer-link-col">
+                        <li><a href="#news">お知らせ</a></li>
+                        <li><a href="#gallery">フォトギャラリー</a></li>
+                    </ul>
+                </div>
+                <a href="#contact" class="footer-contact-btn">お問い合わせ</a>
+            </div>
+            
+            <!-- Floating Vertical Page Top Anchoring -->
+            <div class="page-top">
+                <a href="#">
+                    <span class="pt-arrow">↑</span>
+                    <span class="pt-text">PAGE TOP</span>
+                </a>
+            </div>
+
+        </div>
+        
+        <div class="footer-bottom">
+            copyright &copy; iizuna sour apple
+        </div>
+    </footer>
+
+</body>
+</html>

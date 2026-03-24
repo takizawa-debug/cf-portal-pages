@@ -3,3 +3,7 @@ node_modules/
 .wrangler/
 .env
 .dev.vars
+.venv/
+_worker.js
+wrangler.log
+*.log

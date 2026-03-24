@@ -1,3 +1,4 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -12,16 +13,8 @@ export async function onRequestPost(context) {
         }
 
         // Return a response that clears the cookie by setting Max-Age=0
-        return new Response(JSON.stringify({ ok: true }), {
-            headers: {
-                "Content-Type": "application/json",
-                "Set-Cookie": "admin_session_token=; HttpOnly; Secure; Path=/; Max-Age=0; SameSite=Strict"
-            }
-        });
+        return jsonResponse({ ok: true });
     } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
+        return errorResponse(e.message, 500);
     }
 }

@@ -1,3 +1,4 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 import { authenticate, requireRole } from "../../utils/auth";
 import * as xlsx from 'xlsx';
 import mammoth from 'mammoth';
@@ -7,9 +8,9 @@ export async function onRequestGet(context) {
     const { env } = context;
     try {
         const { results } = await env.DB.prepare("SELECT * FROM knowledge_base ORDER BY created_at DESC").all();
-        return Response.json(results);
+        return jsonResponse(results);
     } catch (e) {
-        return Response.json({ error: e.message }, { status: 500 });
+        return errorResponse(e.message, 500);
     }
 }
 
@@ -18,7 +19,7 @@ export async function onRequestPost(context) {
 
     // Auth Check
     const user = await authenticate(request, env);
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) return errorResponse("Unauthorized", 401);
 
     const roleError = requireRole(user, ['admin', 'editor']);
     // mammoth and xlsx do not work natively inside Cloudflare Workers without a bundler like webpack/esbuild.
@@ -63,7 +64,7 @@ export async function onRequestPost(context) {
                     }
                     if (!content) throw new Error("Empty scrape result");
                 } catch (e) {
-                    return Response.json({ error: "Could not scrape the provided URL. Ensure it is accessible." }, { status: 400 });
+                    return errorResponse("Could not scrape the provided URL. Ensure it is accessible.", 400);
                 }
             }
 
@@ -92,7 +93,7 @@ export async function onRequestPost(context) {
                         });
                         content = sheetText;
                     } catch (e) {
-                        return Response.json({ error: "Failed to parse Excel file.", details: e.message }, { status: 500 });
+                        return errorResponse("Failed to parse Excel file. Details: " + e.message, 500);
                     }
                 } else if (type === 'word') {
                     try {
@@ -100,7 +101,7 @@ export async function onRequestPost(context) {
                         const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
                         content = result.value;
                     } catch (e) {
-                        return Response.json({ error: "Failed to parse Word file.", details: e.message }, { status: 500 });
+                        return errorResponse("Failed to parse Word file. Details: " + e.message, 500);
                     }
                 } else {
                     // Gemini Extractor Pipeline mainly for PDFs/Images
@@ -135,20 +136,20 @@ export async function onRequestPost(context) {
 
                         if (!geminiRes.ok) {
                             const errText = await geminiRes.text();
-                            return Response.json({ error: "Failed to parse document using AI.", details: errText }, { status: 500 });
+                            return errorResponse("Failed to parse document using AI. Details: " + errText, 500);
                         }
 
                         const data = await geminiRes.json();
                         content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
                     } catch (e) {
-                        return Response.json({ error: "Failed to connect to AI parser." }, { status: 500 });
+                        return errorResponse("Failed to connect to AI parser.", 500);
                     }
                 }
             }
         }
 
         if (!title || (!content && type === 'text')) {
-            return Response.json({ error: "Title and content are required." }, { status: 400 });
+            return errorResponse("Title and content are required.", 400);
         }
 
         const id = crypto.randomUUID();
@@ -159,8 +160,8 @@ export async function onRequestPost(context) {
             VALUES (?, ?, ?, ?, ?, ?)
         `).bind(id, title, content || '', type, source_url, type === 'url' ? now : null).run();
 
-        return Response.json({ success: true, id, title });
+        return jsonResponse({ success: true, id, title });
     } catch (e) {
-        return Response.json({ error: e.message }, { status: 500 });
+        return errorResponse(e.message, 500);
     }
 }

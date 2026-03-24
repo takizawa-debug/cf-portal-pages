@@ -1,3 +1,4 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 export async function onRequestGet(context) {
     try {
         const db = context.env.DB;
@@ -7,20 +8,9 @@ export async function onRequestGet(context) {
             `SELECT * FROM apple_varieties ORDER BY display_order ASC`
         ).all();
 
-        return new Response(JSON.stringify({ success: true, apples: results }), {
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
+        return jsonResponse({ success: true, apples: results });
     } catch (err) {
-        return new Response(JSON.stringify({ success: false, error: err.message }), {
-            status: 500,
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
+        return errorResponse(err.message, 500);
     }
 }
 
@@ -35,45 +25,34 @@ export async function onRequestPost({ request, env }) {
         // Prepare the basic fields
         const {
             name_ja, name_en, name_zh,
-            harvest_season, harvest_category,
+            harvest_season,
             lineage, origin,
-            official_image_url, yokai_card_url,
+            official_image_url,
             summary, description
         } = data;
 
         const result = await db.prepare(`
             INSERT INTO apple_varieties (
                 id, name_ja, name_en, name_zh,
-                harvest_season, harvest_category,
+                harvest_season,
                 lineage, origin,
-                official_image_url, yokai_card_url,
+                official_image_url,
                 summary, description, display_order
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).bind(
             id, name_ja || '', name_en || '', name_zh || '',
-            harvest_season || '', harvest_category || '',
+            harvest_season || '',
             lineage || '', origin || '',
-            official_image_url || '', yokai_card_url || '',
+            official_image_url || '',
             summary || '', description || '', 999
         ).run();
 
         if (result.success) {
-            return new Response(JSON.stringify({ success: true, id: id }), {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*"
-                }
-            });
+            return jsonResponse({ success: true, id: id });
         } else {
             throw new Error("Failed to insert variety");
         }
     } catch (err) {
-        return new Response(JSON.stringify({ success: false, error: err.message }), {
-            status: 500,
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
+        return errorResponse(err.message, 500);
     }
 }

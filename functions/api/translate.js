@@ -1,3 +1,4 @@
+import { errorResponse } from "../utils/response";
 import { authenticate, requireRole } from "../utils/auth";
 
 export async function onRequestPost(context) {
@@ -5,7 +6,7 @@ export async function onRequestPost(context) {
 
     try {
         const user = await authenticate(request, env);
-        if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
+        if (!user) return errorResponse("Unauthorized", 401);
 
         const roleError = requireRole(user, ['admin', 'editor']);
         if (roleError) return roleError;
@@ -14,7 +15,7 @@ export async function onRequestPost(context) {
         const { title, lead_text, body_text } = body;
 
         if (!title && !body_text) {
-            return Response.json({ error: 'Missing content to translate' }, { status: 400 });
+            return errorResponse('Missing content to translate', 400);
         }
 
         // Fetch keywords to act as glossary
@@ -131,6 +132,6 @@ ${glossaryText}
         });
     } catch (err) {
         console.error("Translation error", err);
-        return Response.json({ error: err.message }, { status: 500 });
+        return errorResponse(err.message, 500);
     }
 }

@@ -1,3 +1,4 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 import { authenticate, requireRole } from "../../utils/auth";
 
 export async function onRequestPut(context) {
@@ -29,7 +30,7 @@ export async function onRequestPut(context) {
 
         if (role) {
             if (targetUserId === user.id && role !== user.role) {
-                return new Response(JSON.stringify({ error: "Cannot change your own role" }), { status: 400 });
+                return errorResponse("Cannot change your own role", 400);
             }
             updates.push("role = ?");
             binds.push(role);
@@ -41,15 +42,10 @@ export async function onRequestPut(context) {
             await env.DB.prepare(query).bind(...binds).run();
         }
 
-        return new Response(JSON.stringify({ ok: true }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return jsonResponse({ ok: true });
 
     } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
+        return errorResponse(e.message, 500);
     }
 }
 
@@ -63,22 +59,14 @@ export async function onRequestDelete(context) {
     if (roleError) return roleError;
 
     if (targetUserId === user.id) {
-        return new Response(JSON.stringify({ error: "Cannot delete yourself" }), {
-            status: 400,
-            headers: { "Content-Type": "application/json" }
-        });
+        return errorResponse("Cannot delete yourself", 400);
     }
 
     try {
         // FK mapping in schema should handle sessions ON DELETE CASCADE or we do it manual
         await env.DB.prepare("DELETE FROM users WHERE id = ?").bind(targetUserId).run();
-        return new Response(JSON.stringify({ ok: true }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return jsonResponse({ ok: true });
     } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
+        return errorResponse(e.message, 500);
     }
 }

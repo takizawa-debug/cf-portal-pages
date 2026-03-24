@@ -1,3 +1,4 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -6,10 +7,7 @@ export async function onRequestPost(context) {
         const { username, password } = body;
 
         if (!username || !password) {
-            return new Response(JSON.stringify({ error: "Missing username or password" }), {
-                status: 400,
-                headers: { "Content-Type": "application/json" }
-            });
+            return errorResponse("Missing username or password", 400);
         }
 
         // Hash the password using Web Crypto API (SHA-256)
@@ -21,17 +19,18 @@ export async function onRequestPost(context) {
 
         // Find user
         const { results } = await env.DB.prepare(
-            "SELECT id, username, role FROM users WHERE username = ? AND password_hash = ?"
+            "SELECT id, username, role, display_name, status FROM users WHERE username = ? AND password_hash = ?"
         ).bind(username, passwordHash).all();
 
         if (results.length === 0) {
-            return new Response(JSON.stringify({ error: "Invalid username or password" }), {
-                status: 401,
-                headers: { "Content-Type": "application/json" }
-            });
+            return errorResponse("ユーザーIDまたはパスワードが正しくありません", 401);
         }
 
         const user = results[0];
+
+        if (user.status === 'pending') {
+            return errorResponse("メールアドレスの認証が完了していません。受信トレイに届いている認証URLからパスワードを設定してください。", 403);
+        }
 
         // Create a new session
         const sessionId = crypto.randomUUID();
@@ -43,17 +42,18 @@ export async function onRequestPost(context) {
 
         const cookieValue = `admin_session_token=${sessionId}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Strict`;
 
-        return new Response(JSON.stringify({ ok: true, user: { id: user.id, username: user.username, role: user.role } }), {
+        return new Response(JSON.stringify({ ok: true, user: { id: user.id, username: user.username, role: user.role, display_name: user.display_name } }), {
+            status: 200,
             headers: {
                 "Content-Type": "application/json",
-                "Set-Cookie": cookieValue
+                "Set-Cookie": cookieValue,
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization"
             }
         });
 
     } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
+        return errorResponse(e.message, 500);
     }
 }

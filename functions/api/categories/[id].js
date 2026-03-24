@@ -1,10 +1,11 @@
+import { errorResponse, jsonResponse } from "../../utils/response";
 import { authenticate, requireRole } from "../../utils/auth";
 
 export async function onRequestPut(context) {
     const { request, env, params } = context;
 
     const user = await authenticate(request, env);
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) return errorResponse("Unauthorized", 401);
 
     const roleError = requireRole(user, ['admin', 'editor']);
     if (roleError) return roleError;
@@ -21,9 +22,9 @@ export async function onRequestPut(context) {
             WHERE id=?
         `).bind(typeToSave, l1, l2 || "", l3 || "", l1_en || "", l2_en || "", l3_en || "", l1_zh || "", l2_zh || "", l3_zh || "", id).run();
 
-        return Response.json({ success: true });
+        return jsonResponse({ success: true });
     } catch (e) {
-        return Response.json({ error: e.message }, { status: 500 });
+        return errorResponse(e.message, 500);
     }
 }
 
@@ -31,7 +32,7 @@ export async function onRequestDelete(context) {
     const { request, env, params } = context;
 
     const user = await authenticate(request, env);
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) return errorResponse("Unauthorized", 401);
 
     const roleError = requireRole(user, ['admin', 'editor']);
     if (roleError) return roleError;
@@ -39,8 +40,8 @@ export async function onRequestDelete(context) {
     const id = params.id;
     try {
         await env.DB.prepare("DELETE FROM categories WHERE id=?").bind(id).run();
-        return Response.json({ success: true });
+        return jsonResponse({ success: true });
     } catch (e) {
-        return Response.json({ error: e.message }, { status: 500 });
+        return errorResponse(e.message, 500);
     }
 }

@@ -12,6 +12,7 @@
     <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #FFF5F5;
@@ -25,13 +26,12 @@
 
         .login-card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             padding: 40px;
             width: 100%;
-            max-width: 400px;
-            border-top: 5px solid #d32f2f;
-            /* Apple Red */
+            max-width: 450px;
+            border-top: 6px solid #d32f2f;
         }
 
         .brand-logo {
@@ -42,7 +42,8 @@
         .brand-title {
             color: #d32f2f;
             font-weight: bold;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
+            line-height: 1.4;
         }
 
         .btn-brand {
@@ -66,23 +67,70 @@
         </div>
 
         <form id="loginForm">
-            <div id="errorMsg" class="alert alert-danger d-none" role="alert"></div>
+            <div id="errorMsg" class="alert alert-danger d-none fs-6" role="alert"></div>
 
             <div class="mb-3">
-                <label for="username" class="form-label text-muted fw-bold">ユーザーID</label>
-                <input type="text" class="form-control" id="username" required placeholder="admin">
+                <label for="username" class="form-label text-muted fw-bold fs-6">ユーザーID</label>
+                <input type="text" class="form-control form-control-lg" id="username" required placeholder="admin">
             </div>
 
             <div class="mb-4">
-                <label for="password" class="form-label text-muted fw-bold">パスワード</label>
-                <input type="password" class="form-control" id="password" required placeholder="password123">
+                <label for="password" class="form-label text-muted fw-bold fs-6">パスワード</label>
+                <input type="password" class="form-control form-control-lg" id="password" required placeholder="password123">
             </div>
 
-            <button type="submit" class="btn btn-brand w-100 py-2">ログイン</button>
+            <button type="submit" class="btn btn-brand w-100 py-3 fs-5 mb-3 shadow-sm rounded-3">パスワードでログイン</button>
+            
+            <div class="text-end mb-4">
+                <a href="/register.html" class="text-decoration-none fw-bold" style="color: #d32f2f;">新規事業者登録はこちら <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="position-relative my-4">
+                <hr class="text-muted">
+                <span class="position-absolute top-50 start-50 translate-middle px-3 bg-white text-muted small fw-bold">または</span>
+            </div>
+            
+            <a href="/api/auth/google" class="btn btn-outline-dark w-100 py-3 fs-6 fw-bold d-flex align-items-center justify-content-center gap-2 mb-3 shadow-sm rounded-pill">
+                <i class="fa-brands fa-google text-danger fs-5"></i> Googleアカウントでログイン
+            </a>
+            <a href="/api/auth/line" class="btn text-white w-100 py-3 fs-6 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm rounded-pill" style="background-color: #06C755;">
+                <i class="fa-brands fa-line fs-4"></i> LINEアカウントでログイン
+            </a>
+
+            <div class="mt-5 text-center">
+                <a href="/" class="btn btn-light border w-100 py-3 fw-bold text-secondary rounded-pill shadow-sm transition-all" style="background-color: #f8f9fa;">
+                    <i class="fa-solid fa-house me-2"></i> 表のTOPページに戻る
+                </a>
+            </div>
         </form>
     </div>
 
     <script>
+        // OAuth Error Handling
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorParam = urlParams.get('error');
+        if (errorParam) {
+            const errorMsg = document.getElementById('errorMsg');
+            let msg = 'ログインに失敗しました。';
+            if (errorParam === 'google_unregistered_email') {
+                const attemptEmail = urlParams.get('email') || '';
+                msg = `このGoogleアカウント（${attemptEmail}）はシステムに登録されていません。事前に管理者にメールアドレスの登録を依頼してください。`;
+            } else if (errorParam === 'google_cancelled') {
+                msg = 'Googleログインがキャンセルされました。';
+            } else if (errorParam.includes('google')) {
+                msg = 'Googleログインに失敗しました。';
+            } else if (errorParam === 'line_cancelled') {
+                msg = 'LINEログインがキャンセルされました。';
+            } else if (errorParam.includes('line')) {
+                msg = 'LINEログインに失敗しました。';
+            } else if (errorParam.includes('csrf') || errorParam.includes('timeout')) {
+                msg = 'セッションの期限が切れました。もう一度お試しください。';
+            }
+            errorMsg.textContent = msg;
+            errorMsg.classList.remove('d-none');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('username').value;

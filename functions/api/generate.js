@@ -1,3 +1,4 @@
+import { errorResponse } from "../utils/response";
 import { authenticate, requireRole } from '../utils/auth.js';
 
 export async function onRequestPost(context) {
@@ -5,7 +6,7 @@ export async function onRequestPost(context) {
 
     // Auth Check
     const user = await authenticate(request, env);
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) return errorResponse("Unauthorized", 401);
 
     const roleError = requireRole(user, ['admin', 'editor']);
     if (roleError) return roleError;
@@ -68,7 +69,7 @@ ${knowledgeText}
         if (!geminiResponse.ok) {
             const errorData = await geminiResponse.text();
             console.error("Gemini API Error:", errorData);
-            return Response.json({ error: "Failed to generate content from AI.", details: errorData }, { status: 500 });
+            return errorResponse("Failed to generate content from AI. Details: " + errorData, 500);
         }
 
         const data = await geminiResponse.json();
@@ -120,6 +121,6 @@ ${knowledgeText}
 
     } catch (error) {
         console.error("Generate API error:", error);
-        return Response.json({ error: "Internal Server Error" }, { status: 500 });
+        return errorResponse("Internal Server Error", 500);
     }
 }

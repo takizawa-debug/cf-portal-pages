@@ -1,14 +1,10 @@
+import { jsonResponse, errorResponse, optionsResponse } from "../utils/response";
+import { sendNotificationToRoles } from "../utils/notification";
 export async function onRequest(context) {
     const { request, env } = context;
 
     if (request.method === 'OPTIONS') {
-        return new Response(null, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            }
-        });
+        return optionsResponse();
     }
 
     const url = new URL(request.url);
@@ -34,18 +30,16 @@ export async function onRequest(context) {
             const appleVarieties = varieties.map(r => r.name_ja);
             const appleProducts = ["シードル", "ジュース", "ジャム", "お菓子", "スイーツ", "その他"]; // Added その他 just in case
 
-            return new Response(JSON.stringify({
+            return jsonResponse({
                 ok: true,
                 items: Object.keys(items).length > 0 ? items : { "味わう": ["カフェ"] },
                 l1_order: Object.keys(items),
                 appleVarieties: appleVarieties.length ? appleVarieties : ["ふじ", "シナノスイート", "秋映"],
                 appleProducts
-            }), {
-                headers: { 'Content-Type': 'application/json' }
             });
 
         } catch (error) {
-            return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+            return jsonResponse({ ok: false, error: error.message }, 500);
         }
     }
 
@@ -110,15 +104,22 @@ export async function onRequest(context) {
                 'unread'
             ).run();
 
-            return new Response(JSON.stringify({ ok: true, id }), {
-                headers: { 'Content-Type': 'application/json' }
-            });
+            // Notify Admins and Editors asynchronously
+            context.waitUntil(
+                sendNotificationToRoles(
+                    env, 
+                    ['admin', 'editor'], 
+                    `[自動通知] 新しいフォーム送信（種別: ${formType}）を受信しました！\n管理画面の「お問い合わせ一覧」をご確認ください。`
+                ).catch(e => console.error("Notification Error:", e))
+            );
+
+            return jsonResponse({ ok: true, id });
 
         } catch (error) {
             console.error('Contact Form Error:', error);
-            return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+            return jsonResponse({ ok: false, error: error.message }, 500);
         }
     }
 
-    return new Response('Method Not Allowed', { status: 405 });
+    return errorResponse('Method Not Allowed', 405);
 }
