@@ -1073,10 +1073,11 @@ async function saveBusinessProfile() {
 
     const bizData = {};
     document.querySelectorAll('[id^="page_biz_"]').forEach(el => {
+        if (el.tagName === 'DIV' || el.tagName === 'SPAN') return;
         const key = el.id.replace('page_biz_', '');
         if (el.type === 'checkbox') {
             bizData[key] = el.checked;
-        } else {
+        } else if (el.value !== undefined) {
             if (el.value.trim() !== '') bizData[key] = el.value.trim();
         }
     });
