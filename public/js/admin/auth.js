@@ -43,11 +43,12 @@ async function checkAuth() {
              switchMainPanel('content-panel', document.getElementById('navContentMgt'));
         } else if (data.user.role === 'editor') {
             // Editor: No System Setup, No Account Manage
-            const editorNavs = ['navContentMgt', 'navBusinessProfile', 'navArchitecture', 'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navBroadcast'];
+            const editorNavs = ['navContentMgt', 'navBusinessProfile', 'navArchitecture', 'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navBroadcast'];
             
-            // Allow media management only if they are not exclusively scoped to the Sourapple site
+            // Allow media management and SEO management strictly if they manage the Main site
             if (window.managedSites.includes('all') || window.managedSites.includes('main')) {
                 editorNavs.push('navMediaMgt');
+                editorNavs.push('navSeoMgt');
             }
 
             editorNavs.forEach(id => {

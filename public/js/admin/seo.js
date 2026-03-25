@@ -145,10 +145,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 optMain.textContent = 'りんごのまち・いいづな トップページ ( / )';
                 selectEl.appendChild(optMain);
                 
-                const optAbout = document.createElement('option');
-                optAbout.value = '/about';
-                optAbout.textContent = 'りんごのまち・いいづな について ( /about )';
-                selectEl.appendChild(optAbout);
+                const mainPages = [
+                    { path: '/lifestyle', name: '暮らす・働く ( /lifestyle )' },
+                    { path: '/discover', name: '知る・学ぶ ( /discover )' },
+                    { path: '/savor', name: '味わう・楽しむ ( /savor )' },
+                    { path: '/experience', name: '体験する ( /experience )' },
+                    { path: '/business', name: '事業者向け ( /business )' },
+                    { path: '/contact', name: 'お問い合わせ ( /contact )' }
+                ];
+
+                mainPages.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.path;
+                    opt.textContent = `りんごのまち・いいづな ${p.name}`;
+                    selectEl.appendChild(opt);
+                });
             }
             
             if (selectEl.options.length > 0) {
