@@ -4,7 +4,7 @@
 
 let contentModal = null;
 const contentFields = [
-    'id', 'site_scope', 'l1', 'l2', 'l3_label', 'title', 'lead_text', 'body_text',
+    'id', 'status', 'site_scope', 'l1', 'l2', 'l3_label', 'title', 'lead_text', 'body_text',
     'l1_en', 'l2_en', 'l3_label_en', 'title_en', 'lead_text_en', 'body_text_en',
     'l1_tw', 'l2_tw', 'l3_label_tw', 'title_tw', 'lead_text_tw', 'body_text_tw',
     'image1', 'image2', 'image3', 'image4', 'image5', 'image6',
