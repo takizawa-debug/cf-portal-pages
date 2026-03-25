@@ -27,7 +27,10 @@ async function pushToLine(env, lineIds, message, imageUrls = []) {
     let pdfLinks = [];
     
     if (imageUrls && imageUrls.length > 0) {
-        for (const url of imageUrls) {
+        for (const rawUrl of imageUrls) {
+            // Encode the URL strictly protecting against double-encoding (which causes 404s)
+            const url = encodeURI(decodeURI(rawUrl.trim()));
+            
             const isLineSupportedImage = url.match(/\.(jpeg|jpg|png)$/i) != null;
             if (isLineSupportedImage) {
                 messagesPayload.push({
@@ -87,19 +90,28 @@ async function pushToEmail(env, emails, message, imageUrls = []) {
 
     let attachments = [];
     if (imageUrls && imageUrls.length > 0) {
-        const fetchPromises = imageUrls.map(async (url) => {
+        const fetchPromises = imageUrls.map(async (rawUrl, index) => {
             try {
+                // Strictly encode URI preventing Context crashes, using decodeURI escaping double-encoding bugs
+                const url = encodeURI(decodeURI(rawUrl.trim()));
+                
                 const fileRes = await fetch(url);
                 if (fileRes.ok) {
                     const arrayBuffer = await fileRes.arrayBuffer();
                     const base64Content = arrayBufferToBase64(arrayBuffer);
-                    let filename = url.split('/').pop() || "attachment.file";
-                    try { filename = decodeURIComponent(filename); } catch (e) { }
+                    
+                    let baseName = rawUrl.split('/').pop() || "attachment.file";
+                    try { baseName = decodeURIComponent(baseName); } catch (e) { }
+                    
+                    // Attach dynamic explicit index counters securely escaping Resend duplicate-name dropping bugs
+                    const filename = `attachment_${index + 1}_${baseName}`;
 
                     return {
                         filename: filename,
                         content: base64Content
                     };
+                } else {
+                    console.error("Fetch returned non-ok status for:", url);
                 }
             } catch (err) {
                 console.error("Failed to fetch encoding attachment:", err);
