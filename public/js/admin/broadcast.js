@@ -9,7 +9,7 @@ async function updateBroadcastPreview() {
     badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> 計算中...';
 
     try {
-        const res = await apiFetch(`/api/broadcast_preview?target_type=${targetType}&channel=${channel}`);
+        const res = await apiFetch(`/api/broadcast_preview?target_type=${targetType}&channel=${channel}&t=${Date.now()}`);
         if (res.ok) {
             badge.className = 'badge bg-brand py-2 px-3 fw-bold';
             badge.innerHTML = `<i class="fa-solid fa-users me-1"></i> 配信予定: ${res.count}件 (LINE: ${res.line_count}, Email: ${res.email_count})`;

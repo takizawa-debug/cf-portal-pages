@@ -26,6 +26,12 @@ export async function onRequestGet(context) {
         let stmt = env.DB.prepare(query);
         if (params.length > 0) stmt = stmt.bind(...params);
         const { results: users } = await stmt.all();
+        
+        console.log("=== PREVIEW DEBUG ===");
+        console.log("TargetType:", targetType, "Channel:", channel);
+        console.log("Users Fetched Count:", users?.length);
+        console.log("First 5 Users:", JSON.stringify(users?.slice(0, 5)));
+
 
         let lineCount = 0;
         let emailCount = 0;
