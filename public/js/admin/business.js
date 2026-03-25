@@ -1041,10 +1041,7 @@ async function saveSubEntity() {
 
     renderSubEntities();
     
-    if (window.userRole !== 'contributor') {
-        await saveBusinessProfile(true);
-        loadBusinessProfile(); // Admin returns to list
-    }
+    await saveBusinessProfile();
 }
 
 async function deleteSubEntity() {
@@ -1057,10 +1054,7 @@ async function deleteSubEntity() {
     if (mo) mo.hide();
     renderSubEntities();
 
-    if (window.userRole !== 'contributor') {
-        await saveBusinessProfile(true);
-        loadBusinessProfile(); // Admin returns to list
-    }
+    await saveBusinessProfile();
 }
 
 async function saveBusinessProfile() {
