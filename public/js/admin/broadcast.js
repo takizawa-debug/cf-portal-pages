@@ -225,8 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Automatically load history list on init
-    loadBroadcastHistory();
+    // Automatically load history list on init only for authorized scopes avoiding 403 UI Detonations natively
+    const adminRole = localStorage.getItem('admin_role');
+    if (adminRole === 'admin' || adminRole === 'editor') {
+        loadBroadcastHistory();
+    }
 });
 
 /* ============================
