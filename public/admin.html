@@ -1248,33 +1248,6 @@ flowchart TD
                             <!-- Basic -->
                             <div class="tab-pane fade show active" id="tab-basic" role="tabpanel">
 
-                                <!-- AI Generation Box -->
-                                <div class="card mb-4 border-brand bg-light" id="ai-generation-box">
-                                    <div class="card-body">
-                                        <h6 class="fw-bold mb-3" style="color:var(--brand);"><i
-                                                class="fa-solid fa-wand-magic-sparkles"></i> AI記事自動生成 (Beta)</h6>
-                                        <div class="row g-2 align-items-end">
-                                            <div class="col-md-5">
-                                                <label class="form-label text-muted fw-bold small m-0">検索キーワード</label>
-                                                <input type="text" class="form-control form-control-sm" id="ai_keyword"
-                                                    placeholder="例: いいづなアップルミュージアム">
-                                            </div>
-                                            <div class="col-md-5">
-                                                <label class="form-label text-muted fw-bold small m-0">テーマ・補足指示
-                                                    (任意)</label>
-                                                <input type="text" class="form-control form-control-sm" id="ai_theme"
-                                                    placeholder="例: 営業時間と見どころについて">
-                                            </div>
-                                            <div class="col-md-2">
-                                                <button type="button" class="btn btn-brand btn-sm w-100 fw-bold"
-                                                    onclick="generateArticleWithAI()" id="btnGenerateAI">
-                                                    <i class="fa-solid fa-play"></i> 生成実行
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="row g-3">
                                     <div class="col-12 mb-2">
                                         <label class="form-label text-muted fw-bold">掲載サイト (Site Scope) <span class="text-danger">*</span></label>
@@ -1313,6 +1286,36 @@ flowchart TD
                                         <label class="form-label text-muted fw-bold">本文</label>
                                         <textarea class="form-control" id="field_body_text" rows="5"></textarea>
                                     </div>
+
+                                    <!-- AI Generation Box -->
+                                    <div class="col-12 mt-4">
+                                        <div class="card border-brand bg-light" id="ai-generation-box">
+                                            <div class="card-body">
+                                                <h6 class="fw-bold mb-3" style="color:var(--brand);"><i
+                                                        class="fa-solid fa-wand-magic-sparkles"></i> AI記事自動生成 (Beta)</h6>
+                                                <div class="row g-2 align-items-end">
+                                                    <div class="col-md-5">
+                                                        <label class="form-label text-muted fw-bold small m-0">検索キーワード</label>
+                                                        <input type="text" class="form-control form-control-sm" id="ai_keyword"
+                                                            placeholder="例: いいづなアップルミュージアム">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <label class="form-label text-muted fw-bold small m-0">テーマ・補足指示
+                                                            (任意)</label>
+                                                        <input type="text" class="form-control form-control-sm" id="ai_theme"
+                                                            placeholder="例: 営業時間と見どころについて">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-brand btn-sm w-100 fw-bold"
+                                                            onclick="generateArticleWithAI()" id="btnGenerateAI">
+                                                            <i class="fa-solid fa-play"></i> 生成実行
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
