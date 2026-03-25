@@ -16,18 +16,18 @@ export async function onRequestGet(context) {
         // Tenant Isolation for Contributors with Shared Read Access
         if (user.role === 'contributor') {
             const userPrefix = `media/${user.id}/`;
-            const sharedPrefix = `shared/`;
+            const officialPrefix = `official/`;
 
-            const [userListed, sharedListed] = await Promise.all([
+            const [userListed, officialListed] = await Promise.all([
                 bucket.list({ prefix: userPrefix, limit: 1000 }),
-                bucket.list({ prefix: sharedPrefix, limit: 1000 })
+                bucket.list({ prefix: officialPrefix, limit: 1000 })
             ]);
 
             const files = [];
             userListed.objects.forEach(obj => {
                 files.push({ key: obj.key, url: `/assets/${obj.key}`, size: obj.size, uploaded: obj.uploaded });
             });
-            sharedListed.objects.forEach(obj => {
+            officialListed.objects.forEach(obj => {
                 files.push({ key: obj.key, url: `/assets/${obj.key}`, size: obj.size, uploaded: obj.uploaded });
             });
 
@@ -109,6 +109,10 @@ export async function onRequestDelete(context) {
         if (user.role === 'contributor') {
             if (!key.startsWith(`media/${user.id}/`)) {
                 return errorResponse("Forbidden: You can only delete your own media files", 403);
+            }
+        } else if (user.role === 'editor') {
+            if (key.startsWith('official/')) {
+                return errorResponse("Forbidden: Editors cannot delete Official Materials", 403);
             }
         }
 

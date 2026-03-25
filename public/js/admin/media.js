@@ -38,13 +38,31 @@ function renderMediaGrid() {
         return;
     }
 
-    // Group by directory
-    const groups = {};
+    // Build hierarchical folder parse
+    const rootFolders = {}; // map of folder -> count
+    const subFolders = {};  // map of parent -> map of child -> count
+    const filesInPath = {}; // map of path -> array of files
+    
     mediaCache.forEach(m => {
         const parts = m.key.split('/');
         const dir = parts.length > 1 ? parts.slice(0, -1).join('/') : 'ルート';
-        if (!groups[dir]) groups[dir] = [];
-        groups[dir].push(m);
+        
+        if (!filesInPath[dir]) filesInPath[dir] = [];
+        filesInPath[dir].push(m);
+        
+        if (window.userRole !== 'contributor' && dir.startsWith('media/')) {
+            const parent = 'media';
+            const childDir = dir;
+            if (!rootFolders[parent]) rootFolders[parent] = 0;
+            rootFolders[parent] += 1;
+            
+            if (!subFolders[parent]) subFolders[parent] = {};
+            if (!subFolders[parent][childDir]) subFolders[parent][childDir] = 0;
+            subFolders[parent][childDir] += 1;
+        } else {
+            if (!rootFolders[dir]) rootFolders[dir] = 0;
+            rootFolders[dir] += 1;
+        }
     });
 
     const generateHtml = (isPicker) => {
@@ -52,13 +70,15 @@ function renderMediaGrid() {
 
         if (currentMediaDir === null) {
             html += `<div class="col-12 mb-2"><span class="fw-bold text-secondary">フォルダを選択</span></div>`;
-            Object.keys(groups).sort().forEach(dir => {
-                const count = groups[dir].length;
+            Object.keys(rootFolders).sort().forEach(dir => {
+                const count = rootFolders[dir];
                 let displayDir = dir;
-                if (window.userRole === 'contributor') {
-                    if (dir.startsWith('media/')) displayDir = '自分の画像 (My Folder)';
-                    else if (dir === 'shared' || dir.startsWith('shared/')) displayDir = '共通素材 (Shared)';
-                }
+                
+                if (dir === 'official') displayDir = '公式配布素材 (Official)';
+                else if (dir === 'library') displayDir = '運営・パブリック画像 (Library)';
+                else if (dir === 'media' && window.userRole !== 'contributor') displayDir = '事業者画像全般 (Media)';
+                else if (window.userRole === 'contributor' && dir.startsWith('media/')) displayDir = '自分の画像 (My Folder)';
+
                 html += `
                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                         <div class="card h-100 border shadow-sm border-0 bg-white" style="cursor:pointer;" onclick="setMediaDir('${dir}')">
@@ -71,20 +91,100 @@ function renderMediaGrid() {
                     </div>
                 `;
             });
-        } else {
-            let breadcrumbDisplay = currentMediaDir;
-            if (window.userRole === 'contributor') {
-                if (currentMediaDir.startsWith('media/')) breadcrumbDisplay = '自分の画像 (My Folder)';
-                else if (currentMediaDir === 'shared' || currentMediaDir.startsWith('shared/')) breadcrumbDisplay = '共通素材 (Shared)';
-            }
+        } else if (subFolders[currentMediaDir]) {
             html += `
                 <div class="col-12 mb-3 d-flex align-items-center gap-2">
                     <button class="btn btn-outline-secondary btn-sm" onclick="setMediaDir(null)"><i class="fa-solid fa-arrow-left"></i> 戻る</button>
+                    <span class="fw-bold fs-5 text-secondary"><i class="fa-solid fa-folder-open text-warning me-2"></i>事業者画像全般 (Media)</span>
+                </div>
+            `;
+            const children = subFolders[currentMediaDir];
+            Object.keys(children).sort().forEach(childDir => {
+                const count = children[childDir];
+                const displayDir = childDir.replace('media/', ''); 
+                html += `
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                        <div class="card h-100 border shadow-sm border-0 bg-white" style="cursor:pointer;" onclick="setMediaDir('${childDir}')">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center py-4 folder-card" style="position:relative;">
+                                <i class="fa-solid fa-folder fa-4x text-warning"></i>
+                                <span class="position-absolute bottom-0 end-0 mb-2 me-2 badge bg-secondary">${count}</span>
+                            </div>
+                            <div class="card-body p-2 text-center text-truncate fw-bold text-dark" title="${displayDir}">${displayDir}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            let breadcrumbDisplay = currentMediaDir;
+            let pBtn = `setMediaDir(null)`;
+            if (window.userRole !== 'contributor' && currentMediaDir.startsWith('media/')) {
+                breadcrumbDisplay = currentMediaDir.replace('media/', '');
+                pBtn = `setMediaDir('media')`;
+            } else if (currentMediaDir === 'official') {
+                breadcrumbDisplay = '公式配布素材 (Official)';
+            } else if (window.userRole === 'contributor' && currentMediaDir.startsWith('media/')) {
+                breadcrumbDisplay = '自分の画像 (My Folder)';
+            } else if (currentMediaDir === 'library') {
+                breadcrumbDisplay = '運営・パブリック画像 (Library)';
+            }
+
+            // TOS Block for Contributors in Official
+            if (currentMediaDir === 'official' && window.userRole === 'contributor' && !localStorage.getItem('official_media_agreed')) {
+                return html + `
+                <div class="col-12 mb-3 d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="${pBtn}"><i class="fa-solid fa-arrow-left"></i> 戻る</button>
                     <span class="fw-bold fs-5 text-secondary"><i class="fa-solid fa-folder-open text-warning me-2"></i>${breadcrumbDisplay}</span>
+                </div>
+                <div class="col-12 my-4">
+                    <div class="card shadow-sm border-brand">
+                        <div class="card-header bg-brand text-white fw-bold">
+                            <i class="fa-solid fa-circle-exclamation me-1"></i> 公式配布素材の利用規約
+                        </div>
+                        <div class="card-body bg-white p-4">
+                            <div class="bg-light p-3 rounded mb-4 text-muted" style="height: 200px; overflow-y: scroll; font-size: 0.9rem;">
+                                <h5 class="fw-bold text-dark">基本利用条件</h5>
+                                <p>これらの素材は、当ポータルサイトに登録済みの事業者様に対し、宣伝・広報活動を目的とした無償利用を許諾するものです。</p>
+                                <h5 class="fw-bold text-dark mt-4">禁止事項</h5>
+                                <ul>
+                                    <li>素材を改変し、公序良俗に反する目的で利用すること（著しい色調変更や悪意ある変形等）</li>
+                                    <li>素材自体を二次販売、単体での再配布、または商標登録等を行うこと</li>
+                                    <li>当自治体・運営団体と無関係の事業や、誤解を招くような文脈での利用</li>
+                                </ul>
+                                <p class="mt-4">ご不明な点がございましたら、運営窓口へお問い合わせください。</p>
+                            </div>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input border-brand" type="checkbox" id="tosAgreeCheck" onchange="document.getElementById('tosAgreeBtn').disabled = !this.checked">
+                                <label class="form-check-label fw-bold text-dark" for="tosAgreeCheck">
+                                    利用規約の内容を確認し、同意します
+                                </label>
+                            </div>
+                            <button class="btn btn-brand px-4 py-2 fw-bold" id="tosAgreeBtn" disabled onclick="agreeToTerms()"><i class="fa-solid fa-check"></i> 同意して画像を閲覧・利用する</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+
+            html += `
+                <div class="col-12 mb-3 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="${pBtn}"><i class="fa-solid fa-arrow-left"></i> 戻る</button>
+                        <span class="fw-bold fs-5 text-secondary"><i class="fa-solid fa-folder-open text-warning me-2"></i>${breadcrumbDisplay}</span>
+                    </div>
                 </div>
             `;
 
-            const items = groups[currentMediaDir] || [];
+            // Enforce upload button restriction
+            const uploadBtn = document.querySelector('button[onclick*="mediaUploadInput"]');
+            if (uploadBtn) {
+                if (currentMediaDir === 'official' && window.userRole === 'contributor') {
+                    uploadBtn.style.display = 'none';
+                } else {
+                    uploadBtn.style.display = 'inline-block';
+                }
+            }
+
+            const items = filesInPath[currentMediaDir] || [];
             if (items.length === 0) {
                 html += '<div class="col-12 text-muted mt-3">このフォルダは空です。</div>';
             }
@@ -96,6 +196,16 @@ function renderMediaGrid() {
 
                 let displayTitle = m.key.split('/').pop();
                 try { displayTitle = decodeURIComponent(displayTitle); } catch (e) { }
+                
+                // Show delete logic
+                let canDelete = true;
+                if (currentMediaDir === 'official' && (window.userRole === 'editor' || window.userRole === 'contributor')) {
+                    canDelete = false;
+                }
+                const deleteBtnHtml = canDelete ? `<button class="btn btn-sm btn-outline-danger flex-fill fw-bold" onclick="deleteMedia('${m.key}')" title="削除"><i class="fa-solid fa-trash"></i></button>` : '';
+
+                // Download logic
+                const downloadBtnHtml = `<button class="btn btn-sm btn-outline-secondary flex-fill fw-bold" onclick="downloadImage('${m.url}', '${displayTitle}')" title="ダウンロード"><i class="fa-solid fa-download"></i></button>`;
 
                 if (!isPicker) {
                     html += `
@@ -110,7 +220,8 @@ function renderMediaGrid() {
                                 </div>
                                 <div class="card-footer p-2 bg-white border-top-0 d-flex gap-2">
                                     <button class="btn btn-sm btn-outline-brand flex-fill fw-bold" onclick="copyMediaUrl('${m.url}')" title="URLをコピー"><i class="fa-regular fa-copy"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger flex-fill fw-bold" onclick="deleteMedia('${m.key}')" title="削除"><i class="fa-solid fa-trash"></i></button>
+                                    ${downloadBtnHtml}
+                                    ${deleteBtnHtml}
                                 </div>
                             </div>
                         </div>
@@ -145,6 +256,29 @@ function renderMediaGrid() {
             `;
             document.head.appendChild(mStyle);
         }
+    }
+}
+
+function agreeToTerms() {
+    localStorage.setItem('official_media_agreed', '1');
+    renderMediaGrid();
+}
+
+async function downloadImage(url, filename) {
+    try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(downloadUrl);
+        showStatus('ダウンロードが完了しました', 'success');
+    } catch(e) {
+        showStatus('ダウンロードに失敗しました', 'error');
     }
 }
 
