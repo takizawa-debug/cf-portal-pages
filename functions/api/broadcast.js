@@ -2,6 +2,30 @@ import { jsonResponse, errorResponse } from "../utils/response.js";
 import { authenticate } from "../utils/auth.js";
 import { sendTargetedBroadcast } from "../utils/notification.js";
 
+export async function onRequestGet(context) {
+    const { request, env } = context;
+
+    const user = await authenticate(request, env);
+    if (!user) return errorResponse("Unauthorized", 401);
+    if (user.role === 'contributor') return errorResponse("Forbidden", 403);
+
+    try {
+        const stmt = env.DB.prepare(`
+            SELECT * FROM broadcast_history
+            ORDER BY created_at DESC
+            LIMIT 100
+        `);
+        const { results } = await stmt.all();
+        return jsonResponse({
+            ok: true,
+            data: results
+        });
+    } catch(err) {
+        console.error("GET Broadcast Error:", err);
+        return errorResponse("Internal Server Error", 500);
+    }
+}
+
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -24,6 +48,7 @@ export async function onRequestPost(context) {
         const targetType = body.target_type || 'all';
         const channel = body.channel || 'both';
         const message = body.message;
+        const scheduledAt = body.scheduled_at || null;
         let imageUrls = body.image_urls || [];
         if (!Array.isArray(imageUrls)) {
             imageUrls = [];
@@ -55,7 +80,35 @@ export async function onRequestPost(context) {
             }
         });
 
+        const historyId = crypto.randomUUID();
+
+        // 1. If it's scheduled, write to DB as pending and skip sending immediately
+        if (scheduledAt) {
+            await env.DB.prepare(`
+                INSERT INTO broadcast_history (id, target_type, channel, message, image_urls, scheduled_at, status)
+                VALUES (?, ?, ?, ?, ?, ?, 'pending')
+            `).bind(historyId, targetType, channel, message, JSON.stringify(imageUrls), scheduledAt).run();
+
+            return jsonResponse({
+                ok: true,
+                message: "Scheduled successfully",
+                summary: { line: { attempted: 0, success: 0, failed: 0 }, email: { attempted: 0, success: 0, failed: 0 } }
+            });
+        }
+
+        // 2. Immediate Broadcast
+        await env.DB.prepare(`
+            INSERT INTO broadcast_history (id, target_type, channel, message, image_urls, status)
+            VALUES (?, ?, ?, ?, ?, 'processing')
+        `).bind(historyId, targetType, channel, message, JSON.stringify(imageUrls)).run();
+
         const results = await sendTargetedBroadcast(env, targetUsernames, message, imageUrls);
+
+        await env.DB.prepare(`
+            UPDATE broadcast_history
+            SET status = 'completed', sent_at = CURRENT_TIMESTAMP, result_json = ?
+            WHERE id = ?
+        `).bind(JSON.stringify(results), historyId).run();
 
         return jsonResponse({
             ok: true,

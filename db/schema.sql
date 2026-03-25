@@ -153,3 +153,16 @@ CREATE TABLE IF NOT EXISTS form_submissions (
     status TEXT DEFAULT 'unread',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS broadcast_history (
+    id TEXT PRIMARY KEY,
+    target_type TEXT NOT NULL,
+    channel TEXT NOT NULL,
+    message TEXT NOT NULL,
+    image_urls TEXT,
+    scheduled_at DATETIME,
+    sent_at DATETIME,
+    status TEXT DEFAULT 'pending',
+    result_json TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

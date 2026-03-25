@@ -9,7 +9,9 @@ async function updateBroadcastPreview() {
     badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> 計算中...';
 
     try {
-        const res = await apiFetch(`/api/broadcast_preview?target_type=${targetType}&channel=${channel}&t=${Date.now()}`);
+        // Add cache buster to circumvent aggressive edge caching
+        const timestamp = Date.now();
+        const res = await apiFetch(`/api/broadcast_preview?target_type=${targetType}&channel=${channel}&t=${timestamp}`);
         if (res.ok) {
             badge.className = 'badge bg-brand py-2 px-3 fw-bold';
             badge.innerHTML = `<i class="fa-solid fa-users me-1"></i> 配信予定: ${res.count}件 (LINE: ${res.line_count}, Email: ${res.email_count})`;
@@ -28,17 +30,30 @@ async function sendBroadcast() {
     const channel = document.getElementById('broadcast_channel').value;
     const message = document.getElementById('broadcast_message').value;
 
-    if (!message || message.trim() === '') {
-        showStatus('メッセージを入力してください。', 'error');
-        return;
+    let scheduledAt = null;
+    if (document.getElementById('timingSchedule').checked) {
+        scheduledAt = document.getElementById('broadcast_scheduled_at').value;
+        if (!scheduledAt) {
+            alert("予約送信の日時を指定してください。");
+            return;
+        }
     }
 
-    if (!confirm('メッセージの一斉送信を実行します。よろしいですか？')) return;
+    if (!message || message.trim() === '') {
+        alert("メッセージ本文を入力してください。");
+        return;
+    }
+    
+    if (scheduledAt) {
+        if (!confirm("指定した日時での予約送信を確定しますか？")) return;
+    } else {
+        if (!confirm("本当に一斉送信を実行しますか？この操作は取り消せません。")) return;
+    }
 
     const btn = document.getElementById('btn_send_broadcast');
     const ogHtml = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 送信中...';
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>送信処理中...';
     document.getElementById('broadcast_result_container').classList.add('d-none');
 
     try {
@@ -47,7 +62,8 @@ async function sendBroadcast() {
             target_type: targetType,
             channel: channel,
             message: message,
-            image_urls: typeof broadcastAttachments !== 'undefined' ? broadcastAttachments.map(a => a.url) : []
+            image_urls: typeof broadcastAttachments !== 'undefined' ? broadcastAttachments.map(a => a.url) : [],
+            scheduled_at: scheduledAt
         };
         const data = await apiFetch('/api/broadcast', {
             method: 'POST',
@@ -57,19 +73,33 @@ async function sendBroadcast() {
         if (data.ok && data.summary) {
             document.getElementById('broadcast_result_container').classList.remove('d-none');
             
-            const ls = data.summary.line;
-            const es = data.summary.email;
-            
-            document.getElementById('res_line_attempt').innerText = ls.attempted;
-            document.getElementById('res_line_success').innerText = ls.success;
-            document.getElementById('res_line_fail').innerText = ls.failed;
-            
-            document.getElementById('res_email_attempt').innerText = es.attempted;
-            document.getElementById('res_email_success').innerText = es.success;
-            document.getElementById('res_email_fail').innerText = es.failed;
+            if (scheduledAt) {
+                document.getElementById('broadcast_result_container').innerHTML = `
+                    <h5 class="fw-bold mb-3 text-brand"><i class="fa-solid fa-clock me-2"></i>配信予約完了</h5>
+                    <p class="text-muted small">指定された日時に自動的に送信処理が実行されます。</p>
+                    <button class="btn btn-sm btn-outline-secondary w-100" onclick="toggleBroadcastView('list')">履歴一覧に戻る</button>
+                `;
+            } else {
+                document.getElementById('res_line_attempt').innerText = data.summary.line.attempted;
+                document.getElementById('res_line_success').innerText = data.summary.line.success;
+                document.getElementById('res_line_fail').innerText = data.summary.line.failed;
 
+                document.getElementById('res_email_attempt').innerText = data.summary.email.attempted;
+                document.getElementById('res_email_success').innerText = data.summary.email.success;
+                document.getElementById('res_email_fail').innerText = data.summary.email.failed;
+            }
+            
             document.getElementById('broadcast_message').value = '';
-            showStatus('送信が完了しました', 'success');
+            // Reset attachments safely
+            if (typeof broadcastAttachments !== 'undefined') {
+                broadcastAttachments = [];
+                renderBroadcastAttachments();
+            }
+            
+            alert(scheduledAt ? "予約を確定しました！" : "一斉送信が完了しました！");
+            if(scheduledAt) {
+                toggleBroadcastView('list');
+            }
         } else {
             showStatus(data.error || '送信エラーが発生しました', 'error');
         }
@@ -186,4 +216,88 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('broadcast_attachment_status').innerHTML = initialBtnHtml;
         }
     });
+
+    // Automatically load history list on init
+    loadBroadcastHistory();
 });
+
+/* ============================
+   Broadcast History & Views
+============================ */
+function toggleBroadcastView(view) {
+    const listEl = document.getElementById('broadcast_view_list');
+    const formEl = document.getElementById('broadcast_view_form');
+    const btnNew = document.getElementById('btn_broadcast_new');
+    const btnBack = document.getElementById('btn_broadcast_back');
+
+    if (view === 'list') {
+        listEl.classList.remove('d-none');
+        formEl.classList.add('d-none');
+        btnNew.classList.remove('d-none');
+        btnBack.classList.add('d-none');
+        loadBroadcastHistory(); // Refresh
+    } else {
+        listEl.classList.add('d-none');
+        formEl.classList.remove('d-none');
+        btnNew.classList.add('d-none');
+        btnBack.classList.remove('d-none');
+        document.getElementById('broadcast_result_container').classList.add('d-none');
+    }
+}
+
+async function loadBroadcastHistory() {
+    const tbody = document.getElementById('broadcast_history_tbody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-5"><i class="fa-solid fa-spinner fa-spin me-2"></i>履歴を読み込み中...</td></tr>';
+    
+    try {
+        const res = await apiFetch('/api/broadcast', { method: 'GET' });
+        if (!res.ok) throw new Error(res.error || "Fetch failed");
+
+        if (res.data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-5">送信履歴がありません</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = '';
+        res.data.forEach(item => {
+            const isPending = item.status === 'pending';
+            const isFailed = item.status === 'failed';
+            
+            let statusBadge = '<span class="badge bg-secondary">完了</span>';
+            if (isPending) statusBadge = '<span class="badge bg-warning text-dark"><i class="fa-regular fa-clock me-1"></i>予約待機</span>';
+            if (isFailed) statusBadge = '<span class="badge bg-danger">失敗</span>';
+            if (item.status === 'processing') statusBadge = '<span class="badge bg-info"><i class="fa-solid fa-spinner fa-spin"></i> 処理中</span>';
+
+            const scheduledStr = item.scheduled_at ? new Date(item.scheduled_at).toLocaleString() : '-';
+            const sentStr = item.sent_at ? new Date(item.sent_at).toLocaleString() : '即時';
+            const timeDisplay = isPending ? `<span class="text-warning fw-bold">${scheduledStr}</span>` : `<span class="text-muted small">送信:</span> ${sentStr}`;
+
+            const channelStr = item.channel === 'both' ? 'LINE & Email' : item.channel;
+            const targetStr = item.target_type === 'all' ? '全体(contributor)' : item.target_type;
+
+            let resultHtml = '<span class="text-muted">-</span>';
+            if (item.result_json && !isPending) {
+                try {
+                    const r = JSON.parse(item.result_json);
+                    resultHtml = `<div class="small">L: ${r.line?.success||0}件 E: ${r.email?.success||0}件</div>`;
+                } catch(e) {}
+            }
+
+            const prefix = item.message.substring(0, 30) + (item.message.length > 30 ? '...' : '');
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${statusBadge}</td>
+                    <td>${timeDisplay}</td>
+                    <td><div class="small fw-bold">${targetStr}</div><div class="small text-muted">${channelStr}</div></td>
+                    <td><div class="small text-muted text-wrap" style="max-height: 40px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(prefix)}</div></td>
+                    <td>${resultHtml}</td>
+                </tr>
+            `;
+        });
+    } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">読み込みに失敗しました</td></tr>';
+    }
+}

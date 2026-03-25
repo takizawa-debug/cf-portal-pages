@@ -937,12 +937,43 @@ flowchart TD
             <div id="broadcast-panel" class="panel">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-bold m-0" style="color:var(--accent);"><i class="fa-solid fa-bullhorn me-2"></i>お知らせ一斉配信</h3>
+                    <div id="broadcast_header_actions">
+                        <button class="btn btn-brand fw-bold shadow-sm" onclick="toggleBroadcastView('form')" id="btn_broadcast_new">
+                            <i class="fa-solid fa-plus me-2"></i>新規作成
+                        </button>
+                        <button class="btn btn-outline-secondary fw-bold shadow-sm d-none" onclick="toggleBroadcastView('list')" id="btn_broadcast_back">
+                            <i class="fa-solid fa-arrow-left me-2"></i>履歴一覧に戻る
+                        </button>
+                    </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="card shadow-sm border-0 mb-4 p-4">
-                            <h5 class="fw-bold mb-3">新しいメッセージの作成</h5>
+                <!-- 1. History List View -->
+                <div id="broadcast_view_list">
+                    <div class="card shadow-sm border-0 mb-4 p-0 overflow-hidden">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle m-0" style="min-width: 800px;">
+                                <thead class="table-light text-secondary small">
+                                    <tr>
+                                        <th style="width: 130px;">状態</th>
+                                        <th style="width: 170px;">送信(予定)日時</th>
+                                        <th style="width: 160px;">配信対象・経路</th>
+                                        <th>メッセージ（冒頭）</th>
+                                        <th style="width: 150px;">配信実績</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="broadcast_history_tbody">
+                                    <tr><td colspan="5" class="text-center text-muted py-5"><i class="fa-solid fa-spinner fa-spin me-2"></i>履歴を読み込み中...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Form View -->
+                <div id="broadcast_view_form" class="d-none">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card shadow-sm border-0 mb-4 p-4">
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3 mb-md-0">
                                     <label class="form-label fw-bold small text-muted">配信対象 (登録種別)</label>
@@ -988,10 +1019,28 @@ flowchart TD
 
                                 <small class="text-muted mt-3 d-block">※Email宛の場合は「いいづな事業ポータル 管理者からのお知らせ」という件名でテキストメールが送信されます。<br>※LINE宛の場合は公式アカウントからプッシュ通知が送信されます。</small>
                             </div>
+                                <!-- Schedule Options (Phase 20) -->
+                                <div class="mt-4 p-3 bg-light rounded border">
+                                    <h6 class="fw-bold mb-3"><i class="fa-regular fa-clock me-2"></i>送信タイミング設定</h6>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="broadcastTiming" id="timingNow" value="now" checked onchange="document.getElementById('broadcast_schedule_wrapper').classList.add('d-none')">
+                                        <label class="form-check-label fw-bold" for="timingNow">即時送信（今すぐ送る）</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="broadcastTiming" id="timingSchedule" value="schedule" onchange="document.getElementById('broadcast_schedule_wrapper').classList.remove('d-none')">
+                                        <label class="form-check-label fw-bold" for="timingSchedule">予約配信（日時を指定する）</label>
+                                    </div>
+                                    <div id="broadcast_schedule_wrapper" class="mt-3 d-none ps-4 border-start border-3 border-brand">
+                                        <input type="datetime-local" class="form-control w-auto border-brand" id="broadcast_scheduled_at">
+                                        <small class="text-muted mt-2 d-block">※予約配信は定期巡回システムにより処理されるため、<strong>指定された時間から最長5分程度のラグが発生</strong>する場合があります。</small>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="text-end">
-                                <button class="btn btn-brand px-4 py-2 fw-bold" id="btn_send_broadcast" onclick="sendBroadcast()">
-                                    <i class="fa-solid fa-paper-plane me-2"></i> 送信を実行する
+                                <button class="btn btn-brand px-4 py-3 fw-bold shadow-sm" style="font-size:1.05rem;" id="btn_send_broadcast" onclick="sendBroadcast()">
+                                    <i class="fa-solid fa-paper-plane me-2"></i> 送信（または予約）を確定する
                                 </button>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -1013,9 +1062,11 @@ flowchart TD
                                 <div class="d-flex justify-content-between"><span class="small text-danger">失敗:</span> <span class="fw-bold text-danger" id="res_email_fail">0</span></div>
                             </div>
                         </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </div> <!-- End Form View Row -->
+            </div> <!-- End Form View Container -->
+            </div> <!-- End Broadcast Panel -->
 
             <!-- Panel 7: Inquiry Management (Admin/Editor) -->
             <div id="inquiry-panel" class="panel">
