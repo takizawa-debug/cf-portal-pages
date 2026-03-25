@@ -537,6 +537,23 @@
             <div class="footer-copyright">copyright © iizuna sour apple</div>
         </div>
     </footer>
+
+    <!-- News Modal -->
+    <div id="newsModal" class="news-modal" aria-hidden="true">
+        <div class="news-modal-overlay" id="newsModalOverlay"></div>
+        <div class="news-modal-content">
+            <button class="news-modal-close" id="newsModalClose" aria-label="Close modal">×</button>
+            <div class="news-modal-header">
+                <span id="newsModalDate" class="news-modal-date"></span>
+                <h3 id="newsModalTitle" class="news-modal-title"></h3>
+            </div>
+            <div id="newsModalImageContainer" class="news-modal-image-container" style="display:none;">
+                <img id="newsModalImage" src="" alt="News Image" class="news-modal-image">
+            </div>
+            <div id="newsModalBody" class="news-modal-body"></div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const listEl = document.getElementById('sourappleNewsList');
@@ -564,7 +581,33 @@
                     li.className = 'news-item';
                     
                     const a = document.createElement('a');
-                    a.href = `javascript:alert('【${item.title}】\\n詳細ページは準備中です。');`; // Simple placeholder interaction
+                    a.href = "javascript:void(0);";
+                    
+                    a.addEventListener('click', () => {
+                        document.getElementById('newsModalDate').textContent = formattedDate;
+                        document.getElementById('newsModalTitle').textContent = item.title;
+                        document.getElementById('newsModalBody').innerHTML = (item.body_text || '').replace(/\\n/g, '<br>');
+                        
+                        const imgContainer = document.getElementById('newsModalImageContainer');
+                        const imgEl = document.getElementById('newsModalImage');
+                        
+                        let medias = [];
+                        try {
+                            if (item.media_assets) medias = JSON.parse(item.media_assets);
+                        } catch(e){}
+                        
+                        if (medias.length > 0 && medias[0]) {
+                            imgEl.src = medias[0];
+                            imgContainer.style.display = 'block';
+                        } else {
+                            imgEl.src = '';
+                            imgContainer.style.display = 'none';
+                        }
+                        
+                        const modal = document.getElementById('newsModal');
+                        modal.classList.add('is-open');
+                        document.body.style.overflow = 'hidden';
+                    });
                     
                     const spanDate = document.createElement('span');
                     spanDate.className = 'news-date';
@@ -584,6 +627,14 @@
                     li.appendChild(a);
                     listEl.appendChild(li);
                 });
+
+                // Modal Close Logic
+                const closeModal = () => {
+                    document.getElementById('newsModal').classList.remove('is-open');
+                    document.body.style.overflow = '';
+                };
+                document.getElementById('newsModalClose').addEventListener('click', closeModal);
+                document.getElementById('newsModalOverlay').addEventListener('click', closeModal);
             } catch (err) {
                 console.error(err);
                 listEl.innerHTML = '<li class="news-item" style="text-align:center; padding: 2rem; color: red;"><span class="news-txt">お知らせの取得に失敗しました</span></li>';

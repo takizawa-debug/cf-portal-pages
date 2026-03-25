@@ -5,7 +5,7 @@ export async function onRequestGet(context) {
 
     try {
         const query = `
-            SELECT id, title, created_at 
+            SELECT id, title, created_at, body_text, media_assets 
             FROM contents 
             WHERE site_scope = 'sourapple' AND status = 'published'
             ORDER BY created_at DESC 

@@ -37,7 +37,7 @@ async function fetchContent() {
         const data = await res.json();
         
         const newsData = data.filter(d => d.type === 'news');
-        const generalData = data.filter(d => d.type === 'manual');
+        const generalData = data.filter(d => d.type !== 'news');
         
         renderContentSitemap(newsData, 'newsSitemapContainer');
         renderContentSitemap(generalData, 'generalSitemapContainer');
