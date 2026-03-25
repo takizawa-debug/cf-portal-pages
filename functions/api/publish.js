@@ -100,7 +100,15 @@ export async function onRequestPost(context) {
             const message = `[自動通知] 新しい記事が公開されました！\nタイトル: ${articleTitle}\n\nポータルサイトから詳細をご確認ください。`;
 
             let targetUsernames = [];
-            if (broadcastTarget === 'all') {
+            if (broadcastTarget === 'editors') {
+                const scope = data.site_scope || 'main';
+                const { results } = await env.DB.prepare(`
+                    SELECT username FROM users 
+                    WHERE (role = 'admin' OR role = 'editor') 
+                    AND (managed_sites LIKE '%"all"%' OR managed_sites LIKE ?)
+                `).bind(`%"${scope}"%`).all();
+                targetUsernames = results.map(r => r.username);
+            } else if (broadcastTarget === 'all') {
                 const { results } = await env.DB.prepare('SELECT username FROM users').all();
                 targetUsernames = results.map(r => r.username);
             } else if (broadcastTarget === 'shop' || broadcastTarget === 'farmer') {

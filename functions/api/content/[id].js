@@ -119,7 +119,19 @@ export async function onRequestPut(context) {
             const message = `[自動通知] 記事が更新・公開されました！\nタイトル: ${articleTitle}\n\nポータルサイトから詳細をご確認ください。`;
 
             let targetUsernames = [];
-            if (broadcastTarget === 'all') {
+            if (broadcastTarget === 'editors') {
+                let scope = data.site_scope;
+                if (!scope) {
+                    const row = await env.DB.prepare('SELECT site_scope FROM contents WHERE id = ?').bind(id).first();
+                    scope = row?.site_scope || 'main';
+                }
+                const { results } = await env.DB.prepare(`
+                    SELECT username FROM users 
+                    WHERE (role = 'admin' OR role = 'editor') 
+                    AND (managed_sites LIKE '%"all"%' OR managed_sites LIKE ?)
+                `).bind(`%"${scope}"%`).all();
+                targetUsernames = results.map(r => r.username);
+            } else if (broadcastTarget === 'all') {
                 const { results } = await env.DB.prepare('SELECT username FROM users').all();
                 targetUsernames = results.map(r => r.username);
             } else if (broadcastTarget === 'shop' || broadcastTarget === 'farmer') {

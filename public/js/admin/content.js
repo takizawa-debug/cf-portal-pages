@@ -183,7 +183,7 @@ function openContentEditor(item) {
     document.getElementById('btnDeleteContent').style.display = item ? 'inline-block' : 'none';
     document.getElementById('contentForm').reset();
     const targetEl = document.getElementById('content_broadcast_target');
-    if (targetEl) targetEl.value = 'none';
+    if (targetEl) targetEl.value = 'editors';
 
     populateCategoryL1();
 
