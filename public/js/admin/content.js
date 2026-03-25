@@ -507,3 +507,96 @@ async function exportContentCSV() {
         }
     }
 }
+
+function parseCSV(str) {
+    let arr = [];
+    let quote = false;
+    let col = 0, row = 0;
+    
+    for (let c = 0; c < str.length; c++) {
+        let cc = str[c], nc = str[c+1];
+        arr[row] = arr[row] || [];
+        arr[row][col] = arr[row][col] || '';
+
+        if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+        if (cc == '"') { quote = !quote; continue; }
+        if (cc == ',' && !quote) { ++col; continue; }
+        if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+        if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+        if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+        
+        arr[row][col] += cc;
+    }
+    
+    // Remove last row if it's completely empty
+    if (arr.length > 0 && arr[arr.length - 1].length === 1 && arr[arr.length - 1][0] === '') {
+        arr.pop();
+    }
+    return arr;
+}
+
+async function importContentCSV(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!confirm(`${file.name} をインポートします。よろしいですか？\n※既存IDが存在する場合は上書き更新、空欄の場合は新規登録されます。`)) {
+        event.target.value = '';
+        return;
+    }
+
+    const btn = document.getElementById('btnImportCSV');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> インポート中...';
+    btn.disabled = true;
+
+    try {
+        const text = await file.text();
+        // Remove BOM if exists
+        const cleanText = text.charCodeAt(0) === 0xFEFF ? text.slice(1) : text;
+        const rows = parseCSV(cleanText);
+
+        if (rows.length < 2) {
+            throw new Error('データが見つかりません。ヘッダー行と少なくとも1件のデータが必要です。');
+        }
+
+        const headers = rows[0];
+        const payload = [];
+
+        for (let i = 1; i < rows.length; i++) {
+            const rowData = rows[i];
+            const item = {};
+            let isEmptyRow = true;
+            headers.forEach((header, index) => {
+                let val = rowData[index] || '';
+                if (val.trim() !== '') isEmptyRow = false;
+                item[header] = val;
+            });
+            
+            if (!isEmptyRow) {
+                payload.push(item);
+            }
+        }
+
+        const res = await fetch('/api/content/import', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (data.ok) {
+            showStatus(`CSVをインポートしました (${data.inserted}件追加, ${data.updated}件更新)`, 'success');
+            fetchContent();
+        } else {
+            showStatus(`インポート失敗: ${data.error}`, 'error');
+        }
+
+    } catch (e) {
+        console.error('Import CSV Error:', e);
+        showStatus(`インポートエラー: ${e.message}`, 'error');
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        event.target.value = ''; // Reset input to allow re-upload
+    }
+}

@@ -117,6 +117,10 @@
                         <button class="btn btn-outline-success me-2 fw-bold" onclick="exportContentCSV()" id="btnExportCSV">
                             <i class="fa-solid fa-download"></i> CSVエクスポート
                         </button>
+                        <input type="file" id="csvContentInput" accept=".csv" class="d-none" onchange="importContentCSV(event)">
+                        <button class="btn btn-outline-primary me-2 fw-bold" onclick="document.getElementById('csvContentInput').click()" id="btnImportCSV">
+                            <i class="fa-solid fa-upload"></i> CSVインポート
+                        </button>
                         <button class="btn btn-brand fw-bold" onclick="openContentEditor(null)">
                             <i class="fa-solid fa-plus"></i> <span data-i18n="btn_create">新規作成</span>
                         </button>
