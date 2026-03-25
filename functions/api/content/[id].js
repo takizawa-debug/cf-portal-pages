@@ -31,6 +31,20 @@ export async function onRequestPut(context) {
 
         const data = await request.json();
         
+        // Security: Identify type of post and block 'manual' modifications from non-main editors
+        let content_type = data.type;
+        if (!content_type) {
+            const { results } = await env.DB.prepare("SELECT type FROM contents WHERE id = ?").bind(id).all();
+            if (results.length > 0) content_type = results[0].type;
+        }
+        
+        if (user.role !== 'admin') {
+            const managedSites = JSON.parse(user.managed_sites || '["all"]');
+            if (content_type === 'manual' && !managedSites.includes('all') && !managedSites.includes('main')) {
+                return errorResponse('Forbidden: Only Main editors can edit General Articles', 403);
+            }
+        }
+
         // Security: validate if they are trying to change site_scope
         if (data.site_scope && user.role !== 'admin') {
             const managedSites = JSON.parse(user.managed_sites || '["all"]');
@@ -41,6 +55,18 @@ export async function onRequestPut(context) {
 
         const broadcastTarget = data.broadcast_target;
         delete data.broadcast_target;
+
+        // Implicit category inheritance for Main portal News
+        let current_scope = data.site_scope;
+        if (!current_scope) {
+            const { results } = await env.DB.prepare("SELECT site_scope FROM contents WHERE id = ?").bind(id).all();
+            if (results.length > 0) current_scope = results[0].site_scope;
+        }
+
+        if (content_type === 'news' && current_scope === 'main') {
+            data.l1 = '知る';
+            data.l2 = 'お知らせ';
+        }
 
         // 1. Extract Media Assets
         let updateMedia = false;

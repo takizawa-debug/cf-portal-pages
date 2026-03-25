@@ -4,7 +4,7 @@
 
 let contentModal = null;
 const contentFields = [
-    'id', 'status', 'site_scope', 'l1', 'l2', 'l3_label', 'title', 'lead_text', 'body_text',
+    'id', 'status', 'type', 'site_scope', 'l1', 'l2', 'l3_label', 'title', 'lead_text', 'body_text',
     'l1_en', 'l2_en', 'l3_label_en', 'title_en', 'lead_text_en', 'body_text_en',
     'l1_tw', 'l2_tw', 'l3_label_tw', 'title_tw', 'lead_text_tw', 'body_text_tw',
     'image1', 'image2', 'image3', 'image4', 'image5', 'image6',
@@ -19,16 +19,34 @@ const contentFields = [
 let isContentEditing = false;
 
 async function fetchContent() {
-    document.getElementById('contentSitemapContainer').innerHTML = '<div class="text-center text-muted py-5 bg-white rounded shadow-sm"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+    const nCont = document.getElementById('newsSitemapContainer');
+    const gCont = document.getElementById('generalSitemapContainer');
+    if (nCont) nCont.innerHTML = '<div class="text-center text-muted py-5 bg-white rounded shadow-sm"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+    if (gCont) gCont.innerHTML = '<div class="text-center text-muted py-5 bg-white rounded shadow-sm"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+    
+    // Hide General tab if not authorized
+    const managedSites = window.managedSites || ['all'];
+    const isMainEnabled = managedSites.includes('all') || managedSites.includes('main');
+    if (!isMainEnabled) {
+        document.getElementById('li-tab-general')?.classList.add('d-none');
+        document.getElementById('pane-general')?.classList.add('d-none');
+    }
+
     try {
         const res = await fetch('/api/posts');
         const data = await res.json();
-        renderContentSitemap(data);
+        
+        const newsData = data.filter(d => d.type === 'news');
+        const generalData = data.filter(d => d.type === 'manual');
+        
+        renderContentSitemap(newsData, 'newsSitemapContainer');
+        renderContentSitemap(generalData, 'generalSitemapContainer');
     } catch (e) { showStatus('エラーが発生しました', 'error'); }
 }
 
-function renderContentSitemap(data) {
-    const container = document.getElementById('contentSitemapContainer');
+function renderContentSitemap(data, containerId = 'contentSitemapContainer') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
     container.innerHTML = '';
     if (!data.length) { container.innerHTML = '<div class="text-center text-muted py-5 bg-white rounded shadow-sm">記事がありません</div>'; return; }
 
@@ -174,7 +192,7 @@ function openArticlePreview(item) {
     articlePreviewModalInstance.show();
 }
 
-function openContentEditor(item) {
+function openContentEditor(item, newType) {
     if (!contentModal) {
         contentModal = new bootstrap.Modal(document.getElementById('contentModal'));
     }
@@ -185,6 +203,19 @@ function openContentEditor(item) {
     const targetEl = document.getElementById('content_broadcast_target');
     if (targetEl) targetEl.value = 'editors';
 
+    let targetType = 'manual';
+    if (item) targetType = item.type || 'manual';
+    else if (newType) targetType = newType;
+
+    let typeEl = document.getElementById('field_type');
+    if (!typeEl) {
+        typeEl = document.createElement('input');
+        typeEl.type = 'hidden';
+        typeEl.id = 'field_type';
+        document.getElementById('contentForm').appendChild(typeEl);
+    }
+    typeEl.value = targetType;
+
     populateCategoryL1();
 
     // Dynamically configure site_scope dropdown
@@ -193,15 +224,20 @@ function openContentEditor(item) {
         scopeEl.innerHTML = '';
         const managedSites = window.managedSites || ['all'];
         
-        if (managedSites.includes('all') || managedSites.includes('main')) {
+        if (targetType === 'manual') {
             scopeEl.innerHTML += `<option value="main">りんごのまち・いいづな (Main)</option>`;
-        }
-        if (managedSites.includes('all') || managedSites.includes('sourapple')) {
-            scopeEl.innerHTML += `<option value="sourapple">iizuna sour apple (特設)</option>`;
+        } else {
+            if (managedSites.includes('all') || managedSites.includes('main')) {
+                scopeEl.innerHTML += `<option value="main">りんごのまち・いいづな (Main)</option>`;
+            }
+            if (managedSites.includes('all') || managedSites.includes('sourapple')) {
+                scopeEl.innerHTML += `<option value="sourapple">iizuna sour apple (特設)</option>`;
+            }
         }
         if (scopeEl.options.length > 0) scopeEl.selectedIndex = 0;
     }
-    toggleSiteScopeFormFields();
+    
+    // Will set item values below which correctly updates scopeEl if item.site_scope exists
 
     const triggerEl = document.querySelector('#editorTabs button[data-bs-target="#tab-basic"]');
     bootstrap.Tab.getInstance(triggerEl)?.show() || new bootstrap.Tab(triggerEl).show();
@@ -240,23 +276,22 @@ function openContentEditor(item) {
 }
 
 function toggleSiteScopeFormFields() {
-    const scopeEl = document.getElementById('field_site_scope');
-    if (!scopeEl) return;
-    const isSourApple = scopeEl.value === 'sourapple';
+    const typeEl = document.getElementById('field_type');
+    const isNews = typeEl && typeEl.value === 'news';
 
-    document.getElementById('wrap_l1')?.classList.toggle('d-none', isSourApple);
-    document.getElementById('wrap_l2')?.classList.toggle('d-none', isSourApple);
-    document.getElementById('wrap_l3')?.classList.toggle('d-none', isSourApple);
-    document.getElementById('wrap_lead_text')?.classList.toggle('d-none', isSourApple);
-    document.getElementById('wrap_image6')?.classList.toggle('d-none', isSourApple);
-    document.getElementById('wrap_media_extras')?.classList.toggle('d-none', isSourApple);
+    document.getElementById('wrap_l1')?.classList.toggle('d-none', isNews);
+    document.getElementById('wrap_l2')?.classList.toggle('d-none', isNews);
+    document.getElementById('wrap_l3')?.classList.toggle('d-none', isNews);
+    document.getElementById('wrap_lead_text')?.classList.toggle('d-none', isNews);
+    document.getElementById('wrap_image6')?.classList.toggle('d-none', isNews);
+    document.getElementById('wrap_media_extras')?.classList.toggle('d-none', isNews);
 
-    document.getElementById('ai-generation-box')?.classList.toggle('d-none', isSourApple);
+    document.getElementById('ai-generation-box')?.classList.toggle('d-none', isNews);
 
-    document.getElementById('lang-tab')?.parentElement.classList.toggle('d-none', isSourApple);
-    document.getElementById('contact-tab')?.parentElement.classList.toggle('d-none', isSourApple);
+    document.getElementById('lang-tab')?.parentElement.classList.toggle('d-none', isNews);
+    document.getElementById('contact-tab')?.parentElement.classList.toggle('d-none', isNews);
 
-    if (isSourApple) {
+    if (isNews) {
         const activeTab = document.querySelector('#editorTabs .nav-link.active');
         if (activeTab && (activeTab.id === 'lang-tab' || activeTab.id === 'contact-tab')) {
             const triggerEl = document.querySelector('#editorTabs button[data-bs-target="#tab-basic"]');
@@ -268,11 +303,11 @@ function toggleSiteScopeFormFields() {
     if (broadcastTarget) {
         Array.from(broadcastTarget.options).forEach(opt => {
             if (['all', 'shop', 'farmer'].includes(opt.value)) {
-                opt.classList.toggle('d-none', isSourApple);
+                opt.classList.toggle('d-none', isNews);
             }
         });
         
-        if (isSourApple && ['all', 'shop', 'farmer'].includes(broadcastTarget.value)) {
+        if (isNews && ['all', 'shop', 'farmer'].includes(broadcastTarget.value)) {
             broadcastTarget.value = 'editors';
         }
     }

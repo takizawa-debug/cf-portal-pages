@@ -25,6 +25,11 @@ export async function onRequestPost(context) {
         // Security: Zero-trust scope assignment
         if (user.role !== 'admin') {
             const managedSites = JSON.parse(user.managed_sites || '["all"]');
+            
+            if (data.type === 'manual' && !managedSites.includes('all') && !managedSites.includes('main')) {
+                return errorResponse('Forbidden: Only Main editors can create General Articles', 403);
+            }
+
             if (!managedSites.includes('all')) {
                 // If editor passed a scope they don't manage, reject
                 if (data.site_scope && !managedSites.includes(data.site_scope)) {
@@ -41,6 +46,12 @@ export async function onRequestPost(context) {
             }
         } else {
             data.site_scope = data.site_scope || 'main';
+        }
+
+        // Implicit category inheritance for Main portal News
+        if (data.type === 'news' && data.site_scope === 'main') {
+            data.l1 = '知る';
+            data.l2 = 'お知らせ';
         }
 
         // 1. Extract Media Assets
