@@ -9,7 +9,7 @@ export async function onRequestGet({ request, env }) {
     }
 
     try {
-        const stmt = env.DB.prepare('SELECT title, description, og_image_url FROM seo_settings WHERE page_path = ?');
+        const stmt = env.DB.prepare('SELECT title, description, og_image_url, favicon_url FROM seo_settings WHERE page_path = ?');
         const data = await stmt.bind(path).first();
         
         return new Response(JSON.stringify(data || null), {
@@ -28,23 +28,24 @@ export async function onRequestPost({ request, env }) {
 
     try {
         const data = await request.json();
-        const { path, title, description, og_image_url } = data;
+        const { path, title, description, og_image_url, favicon_url } = data;
 
         if (!path) {
             return new Response(JSON.stringify({ error: "Missing 'path'" }), { status: 400 });
         }
 
         const stmt = env.DB.prepare(`
-            INSERT INTO seo_settings (page_path, title, description, og_image_url, updated_at)
-            VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+            INSERT INTO seo_settings (page_path, title, description, og_image_url, favicon_url, updated_at)
+            VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
             ON CONFLICT (page_path) DO UPDATE SET 
             title = excluded.title,
             description = excluded.description,
             og_image_url = excluded.og_image_url,
+            favicon_url = excluded.favicon_url,
             updated_at = CURRENT_TIMESTAMP
         `);
         
-        await stmt.bind(path, title || null, description || null, og_image_url || null).run();
+        await stmt.bind(path, title || null, description || null, og_image_url || null, favicon_url || null).run();
 
         return new Response(JSON.stringify({ success: true }), {
             headers: { "Content-Type": "application/json" }

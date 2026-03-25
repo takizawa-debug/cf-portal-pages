@@ -13,12 +13,20 @@ async function loadSEOSettings() {
         document.getElementById('seo_title').value = data?.title || '';
         document.getElementById('seo_description').value = data?.description || '';
         document.getElementById('seo_ogp_url').value = data?.og_image_url || '';
+        document.getElementById('seo_favicon_url').value = data?.favicon_url || '';
         
         const preview = document.getElementById('seo_ogp_preview');
         if (data?.og_image_url) {
             preview.innerHTML = `<img src="${data.og_image_url}" alt="OGP Preview" style="width:100%;height:100%;object-fit:cover;">`;
         } else {
             preview.innerHTML = `<i class="fa-solid fa-image text-muted fs-2"></i>`;
+        }
+
+        const favPreview = document.getElementById('seo_favicon_preview');
+        if (data?.favicon_url) {
+            favPreview.innerHTML = `<img src="${data.favicon_url}" alt="Favicon Preview" style="width:100%;height:100%;object-fit:cover;">`;
+        } else {
+            favPreview.innerHTML = `<i class="fa-solid fa-globe text-muted fs-4"></i>`;
         }
     } catch (err) {
         console.error(err);
@@ -36,7 +44,8 @@ async function saveSEOSettings() {
         path: document.getElementById('seo_page_path').value,
         title: document.getElementById('seo_title').value,
         description: document.getElementById('seo_description').value,
-        og_image_url: document.getElementById('seo_ogp_url').value
+        og_image_url: document.getElementById('seo_ogp_url').value,
+        favicon_url: document.getElementById('seo_favicon_url').value
     };
 
     try {
@@ -83,6 +92,34 @@ async function uploadSEOImage(file) {
     } catch (err) {
         console.error(err);
         alert('画像のアップロードに失敗しました。');
+    }
+}
+
+async function uploadSEOFavicon(file) {
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', 'seo/favicon');
+
+    try {
+        const response = await fetch('/api/media', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Upload failed');
+        const data = await response.json();
+        
+        const imageUrl = data.url;
+        document.getElementById('seo_favicon_url').value = imageUrl;
+        
+        const preview = document.getElementById('seo_favicon_preview');
+        preview.innerHTML = `<img src="${imageUrl}" alt="Favicon Preview" style="width:100%;height:100%;object-fit:cover;">`;
+
+    } catch (err) {
+        console.error(err);
+        alert('ファビコンのアップロードに失敗しました。');
     }
 }
 

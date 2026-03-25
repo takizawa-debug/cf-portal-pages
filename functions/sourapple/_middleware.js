@@ -25,6 +25,11 @@ class SEOHandler {
             } else if (name === 'twitter:image' && this.seoData.og_image_url) {
                 element.setAttribute('content', this.seoData.og_image_url);
             }
+        } else if (element.tagName === 'link') {
+            const rel = element.getAttribute('rel');
+            if ((rel === 'icon' || rel === 'shortcut icon' || rel === 'apple-touch-icon') && this.seoData.favicon_url) {
+                element.setAttribute('href', this.seoData.favicon_url);
+            }
         }
     }
 }
@@ -45,7 +50,7 @@ export async function onRequest({ request, next, env }) {
 
     try {
         // Fetch custom SEO configuration from D1 (hardcoded path 'sourapple' for this directory)
-        const stmt = env.DB.prepare('SELECT title, description, og_image_url FROM seo_settings WHERE page_path = ?');
+        const stmt = env.DB.prepare('SELECT title, description, og_image_url, favicon_url FROM seo_settings WHERE page_path = ?');
         const seoData = await stmt.bind('sourapple').first();
 
         // If no custom settings, return as-is
@@ -57,6 +62,7 @@ export async function onRequest({ request, next, env }) {
         return new HTMLRewriter()
             .on('title', new SEOHandler(seoData))
             .on('meta', new SEOHandler(seoData))
+            .on('link', new SEOHandler(seoData))
             .transform(response);
             
     } catch (err) {
