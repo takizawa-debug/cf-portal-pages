@@ -32,11 +32,17 @@ async function sendBroadcast() {
 
     let scheduledAt = null;
     if (document.getElementById('timingSchedule').checked) {
-        scheduledAt = document.getElementById('broadcast_scheduled_at').value;
-        if (!scheduledAt) {
+        const localVal = document.getElementById('broadcast_scheduled_at').value;
+        if (!localVal) {
             alert("予約送信の日時を指定してください。");
             return;
         }
+        
+        // Convert the user's localized browser Date strictly into SQLite native UTC mapping 
+        // Example: '2026-03-25T21:55' JST -> '2026-03-25 12:55:00' UTC
+        const d = new Date(localVal);
+        const pad = n => n.toString().padStart(2, '0');
+        scheduledAt = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}`;
     }
 
     if (!message || message.trim() === '') {
@@ -272,8 +278,14 @@ async function loadBroadcastHistory() {
             if (isFailed) statusBadge = '<span class="badge bg-danger">失敗</span>';
             if (item.status === 'processing') statusBadge = '<span class="badge bg-info"><i class="fa-solid fa-spinner fa-spin"></i> 処理中</span>';
 
-            const scheduledStr = item.scheduled_at ? new Date(item.scheduled_at).toLocaleString() : '-';
-            const sentStr = item.sent_at ? new Date(item.sent_at).toLocaleString() : '即時';
+            // Append 'Z' to strictly force SQLite YYYY-MM-DD HH:MM:SS blocks gracefully reverting back locally
+            const parseDate = (sqlDate) => {
+                if (!sqlDate) return '-';
+                return new Date(sqlDate.replace(' ', 'T') + 'Z').toLocaleString('ja-JP');
+            };
+
+            const scheduledStr = parseDate(item.scheduled_at);
+            const sentStr = item.sent_at ? parseDate(item.sent_at) : '即時';
             const timeDisplay = isPending ? `<span class="text-warning fw-bold">${scheduledStr}</span>` : `<span class="text-muted small">送信:</span> ${sentStr}`;
 
             const channelStr = item.channel === 'both' ? 'LINE & Email' : item.channel;
