@@ -53,7 +53,7 @@ export async function onRequestPost({ request, env }) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'noreply@appletown-iizuna.com',
+                from: 'iizuna sour apple <noreply@appletown-iizuna.com>',
                 to: adminEmail,
                 subject: '【iizuna sour apple】ウェブサイトからのお問い合わせ',
                 html: adminHtml,
@@ -69,7 +69,7 @@ export async function onRequestPost({ request, env }) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'noreply@appletown-iizuna.com',
+                from: 'iizuna sour apple <noreply@appletown-iizuna.com>',
                 to: email,
                 subject: '【iizuna sour apple】お問い合わせを受け付けました',
                 html: userHtml
