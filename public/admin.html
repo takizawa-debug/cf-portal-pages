@@ -2792,18 +2792,17 @@ flowchart TD
                         <div class="mb-3">
                             <label class="form-label text-muted fw-bold">管理可能サイト (スコープ)</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="all" id="site_all">
+                                <input class="form-check-input" type="checkbox" value="all" id="site_all" onchange="toggleAllSites(this)">
                                 <label class="form-check-label" for="site_all">全てのサイト (フルアクセス)</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="main" id="site_main">
+                                <input class="form-check-input" type="checkbox" value="main" id="site_main" onchange="checkAllSitesStatus()">
                                 <label class="form-check-label" for="site_main">りんごのまち・いいづな (Main)</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="sourapple" id="site_sourapple">
+                                <input class="form-check-input" type="checkbox" value="sourapple" id="site_sourapple" onchange="checkAllSitesStatus()">
                                 <label class="form-check-label" for="site_sourapple">iizuna sour apple 特設</label>
                             </div>
-                            <div class="form-text small">※「全てのサイト」にチェックを入れると他のチェックは無視されます。</div>
                         </div>
                     </form>
                 </div>

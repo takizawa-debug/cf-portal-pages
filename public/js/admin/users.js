@@ -64,11 +64,15 @@ function openUserEditor(user) {
 
         try {
             const arr = JSON.parse(user.managed_sites || '["all"]');
-            document.getElementById('site_all').checked = arr.includes('all');
-            document.getElementById('site_main').checked = arr.includes('main');
-            document.getElementById('site_sourapple').checked = arr.includes('sourapple');
+            const isAll = arr.includes('all');
+            document.getElementById('site_all').checked = isAll;
+            document.getElementById('site_main').checked = isAll || arr.includes('main');
+            document.getElementById('site_sourapple').checked = isAll || arr.includes('sourapple');
+            checkAllSitesStatus();
         } catch(e) {
             document.getElementById('site_all').checked = true;
+            document.getElementById('site_main').checked = true;
+            document.getElementById('site_sourapple').checked = true;
         }
     } else {
         document.getElementById('usr_id').value = '';
@@ -77,10 +81,22 @@ function openUserEditor(user) {
         document.getElementById('usr_pass').required = true;
         document.getElementById('usr_role').value = 'contributor';
         document.getElementById('site_all').checked = true;
-        document.getElementById('site_main').checked = false;
-        document.getElementById('site_sourapple').checked = false;
+        document.getElementById('site_main').checked = true;
+        document.getElementById('site_sourapple').checked = true;
     }
     userModal.show();
+}
+
+function toggleAllSites(checkbox) {
+    const isChecked = checkbox.checked;
+    document.getElementById('site_main').checked = isChecked;
+    document.getElementById('site_sourapple').checked = isChecked;
+}
+
+function checkAllSitesStatus() {
+    const mainChecked = document.getElementById('site_main').checked;
+    const sourChecked = document.getElementById('site_sourapple').checked;
+    document.getElementById('site_all').checked = (mainChecked && sourChecked);
 }
 
 async function saveUser() {
