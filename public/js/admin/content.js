@@ -201,6 +201,7 @@ function openContentEditor(item) {
         }
         if (scopeEl.options.length > 0) scopeEl.selectedIndex = 0;
     }
+    toggleSiteScopeFormFields();
 
     const triggerEl = document.querySelector('#editorTabs button[data-bs-target="#tab-basic"]');
     bootstrap.Tab.getInstance(triggerEl)?.show() || new bootstrap.Tab(triggerEl).show();
@@ -233,8 +234,34 @@ function openContentEditor(item) {
     } else {
         document.querySelectorAll('[id^="biz_"]').forEach(el => el.value = '');
     }
+    toggleSiteScopeFormFields();
     toggleBizFormType();
     contentModal.show();
+}
+
+function toggleSiteScopeFormFields() {
+    const scopeEl = document.getElementById('field_site_scope');
+    if (!scopeEl) return;
+    const isSourApple = scopeEl.value === 'sourapple';
+
+    document.getElementById('wrap_l1')?.classList.toggle('d-none', isSourApple);
+    document.getElementById('wrap_l2')?.classList.toggle('d-none', isSourApple);
+    document.getElementById('wrap_l3')?.classList.toggle('d-none', isSourApple);
+    document.getElementById('wrap_lead_text')?.classList.toggle('d-none', isSourApple);
+    document.getElementById('wrap_image6')?.classList.toggle('d-none', isSourApple);
+
+    document.getElementById('ai-generation-box')?.classList.toggle('d-none', isSourApple);
+
+    document.getElementById('lang-tab')?.parentElement.classList.toggle('d-none', isSourApple);
+    document.getElementById('contact-tab')?.parentElement.classList.toggle('d-none', isSourApple);
+
+    if (isSourApple) {
+        const activeTab = document.querySelector('#editorTabs .nav-link.active');
+        if (activeTab && (activeTab.id === 'lang-tab' || activeTab.id === 'contact-tab')) {
+            const triggerEl = document.querySelector('#editorTabs button[data-bs-target="#tab-basic"]');
+            bootstrap.Tab.getInstance(triggerEl)?.show() || new bootstrap.Tab(triggerEl).show();
+        }
+    }
 }
 
 function toggleBizFormType() {

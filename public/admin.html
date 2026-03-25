@@ -1274,23 +1274,23 @@ flowchart TD
                                 <div class="row g-3">
                                     <div class="col-12 mb-2">
                                         <label class="form-label text-muted fw-bold">掲載サイト (Site Scope) <span class="text-danger">*</span></label>
-                                        <select class="form-select border-brand bg-light" id="field_site_scope">
+                                        <select class="form-select border-brand bg-light" id="field_site_scope" onchange="toggleSiteScopeFormFields()">
                                             <!-- Managed dynamically by JS based on role -->
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" id="wrap_l1">
                                         <label class="form-label text-muted fw-bold">大カテゴリ (L1)</label>
                                         <select class="form-select" id="field_l1" onchange="updateCategoryL2()">
                                             <option value="">選択してください</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" id="wrap_l2">
                                         <label class="form-label text-muted fw-bold">中カテゴリ (L2)</label>
                                         <select class="form-select" id="field_l2" onchange="updateCategoryL3()">
                                             <option value="">選択してください</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" id="wrap_l3">
                                         <label class="form-label text-muted fw-bold">小カテゴリ (L3)</label>
                                         <select class="form-select" id="field_l3_label"
                                             onchange="syncCategoryTranslations()">
@@ -1299,9 +1299,9 @@ flowchart TD
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label text-muted fw-bold">タイトル</label>
-                                        <input type="text" class="form-control" id="field_title">
+                                        <input type="text" class="form-control" id="field_title" maxlength="50" placeholder="50文字以内で入力してください">
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12" id="wrap_lead_text">
                                         <label class="form-label text-muted fw-bold">リード文</label>
                                         <textarea class="form-control" id="field_lead_text" rows="2"></textarea>
                                     </div>
@@ -1415,7 +1415,7 @@ flowchart TD
                                                     class="fa-regular fa-images"></i> 選択</button>
                                         </div>
                                     </div>
-                                    <div class="col-md-6"><label class="form-label text-muted fw-bold">画像6 URL</label>
+                                    <div class="col-md-6" id="wrap_image6"><label class="form-label text-muted fw-bold">画像6 URL</label>
                                         <div class="input-group">
                                             <input type="url" class="form-control" id="field_image6">
                                             <button class="btn btn-outline-secondary" type="button"
