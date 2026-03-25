@@ -36,11 +36,19 @@ export async function onRequestPost({ request, env }) {
             <p><strong>お名前:</strong> ${name}</p>
             <p><strong>フリガナ:</strong> ${kana}</p>
             <p><strong>メールアドレス:</strong> ${email}</p>
-            <p><strong>お問い合わせ内容:</strong><br>${message.replace(/\\n/g, '<br>')}</p>
+            <p><strong>お問い合わせ内容:</strong><br>${message.replace(/\n/g, '<br>')}</p>
             <hr>
             <p>※内容を確認の上、担当者より折り返しご連絡させていただきます。</p>
             <br>
-            <p>iizuna sour apple<br>飯綱町役場 産業観光課 農政係</p>
+            <p>※こちらのメールは送信専用アドレスから配信されています。本メールにご返信いただいても確認・お答えすることができません。<br>
+            追加のお問い合わせ等がある場合は、お手数ですが再度お問い合わせフォームよりご連絡をお願いいたします。<br>
+            https://appletown-iizuna.com/sourapple/contact</p>
+            <br>
+            <p>===============================<br>
+            iizuna sour apple<br>
+            飯綱町役場 産業観光課 農政係<br>
+            https://appletown-iizuna.com/sourapple/<br>
+            ===============================</p>
         `;
 
         const resendEndpoint = 'https://api.resend.com/emails';
