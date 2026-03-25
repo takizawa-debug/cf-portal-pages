@@ -61,7 +61,7 @@
                     <a href="#news" class="menu-link">お知らせ</a>
                     <a href="#gallery" class="menu-link">フォトギャラリー</a>
                 </nav>
-                <a href="#contact" class="menu-contact-btn">お問い合わせ</a>
+                <a href="/sourapple/contact/" class="menu-contact-btn">お問い合わせ</a>
                 <div class="menu-divider"></div>
                 <div class="menu-address">
                     飯綱町役場 産業観光課 農政係<br>
@@ -103,6 +103,15 @@
                     history.replaceState(null, '', window.location.pathname);
                 }, 800);
             });
+        });
+
+        // Clear hash on initial page load if redirected with anchor
+        window.addEventListener('load', function() {
+            if (window.location.hash) {
+                setTimeout(function() {
+                    history.replaceState(null, '', window.location.pathname);
+                }, 800);
+            }
         });
     })();
     </script>
@@ -523,7 +532,7 @@
                 <a href="#gallery">フォトギャラリー</a>
             </div>
 
-            <a href="#contact" class="footer-contact-btn">お問い合わせ</a>
+            <a href="/sourapple/contact/" class="footer-contact-btn">お問い合わせ</a>
 
             <div class="page-top">
                 <a href="#">

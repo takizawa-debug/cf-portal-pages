@@ -61,7 +61,7 @@
                     <a href="../#news" class="menu-link">お知らせ</a>
                     <a href="../#gallery" class="menu-link">フォトギャラリー</a>
                 </nav>
-                <a href="#contact" class="menu-contact-btn">お問い合わせ</a>
+                <a href="/sourapple/contact/" class="menu-contact-btn">お問い合わせ</a>
                 <div class="menu-divider"></div>
                 <div class="menu-address">
                     飯綱町役場 産業観光課 農政係<br>
@@ -114,7 +114,7 @@
                 <h1 class="contact-ja">お問い合わせ</h1>
             </div>
 
-            <form class="contact-form" action="#" method="POST">
+            <form id="contactForm" class="contact-form">
                 <div class="form-group row">
                     <label class="form-label">
                         お名前 <span class="required-badge">必須</span>
@@ -144,10 +144,72 @@
                 </div>
 
                 <div class="form-submit-wrapper">
-                    <button type="submit" class="form-submit-btn">この内容で送信する</button>
+                    <button type="submit" class="form-submit-btn" id="submitBtn">この内容で送信する</button>
                 </div>
             </form>
+
+            <div id="formSuccess" style="display: none; text-align: center; margin-top: 40px;">
+                <h2 style="color: var(--color-main-green); margin-bottom: 20px;">送信完了</h2>
+                <p>お問い合わせありがとうございます。<br>内容を確認の上、担当者より折り返しご連絡させていただきます。</p>
+                <div style="margin-top: 30px;">
+                    <a href="/sourapple/" style="display: inline-block; background-color: var(--color-main-green); color: white; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold;">トップページへ戻る</a>
+                </div>
+            </div>
+
+            <div id="formError" style="display: none; text-align: center; margin-top: 20px; color: red;">
+                通信エラーが発生しました。時間をおいて再度お試しください。
+            </div>
         </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const formSuccess = document.getElementById('formSuccess');
+            const formError = document.getElementById('formError');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                formError.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.5';
+                submitBtn.textContent = '送信中...';
+
+                const formData = new FormData(form);
+                const data = {
+                    name: formData.get('name'),
+                    kana: formData.get('kana'),
+                    email: formData.get('email'),
+                    message: formData.get('message')
+                };
+
+                try {
+                    const response = await fetch('/api/sourapple_contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        form.style.display = 'none';
+                        formSuccess.style.display = 'block';
+                        window.scrollTo({ top: document.querySelector('.contact-title-block').offsetTop - 50, behavior: 'smooth' });
+                    } else {
+                        throw new Error('Server returned ' + response.status);
+                    }
+                } catch (error) {
+                    console.error('Submission Error:', error);
+                    formError.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                    submitBtn.textContent = 'この内容で送信する';
+                }
+            });
+        });
+        </script>
 </main>
 
     <footer class="footer">
@@ -190,7 +252,7 @@
                 <a href="../#gallery">フォトギャラリー</a>
             </div>
 
-            <a href="#contact" class="footer-contact-btn">お問い合わせ</a>
+            <a href="/sourapple/contact/" class="footer-contact-btn">お問い合わせ</a>
 
             <div class="page-top">
                 <a href="#">
