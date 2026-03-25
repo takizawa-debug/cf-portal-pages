@@ -16,18 +16,22 @@ export async function onRequestPost(context) {
 
     try {
         const body = await request.json();
-        const { target_type, channel, message } = body;
 
-        if (!message || message.trim() === '') {
-            return errorResponse("Message is required", 400);
+        if (!body.message || (!body.target_type && !body.channel)) {
+            return errorResponse("Missing target parameters or message", 400);
         }
+
+        const targetType = body.target_type || 'all';
+        const channel = body.channel || 'both';
+        const message = body.message;
+        const imageUrl = body.image_url || null;
 
         let query = `SELECT DISTINCT u.username FROM users u`;
         const params = [];
 
-        if (target_type === 'shop' || target_type === 'farmer') {
+        if (targetType === 'shop' || targetType === 'farmer') {
             query += ` JOIN contents c ON u.id = c.author_id AND c.type = 'business_profile' AND c.business_b_type = ?`;
-            params.push(target_type);
+            params.push(targetType);
         }
 
         query += ` WHERE u.role = 'contributor'`;
@@ -48,7 +52,7 @@ export async function onRequestPost(context) {
             }
         });
 
-        const results = await sendTargetedBroadcast(env, targetUsernames, message);
+        const results = await sendTargetedBroadcast(env, targetUsernames, message, imageUrl);
 
         return jsonResponse({
             ok: true,

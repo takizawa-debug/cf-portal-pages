@@ -43,9 +43,15 @@ async function sendBroadcast() {
 
     try {
         // Assume apiFetch is available from auth.js/ui.js
+        const payload = {
+            target_type: targetType,
+            channel: channel,
+            message: message,
+            image_url: document.getElementById('broadcast_attachment_url')?.value || null
+        };
         const data = await apiFetch('/api/broadcast', {
             method: 'POST',
-            body: JSON.stringify({ target_type: targetType, channel: channel, message: message })
+            body: JSON.stringify(payload)
         });
 
         if (data.ok && data.summary) {
@@ -74,3 +80,48 @@ async function sendBroadcast() {
     btn.disabled = false;
     btn.innerHTML = ogHtml;
 }
+
+/* ============================
+   Broadcast Attachment UI
+============================ */
+function openBroadcastMediaPicker() {
+    window.currentMediaSelectTarget = 'broadcast_attachment_url';
+    if (typeof renderMediaSelectGrid === 'function') renderMediaSelectGrid();
+    new bootstrap.Modal(document.getElementById('mediaSelectModal')).show();
+}
+
+function clearBroadcastAttachment() {
+    document.getElementById('broadcast_attachment_url').value = '';
+    document.getElementById('broadcast_attachment_preview').classList.replace('d-inline-flex', 'd-none');
+}
+
+// Hook into the hidden input's generic 'input' event fired by media.js
+document.addEventListener('DOMContentLoaded', () => {
+    const attachInput = document.getElementById('broadcast_attachment_url');
+    if (attachInput) {
+        attachInput.addEventListener('input', function() {
+            const url = this.value;
+            if (!url) {
+                clearBroadcastAttachment();
+                return;
+            }
+            
+            const isImage = url.match(/\.(jpeg|jpg|gif|png|webp|svg)$/i) != null;
+            let displayTitle = url.split('/').pop();
+            try { displayTitle = decodeURIComponent(displayTitle); } catch (e) { }
+
+            const iconContainer = document.getElementById('broadcast_attachment_icon');
+            if (isImage) {
+                iconContainer.innerHTML = `<img src="${url}" class="w-100 h-100 object-fit-cover">`;
+            } else {
+                iconContainer.innerHTML = `<i class="fa-solid fa-file fa-2x text-muted"></i>`;
+            }
+
+            document.getElementById('broadcast_attachment_name').innerText = displayTitle;
+            
+            const previewBlock = document.getElementById('broadcast_attachment_preview');
+            previewBlock.classList.remove('d-none');
+            previewBlock.classList.add('d-inline-flex');
+        });
+    }
+});
