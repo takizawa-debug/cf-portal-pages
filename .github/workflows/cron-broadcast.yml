@@ -11,5 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger CF Pages Broadcast API
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          curl -f -s -S "https://cf-portal-pages.pages.dev/api/cron/broadcast?token=${{ secrets.CRON_SECRET || 'iizuna-cron-token-123' }}"
+          curl -f -s -S "https://cf-portal-pages.pages.dev/api/cron/broadcast?token=${CRON_SECRET:-iizuna-cron-token-123}"
