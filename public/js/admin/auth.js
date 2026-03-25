@@ -3,6 +3,20 @@
    ============================ */
 
 async function checkAuth() {
+    const tempSession = localStorage.getItem('temp_session_id');
+    if (tempSession) {
+        try {
+            await fetch('/api/auth/set_cookie', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sessionId: tempSession })
+            });
+            localStorage.removeItem('temp_session_id');
+        } catch(e) {
+            console.error("Session token injection failed", e);
+        }
+    }
+
     try {
         const res = await fetch('/api/auth/me');
         if (!res.ok) {

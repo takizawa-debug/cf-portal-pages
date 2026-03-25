@@ -110,6 +110,7 @@ export async function onRequestGet(context) {
             <meta charset="utf-8">
             <title>Logging in...</title>
             <script>
+                localStorage.setItem('temp_session_id', '${sessionId}');
                 localStorage.setItem('admin_role', '${user.role}');
                 localStorage.setItem('admin_username', '${user.username}');
                 localStorage.setItem('admin_display_name', '${user.display_name || user.username}');
@@ -127,8 +128,7 @@ export async function onRequestGet(context) {
         return new Response(htmlPayload, {
             status: 200,
             headers: {
-                "Content-Type": "text/html",
-                "Set-Cookie": cookieValue
+                "Content-Type": "text/html"
             }
         });
         

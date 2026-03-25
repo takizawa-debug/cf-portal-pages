@@ -107,6 +107,7 @@ export async function onRequestGet(context) {
             <meta charset="utf-8">
             <title>Logging in...</title>
             <script>
+                localStorage.setItem('temp_session_id', '${sessionId}');
                 localStorage.setItem('admin_role', '${user.role}');
                 localStorage.setItem('admin_username', '${user.username}');
                 localStorage.setItem('admin_display_name', '${user.display_name || user.username}');
@@ -120,12 +121,11 @@ export async function onRequestGet(context) {
         </html>
         `;
 
-        // Return HTML payload explicitly skipping Headers.append() concatenations safely transmitting the unique Session Token
+        // Return HTML payload exclusively passing the Temp Session ID avoiding Safari Cross-Site cookie tracking blocks completely
         return new Response(htmlPayload, {
             status: 200,
             headers: {
-                "Content-Type": "text/html",
-                "Set-Cookie": cookieValue
+                "Content-Type": "text/html"
             }
         });
         
