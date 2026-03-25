@@ -126,8 +126,19 @@ async function checkAuth() {
 async function logout() {
     await fetch('/api/auth/logout', { method: 'POST' });
     localStorage.clear();
+    localStorage.setItem('logout_trigger', Date.now());
     window.location.href = '/login.html';
 }
+
+// Multi-Tab Synchronization Observer
+window.addEventListener('storage', (e) => {
+    if (e.key === 'logout_trigger') {
+        window.location.href = '/login.html';
+    } else if (e.key === 'admin_id' && e.newValue && window.userId && e.newValue !== window.userId) {
+        // Automatically sync background tabs if the user changes accounts in another window
+        window.location.reload();
+    }
+});
 
 async function apiFetch(url, options = {}, isFormData = false) {
     if (!isFormData && options.body && typeof options.body === 'object' && !(options.body instanceof FormData)) {
