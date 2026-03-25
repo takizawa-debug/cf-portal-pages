@@ -68,6 +68,8 @@ export async function onRequestPost(context) {
                 delete data[`${k}_tw`];
             }
         }
+        const ignoreKeys = ['l1_en', 'l2_en', 'l3_label_en', 'l1_tw', 'l2_tw', 'l3_label_tw'];
+        ignoreKeys.forEach(k => delete data[k]);
 
         // 3. Build dynamic INSERT query for Base Content
         const stmts = [];

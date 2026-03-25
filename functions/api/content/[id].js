@@ -73,6 +73,8 @@ export async function onRequestPut(context) {
                 hasTransUpdate = true;
             }
         }
+        const ignoreKeys = ['l1_en', 'l2_en', 'l3_label_en', 'l1_tw', 'l2_tw', 'l3_label_tw'];
+        ignoreKeys.forEach(k => delete data[k]);
 
         const stmts = [];
 
