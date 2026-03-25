@@ -101,7 +101,7 @@ export async function onRequestGet(context) {
             "INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)"
         ).bind(sessionId, user.id, expiresAt.toISOString()).run();
         
-        const cookieValue = `admin_session_token=${sessionId}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Strict`;
+        const cookieValue = `admin_session_token=${sessionId}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Lax`;
         
         // Clean OAuth state mechanism securely
         const deadStateCookie = `oauth_state_line=; HttpOnly; Secure; Path=/api/auth/line; Max-Age=0; SameSite=Lax`;
