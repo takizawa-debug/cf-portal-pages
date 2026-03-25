@@ -16,34 +16,42 @@ function arrayBufferToBase64(buffer) {
 }
 
 // Core delivery loop resolving LINE Multicast limits natively.
-async function pushToLine(env, lineIds, message, imageUrl = null) {
+async function pushToLine(env, lineIds, message, imageUrls = []) {
     if (!env.LINE_CHANNEL_ACCESS_TOKEN || lineIds.length === 0) return { success: 0, failed: lineIds.length };
     let success = 0;
     let failed = 0;
 
     const finalMessage = message + "\n\n---\n※このメッセージはシステムからの自動配信です。ご返信いただいても対応できかねますのでご了承ください。";
-    let isLineSupportedImage = false;
-    if (imageUrl) {
-        isLineSupportedImage = imageUrl.match(/\.(jpeg|jpg|png)$/i) != null;
+    
+    let messagesPayload = [];
+    let pdfLinks = [];
+    
+    if (imageUrls && imageUrls.length > 0) {
+        for (const url of imageUrls) {
+            const isLineSupportedImage = url.match(/\.(jpeg|jpg|png)$/i) != null;
+            if (isLineSupportedImage) {
+                messagesPayload.push({
+                    type: "image",
+                    originalContentUrl: url,
+                    previewImageUrl: url
+                });
+            } else {
+                pdfLinks.push(url);
+            }
+        }
     }
 
-    let messagesPayload = [];
-    if (imageUrl) {
-        if (isLineSupportedImage) {
-            messagesPayload.push({
-                type: "image",
-                originalContentUrl: imageUrl,
-                previewImageUrl: imageUrl
-            });
-            messagesPayload.push({ type: "text", text: finalMessage });
-        } else {
-            messagesPayload.push({
-                type: "text",
-                text: finalMessage + "\n\n【添付ファイル】\n" + imageUrl
-            });
-        }
-    } else {
-        messagesPayload.push({ type: "text", text: finalMessage });
+    let textBubbleContent = finalMessage;
+    if (pdfLinks.length > 0) {
+        textBubbleContent += "\n\n【添付ファイル】\n" + pdfLinks.join("\n");
+    }
+    
+    // Unshift text bubble first natively satisfying LINE limits
+    messagesPayload.unshift({ type: "text", text: textBubbleContent });
+
+    // Ensure array doesn't exceed 5 maximum allowed bubbles by API
+    if (messagesPayload.length > 5) {
+        messagesPayload = messagesPayload.slice(0, 5);
     }
     
     for (let i = 0; i < lineIds.length; i += 500) {
@@ -70,7 +78,7 @@ async function pushToLine(env, lineIds, message, imageUrl = null) {
 }
 
 // Core delivery loop extracting Resend HTTP REST Arrays sequentially.
-async function pushToEmail(env, emails, message, imageUrl = null) {
+async function pushToEmail(env, emails, message, imageUrls = []) {
     if (!env.RESEND_API_KEY || emails.length === 0) return { success: 0, failed: emails.length };
     let success = 0;
     let failed = 0;
@@ -78,23 +86,29 @@ async function pushToEmail(env, emails, message, imageUrl = null) {
     const finalMessage = message + "\n\n---\n※このメッセージはシステムからの自動配信です。ご返信いただいても対応できかねますのでご了承ください。";
 
     let attachments = [];
-    if (imageUrl) {
-        try {
-            const fileRes = await fetch(imageUrl);
-            if (fileRes.ok) {
-                const arrayBuffer = await fileRes.arrayBuffer();
-                const base64Content = arrayBufferToBase64(arrayBuffer);
-                let filename = imageUrl.split('/').pop() || "attachment.file";
-                try { filename = decodeURIComponent(filename); } catch (e) { }
+    if (imageUrls && imageUrls.length > 0) {
+        const fetchPromises = imageUrls.map(async (url) => {
+            try {
+                const fileRes = await fetch(url);
+                if (fileRes.ok) {
+                    const arrayBuffer = await fileRes.arrayBuffer();
+                    const base64Content = arrayBufferToBase64(arrayBuffer);
+                    let filename = url.split('/').pop() || "attachment.file";
+                    try { filename = decodeURIComponent(filename); } catch (e) { }
 
-                attachments.push({
-                    filename: filename,
-                    content: base64Content
-                });
+                    return {
+                        filename: filename,
+                        content: base64Content
+                    };
+                }
+            } catch (err) {
+                console.error("Failed to fetch encoding attachment:", err);
             }
-        } catch (err) {
-            console.error("Failed to fetch encoding attachment:", err);
-        }
+            return null;
+        });
+
+        const results = await Promise.all(fetchPromises);
+        attachments = results.filter(a => a !== null);
     }
 
     for (let i = 0; i < emails.length; i += 50) {
@@ -128,7 +142,7 @@ async function pushToEmail(env, emails, message, imageUrl = null) {
 /**
  * Route explicit arrays of usernames sorting LINE profiles vs Standalone Emails natively returning analytics.
  */
-export async function sendTargetedBroadcast(env, usernames, message, imageUrl = null) {
+export async function sendTargetedBroadcast(env, usernames, message, imageUrls = []) {
     const lineUsers = [];
     const emailUsers = [];
 
@@ -141,8 +155,8 @@ export async function sendTargetedBroadcast(env, usernames, message, imageUrl = 
     });
 
     const [lineResult, emailResult] = await Promise.all([
-        pushToLine(env, lineUsers, message, imageUrl),
-        pushToEmail(env, emailUsers, message, imageUrl)
+        pushToLine(env, lineUsers, message, imageUrls),
+        pushToEmail(env, emailUsers, message, imageUrls)
     ]);
 
     return {

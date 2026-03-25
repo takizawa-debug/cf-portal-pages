@@ -24,7 +24,10 @@ export async function onRequestPost(context) {
         const targetType = body.target_type || 'all';
         const channel = body.channel || 'both';
         const message = body.message;
-        const imageUrl = body.image_url || null;
+        let imageUrls = body.image_urls || [];
+        if (!Array.isArray(imageUrls)) {
+            imageUrls = [];
+        }
 
         let query = `SELECT DISTINCT u.username FROM users u`;
         const params = [];
@@ -52,7 +55,7 @@ export async function onRequestPost(context) {
             }
         });
 
-        const results = await sendTargetedBroadcast(env, targetUsernames, message, imageUrl);
+        const results = await sendTargetedBroadcast(env, targetUsernames, message, imageUrls);
 
         return jsonResponse({
             ok: true,
