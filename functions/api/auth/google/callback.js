@@ -100,16 +100,6 @@ export async function onRequestGet(context) {
         
         const cookieValue = `admin_session_token=${sessionId}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Lax`;
         
-        // Clean OAuth state cookie
-        const deadStateCookie = `oauth_state=; HttpOnly; Secure; Path=/api/auth/google; Max-Age=0; SameSite=Lax`;
-
-        // Create an intermediate HTML redirect payload so that localStorage logic from regular auth isn't needed right away?
-        // Wait, standard login process sets localStorage!
-        // `admin_role`, `admin_username`, `admin_id`.
-        // If we just redirect, the frontend relies on localStorage to decide the layout.
-        // We will pass the data embedded into the URL fragment for `login.html` to consume, because setting localStorage purely from backend redirect is impossible.
-        
-        // Return HTML payload that sets localStorage and redirects 
         const htmlPayload = `
         <!DOCTYPE html>
         <html>
@@ -130,14 +120,13 @@ export async function onRequestGet(context) {
         </html>
         `;
 
-        const headers = new Headers();
-        headers.append("Content-Type", "text/html");
-        headers.append("Set-Cookie", cookieValue);
-        headers.append("Set-Cookie", deadStateCookie);
-
+        // Return HTML payload explicitly skipping Headers.append() concatenations safely transmitting the unique Session Token
         return new Response(htmlPayload, {
             status: 200,
-            headers: headers
+            headers: {
+                "Content-Type": "text/html",
+                "Set-Cookie": cookieValue
+            }
         });
         
     } catch (e) {

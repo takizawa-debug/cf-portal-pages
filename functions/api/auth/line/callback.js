@@ -103,10 +103,6 @@ export async function onRequestGet(context) {
         
         const cookieValue = `admin_session_token=${sessionId}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Lax`;
         
-        // Clean OAuth state mechanism securely
-        const deadStateCookie = `oauth_state_line=; HttpOnly; Secure; Path=/api/auth/line; Max-Age=0; SameSite=Lax`;
-
-        // Return HTML payload explicitly saving parameters into client localStorage avoiding intermediate bridging glitches natively routing directly into the dashboard framework
         const htmlPayload = `
         <!DOCTYPE html>
         <html>
@@ -127,14 +123,13 @@ export async function onRequestGet(context) {
         </html>
         `;
 
-        const headers = new Headers();
-        headers.append("Content-Type", "text/html");
-        headers.append("Set-Cookie", cookieValue);
-        headers.append("Set-Cookie", deadStateCookie);
-
+        // Return HTML payload explicitly saving parameters into client localStorage avoiding intermediate bridging glitches natively routing directly into the dashboard framework
         return new Response(htmlPayload, {
             status: 200,
-            headers: headers
+            headers: {
+                "Content-Type": "text/html",
+                "Set-Cookie": cookieValue
+            }
         });
         
     } catch (e) {
