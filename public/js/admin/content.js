@@ -249,6 +249,7 @@ function toggleSiteScopeFormFields() {
     document.getElementById('wrap_l3')?.classList.toggle('d-none', isSourApple);
     document.getElementById('wrap_lead_text')?.classList.toggle('d-none', isSourApple);
     document.getElementById('wrap_image6')?.classList.toggle('d-none', isSourApple);
+    document.getElementById('wrap_media_extras')?.classList.toggle('d-none', isSourApple);
 
     document.getElementById('ai-generation-box')?.classList.toggle('d-none', isSourApple);
 
