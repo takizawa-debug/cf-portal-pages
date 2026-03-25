@@ -18,7 +18,18 @@ async function checkAuth() {
     }
 
     try {
-        const res = await fetch('/api/auth/me');
+        let res = await fetch('/api/auth/me');
+        
+        // Auto-Provision D1 Replica Lag Mitigator
+        if (!res.ok && tempSession) {
+            console.warn("Validating new Session D1 Synchronization...");
+            for (let i = 0; i < 3; i++) {
+                await new Promise(resolve => setTimeout(resolve, 600));
+                res = await fetch('/api/auth/me');
+                if (res.ok) break;
+            }
+        }
+
         if (!res.ok) {
             window.location.href = '/login.html';
             return;
