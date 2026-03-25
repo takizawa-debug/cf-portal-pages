@@ -1107,6 +1107,11 @@ async function saveBusinessProfile() {
                 loadBusinessProfile(); // Admin returns to list view
             } else {
                 disableBusinessEdit();
+                // Dynamically unlock restricted menus upon first valid profile save
+                const nbp = document.getElementById('navBusinessProfile');
+                if(nbp) nbp.classList.remove('d-none');
+                const nmm = document.getElementById('navMediaMgt');
+                if(nmm) nmm.classList.remove('d-none');
             }
         } else { showStatus('保存エラー', 'error'); }
     } catch (e) { showStatus('通信エラー', 'error'); }
