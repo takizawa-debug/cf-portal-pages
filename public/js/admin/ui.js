@@ -58,6 +58,9 @@ function switchMainPanel(panelId, btnEl) {
     else if (panelId === 'apple-panel') fetchApplesMaster();
     else if (panelId === 'inquiry-panel') fetchInquiries();
     else if (panelId === 'media-panel') fetchMedia();
+    else if (panelId === 'broadcast-panel') {
+        if (typeof updateBroadcastPreview === 'function') updateBroadcastPreview();
+    }
     else fetchContent();
 }
 

@@ -16,23 +16,32 @@ export async function onRequestPost(context) {
 
     try {
         const body = await request.json();
-        const { audience, message } = body; // audience: 'all', 'line', 'email'
+        const { target_type, channel, message } = body;
 
         if (!message || message.trim() === '') {
             return errorResponse("Message is required", 400);
         }
 
-        // Fetch all users
-        const { results: users } = await env.DB.prepare('SELECT id, username, display_name FROM users').all();
-        
+        let query = `SELECT DISTINCT u.username FROM users u`;
+        const params = [];
+
+        if (target_type === 'shop' || target_type === 'farmer') {
+            query += ` JOIN contents c ON u.id = c.author_id AND c.type = 'business_profile' AND c.business_b_type = ?`;
+            params.push(target_type);
+        }
+
+        query += ` WHERE u.role = 'contributor'`;
+
+        const { results: users } = await env.DB.prepare(query).bind(...params).all();
+
         const targetUsernames = [];
 
         users.forEach(u => {
-            if (audience === 'all') {
+            if (channel === 'both') {
                 targetUsernames.push(u.username);
-            } else if (audience === 'line' && u.username.startsWith('line_')) {
+            } else if (channel === 'line' && u.username.startsWith('line_')) {
                 targetUsernames.push(u.username);
-            } else if (audience === 'email' && u.username.includes('@')) {
+            } else if (channel === 'email' && u.username.includes('@')) {
                 targetUsernames.push(u.username);
             }
         });

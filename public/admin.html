@@ -943,13 +943,26 @@ flowchart TD
                     <div class="col-md-8">
                         <div class="card shadow-sm border-0 mb-4 p-4">
                             <h5 class="fw-bold mb-3">新しいメッセージの作成</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="form-label fw-bold small text-muted">配信対象 (登録種別)</label>
+                                    <select class="form-select" id="broadcast_target_type" onchange="updateBroadcastPreview()">
+                                        <option value="all">全ての事業者 (Contributor全員)</option>
+                                        <option value="farmer">農園のみ</option>
+                                        <option value="shop">店舗のみ</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small text-muted">配信手段 (チャネル)</label>
+                                    <select class="form-select" id="broadcast_channel" onchange="updateBroadcastPreview()">
+                                        <option value="both">LINE ＋ Email</option>
+                                        <option value="line">LINE登録ユーザーのみ</option>
+                                        <option value="email">Email連携ユーザーのみ</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted">配信対象</label>
-                                <select class="form-select" id="broadcast_audience">
-                                    <option value="all">登録ユーザー全員 (LINE & Email)</option>
-                                    <option value="line">LINE登録ユーザーのみ</option>
-                                    <option value="email">メール連携ユーザーのみ</option>
-                                </select>
+                                <span class="badge bg-secondary py-2 px-3 fw-normal" id="broadcast_preview_badge"><i class="fa-solid fa-calculator me-1"></i> 配信予定件数を計算中...</span>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label fw-bold small text-muted">メッセージ本文</label>

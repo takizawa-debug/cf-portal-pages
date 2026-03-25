@@ -1,7 +1,31 @@
 // Broadcast Management
 
+async function updateBroadcastPreview() {
+    const targetType = document.getElementById('broadcast_target_type').value;
+    const channel = document.getElementById('broadcast_channel').value;
+    const badge = document.getElementById('broadcast_preview_badge');
+    
+    badge.className = 'badge bg-secondary py-2 px-3 fw-normal';
+    badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> 計算中...';
+
+    try {
+        const res = await apiFetch(`/api/broadcast_preview?target_type=${targetType}&channel=${channel}`);
+        if (res.ok) {
+            badge.className = 'badge bg-brand py-2 px-3 fw-bold';
+            badge.innerHTML = `<i class="fa-solid fa-users me-1"></i> 配信予定: ${res.count}件 (LINE: ${res.line_count}, Email: ${res.email_count})`;
+        } else {
+            badge.className = 'badge bg-danger py-2 px-3 fw-normal';
+            badge.innerText = 'エラー: 計算失敗';
+        }
+    } catch(e) {
+        badge.className = 'badge bg-danger py-2 px-3 fw-normal';
+        badge.innerText = '通信エラー';
+    }
+}
+
 async function sendBroadcast() {
-    const audienceStr = document.getElementById('broadcast_audience').value;
+    const targetType = document.getElementById('broadcast_target_type').value;
+    const channel = document.getElementById('broadcast_channel').value;
     const message = document.getElementById('broadcast_message').value;
 
     if (!message || message.trim() === '') {
@@ -21,7 +45,7 @@ async function sendBroadcast() {
         // Assume apiFetch is available from auth.js/ui.js
         const data = await apiFetch('/api/broadcast', {
             method: 'POST',
-            body: JSON.stringify({ audience: audienceStr, message: message })
+            body: JSON.stringify({ target_type: targetType, channel: channel, message: message })
         });
 
         if (data.ok && data.summary) {
