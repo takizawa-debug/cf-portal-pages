@@ -43,6 +43,13 @@ function renderMediaGrid() {
     const subFolders = {};  // map of parent -> map of child -> count
     const filesInPath = {}; // map of path -> array of files
     
+    // Seed persistent administrative media folders ensuring UI access even when buckets hold 0 files
+    rootFolders['official'] = 0;
+    if (window.userRole !== 'contributor') {
+        rootFolders['media'] = 0;
+        rootFolders['library'] = 0;
+    }
+    
     mediaCache.forEach(m => {
         const parts = m.key.split('/');
         const dir = parts.length > 1 ? parts.slice(0, -1).join('/') : 'ルート';
