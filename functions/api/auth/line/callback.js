@@ -1,4 +1,5 @@
 import { errorResponse } from "../../../utils/response.js";
+import { signJWT } from "../../../utils/auth.js";
 
 export async function onRequestGet(context) {
     const { request, env } = context;
@@ -94,14 +95,19 @@ export async function onRequestGet(context) {
         }
         
         // Create a new session tracking Admin login duration seamlessly
-        const sessionId = crypto.randomUUID();
-        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+        // Create Stateless JWT Session tracking Admin login duration seamlessly
+        const payload = {
+            id: user.id,
+            username: user.username,
+            role: user.role,
+            display_name: user.display_name,
+            managed_sites: user.managed_sites || '["all"]',
+            exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60 // 7 days
+        };
+        const secret = env.JWT_SECRET || "default_local_jwt_secret_development_only";
+        const token = await signJWT(payload, secret);
         
-        await env.DB.prepare(
-            "INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)"
-        ).bind(sessionId, user.id, expiresAt.toISOString()).run();
-        
-        const cookieValue = `admin_session_token=${sessionId}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Lax`;
+        const cookieValue = `admin_session_token=${token}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Lax`;
         
         const htmlPayload = `
         <!DOCTYPE html>
@@ -110,7 +116,7 @@ export async function onRequestGet(context) {
             <meta charset="utf-8">
             <title>Logging in...</title>
             <script>
-                localStorage.setItem('temp_session_id', '${sessionId}');
+                localStorage.setItem('temp_session_id', '${token}');
                 localStorage.setItem('admin_role', '${user.role}');
                 localStorage.setItem('admin_username', '${user.username}');
                 localStorage.setItem('admin_display_name', '${user.display_name || user.username}');

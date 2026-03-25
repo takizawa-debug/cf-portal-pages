@@ -1,4 +1,5 @@
 import { errorResponse, jsonResponse } from "../../utils/response.js";
+import { signJWT } from "../../utils/auth.js";
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -32,15 +33,19 @@ export async function onRequestPost(context) {
             return errorResponse("メールアドレスの認証が完了していません。受信トレイに届いている認証URLからパスワードを設定してください。", 403);
         }
 
-        // Create a new session
-        const sessionId = crypto.randomUUID();
-        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+        // Create Stateless JWT Session
+        const payload = {
+            id: user.id,
+            username: user.username,
+            role: user.role,
+            display_name: user.display_name,
+            managed_sites: user.managed_sites || '["all"]',
+            exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60 // 7 days
+        };
+        const secret = env.JWT_SECRET || "default_local_jwt_secret_development_only";
+        const token = await signJWT(payload, secret);
 
-        await env.DB.prepare(
-            "INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)"
-        ).bind(sessionId, user.id, expiresAt.toISOString()).run();
-
-        const cookieValue = `admin_session_token=${sessionId}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Strict`;
+        const cookieValue = `admin_session_token=${token}; HttpOnly; Secure; Path=/; Max-Age=604800; SameSite=Strict`;
 
         return new Response(JSON.stringify({ ok: true, user: { id: user.id, username: user.username, role: user.role, display_name: user.display_name } }), {
             status: 200,
