@@ -32,7 +32,9 @@ export async function onRequestPost(context) {
 
         query += ` WHERE u.role = 'contributor'`;
 
-        const { results: users } = await env.DB.prepare(query).bind(...params).all();
+        let stmt = env.DB.prepare(query);
+        if (params.length > 0) stmt = stmt.bind(...params);
+        const { results: users } = await stmt.all();
 
         const targetUsernames = [];
 
