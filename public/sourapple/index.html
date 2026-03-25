@@ -411,27 +411,9 @@
                     <h2 class="section-title">お知らせ</h2>
                 </div>
                 
-                <ul class="news-list">
-                    <li class="news-item">
-                        <a href="#">
-                            <span class="news-date">2026.04.01</span>
-                            <span class="news-txt">ダミー文章お知らせが入りますダミー文章お知らせが入ります</span>
-                            <div class="news-arrow">→</div>
-                        </a>
-                    </li>
-                    <li class="news-item">
-                        <a href="#">
-                            <span class="news-date">2026.04.01</span>
-                            <span class="news-txt">ダミー文章お知らせが入りますダミー文章お知らせが入ります</span>
-                            <div class="news-arrow">→</div>
-                        </a>
-                    </li>
-                    <li class="news-item">
-                        <a href="#">
-                            <span class="news-date">2026.04.01</span>
-                            <span class="news-txt">ダミー文章お知らせが入りますダミー文章お知らせが入ります</span>
-                            <div class="news-arrow">→</div>
-                        </a>
+                <ul class="news-list" id="sourappleNewsList">
+                    <li class="news-item" style="text-align:center; padding: 2rem; color: #666;">
+                        <span class="news-txt">読み込み中...</span>
                     </li>
                 </ul>
             </div>
@@ -555,6 +537,58 @@
             <div class="footer-copyright">copyright © iizuna sour apple</div>
         </div>
     </footer>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const listEl = document.getElementById('sourappleNewsList');
+            if(!listEl) return;
+            try {
+                const res = await fetch('/api/frontend/sourapple_news');
+                if(!res.ok) throw new Error('Failed to fetch news');
+                const newsData = await res.json();
+                
+                listEl.innerHTML = '';
+                
+                if (newsData.length === 0) {
+                    listEl.innerHTML = '<li class="news-item" style="text-align:center; padding: 2rem; color: #666;"><span class="news-txt">現在お知らせはありません</span></li>';
+                    return;
+                }
+                
+                newsData.forEach(item => {
+                    const dateObj = new Date(item.created_at);
+                    const yyyy = dateObj.getFullYear();
+                    const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const dd = String(dateObj.getDate()).padStart(2, '0');
+                    const formattedDate = `${yyyy}.${mm}.${dd}`;
+                    
+                    const li = document.createElement('li');
+                    li.className = 'news-item';
+                    
+                    const a = document.createElement('a');
+                    a.href = `javascript:alert('【${item.title}】\\n詳細ページは準備中です。');`; // Simple placeholder interaction
+                    
+                    const spanDate = document.createElement('span');
+                    spanDate.className = 'news-date';
+                    spanDate.textContent = formattedDate;
+                    
+                    const spanTxt = document.createElement('span');
+                    spanTxt.className = 'news-txt';
+                    spanTxt.textContent = item.title;
+                    
+                    const divArrow = document.createElement('div');
+                    divArrow.className = 'news-arrow';
+                    divArrow.textContent = '→';
+                    
+                    a.appendChild(spanDate);
+                    a.appendChild(spanTxt);
+                    a.appendChild(divArrow);
+                    li.appendChild(a);
+                    listEl.appendChild(li);
+                });
+            } catch (err) {
+                console.error(err);
+                listEl.innerHTML = '<li class="news-item" style="text-align:center; padding: 2rem; color: red;"><span class="news-txt">お知らせの取得に失敗しました</span></li>';
+            }
+        });
+    </script>
 </body>
 </html>

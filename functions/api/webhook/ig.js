@@ -1,4 +1,4 @@
-import { optionsResponse } from "../../utils/response";
+import { optionsResponse } from "../../utils/response.js";
 export async function onRequestPost(context) {
     const { request, env } = context;
 

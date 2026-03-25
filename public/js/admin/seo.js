@@ -135,11 +135,21 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (managedSites.includes('all') || managedSites.includes('sourapple')) {
                 const opt1 = document.createElement('option');
-                opt1.value = 'sourapple';
+                opt1.value = '/sourapple';
                 opt1.textContent = 'iizuna sour apple 特設サイト ( /sourapple/ )';
                 selectEl.appendChild(opt1);
             }
-            // Expand future main-site SEO options here
+            if (managedSites.includes('all') || managedSites.includes('main')) {
+                const optMain = document.createElement('option');
+                optMain.value = '/';
+                optMain.textContent = 'りんごのまち・いいづな トップページ ( / )';
+                selectEl.appendChild(optMain);
+                
+                const optAbout = document.createElement('option');
+                optAbout.value = '/about';
+                optAbout.textContent = 'りんごのまち・いいづな について ( /about )';
+                selectEl.appendChild(optAbout);
+            }
             
             if (selectEl.options.length > 0) {
                 document.getElementById('seo_title').disabled = false;

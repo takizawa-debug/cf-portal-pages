@@ -1,6 +1,6 @@
-import { jsonResponse, errorResponse } from "../../utils/response";
-import { sendTargetedBroadcast } from "../../utils/notification";
-import { authenticate, requireRole } from "../../utils/auth";
+import { jsonResponse, errorResponse } from "../../utils/response.js";
+import { sendTargetedBroadcast } from "../../utils/notification.js";
+import { authenticate, requireRole } from "../../utils/auth.js";
 
 export async function onRequestPut(context) {
     const { request, env, params } = context;
@@ -11,16 +11,34 @@ export async function onRequestPut(context) {
         const roleError = requireRole(user, ['admin', 'editor', 'contributor']);
         if (roleError) return roleError;
 
-        if (user.role === 'contributor') {
-            const { results } = await env.DB.prepare("SELECT author_id FROM contents WHERE id = ?").bind(id).all();
+        let currentScope = 'main';
+        if (user.role !== 'admin') {
+            const { results } = await env.DB.prepare("SELECT author_id, site_scope FROM contents WHERE id = ?").bind(id).all();
             if (results.length === 0) return errorResponse('Not found', 404);
-            if (results[0].author_id !== user.id) {
-                return errorResponse('Forbidden: you do not own this content', 403);
+            currentScope = results[0].site_scope || 'main';
+
+            if (user.role === 'contributor') {
+                if (results[0].author_id !== user.id) {
+                    return errorResponse('Forbidden: you do not own this content', 403);
+                }
+            } else {
+                const managedSites = JSON.parse(user.managed_sites || '["all"]');
+                if (!managedSites.includes('all') && !managedSites.includes(currentScope)) {
+                    return errorResponse('Forbidden: Not in your managed scope', 403);
+                }
             }
         }
 
         const data = await request.json();
         
+        // Security: validate if they are trying to change site_scope
+        if (data.site_scope && user.role !== 'admin') {
+            const managedSites = JSON.parse(user.managed_sites || '["all"]');
+            if (!managedSites.includes('all') && !managedSites.includes(data.site_scope)) {
+                return errorResponse('Forbidden: Cannot move content to unauthorized scope', 403);
+            }
+        }
+
         const broadcastTarget = data.broadcast_target;
         delete data.broadcast_target;
 
@@ -137,11 +155,19 @@ export async function onRequestDelete(context) {
         const roleError = requireRole(user, ['admin', 'editor', 'contributor']);
         if (roleError) return roleError;
 
-        if (user.role === 'contributor') {
-            const { results } = await env.DB.prepare("SELECT author_id FROM contents WHERE id = ?").bind(id).all();
+        if (user.role !== 'admin') {
+            const { results } = await env.DB.prepare("SELECT author_id, site_scope FROM contents WHERE id = ?").bind(id).all();
             if (results.length === 0) return errorResponse('Not found', 404);
-            if (results[0].author_id !== user.id) {
-                return errorResponse('Forbidden: you do not own this content', 403);
+
+            if (user.role === 'contributor') {
+                if (results[0].author_id !== user.id) {
+                    return errorResponse('Forbidden: you do not own this content', 403);
+                }
+            } else {
+                const managedSites = JSON.parse(user.managed_sites || '["all"]');
+                if (!managedSites.includes('all') && !managedSites.includes(results[0].site_scope || 'main')) {
+                    return errorResponse('Forbidden: Not in your managed scope', 403);
+                }
             }
         }
 

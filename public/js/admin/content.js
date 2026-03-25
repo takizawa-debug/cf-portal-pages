@@ -4,7 +4,7 @@
 
 let contentModal = null;
 const contentFields = [
-    'id', 'l1', 'l2', 'l3_label', 'title', 'lead_text', 'body_text',
+    'id', 'site_scope', 'l1', 'l2', 'l3_label', 'title', 'lead_text', 'body_text',
     'l1_en', 'l2_en', 'l3_label_en', 'title_en', 'lead_text_en', 'body_text_en',
     'l1_tw', 'l2_tw', 'l3_label_tw', 'title_tw', 'lead_text_tw', 'body_text_tw',
     'image1', 'image2', 'image3', 'image4', 'image5', 'image6',
@@ -186,6 +186,21 @@ function openContentEditor(item) {
     if (targetEl) targetEl.value = 'none';
 
     populateCategoryL1();
+
+    // Dynamically configure site_scope dropdown
+    const scopeEl = document.getElementById('field_site_scope');
+    if (scopeEl) {
+        scopeEl.innerHTML = '';
+        const managedSites = window.managedSites || ['all'];
+        
+        if (managedSites.includes('all') || managedSites.includes('main')) {
+            scopeEl.innerHTML += `<option value="main">りんごのまち・いいづな (Main)</option>`;
+        }
+        if (managedSites.includes('all') || managedSites.includes('sourapple')) {
+            scopeEl.innerHTML += `<option value="sourapple">iizuna sour apple (特設)</option>`;
+        }
+        if (scopeEl.options.length > 0) scopeEl.selectedIndex = 0;
+    }
 
     const triggerEl = document.querySelector('#editorTabs button[data-bs-target="#tab-basic"]');
     bootstrap.Tab.getInstance(triggerEl)?.show() || new bootstrap.Tab(triggerEl).show();

@@ -1,6 +1,6 @@
-import { jsonResponse, errorResponse } from "../utils/response";
-import { authenticate } from "../utils/auth";
-import { sendTargetedBroadcast } from "../utils/notification";
+import { jsonResponse, errorResponse } from "../utils/response.js";
+import { authenticate } from "../utils/auth.js";
+import { sendTargetedBroadcast } from "../utils/notification.js";
 
 export async function onRequestPost(context) {
     const { request, env } = context;

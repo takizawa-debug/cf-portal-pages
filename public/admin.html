@@ -332,6 +332,7 @@ flowchart TD
                     </div>
                 </div>
             </div>
+            </div>
 
             <!-- Panel 1.5: Business Profile Data -->
             <div id="business-panel" class="panel">
@@ -1271,6 +1272,12 @@ flowchart TD
                                 </div>
 
                                 <div class="row g-3">
+                                    <div class="col-12 mb-2">
+                                        <label class="form-label text-muted fw-bold">掲載サイト (Site Scope) <span class="text-danger">*</span></label>
+                                        <select class="form-select border-brand bg-light" id="field_site_scope">
+                                            <!-- Managed dynamically by JS based on role -->
+                                        </select>
+                                    </div>
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold">大カテゴリ (L1)</label>
                                         <select class="form-select" id="field_l1" onchange="updateCategoryL2()">

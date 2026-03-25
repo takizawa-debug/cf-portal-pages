@@ -1,4 +1,4 @@
-import { errorResponse, jsonResponse } from "../../utils/response";
+import { errorResponse, jsonResponse } from "../../utils/response.js";
 
 export async function onRequestPost(context) {
     const { request, env } = context;

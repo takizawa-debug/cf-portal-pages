@@ -1,5 +1,5 @@
-import { jsonResponse, errorResponse, optionsResponse } from "../utils/response";
-import { sendNotificationToRoles } from "../utils/notification";
+import { jsonResponse, errorResponse, optionsResponse } from "../utils/response.js";
+import { sendNotificationToRoles } from "../utils/notification.js";
 export async function onRequest(context) {
     const { request, env } = context;
 

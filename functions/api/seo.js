@@ -43,7 +43,12 @@ export async function onRequestPost({ request, env }) {
 
         // Apply Zero-Trust Scope verify
         const managedSites = JSON.parse(user.managed_sites || '["all"]');
-        if (user.role !== 'admin' && !managedSites.includes('all') && !managedSites.includes(path)) {
+        let requiredScope = 'main';
+        if (path === '/sourapple' || path.startsWith('/sourapple/')) {
+            requiredScope = 'sourapple';
+        }
+
+        if (user.role !== 'admin' && !managedSites.includes('all') && !managedSites.includes(requiredScope)) {
             return new Response(JSON.stringify({ error: "Forbidden: Not in your managed scope." }), { status: 403 });
         }
 

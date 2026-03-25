@@ -1,4 +1,4 @@
-import { jsonResponse, optionsResponse } from "../utils/response";
+import { jsonResponse, optionsResponse } from "../utils/response.js";
 export async function onRequestGet(context) {
     const { request, env } = context;
     const url = new URL(request.url);

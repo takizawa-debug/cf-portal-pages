@@ -49,9 +49,19 @@ export async function onRequest({ request, next, env }) {
     }
 
     try {
-        // Fetch custom SEO configuration from D1 (hardcoded path 'sourapple' for this directory)
+        // Extract exact path matching
+        const url = new URL(request.url);
+        let path = url.pathname;
+        
+        // Normalize trailing slashes for directory indexing, so /sourapple/ and /sourapple match the same DB record '/sourapple'
+        // Root path '/' is kept as '/'
+        if (path.length > 1 && path.endsWith('/')) {
+            path = path.slice(0, -1);
+        }
+
+        // Fetch custom SEO configuration from D1 matching the exact valid path
         const stmt = env.DB.prepare('SELECT title, description, og_image_url, favicon_url FROM seo_settings WHERE page_path = ?');
-        const seoData = await stmt.bind('sourapple').first();
+        const seoData = await stmt.bind(path).first();
 
         // If no custom settings, return as-is
         if (!seoData) {

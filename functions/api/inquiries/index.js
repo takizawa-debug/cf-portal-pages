@@ -1,5 +1,5 @@
-import { errorResponse, jsonResponse, optionsResponse } from "../../utils/response";
-import { authenticate } from "../../utils/auth";
+import { errorResponse, jsonResponse, optionsResponse } from "../../utils/response.js";
+import { authenticate } from "../../utils/auth.js";
 
 export async function onRequest(context) {
     const { request, env } = context;

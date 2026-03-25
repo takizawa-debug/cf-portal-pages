@@ -1,5 +1,5 @@
-import { errorResponse, jsonResponse } from "../../utils/response";
-import { authenticate, requireRole } from "../../utils/auth";
+import { errorResponse, jsonResponse } from "../../utils/response.js";
+import { authenticate, requireRole } from "../../utils/auth.js";
 import * as xlsx from 'xlsx';
 import mammoth from 'mammoth';
 

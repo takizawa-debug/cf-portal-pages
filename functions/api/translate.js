@@ -1,5 +1,5 @@
-import { errorResponse } from "../utils/response";
-import { authenticate, requireRole } from "../utils/auth";
+import { errorResponse } from "../utils/response.js";
+import { authenticate, requireRole } from "../utils/auth.js";
 
 export async function onRequestPost(context) {
     const { request, env } = context;

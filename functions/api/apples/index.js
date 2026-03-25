@@ -1,4 +1,4 @@
-import { errorResponse, jsonResponse } from "../../utils/response";
+import { errorResponse, jsonResponse } from "../../utils/response.js";
 export async function onRequestGet(context) {
     try {
         const db = context.env.DB;

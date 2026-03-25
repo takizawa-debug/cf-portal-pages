@@ -1,4 +1,4 @@
-import { jsonResponse, errorResponse } from "../../utils/response";
+import { jsonResponse, errorResponse } from "../../utils/response.js";
 
 export async function onRequestPut({ request, env, params }) {
     try {

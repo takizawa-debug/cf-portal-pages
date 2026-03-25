@@ -23,7 +23,7 @@ export async function authenticate(request, env) {
 
         return session;
     } catch (e) {
-        return null;
+        throw e;
     }
 }
 

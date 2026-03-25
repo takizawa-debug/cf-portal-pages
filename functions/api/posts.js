@@ -1,5 +1,5 @@
-import { errorResponse, jsonResponse, optionsResponse } from "../utils/response";
-import { authenticate } from "../utils/auth";
+import { errorResponse, jsonResponse, optionsResponse } from "../utils/response.js";
+import { authenticate } from "../utils/auth.js";
 
 export async function onRequestGet(context) {
     const { request, env } = context;
@@ -22,13 +22,22 @@ export async function onRequestGet(context) {
             LEFT JOIN content_translations t_tw ON c.id = t_tw.content_id AND t_tw.locale = 'zh-TW'
         `;
 
-        let query = `SELECT ${flatSelect} FROM contents c ${joinClause} ORDER BY c.created_at DESC`;
+        let query = `SELECT ${flatSelect} FROM contents c ${joinClause}`;
         let binds = [];
 
+        let whereClause = '';
         if (user.role === 'contributor') {
-            query = `SELECT ${flatSelect} FROM contents c ${joinClause} WHERE c.author_id = ? ORDER BY c.created_at DESC`;
+            whereClause = 'WHERE c.author_id = ?';
             binds.push(user.id);
+        } else {
+            const managedSites = JSON.parse(user.managed_sites || '["all"]');
+            if (user.role !== 'admin' && !managedSites.includes('all')) {
+                whereClause = `WHERE c.site_scope IN (${managedSites.map(() => '?').join(',')})`;
+                binds.push(...managedSites);
+            }
         }
+        
+        query += ` ${whereClause} ORDER BY c.created_at DESC`;
 
         const { results } = await env.DB.prepare(query).bind(...binds).all();
 

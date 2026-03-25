@@ -1,6 +1,6 @@
-import { jsonResponse, errorResponse } from "../utils/response";
-import { authenticate, requireRole } from "../utils/auth";
-import { sendTargetedBroadcast } from "../utils/notification";
+import { jsonResponse, errorResponse } from "../utils/response.js";
+import { authenticate, requireRole } from "../utils/auth.js";
+import { sendTargetedBroadcast } from "../utils/notification.js";
 
 export async function onRequestPost(context) {
     const { request, env } = context;
@@ -21,6 +21,27 @@ export async function onRequestPost(context) {
         data.type = data.type || 'manual';
         data.id = id;
         data.author_id = user.id;
+
+        // Security: Zero-trust scope assignment
+        if (user.role !== 'admin') {
+            const managedSites = JSON.parse(user.managed_sites || '["all"]');
+            if (!managedSites.includes('all')) {
+                // If editor passed a scope they don't manage, reject
+                if (data.site_scope && !managedSites.includes(data.site_scope)) {
+                    return errorResponse('Forbidden: Unauthorized site scope', 403);
+                }
+                // If no scope passed, or valid, force to their primary scope if they only have 1
+                if (!data.site_scope && managedSites.length === 1) {
+                    data.site_scope = managedSites[0];
+                } else if (!data.site_scope) {
+                    data.site_scope = 'main'; // fallback, though it may be rejected later if not in managedSites, but above checked.
+                }
+            } else {
+                data.site_scope = data.site_scope || 'main';
+            }
+        } else {
+            data.site_scope = data.site_scope || 'main';
+        }
 
         // 1. Extract Media Assets
         const media = [];
