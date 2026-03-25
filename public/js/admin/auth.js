@@ -20,7 +20,7 @@ async function checkAuth() {
         // Reset all constrained navigations first
         const restrictedNavs = [
             'navContentMgt', 'navBusinessProfile', 'navUserMgt', 'navArchitecture', 'navCategoryMgt', 'navAppleMgt',
-            'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt',
+            'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navSeoMgt',
             'navCompanyAccount' // New menu for business account setting
         ];
         restrictedNavs.forEach(id => {
@@ -31,14 +31,14 @@ async function checkAuth() {
         // Apply RBAC Rules based on admin_ui_rbac_plan.md
         if (data.user.role === 'admin') {
             ['navContentMgt', 'navBusinessProfile', 'navUserMgt', 'navArchitecture', 'navCategoryMgt', 'navAppleMgt', 
-             'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navCompanyAccount'].forEach(id => {
+             'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navCompanyAccount'].forEach(id => {
                  const el = document.getElementById(id);
                  if (el) el.classList.remove('d-none');
              });
              switchMainPanel('content-panel', document.getElementById('navContentMgt'));
         } else if (data.user.role === 'editor') {
             // Editor: No System Setup, No Account Manage
-            ['navContentMgt', 'navBusinessProfile', 'navArchitecture', 'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt'].forEach(id => {
+            ['navContentMgt', 'navBusinessProfile', 'navArchitecture', 'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt'].forEach(id => {
                  const el = document.getElementById(id);
                  if (el) el.classList.remove('d-none');
              });
