@@ -360,6 +360,8 @@ function selectMediaUrl(url) {
         const el = document.getElementById(curMediaTargetId);
         if (el) {
             el.value = window.location.origin + url;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
         }
     }
     let mModal = bootstrap.Modal.getInstance(document.getElementById('mediaSelectModal'));

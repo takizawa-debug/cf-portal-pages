@@ -120,9 +120,11 @@ const MAX_TOTAL_SIZE_MB = 10;
 const MAX_TOTAL_BYTES = MAX_TOTAL_SIZE_MB * 1024 * 1024;
 
 function openBroadcastMediaPicker() {
-    window.currentMediaSelectTarget = 'broadcast_media_catcher_multi';
-    if (typeof renderMediaSelectGrid === 'function') renderMediaSelectGrid();
-    new bootstrap.Modal(document.getElementById('mediaSelectModal')).show();
+    if (typeof openMediaSelector === 'function') {
+        openMediaSelector('broadcast_media_catcher_multi');
+    } else {
+        console.error("openMediaSelector is not accessible.");
+    }
 }
 
 function removeBroadcastAttachment(idx) {
