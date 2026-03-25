@@ -4,7 +4,7 @@
 
 const i18n = {
     ja: {
-        nav_title: "りんごのまち・いいづな 管理ダッシュボード",
+        nav_title: "りんごのまちいいづな 管理サイト",
         menu_content: "記事管理", menu_users: "ユーザー管理", menu_keywords: "SEOキーワード管理", menu_knowledge: "ナレッジベース管理", menu_categories: "カテゴリマスタ管理", menu_apples: "品種管理マスタ", menu_inquiries: "お問い合わせ一覧", menu_media: "メディア管理",
         logout: "ログアウト", panel_content_title: "記事一覧", panel_users_title: "ユーザー一覧", panel_keyword_title: "SEOキーワード管理", panel_knowledge_title: "ナレッジベース", panel_media_title: "メディア管理",
         btn_refresh: "更新", btn_create: "新規作成", btn_create_user: "ユーザー追加", btn_create_keyword: "キーワード追加", btn_create_knowledge: "ドキュメント追加", btn_create_category: "カテゴリ追加", btn_upload_media: "アップロード",
