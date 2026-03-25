@@ -1035,37 +1035,36 @@ flowchart TD
                                         <small class="text-muted mt-2 d-block">※予約配信は定期巡回システムにより処理されるため、<strong>指定された時間から最長5分程度のラグが発生</strong>する場合があります。</small>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="text-end">
-                                <button class="btn btn-brand px-4 py-3 fw-bold shadow-sm" style="font-size:1.05rem;" id="btn_send_broadcast" onclick="sendBroadcast()">
-                                    <i class="fa-solid fa-paper-plane me-2"></i> 送信（または予約）を確定する
-                                </button>
-                            </div>
+                                
+                                <div class="text-end">
+                                    <button class="btn btn-brand px-4 py-3 fw-bold shadow-sm" style="font-size:1.05rem;" id="btn_send_broadcast" onclick="sendBroadcast()">
+                                        <i class="fa-solid fa-paper-plane me-2"></i> 送信（または予約）を確定する
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card shadow-sm border-0 bg-light p-4 d-none" id="broadcast_result_container">
-                            <h5 class="fw-bold mb-3 text-success"><i class="fa-solid fa-circle-check me-2"></i>送信結果</h5>
-                            
-                            <div class="mb-3 border-bottom pb-2">
-                                <div class="fw-bold small text-muted mb-1"><i class="fa-brands fa-line text-success"></i> LINE配信</div>
-                                <div class="d-flex justify-content-between"><span class="small">対象件数:</span> <span class="fw-bold" id="res_line_attempt">0</span></div>
-                                <div class="d-flex justify-content-between"><span class="small text-success">成功:</span> <span class="fw-bold text-success" id="res_line_success">0</span></div>
-                                <div class="d-flex justify-content-between"><span class="small text-danger">失敗:</span> <span class="fw-bold text-danger" id="res_line_fail">0</span></div>
-                            </div>
 
-                            <div>
-                                <div class="fw-bold small text-muted mb-1"><i class="fa-solid fa-envelope"></i> Email配信</div>
-                                <div class="d-flex justify-content-between"><span class="small">対象件数:</span> <span class="fw-bold" id="res_email_attempt">0</span></div>
-                                <div class="d-flex justify-content-between"><span class="small text-success">成功:</span> <span class="fw-bold text-success" id="res_email_success">0</span></div>
-                                <div class="d-flex justify-content-between"><span class="small text-danger">失敗:</span> <span class="fw-bold text-danger" id="res_email_fail">0</span></div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 bg-light p-4 d-none" id="broadcast_result_container">
+                                <h5 class="fw-bold mb-3 text-success"><i class="fa-solid fa-circle-check me-2"></i>送信結果</h5>
+                                
+                                <div class="mb-3 border-bottom pb-2">
+                                    <div class="fw-bold small text-muted mb-1"><i class="fa-brands fa-line text-success"></i> LINE配信</div>
+                                    <div class="d-flex justify-content-between"><span class="small">対象件数:</span> <span class="fw-bold" id="res_line_attempt">0</span></div>
+                                    <div class="d-flex justify-content-between"><span class="small text-success">成功:</span> <span class="fw-bold text-success" id="res_line_success">0</span></div>
+                                    <div class="d-flex justify-content-between"><span class="small text-danger">失敗:</span> <span class="fw-bold text-danger" id="res_line_fail">0</span></div>
+                                </div>
+
+                                <div>
+                                    <div class="fw-bold small text-muted mb-1"><i class="fa-solid fa-envelope"></i> Email配信</div>
+                                    <div class="d-flex justify-content-between"><span class="small">対象件数:</span> <span class="fw-bold" id="res_email_attempt">0</span></div>
+                                    <div class="d-flex justify-content-between"><span class="small text-success">成功:</span> <span class="fw-bold text-success" id="res_email_success">0</span></div>
+                                    <div class="d-flex justify-content-between"><span class="small text-danger">失敗:</span> <span class="fw-bold text-danger" id="res_email_fail">0</span></div>
+                                </div>
                             </div>
                         </div>
-                        </div>
-                    </div>
-                </div> <!-- End Form View Row -->
-            </div> <!-- End Form View Container -->
+                    </div> <!-- End Form View Row -->
+                </div> <!-- End Form View Container -->
             </div> <!-- End Broadcast Panel -->
 
             <!-- Panel 7: Inquiry Management (Admin/Editor) -->
