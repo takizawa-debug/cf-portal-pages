@@ -263,6 +263,19 @@ function toggleSiteScopeFormFields() {
             bootstrap.Tab.getInstance(triggerEl)?.show() || new bootstrap.Tab(triggerEl).show();
         }
     }
+
+    const broadcastTarget = document.getElementById('content_broadcast_target');
+    if (broadcastTarget) {
+        Array.from(broadcastTarget.options).forEach(opt => {
+            if (['all', 'shop', 'farmer'].includes(opt.value)) {
+                opt.classList.toggle('d-none', isSourApple);
+            }
+        });
+        
+        if (isSourApple && ['all', 'shop', 'farmer'].includes(broadcastTarget.value)) {
+            broadcastTarget.value = 'editors';
+        }
+    }
 }
 
 function toggleBizFormType() {
