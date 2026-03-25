@@ -123,6 +123,15 @@ body {
     color: white;
 }
 
+.bg-brand {
+    background-color: var(--accent) !important;
+    color: white !important;
+}
+
+.text-brand {
+    color: var(--accent) !important;
+}
+
 .btn-outline-brand {
     color: var(--accent);
     border-color: var(--accent);
