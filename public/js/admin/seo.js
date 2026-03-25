@@ -127,7 +127,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const seoBtn = document.getElementById('navSeoMgt');
     if (seoBtn) {
         seoBtn.addEventListener('click', () => {
-            loadSEOSettings();
+            const selectEl = document.getElementById('seo_page_path');
+            const managedSites = window.managedSites || ['all'];
+            
+            // Rebuild options based on scopes
+            selectEl.innerHTML = '';
+            
+            if (managedSites.includes('all') || managedSites.includes('sourapple')) {
+                const opt1 = document.createElement('option');
+                opt1.value = 'sourapple';
+                opt1.textContent = 'iizuna sour apple 特設サイト ( /sourapple/ )';
+                selectEl.appendChild(opt1);
+            }
+            // Expand future main-site SEO options here
+            
+            if (selectEl.options.length > 0) {
+                document.getElementById('seo_title').disabled = false;
+                document.getElementById('seo_description').disabled = false;
+                loadSEOSettings();
+            } else {
+                selectEl.innerHTML = '<option value="">アクセス可能なページがありません</option>';
+                document.getElementById('seo_title').disabled = true;
+                document.getElementById('seo_description').disabled = true;
+            }
         });
     }
 });

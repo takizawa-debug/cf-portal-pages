@@ -26,9 +26,15 @@ function renderUserTable(items) {
         const tr = document.createElement('tr');
         const badgeColor = u.role === 'admin' ? 'bg-danger' : (u.role === 'editor' ? 'bg-primary' : 'bg-secondary');
         const displayNameHtml = u.display_name ? `<br><small class="text-muted fw-normal">${u.display_name}</small>` : '';
+        let scopeStr = '';
+        try {
+            const arr = JSON.parse(u.managed_sites || '["all"]');
+            scopeStr = arr.includes('all') ? 'All' : arr.join(', ');
+        } catch(e) { scopeStr = 'All'; }
+        
         tr.innerHTML = `
             <td class="fw-bold">${u.username}${displayNameHtml}</td>
-            <td><span class="badge ${badgeColor}">${u.role.toUpperCase()}</span></td>
+            <td><span class="badge ${badgeColor}">${u.role.toUpperCase()}</span> <small class="text-muted ms-1">[${scopeStr}]</small></td>
             <td class="text-muted small">${date}</td>
             <td class="text-end">
                 <button class="btn btn-sm btn-outline-secondary fw-bold" onclick='openUserEditor(${JSON.stringify(u).replace(/'/g, "&apos;")})'>
@@ -55,11 +61,24 @@ function openUserEditor(user) {
         document.getElementById('usr_name').readOnly = true;
         document.getElementById('usr_role').value = user.role;
         document.getElementById('usr_pass').required = false;
+
+        try {
+            const arr = JSON.parse(user.managed_sites || '["all"]');
+            document.getElementById('site_all').checked = arr.includes('all');
+            document.getElementById('site_main').checked = arr.includes('main');
+            document.getElementById('site_sourapple').checked = arr.includes('sourapple');
+        } catch(e) {
+            document.getElementById('site_all').checked = true;
+        }
     } else {
         document.getElementById('usr_id').value = '';
         document.getElementById('usr_name').readOnly = false;
+        document.getElementById('usr_name').value = '';
         document.getElementById('usr_pass').required = true;
         document.getElementById('usr_role').value = 'contributor';
+        document.getElementById('site_all').checked = true;
+        document.getElementById('site_main').checked = false;
+        document.getElementById('site_sourapple').checked = false;
     }
     userModal.show();
 }
@@ -72,7 +91,16 @@ async function saveUser() {
 
     if (!isUserEditing && (!username || !password)) return showStatus('必須項目を入力してください', 'error');
 
-    const payload = { role };
+    let managed_sites = [];
+    if (document.getElementById('site_all').checked) {
+        managed_sites.push('all');
+    } else {
+        if (document.getElementById('site_main').checked) managed_sites.push('main');
+        if (document.getElementById('site_sourapple').checked) managed_sites.push('sourapple');
+    }
+    if (managed_sites.length === 0) managed_sites = ['all'];
+
+    const payload = { role, managed_sites };
     if (!isUserEditing) { payload.username = username; payload.password = password; }
     else if (password) { payload.password = password; }
 

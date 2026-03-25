@@ -17,14 +17,21 @@ export async function onRequestGet({ request, env }) {
         });
     } catch (err) {
         console.error(err);
-        return new Response(JSON.stringify({ error: "Database error" }), { status: 500 });
+        return new Response(JSON.stringify({ error: err.message }), { status: 500 });
     }
 }
 
 export async function onRequestPost({ request, env }) {
+    if (request.method === 'OPTIONS') {
+        return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" } });
+    }
+
     const user = await authenticate(request, env);
-    const authError = requireRole(user, ['admin', 'editor']);
-    if (authError) return authError;
+    if (!user) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+    // Require admin or editor role for SEO management
+    if (!['admin', 'editor'].includes(user.role)) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
+    }
 
     try {
         const data = await request.json();
@@ -32,6 +39,12 @@ export async function onRequestPost({ request, env }) {
 
         if (!path) {
             return new Response(JSON.stringify({ error: "Missing 'path'" }), { status: 400 });
+        }
+
+        // Apply Zero-Trust Scope verify
+        const managedSites = JSON.parse(user.managed_sites || '["all"]');
+        if (user.role !== 'admin' && !managedSites.includes('all') && !managedSites.includes(path)) {
+            return new Response(JSON.stringify({ error: "Forbidden: Not in your managed scope." }), { status: 403 });
         }
 
         const stmt = env.DB.prepare(`

@@ -16,6 +16,11 @@ async function checkAuth() {
         // Store global role reference for localized UI tasks
         window.userRole = data.user.role;
         window.userId = data.user.id;
+        try {
+            window.managedSites = JSON.parse(data.user.managed_sites || '["all"]');
+        } catch {
+            window.managedSites = ['all'];
+        }
 
         // Reset all constrained navigations first
         const restrictedNavs = [

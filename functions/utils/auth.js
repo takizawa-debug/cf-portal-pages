@@ -7,7 +7,7 @@ export async function authenticate(request, env) {
 
     try {
         const { results } = await env.DB.prepare(`
-            SELECT u.id, u.username, u.role, s.expires_at 
+            SELECT u.id, u.username, u.role, u.managed_sites, s.expires_at 
             FROM sessions s 
             JOIN users u ON s.user_id = u.id 
             WHERE s.id = ?

@@ -11,7 +11,7 @@ export async function onRequestGet(context) {
 
     try {
         const { results } = await env.DB.prepare(
-            "SELECT id, username, display_name, role, created_at FROM users ORDER BY created_at DESC"
+            "SELECT id, username, display_name, role, managed_sites, created_at FROM users ORDER BY created_at DESC"
         ).all();
 
         return jsonResponse({ ok: true, items: results });
@@ -30,7 +30,7 @@ export async function onRequestPost(context) {
 
     try {
         const body = await request.json();
-        const { username, display_name, password, role } = body;
+        const { username, display_name, password, role, managed_sites } = body;
 
         if (!username || !password || !role) {
             return errorResponse("Missing required fields", 400);
@@ -46,9 +46,11 @@ export async function onRequestPost(context) {
         // Generate ID
         const id = 'usr_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
 
+        const managedSitesString = managed_sites ? JSON.stringify(managed_sites) : '["all"]';
+
         await env.DB.prepare(
-            "INSERT INTO users (id, username, password_hash, role, display_name) VALUES (?, ?, ?, ?, ?)"
-        ).bind(id, username, passwordHash, role, display_name || null).run();
+            "INSERT INTO users (id, username, password_hash, role, display_name, managed_sites) VALUES (?, ?, ?, ?, ?, ?)"
+        ).bind(id, username, passwordHash, role, display_name || null, managedSitesString).run();
 
         return jsonResponse({ ok: true, id });
 

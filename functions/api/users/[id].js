@@ -12,7 +12,7 @@ export async function onRequestPut(context) {
 
     try {
         const body = await request.json();
-        const { password, role } = body;
+        const { password, role, managed_sites } = body;
 
         let updates = [];
         let binds = [];
@@ -34,6 +34,11 @@ export async function onRequestPut(context) {
             }
             updates.push("role = ?");
             binds.push(role);
+        }
+
+        if (managed_sites) {
+            updates.push("managed_sites = ?");
+            binds.push(JSON.stringify(managed_sites));
         }
 
         if (updates.length > 0) {

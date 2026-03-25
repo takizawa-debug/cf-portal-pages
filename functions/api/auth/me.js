@@ -12,7 +12,7 @@ export async function onRequestGet(context) {
 
     try {
         const { results } = await env.DB.prepare(`
-            SELECT u.id, u.username, u.role, u.display_name, s.expires_at 
+            SELECT u.id, u.username, u.role, u.display_name, u.managed_sites, s.expires_at 
             FROM sessions s 
             JOIN users u ON s.user_id = u.id 
             WHERE s.id = ?
@@ -36,7 +36,8 @@ export async function onRequestGet(context) {
                 id: session.id,
                 username: session.username,
                 role: session.role,
-                display_name: session.display_name
+                display_name: session.display_name,
+                managed_sites: session.managed_sites
             }
         });
 
