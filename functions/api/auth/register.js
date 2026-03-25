@@ -25,7 +25,7 @@ export async function onRequestPost(context) {
 
         // Insert new user into the database as 'contributor' with 'pending' status
         await env.DB.prepare(
-            "INSERT INTO users (id, username, role, display_name, status, verification_token) VALUES (?, ?, 'contributor', ?, 'pending', ?)"
+            "INSERT INTO users (id, username, password_hash, role, display_name, status, verification_token) VALUES (?, ?, '', 'contributor', ?, 'pending', ?)"
         ).bind(userId, username, display_name || '新規登録者', verificationToken).run();
 
         // Construct magic link based on request origin
