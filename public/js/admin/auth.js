@@ -26,7 +26,7 @@ async function checkAuth() {
         const restrictedNavs = [
             'navContentMgt', 'navBusinessProfile', 'navUserMgt', 'navArchitecture', 'navCategoryMgt', 'navAppleMgt',
             'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navSeoMgt',
-            'navCompanyAccount' // New menu for business account setting
+            'navCompanyAccount', 'navBroadcast'
         ];
         restrictedNavs.forEach(id => {
             const el = document.getElementById(id);
@@ -36,14 +36,14 @@ async function checkAuth() {
         // Apply RBAC Rules based on admin_ui_rbac_plan.md
         if (data.user.role === 'admin') {
             ['navContentMgt', 'navBusinessProfile', 'navUserMgt', 'navArchitecture', 'navCategoryMgt', 'navAppleMgt', 
-             'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navCompanyAccount'].forEach(id => {
+             'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navCompanyAccount', 'navBroadcast'].forEach(id => {
                  const el = document.getElementById(id);
                  if (el) el.classList.remove('d-none');
              });
              switchMainPanel('content-panel', document.getElementById('navContentMgt'));
         } else if (data.user.role === 'editor') {
             // Editor: No System Setup, No Account Manage
-            const editorNavs = ['navContentMgt', 'navBusinessProfile', 'navArchitecture', 'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt'];
+            const editorNavs = ['navContentMgt', 'navBusinessProfile', 'navArchitecture', 'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navBroadcast'];
             
             // Allow media management only if they are not exclusively scoped to the Sourapple site
             if (window.managedSites.includes('all') || window.managedSites.includes('main')) {
