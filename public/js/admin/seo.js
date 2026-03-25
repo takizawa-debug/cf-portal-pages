@@ -1,0 +1,96 @@
+// public/js/admin/seo.js
+
+async function loadSEOSettings() {
+    const pagePath = document.getElementById('seo_page_path').value;
+    if (!pagePath) return;
+
+    try {
+        const response = await fetch(`/api/seo?path=${encodeURIComponent(pagePath)}`);
+        if (!response.ok) throw new Error('Failed to fetch SEO settings');
+
+        const data = await response.json();
+        
+        document.getElementById('seo_title').value = data?.title || '';
+        document.getElementById('seo_description').value = data?.description || '';
+        document.getElementById('seo_ogp_url').value = data?.og_image_url || '';
+        
+        const preview = document.getElementById('seo_ogp_preview');
+        if (data?.og_image_url) {
+            preview.innerHTML = `<img src="${data.og_image_url}" alt="OGP Preview" style="width:100%;height:100%;object-fit:cover;">`;
+        } else {
+            preview.innerHTML = `<i class="fa-solid fa-image text-muted fs-2"></i>`;
+        }
+    } catch (err) {
+        console.error(err);
+        alert('SEO設定の読み込みに失敗しました。');
+    }
+}
+
+async function saveSEOSettings() {
+    const btn = document.getElementById('btnSaveSEO');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 保存中...';
+    btn.disabled = true;
+
+    const payload = {
+        path: document.getElementById('seo_page_path').value,
+        title: document.getElementById('seo_title').value,
+        description: document.getElementById('seo_description').value,
+        og_image_url: document.getElementById('seo_ogp_url').value
+    };
+
+    try {
+        const response = await fetch('/api/seo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error('Failed to save SEO settings');
+        alert('SEO設定を保存しました！直ちに本番環境へ反映されます。');
+    } catch (err) {
+        console.error(err);
+        alert('SEO設定の保存に失敗しました。');
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+}
+
+async function uploadSEOImage(file) {
+    if (!file) return;
+
+    // Use the existing R2 upload endpoint
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', 'seo');
+
+    try {
+        const response = await fetch('/api/media', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Upload failed');
+        const data = await response.json();
+        
+        const imageUrl = data.url;
+        document.getElementById('seo_ogp_url').value = imageUrl;
+        
+        const preview = document.getElementById('seo_ogp_preview');
+        preview.innerHTML = `<img src="${imageUrl}" alt="OGP Preview" style="width:100%;height:100%;object-fit:cover;">`;
+
+    } catch (err) {
+        console.error(err);
+        alert('画像のアップロードに失敗しました。');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const seoBtn = document.getElementById('navSeoMgt');
+    if (seoBtn) {
+        seoBtn.addEventListener('click', () => {
+            loadSEOSettings();
+        });
+    }
+});

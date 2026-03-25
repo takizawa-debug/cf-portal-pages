@@ -80,6 +80,9 @@
             <button class="nav-item-custom d-none" id="navKeywordMgt" onclick="switchMainPanel('keyword-panel', this)">
                 <i class="fa-solid fa-tags"></i> <span data-i18n="menu_keywords">SEOキーワード管理</span>
             </button>
+            <button class="nav-item-custom d-none" id="navSeoMgt" onclick="switchMainPanel('seo-panel', this)">
+                <i class="fa-solid fa-globe"></i> <span>SEO総合管理</span>
+            </button>
 
             <hr class="border-secondary my-1 mx-3">
 
@@ -658,6 +661,63 @@ flowchart TD
                             <tbody id="keywordTableBody">
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3.5: SEO Management (Admin/Editor) -->
+            <div id="seo-panel" class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold m-0" style="color:var(--accent);">SEO総合管理</h3>
+                </div>
+                <div class="card shadow-sm border-0 bg-white">
+                    <div class="card-body p-4">
+                        <div class="alert alert-info py-2 small"><i class="fa-solid fa-circle-info"></i> ※ここで設定したタイトルや画像（OGP）は、X(Twitter)やFacebook、LINE等でURLがシェアされた際に表示されるカードに即時反映されます。</div>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-12">
+                                <label class="form-label text-muted fw-bold">対象ページ</label>
+                                <select class="form-select" id="seo_page_path" onchange="loadSEOSettings()">
+                                    <option value="sourapple">iizuna sour apple 特設サイト ( /sourapple/ )</option>
+                                    <!-- 拡張用他ページ -->
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label class="form-label text-muted fw-bold">ページタイトル (Title)</label>
+                                <input type="text" class="form-control" id="seo_title" placeholder="例：まちがつなぐ、飯綱りんご｜飯綱町クッキングアップル">
+                                <div class="form-text small">ブラウザのタブや検索結果のメインタイトルとして表示されます（30文字前後推奨）。</div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label class="form-label text-muted fw-bold">ディスクリプション (Description)</label>
+                                <textarea class="form-control" id="seo_description" rows="3" placeholder="サイトの説明文を入力してください"></textarea>
+                                <div class="form-text small">検索結果の説明文として表示されます（60〜120文字推奨）。</div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <h5 class="fw-bold text-muted mb-3 mt-3"><i class="fa-solid fa-image"></i> シェア用OGP画像 (1200x630px推奨)</h5>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div id="seo_ogp_preview" class="border rounded bg-light d-flex align-items-center justify-content-center overflow-hidden flex-shrink-0" style="width: 240px; height: 126px; position:relative;">
+                                        <i class="fa-solid fa-image text-muted fs-2"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <input type="file" id="file_seo_ogp" accept="image/jpeg, image/png, image/webp" class="d-none" onchange="uploadSEOImage(this.files[0])">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm fw-bold mb-2" onclick="document.getElementById('file_seo_ogp').click()">
+                                            <i class="fa-solid fa-camera"></i> 新しい画像をアップロード
+                                        </button>
+                                        <input type="hidden" id="seo_ogp_url">
+                                        <div class="form-text small">※SNSでシェアされた時に大きく表示される画像です。1200x630pxの横長画像（JPEG/PNG/WebP）を推奨します。</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4 text-end border-top pt-4">
+                                <button class="btn btn-brand fw-bold px-5 py-2 fs-5" onclick="saveSEOSettings()" id="btnSaveSEO">
+                                    <i class="fa-solid fa-floppy-disk"></i> このSEO設定を保存・公開する
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2961,6 +3021,7 @@ flowchart TD
     <script src="/js/admin/content.js"></script>
     <script src="/js/admin/users.js"></script>
     <script src="/js/admin/keywords.js"></script>
+    <script src="/js/admin/seo.js"></script>
     <script src="/js/admin/knowledge.js"></script>
     <script src="/js/admin/categories.js"></script>
     <script src="/js/admin/apples.js"></script>
