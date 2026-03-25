@@ -254,26 +254,42 @@ flowchart LR
                 </div>
 
                 <div class="card shadow-sm border-0 bg-white p-4 mb-4">
-                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-user-shield"></i> 2. 権限とデータのアクセス可否 (Role Matrix)</h5>
-                    <table class="table table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th>データ・機能</th>
-                                <th>admin (全体管理者)</th>
-                                <th>editor (編集・運用者)</th>
-                                <th>contributor (農家・店舗等)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>ユーザー情報</td><td class="text-success text-center">✅ 全員分変更可</td><td class="text-danger text-center">❌</td><td class="text-danger text-center">❌</td></tr>
-                            <tr><td>マスターデータ</td><td class="text-success text-center">✅ 全変更可</td><td class="text-success text-center">✅ 全変更可</td><td class="text-danger text-center">❌</td></tr>
-                            <tr><td>AIナレッジ(PDF等)</td><td class="text-success text-center">✅ 全変更可</td><td class="text-success text-center">✅ 全変更可</td><td class="text-danger text-center">❌</td></tr>
-                            <tr><td>記事・コンテンツ</td><td class="text-success text-center">✅ 全作成・変更可</td><td class="text-success text-center">✅ 全作成・変更可</td><td class="text-secondary text-center">未開放 (実装予定)</td></tr>
-                            <tr><td>事業者プロフィール</td><td class="text-success text-center">✅ 全変更可</td><td class="text-success text-center">✅ 全変更可</td><td class="text-warning text-center">⚠️ 自分のもののみ</td></tr>
-                            <tr><td>画像等のメディア</td><td class="text-success text-center">✅</td><td class="text-success text-center">✅</td><td class="text-success text-center">✅ (主に追加用)</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-user-shield"></i> 2. 権限とスコープによるアクセス可否 (Role × Scope Matrix)</h5>
+                    <div class="mb-4">
+                        <p class="text-muted small mb-2">【軸1】Role（役職）によるベース権限</p>
+                        <table class="table table-bordered mb-4">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>役職</th>
+                                    <th>役割と機能制限</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>admin</strong> (全体管理者)</td><td>システムの全機能・全マスターデータ変更が可能な特権。担当サイトスコープに関わらずすべて操作可。</td></tr>
+                                <tr><td><strong>editor</strong> (編集・運用者)</td><td>記事作成や日々の運用（SEO、お問合せ対応等）を行う実働部隊。システム構造は変更不可。担当スコープ内で制限。</td></tr>
+                                <tr><td><strong>contributor</strong> (情報提供者)</td><td>農家や店舗等の一般事業者。自拠点からの情報発信や、プロフィール更新のみ実施可能。</td></tr>
+                            </tbody>
+                        </table>
+
+                        <p class="text-muted small mb-2">【軸2】Scope（担当サイト）によるデータの可視範囲 <span class="badge bg-secondary">Editor向け</span></p>
+                        <table class="table table-bordered mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>データ（機能・タブ名）</th>
+                                    <th>全サイト担当<br><small>(Admin / 総合Editor)</small></th>
+                                    <th>Main専属担当<br><small>(りんごのまち・いいづな)</small></th>
+                                    <th>特設専属担当<br><small>(iizuna sour apple)</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>ユーザー情報</strong></td><td class="text-success text-center">✅ 全員分変更可</td><td class="text-danger text-center">❌ 見えない</td><td class="text-danger text-center">❌ 見えない</td></tr>
+                                <tr><td><strong>マスター設定（カテゴリ等）</strong></td><td class="text-success text-center">✅ 全変更可</td><td class="text-danger text-center">❌ 見えない</td><td class="text-danger text-center">❌ 見えない</td></tr>
+                                <tr><td><strong>記事・コンテンツ</strong></td><td class="text-success text-center">✅ 全作成可</td><td class="text-warning text-center">⚠️ Main向けのみ</td><td class="text-warning text-center">⚠️ 特設向けのみ</td></tr>
+                                <tr><td><strong>📩 各種お問合せ管理</strong></td><td class="text-success text-center">✅ 全お問合せ閲覧</td><td class="text-warning text-center">⚠️ Main宛てのみ可</td><td class="text-warning text-center">⚠️ 特設宛てのみ可</td></tr>
+                                <tr><td><strong>🔍 SEO総合管理</strong></td><td class="text-success text-center">✅ 全ページ設定可</td><td class="text-warning text-center">⚠️ Mainページのみ可</td><td class="text-warning text-center">⚠️ 特設ページのみ可</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                 <div class="card shadow-sm border-0 bg-white p-4">
                     <h5 class="fw-bold mb-3"><i class="fa-solid fa-network-wired"></i> 3. システム全体像</h5>
