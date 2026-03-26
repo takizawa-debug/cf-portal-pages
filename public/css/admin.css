@@ -214,7 +214,7 @@ label.form-label {
         overflow-y: hidden;
         z-index: 1050;
         padding: 0 !important;
-        background-color: var(--secondary) !important;
+        background-color: var(--brand) !important;
         border-top: 1px solid rgba(255,255,255,0.1);
         -webkit-overflow-scrolling: touch;
         align-items: center;
@@ -261,7 +261,7 @@ label.form-label {
     
     .sidebar .nav-item-custom.active {
         color: white;
-        background: rgba(255,255,255,0.1) !important;
+        background: rgba(0,0,0,0.15) !important;
     }
     
     .sidebar .nav-item-custom i {
