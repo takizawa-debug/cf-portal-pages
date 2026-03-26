@@ -130,6 +130,11 @@ function renderMediaGrid() {
                 breadcrumbDisplay = '運営・パブリック画像 (Library)';
             }
 
+            let moveFolderHtml = '';
+            if (currentMediaDir && currentMediaDir !== 'official' && window.userRole !== 'contributor') {
+                moveFolderHtml = `<button class="btn btn-sm btn-outline-warning ms-2" onclick="moveFolder('${currentMediaDir}')" title="名前の変更・移動"><i class="fa-solid fa-pen"></i></button>`;
+            }
+
             // TOS Block for Contributors in Official
             if (currentMediaDir === 'official' && window.userRole === 'contributor' && !localStorage.getItem('official_media_agreed')) {
                 return html + `
@@ -171,18 +176,27 @@ function renderMediaGrid() {
                 <div class="col-12 mb-3 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-2">
                         <button class="btn btn-outline-secondary btn-sm" onclick="${pBtn}"><i class="fa-solid fa-arrow-left"></i> 戻る</button>
-                        <span class="fw-bold fs-5 text-secondary"><i class="fa-solid fa-folder-open text-warning me-2"></i>${breadcrumbDisplay}</span>
+                        <span class="fw-bold fs-5 text-secondary"><i class="fa-solid fa-folder-open text-warning me-2"></i>${breadcrumbDisplay}${moveFolderHtml}</span>
                     </div>
                 </div>
             `;
 
             // Enforce upload button restriction
             const uploadBtn = document.querySelector('button[onclick*="mediaUploadInput"]');
+            const createBtn = document.getElementById('btnCreateFolder');
+            
             if (uploadBtn) {
                 if (currentMediaDir === 'official' && window.userRole === 'contributor') {
                     uploadBtn.style.display = 'none';
                 } else {
                     uploadBtn.style.display = 'inline-block';
+                }
+            }
+            if (createBtn) {
+                if (window.userRole !== 'contributor' && currentMediaDir !== 'official') {
+                    createBtn.style.display = 'inline-block';
+                } else {
+                    createBtn.style.display = 'none';
                 }
             }
 
@@ -192,12 +206,18 @@ function renderMediaGrid() {
             }
 
             items.forEach(m => {
+                if (m.key.endsWith('.keep')) return;
+
                 const isImg = m.url.match(/\.(jpeg|jpg|gif|png|webp|svg)$/i) != null;
+                const isPdf = m.url.match(/\.pdf$/i) != null;
                 const date = m.uploaded ? new Date(m.uploaded).toLocaleString('ja-JP') : '';
                 const size = m.size ? (m.size / 1024).toFixed(1) + ' KB' : '';
 
                 let displayTitle = m.key.split('/').pop();
                 try { displayTitle = decodeURIComponent(displayTitle); } catch (e) { }
+
+                let fileIconHtml = `<i class="fa-solid fa-file fa-3x text-muted"></i>`;
+                if (isPdf) fileIconHtml = `<i class="fa-solid fa-file-pdf fa-3x text-danger"></i>`;
                 
                 // Show delete logic
                 let canDelete = true;
@@ -209,20 +229,26 @@ function renderMediaGrid() {
                 // Download logic
                 const downloadBtnHtml = `<button class="btn btn-sm btn-outline-secondary flex-fill fw-bold" onclick="downloadImage('${m.url}', '${displayTitle}')" title="ダウンロード"><i class="fa-solid fa-download"></i></button>`;
 
+                let canMove = true;
+                if (currentMediaDir === 'official' && (window.userRole === 'editor' || window.userRole === 'contributor')) canMove = false;
+                if (window.userRole === 'contributor') canMove = false;
+                const moveMediaHtml = canMove ? `<button class="btn btn-sm btn-outline-warning flex-fill fw-bold" onclick="moveMedia('${m.key}')" title="移動"><i class="fa-solid fa-truck-fast"></i></button>` : '';
+
                 if (!isPicker) {
                     html += `
                         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                             <div class="card h-100 border shadow-sm border-0 bg-white">
                                 <div class="bg-light rounded-top d-flex align-items-center justify-content-center overflow-hidden" style="height: 120px; position:relative;">
-                                    ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover">` : `<i class="fa-solid fa-file fa-3x text-muted"></i>`}
+                                    ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover">` : fileIconHtml}
                                 </div>
                                 <div class="card-body p-2" style="font-size: 0.8rem;">
                                     <div class="text-truncate fw-bold text-dark" title="${m.key}">${displayTitle}</div>
                                     <div class="text-muted d-flex justify-content-between mt-1" style="font-size: 0.75rem;"><span>${size}</span> <span>${date.split(' ')[0]}</span></div>
                                 </div>
-                                <div class="card-footer p-2 bg-white border-top-0 d-flex gap-2">
+                                <div class="card-footer p-2 bg-white border-top-0 d-flex flex-wrap gap-1">
                                     <button class="btn btn-sm btn-outline-brand flex-fill fw-bold" onclick="copyMediaUrl('${m.url}')" title="URLをコピー"><i class="fa-regular fa-copy"></i></button>
                                     ${downloadBtnHtml}
+                                    ${moveMediaHtml}
                                     ${deleteBtnHtml}
                                 </div>
                             </div>
@@ -233,7 +259,7 @@ function renderMediaGrid() {
                         <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                             <div class="card h-100 border shadow-sm border-0 media-picker-card" style="cursor:pointer;" onclick="selectMediaUrl('${m.url}')">
                                 <div class="bg-light rounded d-flex align-items-center justify-content-center overflow-hidden" style="height: 140px; position:relative;">
-                                    ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover hover-zoom">` : `<i class="fa-solid fa-file fa-3x text-muted"></i>`}
+                                    ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover hover-zoom">` : fileIconHtml}
                                     <div class="position-absolute bottom-0 w-100 p-2 text-white bg-dark bg-opacity-75 text-truncate small">${displayTitle}</div>
                                 </div>
                             </div>
@@ -264,6 +290,77 @@ function renderMediaGrid() {
 function agreeToTerms() {
     localStorage.setItem('official_media_agreed', '1');
     renderMediaGrid();
+}
+
+async function createFolder() {
+    if (window.userRole === 'contributor') return;
+
+    const folderName = prompt("新しいフォルダ名を入力してください（英数字・ハイフンを推奨）:\n※保存先: " + (currentMediaDir || "ルートレイヤー"));
+    if (!folderName) return;
+    
+    const safeName = folderName.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+    const targetDir = currentMediaDir ? `${currentMediaDir}/${safeName}` : safeName;
+
+    showStatus("フォルダを作成中...", "info");
+    const file = new File([""], ".keep", { type: "text/plain" });
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', targetDir);
+
+    try {
+        await apiFetch('/api/media', { method: 'POST', body: formData }, true);
+        showStatus("フォルダを作成しました", "success");
+        fetchMedia();
+    } catch (e) {
+        showStatus("作成に失敗しました", "error");
+    }
+}
+
+async function moveMedia(key) {
+    if (window.userRole === 'contributor') return;
+
+    const newDest = prompt(`現在のファイル:\n${key}\n\n新しい保存先のフォルダパス（例: library/events）を入力してください:`);
+    if (!newDest || newDest.trim() === '') return;
+
+    let safeDest = newDest.replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/^\/+|\/+$/g, '');
+    const filename = key.split('/').pop();
+    const finalKey = `${safeDest}/${filename}`;
+
+    if (!confirm(`移動先: ${finalKey}\nよろしいですか？`)) return;
+
+    try {
+        await apiFetch('/api/media/move', {
+            method: 'POST',
+            body: JSON.stringify({ source: key, destination: finalKey, isFolder: false })
+        });
+        showStatus("ファイルを移動しました", "success");
+        fetchMedia();
+    } catch (e) {
+        showStatus(e.message || "移動に失敗しました", "error");
+    }
+}
+
+async function moveFolder(dirPath) {
+    if (window.userRole === 'contributor') return;
+
+    const newDest = prompt(`現在のフォルダ:\n${dirPath}\n\n新しいフォルダ名（またはパス）を入力してください:`);
+    if (!newDest || newDest.trim() === '') return;
+
+    let safeDest = newDest.replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/^\/+|\/+$/g, '');
+    if (!confirm(`「${dirPath}」内の全ファイルを\n「${safeDest}」へ移動（名前変更）します。\nよろしいですか？`)) return;
+
+    showStatus("フォルダ内のファイルを移動中...", "info");
+    try {
+        const res = await apiFetch('/api/media/move', {
+            method: 'POST',
+            body: JSON.stringify({ source: dirPath, destination: safeDest, isFolder: true })
+        });
+        showStatus(`${res.moved}件のファイルを移動しました`, "success");
+        currentMediaDir = safeDest;
+        fetchMedia();
+    } catch (e) {
+        showStatus(e.message || "移動に失敗しました", "error");
+    }
 }
 
 async function downloadImage(url, filename) {
