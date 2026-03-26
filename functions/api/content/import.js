@@ -100,11 +100,14 @@ export async function onRequestPost(context) {
                 // Upsert translation matrices per row
                 for (const [locale, t] of Object.entries(translations)) {
                     if (Object.keys(t).length > 0) {
+                        const transId = crypto.randomUUID();
                         stmts.push(
                             env.DB.prepare(
-                                `INSERT OR REPLACE INTO translations (content_id, locale, title, lead_text, body_text)
-                                VALUES (?, ?, ?, ?, ?)`
-                            ).bind(id, locale, t.title || null, t.lead_text || null, t.body_text || null)
+                                `INSERT INTO content_translations (id, content_id, locale, title, lead_text, body_text)
+                                VALUES (?, ?, ?, ?, ?, ?)
+                                ON CONFLICT(content_id, locale) DO UPDATE SET 
+                                title=excluded.title, lead_text=excluded.lead_text, body_text=excluded.body_text`
+                            ).bind(transId, id, locale, t.title || null, t.lead_text || null, t.body_text || null)
                         );
                     }
                 }
@@ -140,11 +143,14 @@ export async function onRequestPost(context) {
 
                 for (const [locale, t] of Object.entries(translations)) {
                     if (Object.keys(t).length > 0) {
+                        const transId = crypto.randomUUID();
                         stmts.push(
                             env.DB.prepare(
-                                `INSERT INTO translations (content_id, locale, title, lead_text, body_text)
-                                VALUES (?, ?, ?, ?, ?)`
-                            ).bind(id, locale, t.title || null, t.lead_text || null, t.body_text || null)
+                                `INSERT INTO content_translations (id, content_id, locale, title, lead_text, body_text)
+                                VALUES (?, ?, ?, ?, ?, ?)
+                                ON CONFLICT(content_id, locale) DO UPDATE SET 
+                                title=excluded.title, lead_text=excluded.lead_text, body_text=excluded.body_text`
+                            ).bind(transId, id, locale, t.title || null, t.lead_text || null, t.body_text || null)
                         );
                     }
                 }
