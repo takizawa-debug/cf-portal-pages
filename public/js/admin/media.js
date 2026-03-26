@@ -31,13 +31,6 @@ function renderMediaGrid() {
     const grid1 = document.getElementById('mediaGrid');
     const grid2 = document.getElementById('mediaSelectGrid');
 
-    if (!mediaCache.length) {
-        const emptyHtml = '<div class="col-12 text-center text-muted py-5"><i class="fa-regular fa-image display-4 mb-3 d-block opacity-25"></i>画像がありません。アップロードしてください。</div>';
-        if (grid1) grid1.innerHTML = emptyHtml;
-        if (grid2) grid2.innerHTML = emptyHtml;
-        return;
-    }
-
     // Build hierarchical folder parse
     const rootFolders = {}; // map of folder -> count
     const subFolders = {};  // map of parent -> map of child -> count
@@ -48,6 +41,8 @@ function renderMediaGrid() {
     if (window.userRole !== 'contributor') {
         rootFolders['media'] = 0;
         rootFolders['library'] = 0;
+    } else {
+        rootFolders[`media/${window.userId}`] = 0;
     }
     
     mediaCache.forEach(m => {
