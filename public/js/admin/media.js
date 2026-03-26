@@ -418,11 +418,22 @@ async function downloadImage(url, filename) {
 async function uploadMedia(evt) {
     const files = evt.target.files;
     if (!files || files.length === 0) return;
-    showStatus("アップロード中...", "info");
 
-    let failures = 0;
-    const btn = evt.target.previousElementSibling;
+    const progressContainer = document.getElementById('uploadProgressContainer');
+    const progressText = document.getElementById('uploadProgressText');
+    const btn = document.getElementById('btnUploadMedia');
+
     if (btn) btn.disabled = true;
+    if (progressContainer) {
+        progressContainer.classList.remove('d-none');
+        progressContainer.classList.add('d-flex');
+        progressText.innerText = `0 / ${files.length} 件完了`;
+    } else {
+        showStatus("アップロード中...", "info");
+    }
+
+    let successes = 0;
+    let failures = 0;
 
     for (let i = 0; i < files.length; i++) {
         const formData = new FormData();
@@ -432,13 +443,23 @@ async function uploadMedia(evt) {
         }
         try {
             await apiFetch('/api/media', { method: 'POST', body: formData }, true);
+            successes++;
         } catch (e) { failures++; }
+        
+        if (progressText) {
+            progressText.innerText = `${i + 1} / ${files.length} 件完了`;
+        }
     }
+    
     evt.target.value = '';
     if (btn) btn.disabled = false;
+    if (progressContainer) {
+        progressContainer.classList.remove('d-flex');
+        progressContainer.classList.add('d-none');
+    }
 
     if (failures > 0) showStatus(failures + "件のアップロードに失敗しました", "error");
-    else showStatus("画像がアップロードされました", "success");
+    else showStatus("すべてのファイルがアップロードされました", "success");
 
     fetchMedia();
 }
