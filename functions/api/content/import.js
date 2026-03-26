@@ -65,6 +65,10 @@ export async function onRequestPost(context) {
             delete data.created_at; delete data.updated_at;
             delete data.author_id; // Never let the user manually override the author_id via CSV
 
+            // 3. Drop inherited category localized keys exported purely for read-only user convenience
+            const ignoreKeys = ['l1_en', 'l2_en', 'l3_label_en', 'l1_tw', 'l2_tw', 'l3_label_tw', 'l1_zh', 'l2_zh', 'l3_label_zh'];
+            ignoreKeys.forEach(k => delete data[k]);
+
             if (isUpdate) {
                 // Determine update fields dynamically based on the parsed CSV headers
                 const keys = Object.keys(data).filter(k => k !== 'business_metadata');
