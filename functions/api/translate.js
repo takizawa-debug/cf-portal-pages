@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
         const glossaryText = keywordsRow.map(k => k.keyword).join(', ');
 
         const geminiApiKey = env.GEMINI_API_KEY;
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiApiKey}`;
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${geminiApiKey}`;
 
         const createPrompt = (targetLang) => `
 あなたは長野県飯綱町の「公式マスター・ローカライザー」であり、地域の魅力を世界へ発信するブランド戦略の専門家です。
@@ -105,7 +105,7 @@ ${glossaryText}
             let responseText = data.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
 
             // Strip markdown block if model ignored the instruction
-            responseText = responseText.replace(/^```json/g, '').replace(/^```/g, '').replace(/```$/g, '').trim();
+            responseText = responseText.replace(/```json\n?/gi, '').replace(/```\n?/g, '').trim();
 
             const parsed = JSON.parse(responseText);
             return parsed[0];
