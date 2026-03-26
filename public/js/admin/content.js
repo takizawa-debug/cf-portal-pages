@@ -97,10 +97,14 @@ function renderContentSitemap(data, containerId = 'contentSitemapContainer') {
                 if (item.l3_label) l3Html = `<span class="badge bg-danger mb-2">${escapeHtml(item.l3_label)}</span>`;
                 const imgSrc = item.image1 || 'https://images.unsplash.com/photo-1579619195026-6a56e5f8ceb0?q=80&w=300&auto=format&fit=crop';
                 const date = item.created_at ? new Date(item.created_at).toLocaleDateString() : '-';
+                const statusBadgeHtml = item.status === 'draft' 
+                    ? '<span class="badge bg-secondary position-absolute top-0 end-0 m-2 shadow-sm" style="z-index:10;"><i class="fa-solid fa-pen-ruler me-1"></i>下書き</span>' 
+                    : '<span class="badge bg-success position-absolute top-0 end-0 m-2 shadow-sm" style="z-index:10;"><i class="fa-solid fa-earth-asia me-1"></i>公開中</span>';
 
                 html += `
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                     <div class="card h-100 border shadow-sm article-card overflow-hidden" style="cursor:pointer; transition: 0.2s;" onclick='openArticlePreview(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                        ${statusBadgeHtml}
                         <img src="${imgSrc}" class="card-img-top object-fit-cover" style="height: 140px;" alt="画像">
                         <div class="card-body p-3">
                             ${l3Html}

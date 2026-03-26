@@ -50,11 +50,11 @@ export async function onRequestGet(context) {
             const { results: searchRows } = await env.DB.prepare(`
                 SELECT ${flatSelect} FROM contents c
                 ${joinClause}
-                WHERE c.title LIKE ? 
+                WHERE c.status = 'published' AND (c.title LIKE ? 
                    OR c.lead_text LIKE ? 
                    OR c.body_text LIKE ? 
                    OR c.l1 LIKE ? 
-                   OR c.l2 LIKE ?
+                   OR c.l2 LIKE ?)
                 ORDER BY c.created_at DESC
                 LIMIT 1000
             `).bind(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern).all();
@@ -62,12 +62,12 @@ export async function onRequestGet(context) {
         } else if (all === '1') {
             // allモード（sitemap向け）でも一式の情報を返す
             const { results: allRows } = await env.DB.prepare(
-                `SELECT ${flatSelect} FROM contents c ${joinClause}`
+                `SELECT ${flatSelect} FROM contents c ${joinClause} WHERE c.status = 'published'`
             ).all();
             results = allRows; 
         } else if (l1 && l2) {
             const { results: catRows } = await env.DB.prepare(
-                `SELECT ${flatSelect} FROM contents c ${joinClause} WHERE c.l1 = ? AND c.l2 = ?`
+                `SELECT ${flatSelect} FROM contents c ${joinClause} WHERE c.status = 'published' AND c.l1 = ? AND c.l2 = ?`
             ).bind(l1, l2).all();
             dbRows = catRows;
         }
