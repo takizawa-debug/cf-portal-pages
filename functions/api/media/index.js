@@ -80,9 +80,7 @@ export async function onRequestPost(context) {
         }
 
 
-        // Prepend uuid to avoid collisions
-        const uuid = crypto.randomUUID().split('-')[0];
-        const key = `${folder}/${uuid}_${sanitizedName}`;
+        const key = `${folder}/${sanitizedName}`;
 
         await env.UPLOAD_BUCKET.put(key, await file.arrayBuffer(), {
             httpMetadata: { contentType: file.type }
