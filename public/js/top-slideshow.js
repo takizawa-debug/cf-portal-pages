@@ -41,7 +41,7 @@
       .logoType > div:nth-child(1) { font-weight: 500; font-size: clamp(1.3rem, 2.6vw, 2.6rem); opacity: .95; margin-bottom: .2em; }
       .logoType > div:nth-child(2), .logoType > div:nth-child(3) { font-weight: 700; letter-spacing: .01em; font-size: clamp(3.2rem, 6.2vw, 5.2rem); line-height: 1.02; }
       @media (min-width: 1200px) { .logoType > div:nth-child(2), .logoType > div:nth-child(3) { font-size: clamp(4.2rem, 6vw, 7.2rem); } }
-      .nav-sour-widget { position: absolute; right: clamp(-20px, -6vw, -80px); bottom: clamp(-20px, -2vw, -30px); width: clamp(90px, 15vw, 150px); aspect-ratio: 1 / 1; border-radius: 50%; background: url('https://appletown-iizuna.com/assets/sourapple/image/b142513ce9e15d0900404bfc2b2fdd99ed87cc17.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; color: #fff; font-weight: 700; font-size: clamp(0.75rem, 1.4vw, 1.2rem); line-height: 1.35; box-shadow: 0 4px 16px rgba(0,0,0,0.4); border: 2px solid #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; opacity: 0; animation: popInWidget 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 2.6s; }
+      .nav-sour-widget { pointer-events: auto; position: absolute; right: clamp(-60px, -12vw, -160px); bottom: clamp(-30px, -6vw, -90px); width: clamp(90px, 15vw, 150px); aspect-ratio: 1 / 1; border-radius: 50%; background: url('https://appletown-iizuna.com/assets/sourapple/image/b142513ce9e15d0900404bfc2b2fdd99ed87cc17.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; color: #fff; font-weight: 700; font-size: clamp(0.75rem, 1.4vw, 1.2rem); line-height: 1.35; box-shadow: 0 4px 16px rgba(0,0,0,0.4); border: 2px solid #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; opacity: 0; animation: popInWidget 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 2.6s; }
       .nav-sour-widget:hover { transform: scale(1.08) rotate(4deg); color: #fff; }
       .nav-sour-widget::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: rgba(0,0,0,0.4); z-index: 1; transition: background 0.3s ease; }
       .nav-sour-widget:hover::before { background: rgba(0,0,0,0.2); }
@@ -56,7 +56,7 @@
         .logoDrawWrapper { width: clamp(70px, 26vw, 160px) !important; }
         .logoType > div:nth-child(1) { font-size: clamp(1rem, 3.6vw, 1.6rem) !important; }
         .logoType > div:nth-child(2), .logoType > div:nth-child(3) { font-size: clamp(2.2rem, 7.2vw, 3.6rem) !important; line-height: 1.05; }
-        .nav-sour-widget { right: -5vw; bottom: -4vw; width: clamp(65px, 22vw, 95px); font-size: clamp(0.55rem, 2.2vw, 0.85rem); line-height: 1.25; animation: popInWidgetMobile 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 2.6s; }
+        .nav-sour-widget { pointer-events: auto; right: -12vw; bottom: -8vw; width: clamp(65px, 22vw, 95px); font-size: clamp(0.55rem, 2.2vw, 0.85rem); line-height: 1.25; animation: popInWidgetMobile 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 2.6s; }
         .nav-sour-widget:hover { transform: scale(1.08) !important; }
         @keyframes popInWidgetMobile { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
       }
