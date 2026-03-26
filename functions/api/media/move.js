@@ -27,6 +27,7 @@ export async function onRequestPost(context) {
         }
 
         const bucket = env.UPLOAD_BUCKET;
+        let movedCount = 0;
 
         if (!isFolder) {
             // Relocate Single Target Node
@@ -38,14 +39,13 @@ export async function onRequestPost(context) {
                 customMetadata: object.customMetadata
             });
             await bucket.delete(source);
-            return jsonResponse({ success: true, moved: 1 });
+            movedCount = 1;
         } else {
             // Relocate Entire Folder Hierarchy Recursively
             const srcPrefix = source.endsWith('/') ? source : source + '/';
             const dstPrefix = destination.endsWith('/') ? destination : destination + '/';
 
             let cursor = undefined;
-            let movedCount = 0;
             
             do {
                 const listed = await bucket.list({ prefix: srcPrefix, limit: 1000, cursor });
@@ -66,9 +66,39 @@ export async function onRequestPost(context) {
                 // Break infinite loops preventing worker execution limits natively overriding ~50ms bounds
                 if (movedCount > 1000) break; 
             } while (cursor);
-
-            return jsonResponse({ success: true, moved: movedCount });
         }
+
+        // Database URL Reconciliation
+        if (movedCount > 0) {
+            const oldUrl = '/assets/' + source;
+            const newUrl = '/assets/' + destination;
+            const searchLike = '%' + oldUrl + '%';
+
+            await env.DB.batch([
+                env.DB.prepare(`
+                    UPDATE contents 
+                    SET body_text = REPLACE(body_text, ?1, ?2),
+                        business_metadata = REPLACE(business_metadata, ?1, ?2),
+                        media_assets = REPLACE(media_assets, ?1, ?2),
+                        lead_text = REPLACE(lead_text, ?1, ?2)
+                    WHERE body_text LIKE ?3 OR business_metadata LIKE ?3 OR media_assets LIKE ?3 OR lead_text LIKE ?3
+                `).bind(oldUrl, newUrl, searchLike),
+                env.DB.prepare(`
+                    UPDATE apple_varieties
+                    SET official_image_url = REPLACE(official_image_url, ?1, ?2),
+                        yokai_card_url = REPLACE(yokai_card_url, ?1, ?2),
+                        description = REPLACE(description, ?1, ?2)
+                    WHERE official_image_url LIKE ?3 OR yokai_card_url LIKE ?3 OR description LIKE ?3
+                `).bind(oldUrl, newUrl, searchLike),
+                env.DB.prepare(`
+                    UPDATE knowledge_base
+                    SET content = REPLACE(content, ?1, ?2)
+                    WHERE content LIKE ?3
+                `).bind(oldUrl, newUrl, searchLike)
+            ]);
+        }
+
+        return jsonResponse({ success: true, moved: movedCount });
     } catch (e) {
         console.error("Move error:", e);
         return errorResponse(e.message, 500);
