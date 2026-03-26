@@ -19,7 +19,7 @@
             padding: 40px 0;
             min-height: 100vh;
             font-family: 'Noto Sans JP', sans-serif;
-            background: #525659; /* PDFプレビューのような背景色 */
+            background: #525659;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,7 +27,6 @@
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
-        /* A4サイズのコンテナ（画面表示時の確認用） */
         .page {
             width: 210mm;
             height: 297mm;
@@ -36,96 +35,136 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5); /* 用紙の影 */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             flex-shrink: 0;
         }
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 0;
-            }
-            body { 
-                background: white; 
-                padding: 0; 
-                display: block;
-            }
-            .page { 
-                box-shadow: none; 
-                margin: 0; 
-                width: 100%;
-                height: 100%;
-            }
+            @page { size: A4 portrait; margin: 0; }
+            body { background: white; padding: 0; display: block; }
+            .page { box-shadow: none; margin: 0; width: 100%; height: 100%; }
         }
 
         .header {
-            background: linear-gradient(135deg, #d32f2f 0%, #ba000d 100%);
-            color: white;
-            padding: 22mm 15mm 20mm;
-            text-align: center;
             position: relative;
+            background: #fff;
+        }
+        .header-top {
+            background: #d32f2f;
+            color: white;
+            padding: 4mm 10mm;
+            text-align: center;
+            font-size: 11.5pt;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+        .header-visual {
+            position: relative;
+            width: 100%;
+            height: 70mm; /* 画像表示の高さ目安 */
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+        .header-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
         /* カーブしたデザインの下部装飾 */
-        .header::after {
+        .header-visual::after {
             content: "";
             position: absolute;
-            bottom: -50px;
+            bottom: -30px;
             left: -10%;
             width: 120%;
-            height: 100px;
+            height: 60px;
             background: white;
             border-radius: 50%;
         }
-        .header p.subtitle {
-            font-size: 14pt;
-            margin: 0 0 4mm 0;
-            font-weight: 700;
-            opacity: 0.95;
-            letter-spacing: 1px;
-        }
-        .header h1 {
-            font-size: 30pt;
-            margin: 0;
-            font-weight: 900;
-            letter-spacing: 2px;
-            line-height: 1.2;
-        }
+
         .content {
             flex: 1;
-            padding: 5mm 20mm 15mm;
+            padding: 5mm 15mm 10mm;
             display: flex;
             flex-direction: column;
-            gap: 10mm;
+            gap: 7mm;
             position: relative;
             z-index: 10;
         }
+
+        .concept-area {
+            background: #fffafa;
+            border: 2px dashed #f5caca;
+            border-radius: 12px;
+            padding: 5mm 6mm;
+            box-shadow: 0 4px 10px rgba(211,47,47,0.03);
+            text-align: center;
+        }
+        .concept-area h2 {
+            font-size: 13pt;
+            color: #d32f2f;
+            margin: 0 0 5mm 0;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+        .concept-cards {
+            display: flex;
+            gap: 4mm;
+            justify-content: space-between;
+        }
+        .c-card {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 4mm 3mm;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            text-align: left;
+            border: 1px solid #fee;
+        }
+        .c-card strong {
+            display: block;
+            color: #ba000d;
+            font-size: 10.5pt;
+            margin-bottom: 2mm;
+            border-bottom: 1px solid #fee;
+            padding-bottom: 1mm;
+        }
+        .c-card p {
+            margin: 0;
+            font-size: 9.5pt;
+            line-height: 1.4;
+            color: #555;
+            font-weight: 500;
+        }
+
         .greeting {
-            font-size: 18pt;
-            line-height: 1.6;
+            font-size: 15pt;
+            line-height: 1.5;
             text-align: center;
             font-weight: 900;
             color: #d32f2f;
+            margin-top: 2mm;
         }
+
         .benefits {
             display: flex;
             flex-direction: column;
-            gap: 8mm;
+            gap: 5mm;
         }
         .benefit-card {
             background: #fff8f8;
-            border-left: 10px solid #d32f2f;
-            padding: 6mm 8mm;
-            border-radius: 0 16px 16px 0;
+            border-left: 8px solid #d32f2f;
+            padding: 4mm 6mm;
+            border-radius: 0 12px 12px 0;
         }
-        .benefit-card h2 {
-            font-size: 18pt;
+        .benefit-card h3 {
+            font-size: 13.5pt;
             color: #ba000d;
-            margin: 0 0 3mm 0;
-            display: flex;
-            align-items: center;
+            margin: 0 0 2mm 0;
         }
         .benefit-card p {
-            font-size: 13pt;
-            line-height: 1.6;
+            font-size: 11pt;
+            line-height: 1.5;
             margin: 0;
             color: #333;
             font-weight: 500;
@@ -134,18 +173,19 @@
             color: #d32f2f;
             font-weight: 700;
         }
+
         .qr-section {
             display: flex;
             justify-content: space-between;
-            gap: 10mm;
+            gap: 8mm;
             margin-top: auto;
         }
         .qr-box {
             flex: 1;
             background: white;
-            border: 3px solid #eee;
-            border-radius: 20px;
-            padding: 6mm;
+            border: 2px solid #eee;
+            border-radius: 16px;
+            padding: 5mm;
             text-align: center;
         }
         .qr-box.highlight {
@@ -155,31 +195,31 @@
         }
         .badge {
             position: absolute;
-            top: -15px;
+            top: -12px;
             left: 50%;
             transform: translateX(-50%);
             background: #d32f2f;
             color: white;
-            padding: 4px 20px;
-            border-radius: 25px;
+            padding: 3px 15px;
+            border-radius: 20px;
             font-weight: bold;
-            font-size: 12pt;
+            font-size: 11pt;
             white-space: nowrap;
         }
-        .qr-box h3 {
-            font-size: 15pt;
-            margin: 2mm 0 4mm 0;
+        .qr-box h4 {
+            font-size: 13pt;
+            margin: 2mm 0 3mm 0;
             color: #333;
             font-weight: 900;
         }
         .qr-image-wrapper {
-            margin: 0 auto 4mm;
-            width: 38mm;
-            height: 38mm;
+            margin: 0 auto 3mm;
+            width: 34mm;
+            height: 34mm;
             background: white;
-            padding: 2mm;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            padding: 1.5mm;
+            border-radius: 6px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
         }
         .qr-box img {
             width: 100%;
@@ -187,19 +227,20 @@
             display: block;
         }
         .qr-box p {
-            font-size: 10pt;
+            font-size: 9pt;
             color: #555;
             margin: 0;
             word-break: break-all;
             font-family: monospace;
             font-weight: bold;
         }
+
         .footer {
             text-align: center;
-            padding: 6mm;
+            padding: 5mm;
             background: #f5f5f5;
             color: #555;
-            font-size: 10pt;
+            font-size: 9pt;
             font-weight: bold;
             border-top: 1px solid #ddd;
         }
@@ -208,23 +249,46 @@
 <body>
     <div class="page">
         <div class="header">
-            <p class="subtitle">飯綱町内のりんごに関わる事業者の皆様へ</p>
-            <h1>新しいポータルサイト<br>「りんごのまちいいづな」</h1>
+            <div class="header-top">飯綱町内のりんごに関わる事業者の皆様へ</div>
+            <div class="header-visual">
+                <!-- パスを実際の画像のファイル名に変更してください -->
+                <img src="./top-visual.png" alt="飯綱町産りんごポータルサイト りんごのまちいいづな">
+            </div>
         </div>
 
         <div class="content">
+
+            <!-- サイトの概要・コンセプト部分 -->
+            <div class="concept-area">
+                <h2>事業者のみなさまを応援するためのサイトです！</h2>
+                <div class="concept-cards">
+                    <div class="c-card">
+                        <strong>🍎 情報の「入り口」</strong>
+                        <p>あらゆるりんご関連ページやリンクを集約し、消費者・仕入れ業者・農家を繋ぐハブとなります。</p>
+                    </div>
+                    <div class="c-card">
+                        <strong>🌍 魅力の多言語発信</strong>
+                        <p>多言語対応により、国内だけでなく海外の方にも「いいづなのりんご」の魅力を発信します。</p>
+                    </div>
+                    <div class="c-card">
+                        <strong>🌱 自ら育てるサイト</strong>
+                        <p>事業者様自らPRを発信し、新たな消費者や仕入れ業者との接点づくり・問い合わせへ繋げられます。</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="greeting">
                 事業者登録をして、<br>町のりんご産業を一緒に盛り上げませんか？
             </div>
 
             <div class="benefits">
                 <div class="benefit-card">
-                    <h2>1. 本サイトでの情報発信（管理）が可能に</h2>
+                    <h3>1. 本サイトでの情報発信（管理）が可能に</h3>
                     <p>無料で専用の管理画面をご利用いただけます。ご自身の農園やこだわりのりんごのPR、日々の最新情報の発信を通じて、<span class="benefit-important">全国のりんごファンへ直接アピール</span>することができます。</p>
                 </div>
                 
                 <div class="benefit-card">
-                    <h2>2. 町からの重要な「りんご栽培情報」を受信</h2>
+                    <h3>2. 町からの重要な「りんご栽培情報」を受信</h3>
                     <p>飯綱町からのお知らせを、<span class="benefit-important">メールやLINEで直接受信</span>できるようになります。<span class="benefit-important">りんご栽培に関する講習会</span>のご案内や、便利な<span class="benefit-important">補助金・支援制度</span>などの最新情報を逃さずチェックできます。</p>
                 </div>
             </div>
@@ -232,7 +296,7 @@
             <div class="qr-section">
                 <div class="qr-box highlight">
                     <div class="badge">まずはここから！</div>
-                    <h3>事業者用 登録ページ</h3>
+                    <h4>事業者用 登録ページ</h4>
                     <div class="qr-image-wrapper">
                         <!-- URL: https://appletown-iizuna.com/register -->
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://appletown-iizuna.com/register&margin=1" alt="事業者用登録URL QRコード">
@@ -241,7 +305,7 @@
                 </div>
                 
                 <div class="qr-box">
-                    <h3>ポータルサイト トップ</h3>
+                    <h4>ポータルサイト トップ</h4>
                     <div class="qr-image-wrapper">
                         <!-- URL: https://appletown-iizuna.com -->
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://appletown-iizuna.com&margin=1" alt="本番URL QRコード">

@@ -217,7 +217,7 @@ function renderMediaGrid() {
                 try { displayTitle = decodeURIComponent(displayTitle); } catch (e) { }
 
                 let fileIconHtml = `<i class="fa-solid fa-file fa-3x text-muted"></i>`;
-                if (isPdf) fileIconHtml = `<i class="fa-solid fa-file-pdf fa-3x text-danger"></i>`;
+                if (isPdf) fileIconHtml = `<canvas data-pdf-url="${m.url}" class="w-100 h-100 border-0 bg-white" style="object-fit: cover; pointer-events: none;"></canvas>`;
                 
                 // Show delete logic
                 let canDelete = true;
@@ -272,6 +272,7 @@ function renderMediaGrid() {
         }
         return html;
     };
+    if (typeof initPdfObserver === 'function') setTimeout(initPdfObserver, 50);
 
     if (grid1) grid1.innerHTML = generateHtml(false);
     if (grid2) {
@@ -286,6 +287,7 @@ function renderMediaGrid() {
             `;
             document.head.appendChild(mStyle);
         }
+        if (typeof initPdfObserver === 'function') setTimeout(initPdfObserver, 50);
     }
 }
 
@@ -513,4 +515,50 @@ function selectMediaUrl(url) {
     }
     let mModal = bootstrap.Modal.getInstance(document.getElementById('mediaSelectModal'));
     if (mModal) mModal.hide();
+}
+
+let globalPdfObserver = null;
+
+function initPdfObserver() {
+    if (!window.pdfjsLib) return;
+
+    if (!globalPdfObserver) {
+        globalPdfObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const canvas = entry.target;
+                    obs.unobserve(canvas);
+                    renderSinglePdfCanvas(canvas);
+                }
+            });
+        }, { rootMargin: '200px' });
+    }
+
+    document.querySelectorAll('canvas[data-pdf-url]').forEach(canvas => {
+        if (!canvas.dataset.observing && !canvas.dataset.rendered) {
+            canvas.dataset.observing = "true";
+            globalPdfObserver.observe(canvas);
+        }
+    });
+}
+
+async function renderSinglePdfCanvas(canvas) {
+    const url = canvas.getAttribute('data-pdf-url');
+    canvas.dataset.rendered = "true";
+    try {
+        const loadingTask = pdfjsLib.getDocument(url);
+        const pdf = await loadingTask.promise;
+        const page = await pdf.getPage(1);
+        
+        const viewport = page.getViewport({ scale: 0.5 });
+        
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        
+        const context = canvas.getContext('2d');
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+    } catch (e) {
+        console.error('PDF Thumbnail Error:', e);
+        canvas.outerHTML = '<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light"><i class="fa-solid fa-file-pdf text-danger fa-4x"></i></div>';
+    }
 }
