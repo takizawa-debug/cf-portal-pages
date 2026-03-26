@@ -233,6 +233,7 @@ function renderMediaGrid() {
                 if (currentMediaDir === 'official' && (window.userRole === 'editor' || window.userRole === 'contributor')) canMove = false;
                 if (window.userRole === 'contributor') canMove = false;
                 const moveMediaHtml = canMove ? `<button class="btn btn-sm btn-outline-warning flex-fill fw-bold" onclick="moveMedia('${m.key}')" title="移動"><i class="fa-solid fa-truck-fast"></i></button>` : '';
+                const renameMediaHtml = canMove ? `<button class="btn btn-sm btn-outline-info flex-fill fw-bold" onclick="renameMedia('${m.key}')" title="名前の変更"><i class="fa-solid fa-pen-to-square"></i></button>` : '';
 
                 if (!isPicker) {
                     html += `
@@ -249,6 +250,7 @@ function renderMediaGrid() {
                                     <button class="btn btn-sm btn-outline-brand flex-fill fw-bold" onclick="copyMediaUrl('${m.url}')" title="URLをコピー"><i class="fa-regular fa-copy"></i></button>
                                     ${downloadBtnHtml}
                                     ${moveMediaHtml}
+                                    ${renameMediaHtml}
                                     ${deleteBtnHtml}
                                 </div>
                             </div>
@@ -295,10 +297,11 @@ function agreeToTerms() {
 async function createFolder() {
     if (window.userRole === 'contributor') return;
 
-    const folderName = prompt("新しいフォルダ名を入力してください（英数字・ハイフンを推奨）:\n※保存先: " + (currentMediaDir || "ルートレイヤー"));
+    const folderName = prompt("新しいフォルダ名を入力してください（英数字・日本語・ハイフンを推奨）:\n※保存先: " + (currentMediaDir || "ルートレイヤー"));
     if (!folderName) return;
     
-    const safeName = folderName.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+    // Sanitize structurally mapping valid URIs dynamically
+    const safeName = folderName.replace(/[\/\\?%*:|"<>#&\s]/g, '_');
     const targetDir = currentMediaDir ? `${currentMediaDir}/${safeName}` : safeName;
 
     showStatus("フォルダを作成中...", "info");
@@ -316,13 +319,44 @@ async function createFolder() {
     }
 }
 
+async function renameMedia(key) {
+    if (window.userRole === 'contributor') return;
+
+    let displayTitle = key.split('/').pop();
+    try { displayTitle = decodeURIComponent(displayTitle); } catch (e) {}
+
+    const dirPath = key.substring(0, key.lastIndexOf('/'));
+    let newName = prompt(`現在のファイル名:\n${displayTitle}\n\n新しいファイル名を入力してください（拡張子も含めてください）:`, displayTitle);
+    
+    if (!newName || newName.trim() === '' || newName === displayTitle) return;
+
+    // Isolate strict URIs passing Native Strings organically
+    const safeName = newName.replace(/[\/\\?%*:|"<>#&\s]/g, '_');
+    const finalKey = dirPath ? `${dirPath}/${safeName}` : safeName;
+
+    if (!confirm(`新しいファイル名: ${safeName}\n\n※この操作は記事内の画像URLも自動的に修正します。\nよろしければOKを押してください。`)) return;
+
+    showStatus("ファイル名を変更中...", "info");
+    try {
+        await apiFetch('/api/media/move', {
+            method: 'POST',
+            body: JSON.stringify({ source: key, destination: finalKey, isFolder: false })
+        });
+        showStatus("ファイル名を変更しました", "success");
+        fetchMedia();
+    } catch (e) {
+        showStatus(e.message || "ファイル名の変更に失敗しました", "error");
+    }
+}
+
 async function moveMedia(key) {
     if (window.userRole === 'contributor') return;
 
     const newDest = prompt(`現在のファイル:\n${key}\n\n新しい保存先のフォルダパス（例: library/events）を入力してください:`);
     if (!newDest || newDest.trim() === '') return;
 
-    let safeDest = newDest.replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/^\/+|\/+$/g, '');
+    // Preserve Japanese paths passing URL structurally securely
+    let safeDest = newDest.replace(/[\\?%*:|"<>#&\s]/g, '').replace(/^\/+|\/+$/g, '');
     const filename = key.split('/').pop();
     const finalKey = `${safeDest}/${filename}`;
 
@@ -346,7 +380,7 @@ async function moveFolder(dirPath) {
     const newDest = prompt(`現在のフォルダ:\n${dirPath}\n\n新しいフォルダ名（またはパス）を入力してください:`);
     if (!newDest || newDest.trim() === '') return;
 
-    let safeDest = newDest.replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/^\/+|\/+$/g, '');
+    let safeDest = newDest.replace(/[\\?%*:|"<>#&\s]/g, '').replace(/^\/+|\/+$/g, '');
     if (!confirm(`「${dirPath}」内の全ファイルを\n「${safeDest}」へ移動（名前変更）します。\nよろしいですか？`)) return;
 
     showStatus("フォルダ内のファイルを移動中...", "info");

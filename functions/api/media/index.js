@@ -66,8 +66,8 @@ export async function onRequestPost(context) {
         }
 
         const ext = file.name.split('.').pop() || 'jpg';
-        // Sanitize name
-        let sanitizedName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        // Sanitize name gracefully permitting localized UTF-8 Strings
+        let sanitizedName = file.name.replace(/[\/\\?%*:|"<>#&\s]/g, '_');
 
         let folder = formData.get('folder') || 'library';
         
@@ -75,9 +75,10 @@ export async function onRequestPost(context) {
         if (user.role === 'contributor') {
             folder = `media/${user.id}`;
         } else {
-            folder = folder.replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/^\/+|\/+$/g, '');
+            folder = folder.replace(/[\\?%*:|"<>#&\s]/g, '').replace(/^\/+|\/+$/g, '');
             if (!folder) folder = 'library';
         }
+
 
         // Prepend uuid to avoid collisions
         const uuid = crypto.randomUUID().split('-')[0];
