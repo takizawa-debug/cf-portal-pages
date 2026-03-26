@@ -27,21 +27,23 @@ function setMediaDir(dir) {
     renderMediaGrid();
 }
 
+
 function renderMediaGrid() {
     const grid1 = document.getElementById('mediaGrid');
     const grid2 = document.getElementById('mediaSelectGrid');
 
-    // Build hierarchical folder parse
-    const rootFolders = {}; // map of folder -> count
-    const subFolders = {};  // map of parent -> map of child -> count
-    const filesInPath = {}; // map of path -> array of files
+    const rootFolders = {};
+    const subFolders = {};
+    const filesInPath = {};
     
-    // Seed persistent administrative media folders ensuring UI access even when buckets hold 0 files
-    rootFolders['official'] = 0;
-    if (window.userRole !== 'contributor') {
+    // Seed persistent administrative media folders
+    const role = window.userRole;
+    if (role !== 'contributor') {
+        rootFolders['official'] = 0;
         rootFolders['media'] = 0;
         rootFolders['library'] = 0;
     } else {
+        rootFolders['official'] = 0;
         rootFolders[`media/${window.userId}`] = 0;
     }
     
@@ -52,18 +54,55 @@ function renderMediaGrid() {
         if (!filesInPath[dir]) filesInPath[dir] = [];
         filesInPath[dir].push(m);
         
-        if (window.userRole !== 'contributor' && dir.startsWith('media/')) {
-            const parent = 'media';
-            const childDir = dir;
-            if (!rootFolders[parent]) rootFolders[parent] = 0;
-            rootFolders[parent] += 1;
+        if (dir === 'ルート') {
+            if (role !== 'contributor') {
+                if (!rootFolders['ルート']) rootFolders['ルート'] = 0;
+                rootFolders['ルート']++;
+            }
+            return;
+        }
+
+        const segments = dir.split('/');
+        const rootSegment = segments[0];
+
+        // Access Control for contributor
+        if (role === 'contributor') {
+            if (rootSegment !== 'official' && !dir.startsWith(`media/${window.userId}`)) {
+                return;
+            }
+        }
+
+        // 1. Ensure Root exists
+        if (role !== 'contributor' || rootSegment === 'official') {
+             if (!rootFolders[rootSegment]) rootFolders[rootSegment] = 0;
+             rootFolders[rootSegment]++;
+        } else if (role === 'contributor' && dir.startsWith(`media/${window.userId}`)) {
+             const myRoot = `media/${window.userId}`;
+             if (!rootFolders[myRoot]) rootFolders[myRoot] = 0;
+             rootFolders[myRoot]++;
+             
+             // If the file is exactly at root, don't build subfolders for it
+             if (dir === myRoot) return;
+        }
+
+        // 2. Build SubFolders hierarchical tree
+        let currentPath = segments[0];
+        if (role === 'contributor' && rootSegment === 'media') {
+            currentPath = `media/${window.userId}`;
+        }
+        
+        // Find starting index after root
+        const startIdx = (role === 'contributor' && rootSegment === 'media') ? 2 : 1;
+
+        for (let i = startIdx; i < segments.length; i++) {
+            const part = segments[i];
+            const nextPath = currentPath + '/' + part;
             
-            if (!subFolders[parent]) subFolders[parent] = {};
-            if (!subFolders[parent][childDir]) subFolders[parent][childDir] = 0;
-            subFolders[parent][childDir] += 1;
-        } else {
-            if (!rootFolders[dir]) rootFolders[dir] = 0;
-            rootFolders[dir] += 1;
+            if (!subFolders[currentPath]) subFolders[currentPath] = {};
+            if (!subFolders[currentPath][nextPath]) subFolders[currentPath][nextPath] = 0;
+            subFolders[currentPath][nextPath]++;
+            
+            currentPath = nextPath;
         }
     });
 
@@ -78,11 +117,11 @@ function renderMediaGrid() {
                 
                 if (dir === 'official') displayDir = '公式配布素材 (Official)';
                 else if (dir === 'library') displayDir = '運営・パブリック画像 (Library)';
-                else if (dir === 'media' && window.userRole !== 'contributor') displayDir = '事業者画像全般 (Media)';
-                else if (window.userRole === 'contributor' && dir.startsWith('media/')) displayDir = '自分の画像 (My Folder)';
+                else if (dir === 'media' && role !== 'contributor') displayDir = '事業者画像全般 (Media)';
+                else if (role === 'contributor' && dir.startsWith('media/')) displayDir = '自分の画像 (My Folder)';
 
                 html += `
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                         <div class="card h-100 border shadow-sm border-0 bg-white" style="cursor:pointer;" onclick="setMediaDir('${dir}')">
                             <div class="bg-light rounded d-flex align-items-center justify-content-center py-4 folder-card" style="position:relative;">
                                 <i class="fa-solid fa-folder fa-4x text-warning"></i>
@@ -93,50 +132,37 @@ function renderMediaGrid() {
                     </div>
                 `;
             });
-        } else if (subFolders[currentMediaDir]) {
-            html += `
-                <div class="col-12 mb-3 d-flex align-items-center gap-2">
-                    <button class="btn btn-outline-secondary btn-sm" onclick="setMediaDir(null)"><i class="fa-solid fa-arrow-left"></i> 戻る</button>
-                    <span class="fw-bold fs-5 text-secondary"><i class="fa-solid fa-folder-open text-warning me-2"></i>事業者画像全般 (Media)</span>
-                </div>
-            `;
-            const children = subFolders[currentMediaDir];
-            Object.keys(children).sort().forEach(childDir => {
-                const count = children[childDir];
-                const displayDir = childDir.replace('media/', ''); 
-                html += `
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="card h-100 border shadow-sm border-0 bg-white" style="cursor:pointer;" onclick="setMediaDir('${childDir}')">
-                            <div class="bg-light rounded d-flex align-items-center justify-content-center py-4 folder-card" style="position:relative;">
-                                <i class="fa-solid fa-folder fa-4x text-warning"></i>
-                                <span class="position-absolute bottom-0 end-0 mb-2 me-2 badge bg-secondary">${count}</span>
-                            </div>
-                            <div class="card-body p-2 text-center text-truncate fw-bold text-dark" title="${displayDir}">${displayDir}</div>
-                        </div>
-                    </div>
-                `;
-            });
+            return html;
         } else {
+            // Render specific directory contents
             let breadcrumbDisplay = currentMediaDir;
-            let pBtn = `setMediaDir(null)`;
-            if (window.userRole !== 'contributor' && currentMediaDir.startsWith('media/')) {
+            let parentDir = null;
+            
+            if (currentMediaDir.includes('/')) {
+                parentDir = currentMediaDir.split('/').slice(0, -1).join('/');
+            }
+
+            let pBtn = parentDir !== null ? `setMediaDir('${parentDir}')` : `setMediaDir(null)`;
+            
+            if (role !== 'contributor' && currentMediaDir.startsWith('media/') && parentDir === null) {
                 breadcrumbDisplay = currentMediaDir.replace('media/', '');
                 pBtn = `setMediaDir('media')`;
             } else if (currentMediaDir === 'official') {
                 breadcrumbDisplay = '公式配布素材 (Official)';
-            } else if (window.userRole === 'contributor' && currentMediaDir.startsWith('media/')) {
+            } else if (role === 'contributor' && currentMediaDir === `media/${window.userId}`) {
                 breadcrumbDisplay = '自分の画像 (My Folder)';
+                pBtn = `setMediaDir(null)`;
             } else if (currentMediaDir === 'library') {
                 breadcrumbDisplay = '運営・パブリック画像 (Library)';
             }
 
             let moveFolderHtml = '';
-            if (currentMediaDir && currentMediaDir !== 'official' && window.userRole !== 'contributor') {
+            if (currentMediaDir && currentMediaDir !== 'official' && role !== 'contributor') {
                 moveFolderHtml = `<button class="btn btn-sm btn-outline-warning ms-2" onclick="moveFolder('${currentMediaDir}')" title="名前の変更・移動"><i class="fa-solid fa-pen"></i></button>`;
             }
 
             // TOS Block for Contributors in Official
-            if (currentMediaDir === 'official' && window.userRole === 'contributor' && !localStorage.getItem('official_media_agreed')) {
+            if (currentMediaDir === 'official' && role === 'contributor' && !localStorage.getItem('official_media_agreed')) {
                 return html + `
                 <div class="col-12 mb-3 d-flex align-items-center gap-2">
                     <button class="btn btn-outline-secondary btn-sm" onclick="${pBtn}"><i class="fa-solid fa-arrow-left"></i> 戻る</button>
@@ -186,22 +212,43 @@ function renderMediaGrid() {
             const createBtn = document.getElementById('btnCreateFolder');
             
             if (uploadBtn) {
-                if (currentMediaDir === 'official' && window.userRole === 'contributor') {
+                if (currentMediaDir === 'official' && role === 'contributor') {
                     uploadBtn.style.display = 'none';
                 } else {
                     uploadBtn.style.display = 'inline-block';
                 }
             }
             if (createBtn) {
-                if (window.userRole !== 'contributor') {
+                if (role !== 'contributor') {
                     createBtn.style.display = 'inline-block';
                 } else {
                     createBtn.style.display = 'none';
                 }
             }
 
+            // Render Subfolders
+            if (subFolders[currentMediaDir]) {
+                const children = subFolders[currentMediaDir];
+                Object.keys(children).sort().forEach(childDir => {
+                    const count = children[childDir];
+                    const displayDir = childDir.split('/').pop(); 
+                    html += `
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                            <div class="card h-100 border shadow-sm border-0 bg-white" style="cursor:pointer;" onclick="setMediaDir('${childDir}')">
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center py-4 folder-card" style="position:relative;">
+                                    <i class="fa-solid fa-folder fa-4x text-warning"></i>
+                                    <span class="position-absolute bottom-0 end-0 mb-2 me-2 badge bg-secondary">${count}</span>
+                                </div>
+                                <div class="card-body p-2 text-center text-truncate fw-bold text-dark" title="${displayDir}">${displayDir}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Render Files
             const items = filesInPath[currentMediaDir] || [];
-            if (items.length === 0) {
+            if (!subFolders[currentMediaDir] && items.length === 0) {
                 html += '<div class="col-12 text-muted mt-3">このフォルダは空です。</div>';
             }
 
@@ -221,7 +268,7 @@ function renderMediaGrid() {
                 
                 // Show delete logic
                 let canDelete = true;
-                if (currentMediaDir === 'official' && (window.userRole === 'editor' || window.userRole === 'contributor')) {
+                if (currentMediaDir === 'official' && (role === 'editor' || role === 'contributor')) {
                     canDelete = false;
                 }
                 const deleteBtnHtml = canDelete ? `<button class="btn btn-sm btn-outline-danger flex-fill fw-bold" onclick="deleteMedia('${m.key}')" title="削除"><i class="fa-solid fa-trash"></i></button>` : '';
@@ -230,14 +277,14 @@ function renderMediaGrid() {
                 const downloadBtnHtml = `<button class="btn btn-sm btn-outline-secondary flex-fill fw-bold" onclick="downloadImage('${m.url}', '${displayTitle}')" title="ダウンロード"><i class="fa-solid fa-download"></i></button>`;
 
                 let canMove = true;
-                if (currentMediaDir === 'official' && (window.userRole === 'editor' || window.userRole === 'contributor')) canMove = false;
-                if (window.userRole === 'contributor') canMove = false;
+                if (currentMediaDir === 'official' && (role === 'editor' || role === 'contributor')) canMove = false;
+                if (role === 'contributor') canMove = false;
                 const moveMediaHtml = canMove ? `<button class="btn btn-sm btn-outline-warning flex-fill fw-bold" onclick="moveMedia('${m.key}')" title="移動"><i class="fa-solid fa-truck-fast"></i></button>` : '';
                 const renameMediaHtml = canMove ? `<button class="btn btn-sm btn-outline-info flex-fill fw-bold" onclick="renameMedia('${m.key}')" title="名前の変更"><i class="fa-solid fa-pen-to-square"></i></button>` : '';
 
                 if (!isPicker) {
                     html += `
-                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                             <div class="card h-100 border shadow-sm border-0 bg-white">
                                 <div class="bg-light rounded-top d-flex align-items-center justify-content-center overflow-hidden" style="height: 120px; position:relative;">
                                     ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover">` : fileIconHtml}
@@ -258,7 +305,7 @@ function renderMediaGrid() {
                     `;
                 } else {
                     html += `
-                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 mb-3">
                             <div class="card h-100 border shadow-sm border-0 media-picker-card" style="cursor:pointer;" onclick="selectMediaUrl('${m.url}')">
                                 <div class="bg-light rounded d-flex align-items-center justify-content-center overflow-hidden" style="height: 140px; position:relative;">
                                     ${isImg ? `<img src="${m.url}" class="w-100 h-100 object-fit-cover hover-zoom">` : fileIconHtml}
@@ -290,6 +337,7 @@ function renderMediaGrid() {
         if (typeof initPdfObserver === 'function') setTimeout(initPdfObserver, 50);
     }
 }
+
 
 function agreeToTerms() {
     localStorage.setItem('official_media_agreed', '1');
