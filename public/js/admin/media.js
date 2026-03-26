@@ -193,7 +193,7 @@ function renderMediaGrid() {
                 }
             }
             if (createBtn) {
-                if (window.userRole !== 'contributor' && currentMediaDir !== 'official') {
+                if (window.userRole !== 'contributor') {
                     createBtn.style.display = 'inline-block';
                 } else {
                     createBtn.style.display = 'none';
