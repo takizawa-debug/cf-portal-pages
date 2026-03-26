@@ -188,3 +188,75 @@ label.form-label {
 .form-check-label {
     color: var(--text-main) !important;
 }
+
+/* ============================
+   Mobile Responsive Adjustments 
+   ============================ */
+@media (max-width: 768px) {
+    html {
+        font-size: 15px !important;
+    }
+    
+    .main-layout {
+        position: relative;
+    }
+    
+    .sidebar {
+        position: absolute;
+        top: 0;
+        left: -260px;
+        width: 250px;
+        height: 100%;
+        z-index: 1050;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar.show {
+        left: 0;
+    }
+    
+    .content-area {
+        padding: 1rem;
+    }
+    
+    .navbar-custom {
+        padding: 0.8rem 1rem;
+    }
+    
+    .navbar-custom .brand span {
+        font-size: 1.1rem;
+    }
+    
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+    }
+    
+    .nav-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .nav-tabs .nav-item {
+        flex-shrink: 0;
+    }
+    
+    .modal-body {
+        padding: 1rem !important;
+    }
+
+    #status {
+        width: 90%;
+        text-align: center;
+        padding: 0.8rem 1rem;
+        transform: translateX(-50%) translateY(100px);
+    }
+    
+    #status.show {
+        transform: translateX(-50%) translateY(0);
+    }
+}

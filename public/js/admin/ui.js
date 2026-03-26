@@ -38,6 +38,11 @@ function switchMainPanel(panelId, btnEl) {
     document.querySelectorAll('.nav-item-custom').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
 
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar && sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+    }
+
     if (panelId === 'user-panel') fetchUsers();
     else if (panelId === 'architecture-panel') {
         const archPanel = document.getElementById('architecture-panel');
