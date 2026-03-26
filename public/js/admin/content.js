@@ -329,7 +329,7 @@ async function saveContent() {
     const bizData = {};
     document.querySelectorAll('[id^="biz_"]').forEach(el => {
         const key = el.id.replace('biz_', '');
-        if (el.value.trim() !== '') bizData[key] = el.value.trim();
+        if (el.value !== undefined && el.value.trim() !== '') bizData[key] = el.value.trim();
     });
     const fieldMeta = document.getElementById('field_business_metadata');
     if (fieldMeta) fieldMeta.value = Object.keys(bizData).length > 0 ? JSON.stringify(bizData) : '';
