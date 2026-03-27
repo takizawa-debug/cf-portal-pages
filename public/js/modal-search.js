@@ -21,7 +21,7 @@ window.lzSearchEngine = (function () {
       '.lz-auto-link { opacity: 0; transition: opacity 0.8s ease; }',
       '.lz-auto-link.is-active { opacity: 1 !important; }',
 
-      '.lz-s-wrap { padding: 15px 20px !important; position: relative !important; }',
+      '.lz-s-wrap { padding: 15px 20px !important; position: relative !important; height: 100% !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; width: 100% !important; box-sizing: border-box !important; }',
 
       /* 右上に固定される閉じるボタン (既存機能維持) */
       '.lz-s-close-sticky { ' +
