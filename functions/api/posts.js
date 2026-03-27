@@ -1,4 +1,4 @@
-import { errorResponse, jsonResponse, optionsResponse } from "../utils/response.js";
+import { errorResponse, jsonResponse, cachedJsonResponse, optionsResponse } from "../utils/response.js";
 import { authenticate } from "../utils/auth.js";
 
 export async function onRequestGet(context) {
@@ -64,7 +64,7 @@ export async function onRequestGet(context) {
             };
         });
 
-        return jsonResponse(processedResults);
+        return cachedJsonResponse(processedResults);
     } catch (error) {
         return errorResponse(error.message, 500);
     }

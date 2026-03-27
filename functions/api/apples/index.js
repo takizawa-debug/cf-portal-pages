@@ -1,4 +1,4 @@
-import { errorResponse, jsonResponse } from "../../utils/response.js";
+import { errorResponse, jsonResponse , cachedJsonResponse} from "../../utils/response.js";
 export async function onRequestGet(context) {
     try {
         const db = context.env.DB;
@@ -8,7 +8,7 @@ export async function onRequestGet(context) {
             `SELECT * FROM apple_varieties ORDER BY display_order ASC`
         ).all();
 
-        return jsonResponse({ success: true, apples: results });
+        return cachedJsonResponse({ success: true, apples: results });
     } catch (err) {
         return errorResponse(err.message, 500);
     }

@@ -1,4 +1,4 @@
-import { jsonResponse, optionsResponse } from "../utils/response.js";
+import { jsonResponse, cachedJsonResponse, optionsResponse } from "../utils/response.js";
 export async function onRequestGet(context) {
     const { request, env } = context;
     const url = new URL(request.url);
@@ -26,7 +26,7 @@ export async function onRequestGet(context) {
                 item.ja = kw.split('(')[0].trim();
                 return item;
             });
-            return jsonResponse({ ok: true, items });
+            return cachedJsonResponse({ ok: true, items });
         }
 
         const q = url.searchParams.get('q');
@@ -156,7 +156,7 @@ export async function onRequestGet(context) {
         }
 
         // Return the payload wrapped in { ok: true, items: [...] } exactly as the GAS endpoint did
-        return jsonResponse({ ok: true, items: results });
+        return cachedJsonResponse({ ok: true, items: results });
     } catch (error) {
         return jsonResponse({ ok: false, error: error.message }, 500);
     }

@@ -131,7 +131,7 @@
       pool = RECOMMEND_WORDS.map(word => ({ display: C.T(word), original: word }));
     }
     const selected = [...pool].sort(() => 0.5 - Math.random()).slice(0, 5);
-    tagArea.innerHTML = selected.map(item => `<span class="apz-search-tag" data-original="${item.original}">${item.display}</span>`).join('');
+    tagArea.innerHTML = selected.map(item => `<span class="apz-search-tag" data-original="${esc(item.original)}">${esc(item.display)}</span>`).join('');
     tagArea.querySelectorAll('.apz-search-tag').forEach(tag => {
       tag.onclick = () => { input.value = tag.textContent; runSearch(input.value); };
     });
@@ -165,7 +165,7 @@
 
       return `
       <li><button class="apz-item-btn" type="button" data-idx="${idx}">
-        <div class="apz-thumb"><img src="${it.mainImage || FALLBACK_IMG}"></div>
+        <div class="apz-thumb"><img loading="lazy" src="${it.mainImage ? esc(it.mainImage) : FALLBACK_IMG}"></div>
         <div class="apz-meta">
           <div class="apz-l2l3">${categoryLine}</div>
           <div class="apz-title">${highlight(title, query)}</div>

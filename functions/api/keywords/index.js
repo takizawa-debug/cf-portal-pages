@@ -1,11 +1,11 @@
-import { errorResponse, jsonResponse } from "../../utils/response.js";
+import { errorResponse, jsonResponse , cachedJsonResponse} from "../../utils/response.js";
 import { authenticate, requireRole } from "../../utils/auth.js";
 
 export async function onRequestGet(context) {
     const { env } = context;
     try {
         const { results } = await env.DB.prepare("SELECT * FROM seo_keywords ORDER BY created_at DESC").all();
-        return jsonResponse(results);
+        return cachedJsonResponse(results);
     } catch (e) {
         return errorResponse(e.message, 500);
     }
