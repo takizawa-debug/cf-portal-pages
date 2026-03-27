@@ -10,23 +10,40 @@ export async function onRequestGet(context) {
         let results = [];
 
         if (url.searchParams.get('mode') === 'keywords') {
-            // Return keywords for modal-search.js auto-linking
+            // Return keywords for modal-search.js auto-linking (Only those appearing in >= 2 articles)
             const { results: kwRows } = await env.DB.prepare("SELECT keyword FROM seo_keywords").all();
+            const { results: contentRows } = await env.DB.prepare("SELECT title, lead_text, body_text, l1, l2 FROM contents WHERE status = 'published'").all();
 
-            const items = kwRows.map(row => {
+            const validItems = [];
+
+            for (const row of kwRows) {
                 const kw = row.keyword;
-                // Parse "りんご (en: Apple, zh: 苹果)" if that format exists
-                const item = { ja: kw };
-                const matchEn = kw.match(/en:\s*([^,)]+)/);
-                if (matchEn) item.en = matchEn[1].trim();
-                const matchZh = kw.match(/zh:\s*([^,)]+)/);
-                if (matchZh) item.zh = matchZh[1].trim();
+                const baseWord = kw.split('(')[0].trim();
+                const searchTarget = baseWord.toLowerCase();
+                
+                let matchCount = 0;
+                for (const content of contentRows) {
+                    const combined = [content.title, content.lead_text, content.body_text, content.l1, content.l2]
+                        .filter(Boolean)
+                        .join(' ')
+                        .toLowerCase();
+                    
+                    if (combined.includes(searchTarget)) {
+                        matchCount++;
+                        if (matchCount >= 2) break;
+                    }
+                }
 
-                // Clean up 'ja' to only be the base word if it has parens
-                item.ja = kw.split('(')[0].trim();
-                return item;
-            });
-            return cachedJsonResponse({ ok: true, items });
+                if (matchCount >= 2) {
+                    const item = { ja: baseWord };
+                    const matchEn = kw.match(/en:\s*([^,)]+)/);
+                    if (matchEn) item.en = matchEn[1].trim();
+                    const matchZh = kw.match(/zh:\s*([^,)]+)/);
+                    if (matchZh) item.zh = matchZh[1].trim();
+                    validItems.push(item);
+                }
+            }
+            return cachedJsonResponse({ ok: true, items: validItems }, 200, 300);
         }
 
         const q = url.searchParams.get('q');
