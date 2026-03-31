@@ -108,7 +108,7 @@ export async function onRequestPost(context) {
         await env.DB.batch(stmts);
 
         // 5. Targeted Broadcast Execution
-        if (broadcastTarget && broadcastTarget !== 'none') {
+        if (data.status === 'published' && broadcastTarget && broadcastTarget !== 'none') {
             const articleTitle = data.title || '新しいお知らせ';
             const message = `[自動通知] 新しい記事が公開されました！\nタイトル: ${articleTitle}\n\nポータルサイトから詳細をご確認ください。`;
 

@@ -141,8 +141,16 @@ export async function onRequestPut(context) {
             return errorResponse('No data provided', 400);
         }
 
+        let isPublished = false;
+        if (data.status) {
+            isPublished = data.status === 'published';
+        } else {
+            const row = await env.DB.prepare('SELECT status FROM contents WHERE id = ?').bind(id).first();
+            isPublished = row && row.status === 'published';
+        }
+
         // Targeted Broadcast Execution
-        if (broadcastTarget && broadcastTarget !== 'none') {
+        if (isPublished && broadcastTarget && broadcastTarget !== 'none') {
             const articleTitle = data.title || '新しいお知らせ';
             const message = `[自動通知] 記事が更新・公開されました！\nタイトル: ${articleTitle}\n\nポータルサイトから詳細をご確認ください。`;
 
