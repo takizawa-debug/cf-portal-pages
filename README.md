@@ -28,7 +28,7 @@ Cloudflare Pages + D1 + R2 による完全サーバーレスアーキテクチ�
 
 ```bash
 git clone <repository-url>
-cd Cloudflaretest
+cd 飯綱町りんごPRWEB
 npm install
 ```
 
@@ -78,7 +78,7 @@ npm run dev
 ## ディレクトリ構造
 
 ```
-Cloudflaretest/
+飯綱町りんごPRWEB/
 ├── db/                        # データベース定義
 │   ├── schema.sql             # 正規スキーマ（最新版）
 │   ├── seed.sql               # メインシードデータ
