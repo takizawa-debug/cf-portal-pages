@@ -1,20 +1,22 @@
+import { jsonResponse, errorResponse } from '../utils/response.js';
+
 export async function onRequestPost({ request, env }) {
     try {
         let data;
         try {
             data = await request.json();
         } catch {
-            return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
+            return errorResponse("Invalid JSON", 400);
         }
 
         const { name, kana, email, message } = data;
 
         if (!name || !kana || !email || !message) {
-            return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+            return errorResponse("Missing required fields", 400);
         }
 
         if (!env.RESEND_API_KEY) {
-            return new Response(JSON.stringify({ error: "Email service not configured" }), { status: 500 });
+            return errorResponse("Email service not configured", 500);
         }
 
         // Send email to admin
@@ -87,15 +89,13 @@ export async function onRequestPost({ request, env }) {
         if (!adminRes.ok || !userRes.ok) {
             console.error("Admin Email Status:", adminRes.status, await adminRes.text());
             console.error("User Email Status:", userRes.status, await userRes.text());
-            return new Response(JSON.stringify({ error: "Failed to send email" }), { status: 500 });
+            return errorResponse("Failed to send email", 500);
         }
 
-        return new Response(JSON.stringify({ success: true }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return jsonResponse({ success: true });
 
     } catch (err) {
         console.error(err);
-        return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
+        return errorResponse("Internal Server Error", 500);
     }
 }

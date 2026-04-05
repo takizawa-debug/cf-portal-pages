@@ -1,7 +1,5 @@
-import { errorResponse, jsonResponse , cachedJsonResponse} from "../../utils/response.js";
+import { errorResponse, jsonResponse, cachedJsonResponse } from "../../utils/response.js";
 import { authenticate, requireRole } from "../../utils/auth.js";
-import * as xlsx from 'xlsx';
-import mammoth from 'mammoth';
 
 
 export async function onRequestGet(context) {
@@ -82,28 +80,8 @@ export async function onRequestPost(context) {
 
                 const arrayBuffer = await file.arrayBuffer();
 
-                if (type === 'excel') {
-                    try {
-                        const workbook = xlsx.read(arrayBuffer, { type: 'array' });
-                        let sheetText = '';
-                        workbook.SheetNames.forEach(sheetName => {
-                            const worksheet = workbook.Sheets[sheetName];
-                            sheetText += `--- Sheet: ${sheetName} ---\n`;
-                            sheetText += xlsx.utils.sheet_to_csv(worksheet) + '\n';
-                        });
-                        content = sheetText;
-                    } catch (e) {
-                        return errorResponse("Failed to parse Excel file. Details: " + e.message, 500);
-                    }
-                } else if (type === 'word') {
-                    try {
-                        // mammoth takes an ArrayBuffer in browser/worker environments
-                        const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                        content = result.value;
-                    } catch (e) {
-                        return errorResponse("Failed to parse Word file. Details: " + e.message, 500);
-                    }
-                } else {
+                // All file types (PDF, Excel, Word, Images) are parsed via Gemini 2.5 Flash
+                {
                     // Gemini Extractor Pipeline mainly for PDFs/Images
                     const bytes = new Uint8Array(arrayBuffer);
                     let binary = '';

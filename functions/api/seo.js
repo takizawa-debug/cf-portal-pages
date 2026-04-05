@@ -1,36 +1,31 @@
-import { authenticate, requireRole } from '../utils/auth.js';
+import { jsonResponse, errorResponse, optionsResponse } from '../utils/response.js';
+import { authenticate } from '../utils/auth.js';
 
 export async function onRequestGet({ request, env }) {
     const url = new URL(request.url);
     const path = url.searchParams.get('path');
     
     if (!path) {
-        return new Response(JSON.stringify({ error: "Missing 'path' parameter" }), { status: 400 });
+        return errorResponse("Missing 'path' parameter", 400);
     }
 
     try {
         const stmt = env.DB.prepare('SELECT title, description, og_image_url, favicon_url FROM seo_settings WHERE page_path = ?');
         const data = await stmt.bind(path).first();
         
-        return new Response(JSON.stringify(data || null), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return jsonResponse(data || null);
     } catch (err) {
         console.error(err);
-        return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+        return errorResponse(err.message, 500);
     }
 }
 
 export async function onRequestPost({ request, env }) {
-    if (request.method === 'OPTIONS') {
-        return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" } });
-    }
-
     const user = await authenticate(request, env);
-    if (!user) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+    if (!user) return errorResponse("Unauthorized", 401);
     // Require admin or editor role for SEO management
     if (!['admin', 'editor'].includes(user.role)) {
-        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
+        return errorResponse("Forbidden", 403);
     }
 
     try {
@@ -38,7 +33,7 @@ export async function onRequestPost({ request, env }) {
         const { path, title, description, og_image_url, favicon_url } = data;
 
         if (!path) {
-            return new Response(JSON.stringify({ error: "Missing 'path'" }), { status: 400 });
+            return errorResponse("Missing 'path'", 400);
         }
 
         // Apply Zero-Trust Scope verify
@@ -49,7 +44,7 @@ export async function onRequestPost({ request, env }) {
         }
 
         if (user.role !== 'admin' && !managedSites.includes('all') && !managedSites.includes(requiredScope)) {
-            return new Response(JSON.stringify({ error: "Forbidden: Not in your managed scope." }), { status: 403 });
+            return errorResponse("Forbidden: Not in your managed scope.", 403);
         }
 
         const stmt = env.DB.prepare(`
@@ -65,11 +60,13 @@ export async function onRequestPost({ request, env }) {
         
         await stmt.bind(path, title || null, description || null, og_image_url || null, favicon_url || null).run();
 
-        return new Response(JSON.stringify({ success: true }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return jsonResponse({ success: true });
     } catch (err) {
         console.error(err);
-        return new Response(JSON.stringify({ error: "Server Error" }), { status: 500 });
+        return errorResponse("Server Error", 500);
     }
+}
+
+export async function onRequestOptions() {
+    return optionsResponse();
 }

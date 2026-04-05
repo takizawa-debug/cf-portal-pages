@@ -1,7 +1,5 @@
 import { errorResponse, jsonResponse } from "../../utils/response.js";
 import { authenticate, requireRole } from "../../utils/auth.js";
-import * as xlsx from 'xlsx';
-import mammoth from 'mammoth';
 
 export async function onRequestPut(context) {
     const { request, env, params } = context;
@@ -67,18 +65,8 @@ export async function onRequestPut(context) {
 
                 const arrayBuffer = await file.arrayBuffer();
 
-                if (type === 'excel') {
-                    const workbook = xlsx.read(arrayBuffer, { type: 'array' });
-                    let sheetText = '';
-                    workbook.SheetNames.forEach(sheetName => {
-                        sheetText += `--- Sheet: ${sheetName} ---\n`;
-                        sheetText += xlsx.utils.sheet_to_csv(workbook.Sheets[sheetName]) + '\n';
-                    });
-                    content = sheetText;
-                } else if (type === 'word') {
-                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                    content = result.value;
-                } else {
+                // All file types (PDF, Excel, Word, Images) parsed via Gemini 2.5 Flash
+                {
                     const bytes = new Uint8Array(arrayBuffer);
                     let binary = '';
                     for (let i = 0; i < bytes.length; i += 8192) {

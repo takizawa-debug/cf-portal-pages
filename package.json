@@ -1,9 +1,17 @@
 {
-  "dependencies": {
-    "dotenv": "^17.3.1",
-    "mammoth": "^1.11.0",
-    "pdfkit": "^0.17.2",
-    "playwright": "^1.58.2",
-    "xlsx": "^0.18.5"
+  "name": "cf-portal-pages",
+  "version": "1.0.0",
+  "description": "飯綱町りんごポータルサイト - Cloudflare Pages + D1 + R2",
+  "private": true,
+  "scripts": {
+    "dev": "npx wrangler pages dev public --d1=DB --r2=UPLOAD_BUCKET --port=8788",
+    "deploy": "npx wrangler pages deploy public --project-name=cf-portal-pages --branch=main",
+    "preview": "npx wrangler pages dev public --d1=DB --r2=UPLOAD_BUCKET --port=8788 --local",
+    "db:schema": "npx wrangler d1 execute portal-db --local --file=db/schema.sql",
+    "db:seed": "npx wrangler d1 execute portal-db --local --file=db/seed.sql",
+    "db:migrate": "echo '使用方法: npx wrangler d1 execute portal-db --file=db/migrations/<NNN_name>.sql'"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
   }
 }

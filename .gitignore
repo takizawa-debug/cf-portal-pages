@@ -7,3 +7,11 @@ node_modules/
 _worker.js
 wrangler.log
 *.log
+
+# Large assets (managed externally)
+Materials/
+official/
+
+# OS files
+Thumbs.db
+Desktop.ini

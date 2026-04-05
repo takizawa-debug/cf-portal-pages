@@ -1,4 +1,4 @@
-import { errorResponse } from "../utils/response.js";
+import { errorResponse, jsonResponse } from "../utils/response.js";
 import { authenticate, requireRole } from '../utils/auth.js';
 
 export async function onRequestPost(context) {
@@ -112,7 +112,7 @@ ${knowledgeText}
             sourcesHtml += "</ul>";
         }
 
-        return Response.json({
+        return jsonResponse({
             title: generatedContent.title || "",
             lead: generatedContent.lead || "",
             body: generatedContent.body || "",
