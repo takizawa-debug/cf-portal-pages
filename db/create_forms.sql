@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS form_submissions (id TEXT PRIMARY KEY, form_type TEXT NOT NULL, payload_json TEXT NOT NULL, files_json TEXT, status TEXT DEFAULT 'unread', created_at DATETIME DEFAULT CURRENT_TIMESTAMP);

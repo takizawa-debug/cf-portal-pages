@@ -14,12 +14,15 @@ export async function onRequestGet(context) {
             c.*,
             u.display_name as author_name,
             t_en.title as title_en, t_en.lead_text as lead_text_en, t_en.body_text as body_text_en,
-            t_tw.title as title_tw, t_tw.lead_text as lead_text_tw, t_tw.body_text as body_text_tw
+            t_tw.title as title_tw, t_tw.lead_text as lead_text_tw, t_tw.body_text as body_text_tw,
+            cat.l1_en, cat.l2_en, cat.l3_en as l3_label_en,
+            cat.l1_zh as l1_tw, cat.l2_zh as l2_tw, cat.l3_zh as l3_label_tw
         `;
         const joinClause = `
             LEFT JOIN users u ON c.author_id = u.id
             LEFT JOIN content_translations t_en ON c.id = t_en.content_id AND t_en.locale = 'en'
             LEFT JOIN content_translations t_tw ON c.id = t_tw.content_id AND t_tw.locale = 'zh-TW'
+            LEFT JOIN categories cat ON c.l1 = cat.l1 AND IFNULL(c.l2, '') = IFNULL(cat.l2, '') AND IFNULL(c.l3_label, '') = IFNULL(cat.l3, '') AND cat.form_type = 'article'
         `;
 
         let query = `SELECT ${flatSelect} FROM contents c ${joinClause}`;

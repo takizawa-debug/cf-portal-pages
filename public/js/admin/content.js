@@ -254,7 +254,10 @@ function openContentEditor(item, newType) {
         if (l2El) { l2El.value = item.l2 || ''; updateCategoryL3(); }
 
         const l3El = document.getElementById('field_l3_label');
-        if (l3El) { l3El.value = item.l3_label || ''; }
+        if (l3El) { 
+            l3El.value = item.l3_label || ''; 
+            syncCategoryTranslations();
+        }
 
         contentFields.forEach(f => {
             if (f === 'l1' || f === 'l2' || f === 'l3_label') return;
