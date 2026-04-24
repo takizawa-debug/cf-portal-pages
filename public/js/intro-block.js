@@ -330,7 +330,7 @@
             '.lz-intro__cat:hover .lz-intro__cat-img { transform: scale(1.04); filter: contrast(1.1) saturate(1.2) brightness(1.0); }',
 
             /* テキスト部分 */
-            '.lz-intro__cat-body { display: flex; flex-direction: column; gap: 14px; }',
+            '.lz-intro__cat-body { display: flex; flex-direction: column; gap: 14px; overflow: visible !important; height: auto !important; }',
             '.lz-intro__cat-title {',
             '  font-family: var(--font-accent);',
             '  font-weight: 700; font-size: clamp(1.9rem, 3.2vw, 2.6rem) !important;',
@@ -346,6 +346,7 @@
             '.lz-intro__cat-desc {',
             '  font-size: clamp(1.05rem, 1.6vw, 1.2rem) !important;',
             '  color: #666; line-height: 1.9; margin: 0;',
+            '  overflow: visible !important; height: auto !important;',
             '}',
             '.lz-intro__cat-btn {',
             '  display: inline-flex; align-items: center; gap: 8px;',
@@ -471,7 +472,7 @@
         root.innerHTML = [
 
             '<style>',
-            '  #lz-intro-block { overflow-x: hidden; width: 100%; box-sizing: border-box; }',
+            '  #lz-intro-block { overflow: visible; width: 100%; box-sizing: border-box; }',
             '  #lz-intro-block .lz-intro__welcome-wrap {',
             '    position: relative; padding: 160px 24px 140px; margin-bottom: 80px;',
             '    width: 100%; display: flex; justify-content: center; align-items: center;',
