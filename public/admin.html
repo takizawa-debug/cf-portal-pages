@@ -7,9 +7,9 @@
     <title>管理サイト - りんごのまちいいづな</title>
 
     <!-- Peraichi Base Styles & Fonts -->
-    <link href="//assets.peraichi.com/template_root/v2/template_files/css/style.css?1772770402" rel="stylesheet">
+    <link href="/css/vendor/peraichi-style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
-        href="https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/pageCustomStylesheets/2300389/themeColor_1762752043.css">
+        href="/css/vendor/themeColor-main.css">
     <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -96,9 +96,16 @@
             <button class="nav-item-custom d-none" id="navBroadcast" onclick="switchMainPanel('broadcast-panel', this)">
                 <i class="fa-solid fa-bullhorn"></i> <span data-i18n="menu_broadcast">お知らせ一斉配信</span>
             </button>
+            <button class="nav-item-custom d-none" id="navFeedMgt" onclick="switchMainPanel('feed-panel', this)">
+                <i class="fa-solid fa-tower-broadcast"></i> <span>外部情報フィード</span>
+                <span id="feedPendingBadge" class="badge bg-danger ms-auto d-none">0</span>
+            </button>
 
             <hr class="border-secondary my-1 mx-3">
 
+            <button class="nav-item-custom d-none" id="navAnalytics" onclick="switchMainPanel('analytics-panel', this)">
+                <i class="fa-solid fa-chart-line"></i> <span>アナリティクス</span>
+            </button>
             <button class="nav-item-custom d-none" id="navArchitecture" onclick="switchMainPanel('architecture-panel', this)">
                 <i class="fa-solid fa-sitemap"></i> <span>システム構成図</span>
             </button>
@@ -130,31 +137,17 @@
 
                 <!-- Tabs -->
                 <ul class="nav nav-tabs mb-4 border-bottom-0" id="contentTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active fw-bold" id="tab-news" data-bs-toggle="tab" data-bs-target="#pane-news" type="button" role="tab" style="border-radius:0.5rem 0.5rem 0 0;">ニュース記事</button>
-                    </li>
                     <li class="nav-item" role="presentation" id="li-tab-general">
-                        <button class="nav-link fw-bold" id="tab-general" data-bs-toggle="tab" data-bs-target="#pane-general" type="button" role="tab" style="border-radius:0.5rem 0.5rem 0 0;">一般記事</button>
+                        <button class="nav-link active fw-bold" id="tab-general" data-bs-toggle="tab" data-bs-target="#pane-general" type="button" role="tab" style="border-radius:0.5rem 0.5rem 0 0;">一般記事</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold" id="tab-news" data-bs-toggle="tab" data-bs-target="#pane-news" type="button" role="tab" style="border-radius:0.5rem 0.5rem 0 0;">ニュース記事</button>
                     </li>
                 </ul>
 
                 <div class="tab-content" id="contentTabsContent">
-                    <!-- News Tab -->
-                    <div class="tab-pane fade show active" id="pane-news" role="tabpanel">
-                        <div class="text-end mb-3">
-                            <button class="btn btn-brand fw-bold" onclick="openContentEditor(null, 'news')">
-                                <i class="fa-solid fa-plus"></i> <span data-i18n="btn_create">新規ニュース作成</span>
-                            </button>
-                        </div>
-                        <div class="card shadow-sm border-0 bg-transparent">
-                            <div class="card-body p-0" id="newsSitemapContainer">
-                                <div class="text-center text-muted py-5 bg-white rounded shadow-sm">読み込み中...</div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- General Tab -->
-                    <div class="tab-pane fade" id="pane-general" role="tabpanel">
+                    <div class="tab-pane fade show active" id="pane-general" role="tabpanel">
                         <div class="text-end mb-3">
                             <button class="btn btn-brand fw-bold" onclick="openContentEditor(null, 'manual')">
                                 <i class="fa-solid fa-plus"></i> <span data-i18n="btn_create">新規一般記事作成</span>
@@ -162,6 +155,20 @@
                         </div>
                         <div class="card shadow-sm border-0 bg-transparent">
                             <div class="card-body p-0" id="generalSitemapContainer">
+                                <div class="text-center text-muted py-5 bg-white rounded shadow-sm">読み込み中...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Tab -->
+                    <div class="tab-pane fade" id="pane-news" role="tabpanel">
+                        <div class="text-end mb-3">
+                            <button class="btn btn-brand fw-bold" onclick="openContentEditor(null, 'news')">
+                                <i class="fa-solid fa-plus"></i> <span data-i18n="btn_create">新規ニュース作成</span>
+                            </button>
+                        </div>
+                        <div class="card shadow-sm border-0 bg-transparent">
+                            <div class="card-body p-0" id="newsSitemapContainer">
                                 <div class="text-center text-muted py-5 bg-white rounded shadow-sm">読み込み中...</div>
                             </div>
                         </div>
@@ -1162,6 +1169,392 @@ flowchart TD
                 </div>
             </div>
 
+            <!-- Panel: External Feeds Intelligence (Admin Only) -->
+            <div id="feed-panel" class="panel">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                    <div>
+                        <h3 class="fw-bold m-0" style="color:var(--accent);"><i class="fa-solid fa-tower-broadcast"></i> 外部情報インテリジェンス</h3>
+                        <p class="text-muted small mb-0 mt-1">長野県公的機関・飯綱町リリース・Instagramを自動監視し、AI考察とともに記事発信を支援</p>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-outline-secondary fw-bold" onclick="fetchFeedItems(currentFeedTab)">
+                            <i class="fa-solid fa-rotate-right"></i> 更新
+                        </button>
+                        <button class="btn btn-outline-primary fw-bold" onclick="openImportUrlModal()">
+                            <i class="fa-solid fa-link me-1"></i>🔗 URL直接インポート
+                        </button>
+                        <button class="btn btn-danger fw-bold" id="btnTriggerCrawl" onclick="triggerFeedCrawl()">
+                            <i class="fa-solid fa-spider"></i> 🔍 今すぐ全ソースを巡回 (AI解析)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sub Tabs -->
+                <ul class="nav nav-tabs mb-4 border-bottom-0" id="feedSubTabs">
+                    <li class="nav-item">
+                        <button class="nav-link active fw-bold" data-tab="pending" onclick="switchFeedSubTab('pending')" style="border-radius:0.5rem 0.5rem 0 0;">
+                            🔴 未処理（新着） <span id="badgeTabPending" class="badge bg-danger ms-1">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold" data-tab="published" onclick="switchFeedSubTab('published')" style="border-radius:0.5rem 0.5rem 0 0;">
+                            ✅ 記事化済み <span id="badgeTabPublished" class="badge bg-success ms-1">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold" data-tab="dismissed" onclick="switchFeedSubTab('dismissed')" style="border-radius:0.5rem 0.5rem 0 0;">
+                            ❌ 見送り <span id="badgeTabDismissed" class="badge bg-secondary ms-1">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold" data-tab="sources" onclick="switchFeedSubTab('sources')" style="border-radius:0.5rem 0.5rem 0 0;">
+                            ⚙️ 監視ソース設定
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Container 1: Items List -->
+                <div id="feedItemsContainer">
+                    <!-- Filter and Search Toolbar -->
+                    <div class="card border-0 shadow-sm p-3 mb-3 bg-white" style="border-radius: 10px;">
+                        <div class="row g-2 align-items-center">
+                            <!-- Search input -->
+                            <div class="col-12 col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                                    <input type="text" class="form-control border-start-0" id="feedSearchInput" placeholder="キーワードで絞り込み..." oninput="applyFeedFilters()">
+                                </div>
+                            </div>
+                            <!-- Impact Level Filter -->
+                            <div class="col-6 col-md-3">
+                                <select class="form-select form-select-sm" id="filterImpact" onchange="applyFeedFilters()">
+                                    <option value="all">すべての影響度</option>
+                                    <option value="high">🔴 高（要警戒・重要）</option>
+                                    <option value="medium">🟡 中（通常・イベント）</option>
+                                    <option value="low">⚪ 低（参考・関連薄）</option>
+                                </select>
+                            </div>
+                            <!-- Source Type Filter -->
+                            <div class="col-6 col-md-3">
+                                <select class="form-select form-select-sm" id="filterSourceType" onchange="applyFeedFilters()">
+                                    <option value="all">すべてのソース種別</option>
+                                    <option value="pref">🏛️ 長野県（病害虫・試験場・支援）</option>
+                                    <option value="town">📰 飯綱町公式リリース</option>
+                                    <option value="community">🍏 りんご学校・移住・マガジン</option>
+                                    <option value="instagram">📸 Instagram</option>
+                                </select>
+                            </div>
+                            <!-- Sort Order -->
+                            <div class="col-12 col-md-2">
+                                <select class="form-select form-select-sm fw-bold text-secondary" id="sortFeedItems" onchange="applyFeedFilters()">
+                                    <option value="date_desc">📅 発表日（新しい順）</option>
+                                    <option value="date_asc">📅 発表日（古い順）</option>
+                                    <option value="impact_desc">🔥 影響度順（高 ➔ 低）</option>
+                                    <option value="created_desc">🕒 検知日時（新しい順）</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top small text-muted">
+                            <div>表示中: <strong id="feedDisplayCount" class="text-dark">0</strong> 件</div>
+                            <div id="activeFilterTags" class="d-flex gap-1 flex-wrap"></div>
+                        </div>
+                    </div>
+
+                    <div id="feedItemsList">
+                        <!-- Dynamic Item Cards -->
+                    </div>
+                </div>
+
+                <!-- Container 2: Sources Settings -->
+                <div id="feedSourcesContainer" class="d-none">
+                    <div class="card border-0 shadow-sm p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold m-0"><i class="fa-solid fa-list-check me-2 text-primary"></i>登録済み監視ソース一覧</h5>
+                            <button class="btn btn-primary fw-bold" onclick="openAddSourceModal()">
+                                <i class="fa-solid fa-plus me-1"></i>新規ソースを追加
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ソース名</th>
+                                        <th>種別</th>
+                                        <th>対象URL / アカウント</th>
+                                        <th>デフォルトカテゴリ</th>
+                                        <th>最終巡回</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="feedSourcesList">
+                                    <!-- Dynamic Source Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: Analytics Dashboard (Admin Only) -->
+            <div id="analytics-panel" class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold m-0" style="color:var(--accent);"><i class="fa-solid fa-chart-line"></i> Appletown Analytics</h3>
+                    <div class="d-flex align-items-center gap-2">
+                        <select class="form-select form-select-sm" id="analytics-period" onchange="loadAnalytics()" style="width:auto;">
+                            <option value="hours:1">直近1時間</option>
+                            <option value="hours:6">直近6時間</option>
+                            <option value="hours:24">直近24時間</option>
+                            <option value="7" selected>直近7日</option>
+                            <option value="30">直近30日</option>
+                            <option value="90">直近90日</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="loadAnalytics()"><i class="fa-solid fa-rotate-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Analytics Sub-tabs -->
+                <div class="d-flex flex-wrap gap-1 mb-3">
+                    <button class="analytics-subtab active" data-subtab="realtime" onclick="switchAnalyticsTab('realtime')">リアルタイム</button>
+                    <button class="analytics-subtab" data-subtab="overview" onclick="switchAnalyticsTab('overview')">概要</button>
+                    <button class="analytics-subtab" data-subtab="content" onclick="switchAnalyticsTab('content')">コンテンツ</button>
+                    <button class="analytics-subtab" data-subtab="behavior" onclick="switchAnalyticsTab('behavior')">ユーザー行動</button>
+                    <button class="analytics-subtab" data-subtab="ai-visibility" onclick="switchAnalyticsTab('ai-visibility')">AI可視性</button>
+                    <button class="analytics-subtab" data-subtab="seo-score" onclick="switchAnalyticsTab('seo-score')">SEOスコア</button>
+                    <button class="analytics-subtab" data-subtab="technical" onclick="switchAnalyticsTab('technical')">技術</button>
+                </div>
+
+                <!-- Sub-panel: Realtime -->
+                <div id="subpanel-realtime" class="analytics-subpanel" style="display:block;">
+                    <!-- KPIカード行 -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <div class="card shadow-sm border-0 bg-white p-3 text-center">
+                                <div class="text-muted small mb-1">🟢 アクティブユーザー（5分）</div>
+                                <div id="realtime-count" style="font-size:2.5rem;font-weight:800;color:var(--text2);">—</div>
+                                <div id="realtime-updated" class="text-muted" style="font-size:.7rem;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">📄 アクティブページ</div>
+                                <div id="realtime-pages" style="max-height:160px;overflow-y:auto;"><div class="text-muted small">読み込み中...</div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">⚡ イベントストリーム</div>
+                                <div id="realtime-stream" style="max-height:450px;overflow-y:auto;"><div class="text-muted small">読み込み中...</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- セッション一覧 -->
+                    <div class="card shadow-sm border-0 bg-white p-3">
+                        <div class="text-muted small mb-2 fw-bold">👥 アクティブセッション一覧</div>
+                        <div id="realtime-sessions" style="max-height:350px;overflow-y:auto;"><div class="text-muted small">読み込み中...</div></div>
+                    </div>
+                </div>
+
+                <!-- Sub-panel: Overview -->
+                <div id="subpanel-overview" class="analytics-subpanel" style="display:none;">
+                    <div id="analytics-kpi" class="mb-3"><div class="text-center text-muted py-3">読み込み中...</div></div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">日別推移</div>
+                                <div id="analytics-daily" style="height:250px;"><div class="text-center text-muted py-3">読み込み中...</div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">⏰ 時間帯別アクセス</div>
+                                <div id="analytics-hourly" style="height:250px;"><div class="text-center text-muted py-3">読み込み中...</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">デバイス分布</div>
+                                <div id="analytics-devices"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">🌏 言語別利用</div>
+                                <div id="analytics-languages"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">🗾 地域別アクセス</div>
+                                <div id="analytics-geo"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-panel: Content -->
+                <div id="subpanel-content" class="analytics-subpanel" style="display:none;">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">📄 ページ別PVランキング</div>
+                                <div id="analytics-pages"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">検索キーワード分析</div>
+                                <div id="analytics-search"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm border-0 bg-white p-3 mb-3">
+                        <div class="text-muted small mb-2 fw-bold">コンテンツ有効性マトリクス</div>
+                        <div id="analytics-content-matrix"></div>
+                    </div>
+                    <div class="card shadow-sm border-0 bg-white p-3">
+                        <div class="text-muted small mb-2 fw-bold">🎯 記事別パフォーマンス（クリック・モーダル・PDF・共有）</div>
+                        <div id="analytics-content-events" style="max-height:400px;overflow-y:auto;"></div>
+                    </div>
+                </div>
+
+                <!-- Sub-panel: User Behavior -->
+                <div id="subpanel-behavior" class="analytics-subpanel" style="display:none;">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">🔗 リファラー分析</div>
+                                <div id="analytics-referrers"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">📢 UTMキャンペーン</div>
+                                <div id="analytics-utm"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">📜 スクロール深度</div>
+                                <div id="analytics-scroll"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">フォーム停滞分析</div>
+                                <div id="analytics-fields"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-panel: SEO/Technical -->
+                <!-- Sub-panel: AI Visibility -->
+                <div id="subpanel-ai-visibility" class="analytics-subpanel" style="display:none;">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 bg-white p-3 text-center">
+                                <div class="text-muted small mb-1">AIクローラー訪問</div>
+                                <div id="ai-crawl-count" style="font-size:2rem;font-weight:800;color:#7c3aed;">—</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 bg-white p-3 text-center">
+                                <div class="text-muted small mb-1">🔗 AI経由の流入</div>
+                                <div id="ai-referral-count" style="font-size:2rem;font-weight:800;color:#059669;">—</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 bg-white p-3 text-center">
+                                <div class="text-muted small mb-1">検索ボット訪問</div>
+                                <div id="search-crawl-count" style="font-size:2rem;font-weight:800;color:#0284c7;">—</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">AIクローラー詳細</div>
+                                <div id="ai-crawlers-detail" style="max-height:250px;overflow-y:auto;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">🔗 AI経由ユーザー流入</div>
+                                <div id="ai-referrals-detail" style="max-height:250px;overflow-y:auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">検索エンジン分類</div>
+                                <div id="search-engines-detail"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">検索/SNSクローラー</div>
+                                <div id="other-crawlers-detail" style="max-height:250px;overflow-y:auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-panel: SEO Score -->
+                <div id="subpanel-seo-score" class="analytics-subpanel" style="display:none;">
+                    <div class="card shadow-sm border-0 bg-white p-3 mb-3">
+                        <div class="text-muted small mb-2 fw-bold">コンテンツ品質スコアカード</div>
+                        <div id="seo-scorecard"></div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">ページ別エンゲージメント</div>
+                                <div id="engagement-scores-detail" style="max-height:350px;overflow-y:auto;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">コピーされたテキスト（引用候補）</div>
+                                <div id="copied-content-detail" style="max-height:350px;overflow-y:auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="subpanel-technical" class="analytics-subpanel" style="display:none;">
+                    <div class="card shadow-sm border-0 bg-white p-3 mb-3">
+                        <div class="text-muted small mb-2 fw-bold">Web Vitals & パフォーマンス</div>
+                        <div id="analytics-perf"></div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">JSエラー集計</div>
+                                <div id="analytics-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 bg-white p-3">
+                                <div class="text-muted small mb-2 fw-bold">Rage Click 検出</div>
+                                <div id="analytics-rage"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm border-0 bg-white p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="text-muted small fw-bold">エラー詳細ログ</div>
+                            <label class="form-check-label small"><input type="checkbox" class="form-check-input" id="show-external-errors" onchange="toggleExternalErrors()"> 外部スクリプトも表示</label>
+                        </div>
+                        <div id="analytics-error-details" style="max-height:350px;overflow-y:auto;"></div>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
@@ -1382,6 +1775,7 @@ flowchart TD
                                         <label class="form-label text-muted fw-bold">公開ステータス (Status) <span class="text-danger">*</span></label>
                                         <select class="form-select border-brand bg-light" id="field_status">
                                             <option value="draft">下書き (非公開)</option>
+                                            <option value="pending">承認待ち (非公開)</option>
                                             <option value="published">公開する</option>
                                         </select>
                                     </div>
@@ -1419,7 +1813,7 @@ flowchart TD
 
                                     <!-- AI Generation Box -->
                                     <div class="col-12 mt-4">
-                                        <div class="card border-brand bg-light" id="ai-generation-box">
+                                        <div class="card border-brand bg-light" id="ai-generation-box" style="display:none;">
                                             <div class="card-body">
                                                 <h6 class="fw-bold mb-3" style="color:var(--brand);"><i
                                                         class="fa-solid fa-wand-magic-sparkles"></i> AI記事自動生成 (Beta)</h6>
@@ -1805,7 +2199,10 @@ flowchart TD
                             </select>
                         </div>
                         <button class="btn btn-secondary fw-bold" data-bs-dismiss="modal">キャンセル</button>
-                        <button class="btn btn-brand fw-bold" onclick="saveContent()"><i class="fa-solid fa-floppy-disk"></i> 保存</button>
+                        <button class="btn btn-warning fw-bold text-dark" id="btnRejectContent" onclick="rejectContent()" style="display:none;"><i class="fa-solid fa-undo"></i> 差し戻す</button>
+                        <button class="btn btn-success fw-bold" id="btnApproveContent" onclick="approveContent()" style="display:none;"><i class="fa-solid fa-circle-check"></i> 承認して公開</button>
+                        <button class="btn btn-primary fw-bold" id="btnSubmitApproval" onclick="submitApproval()" style="display:none;"><i class="fa-solid fa-paper-plane"></i> 承認申請する</button>
+                        <button class="btn btn-brand fw-bold" id="btnSaveContent" onclick="saveContent()"><i class="fa-solid fa-floppy-disk"></i> 保存</button>
                     </div>
                 </div>
             </div>
@@ -3206,9 +3603,176 @@ flowchart TD
         </div>
     </div>
 
+    <!-- Modal: Publish Article from Feed -->
+    <div class="modal fade" id="feedPublishModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>AIドラフトから記事を作成・公開</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <input type="hidden" id="pubFeedItemId">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">記事タイトル <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg fw-bold" id="pubFeedTitle">
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">大カテゴリ (L1)</label>
+                            <select class="form-select" id="pubFeedL1">
+                                <option value="営む">営む</option>
+                                <option value="体験する">体験する</option>
+                                <option value="味わう">味わう</option>
+                                <option value="暮らす">暮らす</option>
+                                <option value="知る">知る</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">中カテゴリ (L2)</label>
+                            <input type="text" class="form-control" id="pubFeedL2" placeholder="例: 栽培支援">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">小カテゴリ (L3)</label>
+                            <input type="text" class="form-control" id="pubFeedL3" placeholder="例: 栽培指導">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">記事タイプ</label>
+                            <select class="form-select" id="pubFeedType">
+                                <option value="news" selected>ニュース (お知らせティッカーにも掲載)</option>
+                                <option value="manual">通常記事 (各カテゴリページのみ)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">添付PDF資料URL (任意)</label>
+                            <input type="text" class="form-control" id="pubFeedPdfUrl" placeholder="https://...">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">概要・リード文 (任意)</label>
+                        <textarea class="form-control" id="pubFeedLead" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">記事本文 (Markdown) <span class="text-danger">*</span></label>
+                        <textarea class="form-control font-monospace" id="pubFeedBody" rows="8"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-danger fw-bold px-4" id="btnSubmitFeedPublish" onclick="submitFeedPublish()">
+                        🚀 この内容で公開する
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Add External Feed Source -->
+    <div class="modal fade" id="modalAddSource" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-plus me-2"></i>新しい監視ソースを追加</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formAddSource">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">ソース名 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="srcName" placeholder="例: いいづなりんご学校 Instagram" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">ソース種別 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="srcType">
+                                <option value="web_news">Webページ・お知らせ一覧 (HTML)</option>
+                                <option value="rss">RSS / Atom フィード</option>
+                                <option value="instagram">Instagram 公開アカウント</option>
+                                <option value="nagano_bojo">長野県病害虫防除部 専用パーサー</option>
+                                <option value="nagano_kajushiken">長野県果樹試験場 専用パーサー</option>
+                                <option value="nagano_nosei">長野農村支援センター 専用パーサー</option>
+                                <option value="neri">長野経済研究所 (NERI) 専用パーサー</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">対象URL または Instagramアカウント名 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="srcTarget" placeholder="https://... または ringogakkou" required>
+                            <div class="form-text small">Instagramの場合はアカウント名（例: ringogakkou）を入力してください。</div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <label class="form-label small fw-bold">デフォルトL1</label>
+                                <input type="text" class="form-control form-control-sm" id="srcL1" value="営む">
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small fw-bold">デフォルトL2</label>
+                                <input type="text" class="form-control form-control-sm" id="srcL2" value="栽培支援">
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small fw-bold">デフォルトL3</label>
+                                <input type="text" class="form-control form-control-sm" id="srcL3" value="栽培指導">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-primary fw-bold px-4" onclick="submitAddSource()">
+                        <i class="fa-solid fa-save me-1"></i>保存する
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Direct Import URL -->
+    <div class="modal fade" id="modalImportUrl" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-link me-2 text-primary"></i>外部URLから直接インポート ＆ AI解析</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="small text-muted mb-3">
+                        長野経済研究所などの個別イベントページや外部ニュースのURLを貼り付けると、AIが自動で本文・画像を抽出し、飯綱町視点での考察と発信ドラフトを作成します。
+                    </p>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">対象ページのURL <span class="text-danger">*</span></label>
+                        <input type="url" class="form-control" id="importPageUrl" placeholder="https://www.neri.or.jp/.../xxxx.html" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">関連付ける監視ソース</label>
+                        <select class="form-select" id="importFeedId">
+                            <option value="feed-town-press">飯綱町役場 プレスリリース・事業</option>
+                            <option value="feed-town-ringogakkou">信州いいづなりんご学校</option>
+                            <option value="feed-iizuna-magazine">いいづなマガジン</option>
+                            <option value="feed-kajushiken">長野県果樹試験場</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-primary fw-bold px-4" id="btnSubmitImportUrl" onclick="submitImportUrl()">
+                        <i class="fa-solid fa-wand-magic-sparkles me-1"></i>インポート ＆ AI解析
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="status"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Admin JS Modules -->
     <script src="/js/admin/i18n.js"></script>
     <script src="/js/admin/auth.js"></script>
@@ -3224,6 +3788,8 @@ flowchart TD
     <script src="/js/admin/inquiries.js"></script>
     <script src="/js/admin/media.js?v=17_1"></script>
     <script src="/js/admin/broadcast.js?v=17_2"></script>
+    <script src="/js/admin/analytics.js?v=1"></script>
+    <script src="/js/admin/feeds.js?v=1"></script>
 </body>
 
 </html>

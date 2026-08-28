@@ -1,0 +1,21 @@
+name: Morning Feed Crawler Cron
+
+on:
+  schedule:
+    # JST 06:00 (UTC 21:00) & JST 12:00 (UTC 03:00)
+    - cron: '0 21 * * *'
+    - cron: '0 3 * * *'
+  workflow_dispatch: # 手動実行用
+
+jobs:
+  run-crawler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CF Pages Feed Crawler API
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          echo "Starting daily feed crawl trigger..."
+          curl -f -s -S "https://appletown-iizuna.com/api/cron/feed-crawler?token=${CRON_SECRET:-iizuna-cron-token-123}" || \
+          curl -f -s -S "https://cf-portal-pages.pages.dev/api/cron/feed-crawler?token=${CRON_SECRET:-iizuna-cron-token-123}"
+          echo "Feed crawler execution completed successfully."
