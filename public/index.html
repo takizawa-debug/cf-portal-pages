@@ -5,16 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>りんごのまちいいづな｜飯綱町産りんごポータルサイト</title>
+    <title>飯綱町りんごポータルサイト | りんごのまちいいづな (Appletown Iizuna)</title>
 
     <!-- Peraichi Base Styles & Fonts -->
-    <link href="//assets.peraichi.com/template_root/v2/template_files/css/style.css?1772770402" rel="stylesheet">
+    <link href="/css/vendor/peraichi-style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
-        href="https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/pageCustomStylesheets/2300389/themeColor_1762752043.css">
+        href="/css/vendor/themeColor-main.css">
+    <link rel="stylesheet" type="text/css" href="/css/current-event.css">
     <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
 
-    <!-- Basic Meta Data -->
-    <meta name="description" content="長野県飯綱町産のりんごポータルサイト。">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="長野県飯綱町産のりんご専門ポータルサイト「りんごのまちいいづな」。サンふじ等の品種情報や直売所、観光・体験スポット、ビジネス情報まで、飯綱町のりんごに関する魅力を多言語で総合的にお届けします。">
+    <meta name="google-site-verification" content="lq1GAoiky6g-0qhIIQuCePhrzO8IsEbvGAxZ6ZFo8IU" />
+    
+    <meta property="og:title" content="飯綱町りんごポータルサイト | りんごのまちいいづな">
+    <meta property="og:description" content="長野県飯綱町産のりんご専門ポータルサイト。品種情報から観光・直売所まで、飯綱町のりんごに関する魅力を総合的にお届けします。">
+    <meta property="og:image" content="https://appletown-iizuna.com/img/apple-logo-red.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://appletown-iizuna.com/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="飯綱町りんごポータルサイト | りんごのまちいいづな">
+    <meta name="twitter:description" content="長野県飯綱町産のりんご専門ポータルサイト。品種情報から観光・直売所まで、飯綱町のりんごに関する魅力を総合的にお届けします。">
+    <meta name="twitter:image" content="https://appletown-iizuna.com/img/apple-logo-red.png">
 
     <style>
         /* 画面読み込み時のちらつき防止 */
@@ -54,15 +68,23 @@
     <!-- 1. Top Slideshow Plugin Placeholder -->
     <!-- Images will be injected here. Note: data-images needs to contain an array of fallback images for the background -->
     <div id="lz-top-slideshow" data-images='[
-        "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/9bb9dae0-a046-013e-ec93-0a58a9feac02/%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88%E3%82%996.jpeg",
-        "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/9bb911c0-a046-013e-ec92-0a58a9feac02/%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88%E3%82%997.jpeg",
-        "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/9bd95cc0-a046-013e-ec97-0a58a9feac02/%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88%E3%82%998.jpeg",
-        "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/9bc07410-a046-013e-ec96-0a58a9feac02/%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88%E3%82%999.jpeg",
-        "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/9bbcd500-a046-013e-ec94-0a58a9feac02/%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88%E3%82%9910.jpeg",
-        "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/9bbd7cd0-a046-013e-ec95-0a58a9feac02/%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88%E3%82%9911.jpeg"
+        "/img/hero/slide06.jpeg",
+        "/img/hero/slide07.jpeg",
+        "/img/hero/slide08.jpeg",
+        "/img/hero/slide09.jpeg",
+        "/img/hero/slide10.jpeg",
+        "/img/hero/slide11.jpeg"
     ]'></div>
 
-    <div class="content-wrap" style="margin-top: 60px; margin-bottom: 60px;">
+    <!-- お知らせティッカー（ヒーロー直下） -->
+    <div id="lz-news-ticker" class="lz-news-bar"></div>
+
+    <!-- 現在開催中の注目イベントバナー -->
+    <div class="lz-current-event-container">
+        <div id="lz-current-event-banner"></div>
+    </div>
+
+    <div class="content-wrap" style="margin-top: 40px; margin-bottom: 60px;">
         <!-- 2. Info Intro Block Plugin Placeholder -->
         <!-- This populates the "Welcome to Appletown Iizuna" and 5 circular images -->
         <div id="lz-intro-block"></div>
@@ -74,12 +96,14 @@
     <!-- Base UI Components -->
     <script src="/js/slideshow.js"></script>
     <script src="/js/top-slideshow.js?v=2"></script>
+    <script src="/js/news-ticker.js"></script>
+    <script src="/js/current-event.js"></script>
     <script src="/js/intro-block.js"></script>
     <script src="/js/site-guide.js"></script>
     <script src="/js/section.js"></script>
     <script src="/js/modal-search.js?v=5"></script>
     <script src="/js/search.js"></script>
-    <script src="/js/modal.js?v=7"></script>
+    <script src="/js/modal.js?v=8"></script>
 
     <!-- Header & Footer Components -->
     <!-- These will automatically inject their own HTML to the body based on config.js paths -->

@@ -1,0 +1,303 @@
+/* ==========================================================================
+   現在開催中の注目イベント (いいづなりんごフェア) スタイル
+   ========================================================================== */
+
+.lz-current-event-container {
+    max-width: 1100px;
+    margin: 40px auto 30px auto;
+    padding: 0 20px;
+}
+
+.lz-current-event-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(192, 57, 43, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 2px solid #f9ded8;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lz-current-event-card:hover {
+    box-shadow: 0 20px 48px rgba(192, 57, 43, 0.18), 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* ヘッダーストリップ */
+.lz-event-header-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #c0392b 0%, #e74c3c 60%, #e67e22 100%);
+    padding: 12px 24px;
+    color: #ffffff;
+}
+
+.lz-event-badge-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.lz-pulse-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #2ecc71;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    animation: lz-pulse 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes lz-pulse {
+    to {
+        box-shadow: 0 0 0 10px rgba(46, 204, 113, 0);
+    }
+}
+
+.lz-event-days-tag {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* コンテンツグリッド */
+.lz-event-content-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 32px;
+    padding: 28px;
+    align-items: center;
+}
+
+@media (max-width: 860px) {
+    .lz-event-content-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 20px;
+    }
+}
+
+/* ポスタービジュアル */
+.lz-event-visual-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.lz-event-poster-link {
+    position: relative;
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    background: #000;
+}
+
+.lz-event-poster-img {
+    display: block;
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+.lz-poster-hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: center;
+}
+
+.lz-poster-hover-overlay i {
+    font-size: 2.2rem;
+    margin-bottom: 6px;
+    color: #ff7675;
+}
+
+.lz-poster-hover-overlay span {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.lz-event-poster-link:hover .lz-event-poster-img {
+    transform: scale(1.04);
+    opacity: 0.88;
+}
+
+.lz-event-poster-link:hover .lz-poster-hover-overlay {
+    opacity: 1;
+}
+
+/* 本文エリア */
+.lz-event-body-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.lz-event-title {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #2c3e50;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.lz-event-lead {
+    font-size: 0.95rem;
+    color: #555555;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* 2段階フェーズ */
+.lz-event-phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 580px) {
+    .lz-event-phases {
+        grid-template-columns: 1fr;
+    }
+}
+
+.lz-phase-card {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    background: #fafafa;
+}
+
+.lz-phase-1 {
+    background: #fdfaf3;
+    border-color: #f1dfaf;
+}
+
+.lz-phase-2 {
+    background: #fff8f8;
+    border-color: #fad3d3;
+}
+
+.lz-phase-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.lz-phase-badge {
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.lz-phase-date {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #7f8c8d;
+}
+
+.lz-phase-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin: 0 0 4px 0;
+}
+
+.lz-phase-desc {
+    font-size: 0.82rem;
+    color: #666666;
+    margin: 0;
+    line-height: 1.45;
+}
+
+/* スタンプラリーコールアウト */
+.lz-stamp-callout {
+    background: linear-gradient(135deg, #fff9e6 0%, #fff2cc 100%);
+    border-left: 4px solid #f39c12;
+    padding: 12px 16px;
+    border-radius: 0 10px 10px 0;
+}
+
+.lz-stamp-title {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #d35400;
+    margin-bottom: 4px;
+}
+
+.lz-stamp-desc {
+    font-size: 0.85rem;
+    color: #444444;
+    line-height: 1.5;
+}
+
+/* アクションボタン群 */
+.lz-event-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.lz-btn-ig-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #ffffff !important;
+    text-decoration: none !important;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+}
+
+.lz-btn-ig-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(220, 39, 67, 0.45);
+    color: #ffffff !important;
+}
+
+.lz-btn-article-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: #c0392b;
+    border: 2px solid #c0392b;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.lz-btn-article-link:hover {
+    background: #c0392b;
+    color: #ffffff;
+}
