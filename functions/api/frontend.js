@@ -63,7 +63,7 @@ export async function onRequestGet(context) {
         `;
         const joinClause = `
             LEFT JOIN content_translations t_en ON c.id = t_en.content_id AND t_en.locale = 'en'
-            LEFT JOIN content_translations t_tw ON c.id = t_tw.content_id AND t_tw.locale = 'zh-TW'
+            LEFT JOIN content_translations t_tw ON c.id = t_tw.content_id AND t_tw.locale IN ('zh-TW', 'tw', 'zh')
             LEFT JOIN categories cat_l2 ON c.l1 = cat_l2.l1 AND IFNULL(c.l2, '') = IFNULL(cat_l2.l2, '') AND (cat_l2.l3 IS NULL OR cat_l2.l3 = '') AND cat_l2.form_type = 'article'
             LEFT JOIN categories cat_l3 ON c.l1 = cat_l3.l1 AND IFNULL(c.l2, '') = IFNULL(cat_l3.l2, '') AND c.l3_label = cat_l3.l3 AND cat_l3.form_type = 'article'
         `;
