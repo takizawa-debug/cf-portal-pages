@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- SEO tags will be dynamically injected by _middleware.js -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appletown Iizuna</title>
+  <meta name="description" content="長野県飯綱町産のりんご専門ポータルサイト。">
+  <meta name="google-site-verification" content="lq1GAoiky6g-0qhIIQuCePhrzO8IsEbvGAxZ6ZFo8IU" />
+  
+  <meta property="og:title" content="記事詳細 | 飯綱町りんごポータルサイト">
+  <meta property="og:description" content="長野県飯綱町産のりんご専門ポータルサイト。">
+  <meta property="og:image" content="https://appletown-iizuna.com/img/apple-logo-red.png">
+  <meta property="og:type" content="article">
+
+  <!-- Twitter Card (SSRで上書きされる) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="記事詳細 | 飯綱町りんごポータルサイト">
+  <meta name="twitter:description" content="長野県飯綱町産のりんご専門ポータルサイト。">
+  <meta name="twitter:image" content="https://appletown-iizuna.com/img/apple-logo-red.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="/css/vendor/peraichi-style.css" rel="stylesheet">
+  
+  <style>
+    body {
+        background-color: #faf7f5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .lz-article-loading {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50vh;
+    }
+    .lz-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(207, 58, 58, 0.2);
+        border-top-color: #cf3a3a;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="lz-header"></header>
+
+  <!-- Loading State -->
+  <main class="lz-article-loading">
+      <div class="lz-spinner"></div>
+      <div id="hidden-card-container" style="display: none;"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="lz-footer"></footer>
+
+  <!-- Scripts -->
+  <script src="/js/config.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="/js/footer.js"></script>
+  <!-- lzSearchEngine is required by modal.js for applying links -->
+  <script src="/js/search.js"></script>
+  <script src="/js/modal-search.js?v=5"></script>
+  <script src="/js/modal.js?v=8"></script>
+  <script src="/js/analytics.js"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        // SSRがtitleを書き換え済みのため、modal.jsの二重化を防止
+        const _siteName = (window.LZ_CURRENT_LANG === 'ja') ? 'りんごのまちいいづな' : 'Appletown Iizuna';
+        if (window.LZ_COMMON) window.LZ_COMMON.originalTitle = _siteName;
+        const pathParts = window.location.pathname.split('/');
+        if (pathParts[1] === 'article' && pathParts[2]) {
+            const articleId = decodeURIComponent(pathParts[2]);
+            const lang = new URLSearchParams(window.location.search).get('lang') || window.LZ_CURRENT_LANG || 'ja';
+            
+            try {
+                const res = await fetch('/api/frontend?title=' + encodeURIComponent(articleId));
+                const json = await res.json();
+                
+                if (json.ok && json.items && json.items.length > 0) {
+                    const article = json.items[0];
+                    
+                    // カテゴリ名を含めてoriginalTitleを設定（modal.jsが「記事名 | originalTitle」にする）
+                    const catMap = { discover: '知る', savor: '味わう', experience: '体験する', lifestyle: '暮らす', business: '営む' };
+                    const catJaToSlug = { '知る': 'discover', '味わう': 'savor', '体験する': 'experience', '暮らす': 'lifestyle', '営む': 'business' };
+                    const l1 = article.l1 || '';
+                    const catName = catMap[l1] || catMap[catJaToSlug[l1]] || l1;
+                    if (window.LZ_COMMON && catName) {
+                        window.LZ_COMMON.originalTitle = catName + ' | ' + _siteName;
+                    }
+                    
+                    // Construct a hidden card element for modal.js to consume
+                    const card = document.createElement('article');
+                    card.className = 'lz-card';
+                    card.dataset.id = article.title || "";
+                    card.dataset.title = article.title || "";
+                    card.dataset.item = JSON.stringify(article);
+                    
+                    card.dataset.lead = window.LZ_COMMON.L(article, 'lead') || "";
+                    card.dataset.body = window.LZ_COMMON.L(article, 'body') || "";
+                    card.dataset.main = article.mainImage || "";
+                    
+                    card.dataset.sub = JSON.stringify(article.subImages || []);
+                    card.dataset.sns = JSON.stringify(article.sns || {});
+                    card.dataset.related = JSON.stringify(article.relatedArticles || []);
+                    
+                    card.dataset.address = article.address || "";
+                    card.dataset.hoursCombined = article.hoursCombined || "";
+                    card.dataset.form = article.form || "";
+                    card.dataset.tel = article.tel || "";
+                    card.dataset.home = article.home || "";
+                    card.dataset.ec = article.ec || "";
+                    card.dataset.target = article.target || "";
+                    card.dataset.org = article.organizer || "";
+                    card.dataset.group = article.l3 || "";
+                    
+                    document.getElementById('hidden-card-container').appendChild(card);
+                    
+                    // Override original pathname so closing the modal redirects correctly
+                    const originalClose = window.lzModal.close;
+                    window.lzModal.close = function() {
+                        let parentPath = '/discover';
+                        const l1 = article.l1 || '';
+                        if (l1 === 'savor' || l1 === '味わう') parentPath = '/savor';
+                        else if (l1 === 'experience' || l1 === '体験する') parentPath = '/experience';
+                        else if (l1 === 'lifestyle' || l1 === '暮らす') parentPath = '/lifestyle';
+                        else if (l1 === 'business' || l1 === '営む') parentPath = '/business';
+                        else if (l1 === 'discover' || l1 === '知る') parentPath = '/discover';
+                        
+                        window.location.href = parentPath + '?lang=' + (window.MODAL_ACTIVE_LANG || lang);
+                    };
+
+                    // Open the modal immediately
+                    window.lzModal.open(card);
+                    
+                } else {
+                    document.querySelector('.lz-article-loading').innerHTML = '<div style="text-align:center; padding: 50px;"><h2>記事が見つかりませんでした</h2><p>Article not found.</p><a href="/" style="color:#cf3a3a; text-decoration:underline; margin-top:20px; display:inline-block;">トップページに戻る / Return to Home</a></div>';
+                }
+            } catch (err) {
+                console.error("Failed to load article", err);
+                document.querySelector('.lz-article-loading').innerHTML = '<div style="text-align:center; padding: 50px;"><h2>エラーが発生しました</h2><p>Failed to load.</p><a href="/" style="color:#cf3a3a; text-decoration:underline;">トップページに戻る / Return to Home</a></div>';
+            }
+        } else {
+            // Not a valid article path
+            window.location.href = '/';
+        }
+    });
+  </script>
+</body>
+</html>

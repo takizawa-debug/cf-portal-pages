@@ -68,14 +68,25 @@ export async function onRequestGet(context) {
             LEFT JOIN categories cat_l3 ON c.l1 = cat_l3.l1 AND IFNULL(c.l2, '') = IFNULL(cat_l3.l2, '') AND c.l3_label = cat_l3.l3 AND cat_l3.form_type = 'article'
         `;
 
-        if (q) {
+        const title = url.searchParams.get('title');
+
+        if (title) {
+            // タイトル完全一致検索（article.htmlからの呼び出し用。LIKE不要）
+            const { results: titleRows } = await env.DB.prepare(`
+                SELECT ${flatSelect} FROM contents c
+                ${joinClause}
+                WHERE c.status = 'published' AND c.title = ?
+                LIMIT 1
+            `).bind(title).all();
+            dbRows = titleRows;
+        } else if (q) {
             let searchPattern = `%${q}%`;
             if (q.trim() === '') searchPattern = '%';
 
             const { results: searchRows } = await env.DB.prepare(`
                 SELECT ${flatSelect} FROM contents c
                 ${joinClause}
-                WHERE c.status = 'published' AND (c.title LIKE ? 
+                WHERE c.status = 'published' AND c.l1 != 'business_root' AND (c.title LIKE ? 
                    OR c.lead_text LIKE ? 
                    OR c.body_text LIKE ? 
                    OR c.l1 LIKE ? 
@@ -87,7 +98,7 @@ export async function onRequestGet(context) {
         } else if (all === '1') {
             // allモード（sitemap向け）でも一式の情報を返す
             const { results: allRows } = await env.DB.prepare(
-                `SELECT ${flatSelect} FROM contents c ${joinClause} WHERE c.status = 'published'`
+                `SELECT ${flatSelect} FROM contents c ${joinClause} WHERE c.status = 'published' AND c.l1 != 'business_root'`
             ).all();
             results = allRows; 
         } else if (l1 && l2) {
@@ -112,15 +123,17 @@ export async function onRequestGet(context) {
                 if (row.related1_url) relatedArticles.push({ url: row.related1_url, title: row.related1_title });
                 if (row.related2_url) relatedArticles.push({ url: row.related2_url, title: row.related2_title });
 
-                let assets = [];
+                let rawAssets = [];
                 try {
                     if (row.media_assets) {
-                        assets = JSON.parse(row.media_assets);
-                        if (!Array.isArray(assets)) assets = [];
+                        rawAssets = JSON.parse(row.media_assets);
+                        if (!Array.isArray(rawAssets)) rawAssets = [];
                     }
                 } catch (e) {
-                    assets = [];
+                    rawAssets = [];
                 }
+
+                const assets = rawAssets.map(a => (typeof a === 'string' ? a : (a && a.url ? a.url : ''))).filter(Boolean);
 
                 const subImages = [
                     assets[1], assets[2], assets[3], assets[4], assets[5]
