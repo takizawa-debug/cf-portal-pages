@@ -1860,12 +1860,112 @@ flowchart TD
                             </div>
                         </div>
 
-                        <!-- 4. Region & Environment Matrix -->
+                        <!-- 4. Inflow & Outbound Matrix -->
+                        <div class="row g-3 mb-4">
+                            <!-- Inflow Channels -->
+                            <div class="col-6">
+                                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                                    3. 流入元チャネル分析（どこから来たか）
+                                </h5>
+                                <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.75rem;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>流入元チャネル</th>
+                                            <th>セッション</th>
+                                            <th>PV数</th>
+                                            <th>構成比</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-start fw-bold">Direct / チラシQR / ブックマーク</td>
+                                            <td>3,074</td>
+                                            <td class="fw-bold">2,249</td>
+                                            <td class="fw-bold text-danger">50.1%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start fw-bold">Google 自然検索</td>
+                                            <td>2,033</td>
+                                            <td class="fw-bold">1,999</td>
+                                            <td class="fw-bold text-danger">44.6%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start">外部Webメディア・観光ブログ</td>
+                                            <td>205</td>
+                                            <td>188</td>
+                                            <td>4.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start">Yahoo! 検索</td>
+                                            <td>34</td>
+                                            <td>36</td>
+                                            <td>0.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start">公式SNS（Instagram / LINE / X）</td>
+                                            <td>11</td>
+                                            <td>13</td>
+                                            <td>0.3%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Outbound Clicks & Actions -->
+                            <div class="col-6">
+                                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                                    4. 外部送客・アクション実績（どこへ流せたか）
+                                </h5>
+                                <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.75rem;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>送客・アクション種別</th>
+                                            <th>件数</th>
+                                            <th>主な送客先・効果</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-start fw-bold">公式SNS（Instagram）誘導</td>
+                                            <td class="fw-bold text-danger">58件</td>
+                                            <td class="text-start">公式Instagram（@iizuna_ringofair_official）へ送客</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start fw-bold">直売所・飲食店・事業者HP</td>
+                                            <td class="fw-bold text-danger">28件</td>
+                                            <td class="text-start">むーちゃん、Cafe Restaurant等店舗公式へ送客</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start">学術論文・農水省資料閲覧</td>
+                                            <td class="fw-bold">14件</td>
+                                            <td class="text-start">長野県工技センター（プロシアニジン機能性研究等）</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start">PDFパンフレット発行</td>
+                                            <td class="fw-bold">12件</td>
+                                            <td class="text-start">品種紹介・観光案内シートのPDF出力・保存</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start">SNS共有（シェア）</td>
+                                            <td class="fw-bold">7件</td>
+                                            <td class="text-start">ユーザーによる記事の口コミ拡散アクション</td>
+                                        </tr>
+                                        <tr class="table-light fw-bold">
+                                            <td class="text-start">送客・アクション合計</td>
+                                            <td class="text-danger">119件</td>
+                                            <td class="text-start text-success">リアルな行動・購買・情報拡散へ接続</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 5. Region & Environment Matrix -->
                         <div class="row g-3 mb-4">
                             <!-- Region TOP 10 -->
                             <div class="col-7">
                                 <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
-                                    3. 都道府県別アクセス TOP 10
+                                    5. 都道府県別アクセス TOP 10
                                 </h5>
                                 <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.75rem;">
                                     <thead class="table-light">
@@ -1961,7 +2061,7 @@ flowchart TD
                             <!-- Language & Device -->
                             <div class="col-5">
                                 <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
-                                    4. 言語・利用環境
+                                    6. 言語・利用環境
                                 </h5>
                                 <div class="card border-0 bg-light p-2 mb-2" style="font-size:0.78rem;">
                                     <div class="fw-bold text-dark mb-1">🌐 言語別PV</div>
@@ -1995,15 +2095,16 @@ flowchart TD
                             </div>
                         </div>
 
-                        <!-- 5. Key Facts Summary -->
+                        <!-- 7. Key Facts Summary -->
                         <div class="p-3 bg-light rounded border">
                             <h6 class="fw-bold text-dark mb-2" style="font-size:0.9rem;">
-                                <i class="fa-solid fa-clipboard-check text-danger me-1"></i> 5. 実績総括
+                                <i class="fa-solid fa-clipboard-check text-danger me-1"></i> 7. 実績総括
                             </h6>
                             <ul class="mb-0 text-muted ps-3" style="font-size:0.8rem; line-height:1.6;">
                                 <li><strong>月間1,000PVの達成</strong>：8月度に1,048PV・850セッションを記録し、右肩上がりの成長基盤を確立。</li>
                                 <li><strong>大都市圏からの高い関心</strong>：長野県内（35.3%）に対し、東京都（26.6%）をはじめとする大都市圏が約65%を占め、町外への情報到達率が高い。</li>
                                 <li><strong>記事精読と希少品種への注目</strong>：平均滞在時間は2分24秒、詳細閲覧回数は累計1,241回。町内固有の高坂林檎（125回）や英国りんごフェア（112回）、直売所むーちゃん（74回）などが高い閲覧数を記録。</li>
+                                <li><strong>地域事業者・公式SNSへの確実な送客</strong>：公式Instagram（58件）や直売所・飲食店HP（28件）、機能性論文（14件）など、累計119件の外部送客・アクションを創出。</li>
                             </ul>
                         </div>
                     </div>
