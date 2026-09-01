@@ -25,7 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({ startOnLoad: false, theme: 'default' });</script>
 
-    <link rel="stylesheet" href="/css/admin.css?v=19">
+    <link rel="stylesheet" href="/css/admin.css?v=20">
 
 <body>
 
@@ -1300,6 +1300,9 @@ flowchart TD
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="fw-bold m-0" style="color:var(--accent);"><i class="fa-solid fa-chart-line"></i> Appletown Analytics</h3>
                     <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-sm btn-danger fw-bold shadow-sm" onclick="switchAnalyticsTab('report'); setTimeout(() => window.print(), 300);">
+                            <i class="fa-solid fa-print me-1"></i> A4レポート印刷 / PDF保存
+                        </button>
                         <select class="form-select form-select-sm" id="analytics-period" onchange="loadAnalytics()" style="width:auto;">
                             <option value="hours:1">直近1時間</option>
                             <option value="hours:6">直近6時間</option>
@@ -1321,6 +1324,7 @@ flowchart TD
                     <button class="analytics-subtab" data-subtab="ai-visibility" onclick="switchAnalyticsTab('ai-visibility')">AI可視性</button>
                     <button class="analytics-subtab" data-subtab="seo-score" onclick="switchAnalyticsTab('seo-score')">SEOスコア</button>
                     <button class="analytics-subtab" data-subtab="technical" onclick="switchAnalyticsTab('technical')">技術</button>
+                    <button class="analytics-subtab text-danger fw-bold border-danger" data-subtab="report" onclick="switchAnalyticsTab('report')"><i class="fa-solid fa-file-lines me-1"></i> A4提出用レポート</button>
                 </div>
 
                 <!-- Sub-panel: Realtime -->
@@ -1551,6 +1555,452 @@ flowchart TD
                             <label class="form-check-label small"><input type="checkbox" class="form-check-input" id="show-external-errors" onchange="toggleExternalErrors()"> 外部スクリプトも表示</label>
                         </div>
                         <div id="analytics-error-details" style="max-height:350px;overflow-y:auto;"></div>
+                    </div>
+                </div>
+
+                <!-- Sub-panel: A4 Print Report -->
+                <div id="subpanel-report" class="analytics-subpanel" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-3 d-print-none">
+                        <div class="text-muted small">
+                            <i class="fa-solid fa-circle-info me-1 text-primary"></i> ブラウザの印刷機能（Ctrl+P / Cmd+P）または下のボタンから、A4サイズでそのままPDF保存・印刷できます。
+                        </div>
+                        <button class="btn btn-danger fw-bold shadow-sm" onclick="window.print()">
+                            <i class="fa-solid fa-print me-1"></i> このレポートを印刷 / PDF保存
+                        </button>
+                    </div>
+
+                    <!-- Printable Container (A4 Optimized) -->
+                    <div class="a4-report-container bg-white p-5 shadow-sm rounded border">
+                        <!-- Report Header -->
+                        <div class="border-bottom pb-3 mb-4 d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="badge bg-danger mb-2 px-2 py-1" style="font-size:0.75rem;">飯綱町公式多言語ポータル</span>
+                                <h2 class="fw-bold mb-1" style="color:#1e293b; font-size:1.6rem; letter-spacing:-0.5px;">飯綱町多言語りんごポータルサイト アクセス解析レポート</h2>
+                                <div class="text-muted small">サイト名: りんごのまち いいづな（Appletown Iizuna） / 対象期間: 2026年2月15日 〜 2026年8月31日（日本時間）</div>
+                            </div>
+                            <div class="text-end text-muted small">
+                                <div>発行日: 2026年9月1日</div>
+                                <div class="fw-bold text-dark">飯綱町多言語アップルプロジェクト</div>
+                            </div>
+                        </div>
+
+                        <!-- 1. KPI Highlight Cards -->
+                        <div class="row g-2 mb-4">
+                            <div class="col-3">
+                                <div class="p-3 bg-light rounded text-center border">
+                                    <div class="text-muted small mb-1" style="font-size:0.8rem;">累計ページビュー (PV)</div>
+                                    <div class="fw-bold text-danger" style="font-size:1.6rem;">4,485</div>
+                                    <div class="text-muted" style="font-size:0.7rem;">8月度: 1,048 PV達成</div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-3 bg-light rounded text-center border">
+                                    <div class="text-muted small mb-1" style="font-size:0.8rem;">累計セッション数</div>
+                                    <div class="fw-bold text-dark" style="font-size:1.6rem;">3,439</div>
+                                    <div class="text-muted" style="font-size:0.7rem;">8月度: 850 セッション</div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-3 bg-light rounded text-center border">
+                                    <div class="text-muted small mb-1" style="font-size:0.8rem;">累計ユニークユーザー (UU)</div>
+                                    <div class="fw-bold text-dark" style="font-size:1.6rem;">1,438</div>
+                                    <div class="text-muted" style="font-size:0.7rem;">8月度: 456 人</div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-3 bg-light rounded text-center border">
+                                    <div class="text-muted small mb-1" style="font-size:0.8rem;">平均滞在時間</div>
+                                    <div class="fw-bold text-success" style="font-size:1.6rem;">2分24秒</div>
+                                    <div class="text-muted" style="font-size:0.7rem;">高い記事精読率を記録</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Monthly Trend Table -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-3" style="color:#334155; font-size:1.1rem;">
+                                1. 月別KPI推移（2026年2月〜8月）
+                            </h5>
+                            <table class="table table-sm table-bordered text-center align-middle mb-1" style="font-size:0.85rem;">
+                                <thead class="table-light">
+                                    <tr class="text-muted">
+                                        <th style="width:16%;">月度</th>
+                                        <th style="width:14%;">PV数</th>
+                                        <th style="width:14%;">セッション数</th>
+                                        <th style="width:14%;">ユニークユーザー (UU)</th>
+                                        <th style="width:14%;">平均滞在時間</th>
+                                        <th style="width:14%;">詳細閲覧数</th>
+                                        <th style="width:14%;">前月比 (PV)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">2026年2月（2/15〜）</td>
+                                        <td class="fw-bold">157</td>
+                                        <td>76</td>
+                                        <td>27</td>
+                                        <td>3分44秒</td>
+                                        <td>58回</td>
+                                        <td class="text-muted">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">2026年3月</td>
+                                        <td class="fw-bold">598</td>
+                                        <td>155</td>
+                                        <td>53</td>
+                                        <td>4分29秒</td>
+                                        <td>122回</td>
+                                        <td class="text-success fw-bold">+280.9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">2026年4月</td>
+                                        <td class="fw-bold">451</td>
+                                        <td>450</td>
+                                        <td>212</td>
+                                        <td>2分23秒</td>
+                                        <td>144回</td>
+                                        <td class="text-muted">-24.6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">2026年5月</td>
+                                        <td class="fw-bold">530</td>
+                                        <td>530</td>
+                                        <td>252</td>
+                                        <td>2分18秒</td>
+                                        <td>189回</td>
+                                        <td class="text-success fw-bold">+17.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">2026年6月</td>
+                                        <td class="fw-bold">723</td>
+                                        <td>608</td>
+                                        <td>269</td>
+                                        <td>1分32秒</td>
+                                        <td>292回</td>
+                                        <td class="text-success fw-bold">+36.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">2026年7月</td>
+                                        <td class="fw-bold">978</td>
+                                        <td>770</td>
+                                        <td>350</td>
+                                        <td>1分27秒</td>
+                                        <td>176回</td>
+                                        <td class="text-success fw-bold">+35.3%</td>
+                                    </tr>
+                                    <tr class="table-warning fw-bold">
+                                        <td class="text-danger">2026年8月</td>
+                                        <td class="text-danger" style="font-size:0.95rem;">1,048</td>
+                                        <td>850</td>
+                                        <td>456</td>
+                                        <td>1分10秒</td>
+                                        <td>260回</td>
+                                        <td class="text-danger">+7.2%</td>
+                                    </tr>
+                                    <tr class="table-light fw-bold">
+                                        <td>累計 / 全期間</td>
+                                        <td class="text-danger">4,485 PV</td>
+                                        <td>3,439</td>
+                                        <td>1,438 UU</td>
+                                        <td>2分24秒 (平均)</td>
+                                        <td>1,241回</td>
+                                        <td class="text-success">右肩上がり</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 3. Top Read Articles & Apple Varieties (Most Important) -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-3" style="color:#334155; font-size:1.1rem;">
+                                2. 注目された人気品種・記事ランキング（詳細閲覧回数）
+                            </h5>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <table class="table table-sm table-bordered mb-0" style="font-size:0.8rem;">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th style="width:12%;">順位</th>
+                                                <th>品種・記事・施設名</th>
+                                                <th style="width:24%;">区分</th>
+                                                <th style="width:20%;">閲覧回数</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center fw-bold text-danger">1</td>
+                                                <td class="fw-bold">高坂林檎</td>
+                                                <td><span class="badge bg-danger">品種</span></td>
+                                                <td class="text-end fw-bold">125回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold text-danger">2</td>
+                                                <td class="fw-bold">英国りんごフェア</td>
+                                                <td><span class="badge bg-primary">イベント</span></td>
+                                                <td class="text-end fw-bold">112回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold text-danger">3</td>
+                                                <td class="fw-bold">いいづなマルシェ むーちゃん</td>
+                                                <td><span class="badge bg-success">直売所</span></td>
+                                                <td class="text-end fw-bold">74回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">4</td>
+                                                <td class="fw-bold">シナノスイート</td>
+                                                <td><span class="badge bg-danger">品種</span></td>
+                                                <td class="text-end fw-bold">71回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">5</td>
+                                                <td class="fw-bold">アップルミュージアム</td>
+                                                <td><span class="badge bg-info text-dark">観光・文化</span></td>
+                                                <td class="text-end fw-bold">65回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">6</td>
+                                                <td class="fw-bold">秋映（あきばえ）</td>
+                                                <td><span class="badge bg-danger">品種</span></td>
+                                                <td class="text-end fw-bold">63回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">7</td>
+                                                <td class="fw-bold">シナノゴールド</td>
+                                                <td><span class="badge bg-danger">品種</span></td>
+                                                <td class="text-end fw-bold">61回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">8</td>
+                                                <td class="fw-bold">サンふじ</td>
+                                                <td><span class="badge bg-danger">品種</span></td>
+                                                <td class="text-end fw-bold">60回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">9</td>
+                                                <td class="fw-bold">いいづなりんごフェア</td>
+                                                <td><span class="badge bg-primary">イベント</span></td>
+                                                <td class="text-end fw-bold">60回</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm table-bordered mb-0" style="font-size:0.8rem;">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th style="width:12%;">順位</th>
+                                                <th>品種・記事・施設名</th>
+                                                <th style="width:24%;">区分</th>
+                                                <th style="width:20%;">閲覧回数</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center fw-bold">10</td>
+                                                <td class="fw-bold">ブラムリー（Bramley）</td>
+                                                <td><span class="badge bg-danger">品種</span></td>
+                                                <td class="text-end fw-bold">59回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">11</td>
+                                                <td class="fw-bold">多様な品種（50品種）</td>
+                                                <td><span class="badge bg-secondary">品種解説</span></td>
+                                                <td class="text-end fw-bold">44回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">12</td>
+                                                <td class="fw-bold">JAながのりんご講習会</td>
+                                                <td><span class="badge bg-warning text-dark">農業・営む</span></td>
+                                                <td class="text-end fw-bold">43回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">13</td>
+                                                <td class="fw-bold">りんごジュース</td>
+                                                <td><span class="badge bg-warning text-dark">特産品</span></td>
+                                                <td class="text-end fw-bold">35回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">14</td>
+                                                <td class="fw-bold">これまでの歩み（町の歴史）</td>
+                                                <td><span class="badge bg-info text-dark">歴史・文化</span></td>
+                                                <td class="text-end fw-bold">35回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">15</td>
+                                                <td class="fw-bold">地理とアクセス</td>
+                                                <td><span class="badge bg-secondary">観光案内</span></td>
+                                                <td class="text-end fw-bold">30回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">16</td>
+                                                <td class="fw-bold">飯綱みはらし農園</td>
+                                                <td><span class="badge bg-success">観光農園</span></td>
+                                                <td class="text-end fw-bold">29回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">17</td>
+                                                <td class="fw-bold">紅玉（こうぎょく）</td>
+                                                <td><span class="badge bg-danger">品種</span></td>
+                                                <td class="text-end fw-bold">29回</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center fw-bold">18</td>
+                                                <td class="fw-bold">PRキャラクター「みつどん」</td>
+                                                <td><span class="badge bg-info text-dark">PR</span></td>
+                                                <td class="text-end fw-bold">27回</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Region & Environment Matrix -->
+                        <div class="row g-3 mb-4">
+                            <!-- Region TOP 10 -->
+                            <div class="col-7">
+                                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                                    3. 都道府県別アクセス TOP 10
+                                </h5>
+                                <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.75rem;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>順位</th>
+                                            <th>都道府県 / 地域</th>
+                                            <th>PV数</th>
+                                            <th>セッション</th>
+                                            <th>構成比</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-bold">1</td>
+                                            <td class="fw-bold text-start">長野県（県内）</td>
+                                            <td class="fw-bold">1,584</td>
+                                            <td>866</td>
+                                            <td>35.3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">2</td>
+                                            <td class="fw-bold text-start">東京都</td>
+                                            <td class="fw-bold">1,195</td>
+                                            <td>1,094</td>
+                                            <td class="fw-bold text-danger">26.6%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">3</td>
+                                            <td class="text-start">大阪府</td>
+                                            <td>351</td>
+                                            <td>333</td>
+                                            <td>7.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">4</td>
+                                            <td class="text-start">神奈川県</td>
+                                            <td>209</td>
+                                            <td>184</td>
+                                            <td>4.7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">5</td>
+                                            <td class="text-start">群馬県</td>
+                                            <td>193</td>
+                                            <td>108</td>
+                                            <td>4.3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">6</td>
+                                            <td class="text-start">愛知県</td>
+                                            <td>193</td>
+                                            <td>178</td>
+                                            <td>4.3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">7</td>
+                                            <td class="text-start">新潟県</td>
+                                            <td>130</td>
+                                            <td>104</td>
+                                            <td>2.9%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">8</td>
+                                            <td class="text-start">千葉県</td>
+                                            <td>98</td>
+                                            <td>85</td>
+                                            <td>2.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">9</td>
+                                            <td class="text-start">埼玉県</td>
+                                            <td>87</td>
+                                            <td>76</td>
+                                            <td>1.9%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">10</td>
+                                            <td class="text-start">静岡県</td>
+                                            <td>55</td>
+                                            <td>49</td>
+                                            <td>1.2%</td>
+                                        </tr>
+                                        <tr class="table-light">
+                                            <td colspan="2" class="text-start">その他国内 / 海外（米・台等）</td>
+                                            <td>390</td>
+                                            <td>362</td>
+                                            <td>8.8%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Language & Device -->
+                            <div class="col-5">
+                                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                                    4. 言語・利用環境
+                                </h5>
+                                <div class="card border-0 bg-light p-2 mb-2" style="font-size:0.78rem;">
+                                    <div class="fw-bold text-dark mb-1">🌐 言語別PV</div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>日本語 (JA):</span>
+                                        <span class="fw-bold">4,353 PV (97.1%)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>英語 (EN):</span>
+                                        <span class="fw-bold">73 PV (1.6%)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>中国語・繁体字 (ZH):</span>
+                                        <span class="fw-bold">59 PV (1.3%)</span>
+                                    </div>
+                                </div>
+                                <div class="card border-0 bg-light p-2" style="font-size:0.78rem;">
+                                    <div class="fw-bold text-dark mb-1">📱 デバイス分布</div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>モバイル (スマホ):</span>
+                                        <span class="fw-bold">1,903 PV (42.4%)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>デスクトップ (PC):</span>
+                                        <span class="fw-bold">2,582 PV (57.6%)</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size:0.7rem; margin-top:2px;">
+                                        ※8月単月はモバイルが53.0%と過半数を記録
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. Key Facts Summary -->
+                        <div class="p-3 bg-light rounded border">
+                            <h6 class="fw-bold text-dark mb-2" style="font-size:0.9rem;">
+                                <i class="fa-solid fa-clipboard-check text-danger me-1"></i> 5. 実績総括
+                            </h6>
+                            <ul class="mb-0 text-muted ps-3" style="font-size:0.8rem; line-height:1.6;">
+                                <li><strong>月間1,000PVの達成</strong>：8月度に1,048PV・850セッションを記録し、右肩上がりの成長基盤を確立。</li>
+                                <li><strong>大都市圏からの高い関心</strong>：長野県内（35.3%）に対し、東京都（26.6%）をはじめとする大都市圏が約65%を占め、町外への情報到達率が高い。</li>
+                                <li><strong>記事精読と希少品種への注目</strong>：平均滞在時間は2分24秒、詳細閲覧回数は累計1,241回。町内固有の高坂林檎（125回）や英国りんごフェア（112回）、直売所むーちゃん（74回）などが高い閲覧数を記録。</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

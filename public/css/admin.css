@@ -324,3 +324,116 @@ label.form-label {
         transform: translateX(-50%) translateY(0);
     }
 }
+
+/* ============================
+   Analytics Dashboard Styles
+   ============================ */
+
+/* サブタブ */
+.analytics-subtab {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.analytics-subtab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--surface-hover);
+}
+
+.analytics-subtab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* KPIカード */
+#analytics-kpi .card {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+#analytics-kpi .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.1) !important;
+}
+
+/* プログレスバー */
+#analytics-panel .progress {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+/* テーブル調整 */
+#analytics-panel .table th {
+    font-size: .75rem;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .analytics-subtab {
+        font-size: 0.7rem;
+        padding: 5px 10px;
+    }
+    #analytics-kpi .card div[style*="font-size:1.3rem"] {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* ============================
+   A4 Print Styles for Access Report
+   ============================ */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 8mm 10mm;
+    }
+    html, body {
+        background-color: #ffffff !important;
+        height: auto !important;
+        overflow: visible !important;
+        font-size: 10pt !important;
+        color: #000000 !important;
+    }
+    .navbar-custom,
+    .sidebar,
+    .d-print-none,
+    #analytics-panel > div:first-child,
+    .analytics-subtab,
+    .analytics-subpanel:not(#subpanel-report) {
+        display: none !important;
+    }
+    .main-layout,
+    .content-area,
+    #analytics-panel,
+    #subpanel-report {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+    .a4-report-container {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    table {
+        page-break-inside: avoid;
+    }
+    .badge {
+        border: 1px solid #999 !important;
+    }
+}
