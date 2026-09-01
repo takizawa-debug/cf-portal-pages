@@ -106,6 +106,9 @@
             <button class="nav-item-custom d-none" id="navAnalytics" onclick="switchMainPanel('analytics-panel', this)">
                 <i class="fa-solid fa-chart-line"></i> <span>アナリティクス</span>
             </button>
+            <button class="nav-item-custom d-none text-danger fw-bold" id="navReport" onclick="switchMainPanel('analytics-panel', document.getElementById('navAnalytics')); switchAnalyticsTab('report');">
+                <i class="fa-solid fa-file-pdf"></i> <span>A4アクセス報告書</span>
+            </button>
             <button class="nav-item-custom d-none" id="navArchitecture" onclick="switchMainPanel('architecture-panel', this)">
                 <i class="fa-solid fa-sitemap"></i> <span>システム構成図</span>
             </button>
@@ -1316,7 +1319,7 @@ flowchart TD
                 </div>
 
                 <!-- Analytics Sub-tabs -->
-                <div class="d-flex flex-wrap gap-1 mb-3">
+                <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
                     <button class="analytics-subtab active" data-subtab="realtime" onclick="switchAnalyticsTab('realtime')">リアルタイム</button>
                     <button class="analytics-subtab" data-subtab="overview" onclick="switchAnalyticsTab('overview')">概要</button>
                     <button class="analytics-subtab" data-subtab="content" onclick="switchAnalyticsTab('content')">コンテンツ</button>
@@ -1324,7 +1327,9 @@ flowchart TD
                     <button class="analytics-subtab" data-subtab="ai-visibility" onclick="switchAnalyticsTab('ai-visibility')">AI可視性</button>
                     <button class="analytics-subtab" data-subtab="seo-score" onclick="switchAnalyticsTab('seo-score')">SEOスコア</button>
                     <button class="analytics-subtab" data-subtab="technical" onclick="switchAnalyticsTab('technical')">技術</button>
-                    <button class="analytics-subtab text-danger fw-bold border-danger" data-subtab="report" onclick="switchAnalyticsTab('report')"><i class="fa-solid fa-file-lines me-1"></i> A4提出用レポート</button>
+                    <button class="analytics-subtab btn-danger text-white fw-bold shadow-sm" data-subtab="report" onclick="switchAnalyticsTab('report')" style="background-color:#d32f2f !important; border-color:#d32f2f !important; color:#ffffff !important;">
+                        <i class="fa-solid fa-file-lines me-1"></i> 📄 A4提出用レポート
+                    </button>
                 </div>
 
                 <!-- Sub-panel: Realtime -->
@@ -4225,7 +4230,7 @@ flowchart TD
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Admin JS Modules -->
     <script src="/js/admin/i18n.js"></script>
-    <script src="/js/admin/auth.js"></script>
+    <script src="/js/admin/auth.js?v=2"></script>
     <script src="/js/admin/ui.js?v=17_2"></script>
     <script src="/js/admin/business.js"></script>
     <script src="/js/admin/content.js"></script>

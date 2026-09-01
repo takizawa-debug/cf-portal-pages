@@ -41,7 +41,7 @@ async function checkAuth() {
         const restrictedNavs = [
             'navContentMgt', 'navBusinessProfile', 'navUserMgt', 'navArchitecture', 'navCategoryMgt', 'navAppleMgt',
             'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navSeoMgt',
-            'navCompanyAccount', 'navBroadcast'
+            'navCompanyAccount', 'navBroadcast', 'navAnalytics', 'navReport', 'navFeedMgt'
         ];
         restrictedNavs.forEach(id => {
             const el = document.getElementById(id);
@@ -51,19 +51,28 @@ async function checkAuth() {
         // Apply RBAC Rules based on admin_ui_rbac_plan.md
         if (data.user.role === 'admin') {
             ['navContentMgt', 'navBusinessProfile', 'navUserMgt', 'navArchitecture', 'navCategoryMgt', 'navAppleMgt', 
-             'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navCompanyAccount', 'navBroadcast'].forEach(id => {
+             'navKeywordMgt', 'navSeoMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navMediaMgt', 'navCompanyAccount', 'navBroadcast', 'navAnalytics', 'navReport', 'navFeedMgt'].forEach(id => {
                  const el = document.getElementById(id);
                  if (el) el.classList.remove('d-none');
              });
              switchMainPanel('content-panel', document.getElementById('navContentMgt'));
+        } else if (data.user.role === 'town_admin') {
+             const townAdminNavs = [
+                 'navContentMgt', 'navBusinessProfile', 'navCompanyAccount', 
+                 'navMediaMgt', 'navInquiryMgt', 'navBroadcast', 'navAnalytics', 'navReport'
+             ];
+             townAdminNavs.forEach(id => {
+                  const el = document.getElementById(id);
+                  if (el) el.classList.remove('d-none');
+              });
+             switchMainPanel('content-panel', document.getElementById('navContentMgt'));
         } else if (data.user.role === 'editor') {
             // Editor: No System Setup, No Account Manage
-            const editorNavs = ['navContentMgt', 'navBusinessProfile', 'navArchitecture', 'navKeywordMgt', 'navKnowledgeMgt', 'navInquiryMgt', 'navBroadcast'];
+            const editorNavs = ['navContentMgt', 'navInquiryMgt', 'navBroadcast'];
             
-            // Allow media management and SEO management strictly if they manage the Main site
+            // Allow media management if they manage the Main site
             if (window.managedSites.includes('all') || window.managedSites.includes('main')) {
                 editorNavs.push('navMediaMgt');
-                editorNavs.push('navSeoMgt');
             }
 
             editorNavs.forEach(id => {
