@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja" class="lz-loading-lock">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>お知らせ | 飯綱町りんごポータルサイト | りんごのまちいいづな</title>
+
+    <!-- Peraichi Base Styles & Fonts -->
+    <link href="/css/vendor/peraichi-style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/vendor/themeColor-main.css">
+    <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="飯綱町りんごポータルサイト「りんごのまちいいづな」のお知らせ一覧です。最新情報やイベント告知をお届けします。">
+
+    <!-- 1. Config First -->
+    <script src="/js/config.js"></script>
+    <!-- 2. Common Utils -->
+    <script src="/js/common.js"></script>
+
+    <style>
+        html { background: #ffffff; }
+        body { margin: 0; padding: 0; opacity: 0; transition: opacity 0.5s ease; }
+        body.is-ready { opacity: 1; }
+
+        .news-page { max-width: 900px; margin: 0 auto; padding: 100px 20px 80px; }
+        .news-page-header { margin-bottom: 32px; }
+        .news-page-title { font-size: 2.4rem; font-weight: 700; color: var(--apple-brown, #5a3825); margin: 0 0 8px; display: flex; align-items: center; gap: 12px; }
+        .news-page-title::before { content: ""; display: inline-block; width: 6px; height: 28px; background: var(--apple-red, #cf3a3a); border-radius: 3px; flex-shrink: 0; }
+        .news-page-sub { font-size: 1.2rem; color: #999; margin: 0; }
+
+        .news-list { list-style: none; margin: 0; padding: 0; }
+        .news-entry { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 24px 28px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: box-shadow 0.2s, border-color 0.2s; }
+        .news-entry:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); border-color: rgba(207,58,58,0.15); }
+        .news-entry-date { font-size: 1.15rem; color: #999; font-weight: 500; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+        .news-entry-title { font-size: 1.5rem; font-weight: 700; color: var(--ink-dark, #333); margin: 0 0 8px; line-height: 1.5; }
+        .news-entry-body { font-size: 1.3rem; color: #555; line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
+        .news-entry-body a { color: var(--apple-red, #cf3a3a); }
+        .news-entry-image { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+
+        .news-empty { text-align: center; padding: 60px 20px; color: #bbb; font-size: 1.4rem; }
+        .news-loading { text-align: center; padding: 60px 20px; color: #ccc; font-size: 1.3rem; }
+
+        @media (max-width: 768px) {
+            .news-page { padding: 24px 16px 60px; }
+            .news-page-title { font-size: 2rem; }
+            .news-entry { padding: 18px 20px; }
+            .news-entry-title { font-size: 1.35rem; }
+            .news-entry-body { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="news-page">
+        <header class="news-page-header">
+            <h1 class="news-page-title" id="newsPageTitle">お知らせ</h1>
+            <p class="news-page-sub" id="newsPageSub">News & Announcements</p>
+        </header>
+        <div id="newsListContainer" class="news-loading">読み込み中...</div>
+    </div>
+
+    <!-- Base UI Components -->
+    <script src="/js/section.js"></script>
+    <script src="/js/modal-search.js?v=5"></script>
+    <script src="/js/search.js"></script>
+    <script src="/js/modal.js?v=8"></script>
+
+    <!-- Header & Footer -->
+    <script src="/js/header.js"></script>
+    <script src="/js/footer.js"></script>
+
+    <script>
+        (function () {
+            var C = window.LZ_COMMON;
+            if (!C) return;
+
+            var I18N = {
+                ja: { title: 'お知らせ', sub: 'News & Announcements', empty: '現在お知らせはありません', loading: '読み込み中...' },
+                en: { title: 'News', sub: 'Latest Updates', empty: 'No news at this time', loading: 'Loading...' },
+                zh: { title: '公告', sub: '最新消息', empty: '目前沒有公告', loading: '載入中...' }
+            };
+
+            async function loadNews() {
+                var lang = window.LZ_CURRENT_LANG || 'ja';
+                var t = I18N[lang] || I18N.ja;
+                var container = document.getElementById('newsListContainer');
+
+                // ページタイトルの多言語対応
+                document.getElementById('newsPageTitle').textContent = t.title;
+                document.getElementById('newsPageSub').textContent = t.sub;
+                document.title = t.title + ' | ' + (lang === 'ja' ? 'りんごのまちいいづな' : 'Appletown Iizuna');
+
+                container.innerHTML = '<div class="news-loading">' + C.esc(t.loading) + '</div>';
+
+                try {
+                    var json = await C.NET.json('/api/frontend/news?limit=50&scope=main');
+                    if (!json || !json.ok || !json.items.length) {
+                        container.innerHTML = '<div class="news-empty">' + C.esc(t.empty) + '</div>';
+                        return;
+                    }
+
+                    var html = '<ul class="news-list">';
+                    json.items.forEach(function (item) {
+                        var title = (lang !== 'ja' && item[lang] && item[lang].title) ? item[lang].title : item.title;
+                        var body = (lang !== 'ja' && item[lang] && item[lang].body) ? item[lang].body : item.body;
+                        var dateStr = '';
+                        if (item.date) {
+                            var d = new Date(item.date);
+                            dateStr = d.getFullYear() + '年' +
+                                (d.getMonth() + 1) + '月' +
+                                d.getDate() + '日';
+                            if (lang === 'en') {
+                                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                                dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+                            } else if (lang === 'zh') {
+                                dateStr = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                            }
+                        }
+
+                        html += '<li class="news-entry" id="news-' + C.esc(item.id) + '">';
+                        html += '  <div class="news-entry-date">' + C.esc(dateStr) + '</div>';
+                        if (item.mainImage) {
+                            html += '  <img class="news-entry-image" src="' + C.esc(item.mainImage) + '" alt="" loading="lazy">';
+                        }
+                        html += '  <h2 class="news-entry-title">' + C.esc(title || '(無題)') + '</h2>';
+                        if (body) {
+                            // 本文内のURLおよびサイト内パスを安全にリンク変換（二重置換・タグ破壊を防止）
+                            var escapedBody = C.esc(body);
+                            escapedBody = escapedBody.replace(
+                                /(https?:\/\/[^\s<]+)|(^|[\s：:])(\/(?:experience|article|savor|lifestyle|discover|business)[^\s<]*)/g,
+                                function (match, fullUrl, prefix, relPath) {
+                                    if (fullUrl) {
+                                        return '<a href="' + fullUrl + '" target="_blank" rel="noopener noreferrer" style="color:#cf3a3a; font-weight:700; text-decoration:underline;">' + fullUrl + '</a>';
+                                    } else if (relPath) {
+                                        return (prefix || '') + '<a href="' + relPath + '" style="color:#cf3a3a; font-weight:700; text-decoration:underline;">' + relPath + '</a>';
+                                    }
+                                    return match;
+                                }
+                            );
+                            html += '  <div class="news-entry-body">' + escapedBody + '</div>';
+                        }
+                        html += '</li>';
+                    });
+                    html += '</ul>';
+
+                    container.innerHTML = html;
+
+                    // URLハッシュでスクロール
+                    if (location.hash) {
+                        var target = document.querySelector(location.hash);
+                        if (target) {
+                            setTimeout(function () {
+                                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                target.style.boxShadow = '0 0 0 3px rgba(207,58,58,0.3)';
+                                setTimeout(function () { target.style.boxShadow = ''; }, 2000);
+                            }, 300);
+                        }
+                    }
+                } catch (e) {
+                    container.innerHTML = '<div class="news-empty">エラーが発生しました</div>';
+                    console.error('News load error:', e);
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadNews);
+            } else {
+                loadNews();
+            }
+
+            // ページ表示
+            setTimeout(function () { document.body.classList.add('is-ready'); }, 300);
+        })();
+    </script>
+</body>
+
+</html>
