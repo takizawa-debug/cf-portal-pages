@@ -129,7 +129,7 @@
   <header class="lz-hdr" id="lzHdr">
     <div class="lz-h-wrap">
       <a class="lz-h-brand" href="https://appletown-iizuna.com?lang=${window.LZ_CURRENT_LANG}">
-        <img class="lz-h-brand__img" src="${window.LZ_CONFIG.ASSETS.LOGO_WHITE}" alt="ロゴ">
+        <img class="lz-h-brand__img" src="${window.LZ_CONFIG.ASSETS.LOGO_WHITE}" alt="飯綱町りんごポータルサイト ロゴ" width="48" height="48">
         <span class="lz-h-brand__txt">
           <span class="lz-h-t1">${brandTitle.t1}</span>
           <span class="lz-h-t2">${brandTitle.t2}</span>

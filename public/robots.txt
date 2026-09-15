@@ -1,0 +1,33 @@
+# Appletown Iizuna - りんごのまちいいづな
+# https://appletown-iizuna.com
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /register.html
+
+# AI クローラー（引用促進のため明示的に許可）
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: Cohere-AI
+Allow: /
+
+# サイトマップ
+Sitemap: https://appletown-iizuna.com/sitemap.xml

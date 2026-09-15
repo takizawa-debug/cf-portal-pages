@@ -12,11 +12,11 @@
        1. 画像パス（プレビュー用はローカル、本番はS3等に差し替え）
        ========================================== */
     var IMAGES = {
-        shiru: "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/8ae3ad00-8d6a-013e-bcd3-0a58a9feac02/IMG_2898.jpg",
-        ajiwau: "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/6e2a2080-8d6a-013e-bcbf-0a58a9feac02/applejuice-8.jpg",
-        taiken: "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/f2837410-8f03-013e-e63d-0a58a9feac02/photo-intermediate.jpg",
-        kurasu: "https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/a681db10-8ee6-013e-065b-0a58a9feac02/slide-01.jpg",
-        itonamu: "https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/b41733e0-8d6a-013e-bcf2-0a58a9feac02/sunfuji_kodama_1207-25.jpg"
+        shiru: "/img/intro-shiru.jpg",
+        ajiwau: "/img/intro-ajiwau.jpg",
+        taiken: "/img/intro-taiken.jpg",
+        kurasu: "/img/intro-kurasu.jpg",
+        itonamu: "/img/sunfuji_kodama.jpg"
     };
 
     /* ==========================================
@@ -406,7 +406,7 @@
             return [
                 '<div class="lz-intro__cat">',
                 '  <div class="lz-intro__cat-img-wrap">',
-                '    <img class="lz-intro__cat-img" src="' + C.esc(imgSrc) + '" alt="' + C.esc(f.title) + '" loading="lazy">',
+                '    <img class="lz-intro__cat-img" src="' + C.esc(imgSrc) + '" alt="' + C.esc(f.title) + '" loading="lazy" decoding="async" width="160" height="160">',
                 '  </div>',
                 '  <div class="lz-intro__cat-body">',
                 '    <h3 class="lz-intro__cat-title">' + C.esc(f.title) + '</h3>',
@@ -425,7 +425,7 @@
             '<div class="infog-top-sub">' + C.esc(ig.titleSub) + '</div>',
             '</div>',
             '<div class="lz-intro__infog">',
-            '<img class="lz-intro__infog-bg" src="https://takizawa-debug.github.io/iizuna-apple-project/web/assets/infographic/bg.png" alt="" loading="lazy">',
+            '<img class="lz-intro__infog-bg" src="https://takizawa-debug.github.io/iizuna-apple-project/web/assets/infographic/bg.png" alt="東京と飯綱町の比較背景" loading="lazy" decoding="async" width="580" height="380">',
             '<div class="lz-intro__infog-overlay">',
 
             /* Header */
@@ -491,7 +491,7 @@
             '  #lz-intro-block .lz-intro__welcome-bg {',
             '    position: absolute; top: 0; left: 0; z-index: -1;',
             '    width: 100vw !important; height: 100vh !important;',
-            '    background: url("https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/122b3eb0-a042-013e-ffb5-0a58a9feac02/iizuna_20241113-24.jpg") center center / cover no-repeat !important;',
+            '    background: url("/img/iizuna_bg.jpg") center center / cover no-repeat !important;',
             '    filter: saturate(1.3) contrast(1.15) brightness(1.05) sepia(0.15) !important;',
             '    will-change: transform; pointer-events: none;',
             '  }',

@@ -297,18 +297,34 @@ function buildCollectionPage(name, url) {
 /** Event スキーマ（イベント記事用） */
 function buildEvent(article, pageUrl) {
     if (!article.start_date) return null;
+
+    // 日時フォーマットの正規化 (ISO 8601)
+    let startDate = article.start_date;
+    if (article.start_time && !startDate.includes('T')) {
+        startDate = `${startDate}T${article.start_time}:00+09:00`;
+    }
+    let endDate = article.end_date || article.start_date;
+    if (article.end_time && !endDate.includes('T')) {
+        endDate = `${endDate}T${article.end_time}:00+09:00`;
+    }
+
+    const isFree = !article.fee || article.fee.includes('無料') || article.fee === '0';
+    const rawPrice = article.fee ? article.fee.replace(/[^0-9]/g, '') : '';
+    const price = isFree ? "0" : (rawPrice || "0");
+
     return {
         "@context": "https://schema.org",
         "@type": "Event",
         "name": article.title,
         "description": stripAndTruncate(article.lead_text || article.body_text || '', 160),
-        "startDate": article.start_date,
-        "endDate": article.end_date || article.start_date,
+        "startDate": startDate,
+        "endDate": endDate,
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
         "eventStatus": "https://schema.org/EventScheduled",
+        "isAccessibleForFree": isFree,
         "location": {
             "@type": "Place",
-            "name": article.organizer_name || "飯綱町",
+            "name": article.venue_remarks || article.organizer_name || "飯綱町",
             "address": {
                 "@type": "PostalAddress",
                 "addressRegion": "長野県",
@@ -320,11 +336,11 @@ function buildEvent(article, pageUrl) {
         "organizer": {
             "@type": "Organization",
             "name": article.organizer_name || ORG_NAME_JA,
-            "url": BASE_URL
+            "url": article.homepage || BASE_URL
         },
         "offers": {
             "@type": "Offer",
-            "price": article.fee ? article.fee.replace(/[^0-9]/g, '') || "0" : "0",
+            "price": price,
             "priceCurrency": "JPY",
             "availability": "https://schema.org/InStock",
             "url": pageUrl
@@ -334,23 +350,61 @@ function buildEvent(article, pageUrl) {
 
 /** LocalBusiness スキーマ（店舗・直売所・生産者記事用） */
 function buildLocalBusiness(article, pageUrl) {
-    if (!article.address && !article.contact_phone) return null;
-    return {
+    // 住所や電話番号、営業時間等の店舗シグナルがある場合に生成
+    if (!article.address && !article.contact_phone && !article.business_days) return null;
+
+    // タイプをコンテンツ内容から賢く判定
+    let bizType = "LocalBusiness";
+    const titleAndLead = `${article.title || ''} ${article.lead_text || ''} ${article.l2 || ''}`;
+    if (titleAndLead.includes('カフェ') || titleAndLead.includes('喫茶') || titleAndLead.includes('スイーツ')) {
+        bizType = "CafeOrCoffeeShop";
+    } else if (titleAndLead.includes('レストラン') || titleAndLead.includes('食堂') || titleAndLead.includes('飲食')) {
+        bizType = "Restaurant";
+    } else if (titleAndLead.includes('直売所') || titleAndLead.includes('マルシェ') || titleAndLead.includes('ショップ')) {
+        bizType = "GroceryStore";
+    } else if (titleAndLead.includes('農園') || titleAndLead.includes('果樹園') || titleAndLead.includes('りんご狩り')) {
+        bizType = "TouristAttraction";
+    } else if (titleAndLead.includes('宿') || titleAndLead.includes('ホテル')) {
+        bizType = "LodgingBusiness";
+    }
+
+    const schema = {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
+        "@type": bizType,
         "name": article.title,
         "description": stripAndTruncate(article.lead_text || article.body_text || '', 160),
         "image": toAbsoluteUrl(extractImageUrl(article.media_assets)),
         "url": pageUrl,
-        "telephone": article.contact_phone || undefined,
+        "priceRange": "¥〜¥¥",
         "address": {
             "@type": "PostalAddress",
             "addressRegion": "長野県",
             "addressLocality": "上水内郡飯綱町",
             "streetAddress": article.address || ""
         },
-        "priceRange": "¥"
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 36.7562,
+            "longitude": 138.2329
+        }
     };
+
+    if (article.contact_phone) {
+        schema.telephone = article.contact_phone;
+    }
+    if (article.homepage) {
+        schema.sameAs = [article.homepage];
+    }
+    if (article.business_days || (article.business_start && article.business_end)) {
+        let hoursDesc = '';
+        if (article.business_days) hoursDesc += article.business_days;
+        if (article.business_start && article.business_end) {
+            hoursDesc += ` ${article.business_start}〜${article.business_end}`;
+        }
+        if (hoursDesc) schema.openingHours = hoursDesc.trim();
+    }
+
+    return schema;
 }
 
 /**
@@ -544,17 +598,19 @@ async function handleArticlePage(url, encodedId, lang, request, next, env) {
     try {
         // DBから記事データを取得（created_at, イベント・店舗情報も取得）
         const stmt = env.DB.prepare(`
-            SELECT c.title, c.lead_text, c.body_text, c.media_assets,
-                   c.created_at, c.updated_at, c.l1,
-                   c.address, c.contact_phone, c.start_date, c.end_date, c.fee, c.organizer_name,
+            SELECT c.id, c.title, c.lead_text, c.body_text, c.media_assets,
+                   c.created_at, c.updated_at, c.l1, c.l2,
+                   c.address, c.contact_phone, c.homepage,
+                   c.business_days, c.business_start, c.business_end, c.closed_days,
+                   c.start_date, c.end_date, c.start_time, c.end_time, c.fee, c.organizer_name, c.venue_remarks,
                    t_en.title as title_en, t_en.lead_text as lead_en, t_en.body_text as body_en,
                    t_tw.title as title_tw, t_tw.lead_text as lead_tw, t_tw.body_text as body_tw
             FROM contents c
             LEFT JOIN content_translations t_en ON c.id = t_en.content_id AND t_en.locale = 'en'
             LEFT JOIN content_translations t_tw ON c.id = t_tw.content_id AND t_tw.locale = 'zh-TW'
-            WHERE c.title = ? AND c.status = 'published'
+            WHERE (c.title = ? OR c.id = ?) AND c.status = 'published'
         `);
-        const article = await stmt.bind(articleId).first();
+        const article = await stmt.bind(articleId, articleId).first();
 
         if (article) {
             // 言語に応じた表示タイトル・説明文を決定

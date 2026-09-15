@@ -56,6 +56,11 @@ window.lzModal = (function () {
       '.lz-modal { position: relative; width: min(1100px, 94vw); max-height: 88vh; min-height: 50vh; display: flex; flex-direction: column; overflow: hidden; background: #fff; border-radius: 20px; z-index: 20001; pointer-events: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: translateY(0); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }',
       '.lz-backdrop:not(.open) .lz-modal { transform: translateY(20px); }',
       '.lz-mh { background: #fff; border-bottom: 1px solid #eee; padding: 16px 20px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; position: sticky; top: 0; z-index: 10; }',
+      '.lz-modal-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 1.1rem; color: #888; margin-bottom: 6px; flex-wrap: wrap; }',
+      '.lz-modal-breadcrumb a { color: #a82626; text-decoration: none; font-weight: 500; transition: opacity 0.2s; }',
+      '.lz-modal-breadcrumb a:hover { text-decoration: underline; }',
+      '.lz-bc-sep { color: #ccc; font-size: 0.95rem; }',
+      '.lz-bc-sub { color: #666; font-weight: 500; }',
       '.lz-mt { margin: 0; font-weight: 700; font-size: clamp(1.6rem, 4vw, 2.6rem); color: #a82626; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.4; }',
       '.lz-actions { display: flex; gap: 8px; align-items: center; }',
       '.lz-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #fdfaf8; border: none; border-radius: 999px; padding: 12px 20px; cursor: pointer; color: #a82626; font-weight: 700; font-size: 1.3rem; line-height: 1; transition: all 0.2s ease; }',
@@ -308,9 +313,39 @@ window.lzModal = (function () {
     }
 
 
+    // --- ⑥ パンくずリストの生成 ---
+    var l1Slug = rawData.l1 || d.group || "";
+    var catMap = {
+      discover: { ja: "知る", en: "Discover", zh: "探索" },
+      savor: { ja: "味わう", en: "Savor", zh: "品味" },
+      experience: { ja: "体験する", en: "Experience", zh: "體驗" },
+      lifestyle: { ja: "暮らす", en: "Lifestyle", zh: "生活" },
+      business: { ja: "営む", en: "Business", zh: "經營" }
+    };
+    if (!catMap[l1Slug]) {
+      for (var ck in catMap) {
+        if (catMap[ck].ja === l1Slug) { l1Slug = ck; break; }
+      }
+    }
+    var catInfo = catMap[l1Slug];
+    var catLabel = catInfo ? (catInfo[MODAL_ACTIVE_LANG] || catInfo.ja) : (rawData.l1 || "");
+    var breadcrumbHtml = "";
+    if (catLabel && l1Slug) {
+      var homeLabel = MODAL_ACTIVE_LANG === 'en' ? 'Home' : (MODAL_ACTIVE_LANG === 'zh' ? '首頁' : 'ホーム');
+      breadcrumbHtml = '<nav class="lz-modal-breadcrumb" aria-label="Breadcrumb">' +
+        '<a href="/?lang=' + MODAL_ACTIVE_LANG + '">' + homeLabel + '</a>' +
+        '<span class="lz-bc-sep">/</span>' +
+        '<a href="/' + C.esc(l1Slug) + '?lang=' + MODAL_ACTIVE_LANG + '">' + C.esc(catLabel) + '</a>' +
+        (rawData.l2 ? '<span class="lz-bc-sep">/</span><span class="lz-bc-sub">' + C.esc(rawData.l2) + '</span>' : '') +
+        '</nav>';
+    }
+
     MODAL.innerHTML = [
       '<div class="lz-mh">',
-      '  <h2 class="lz-mt">' + C.esc(title) + '</h2>',
+      '  <div class="lz-mh-title-wrap">',
+      (breadcrumbHtml ? '    ' + breadcrumbHtml : ''),
+      '    <h2 class="lz-mt">' + C.esc(title) + '</h2>',
+      '  </div>',
       '  <div class="lz-actions">',
       (rawData.downloadUrl ? '    <button class="lz-btn lz-dl" onclick="window.open(\'' + C.esc(rawData.downloadUrl) + '\',\'_blank\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span class="lz-label">' + getTranslation('保存', MODAL_ACTIVE_LANG) + '</span></button>' : ''),
       '    <button class="lz-btn lz-share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span class="lz-label">' + getTranslation('共有', MODAL_ACTIVE_LANG) + '</span></button>',
