@@ -3,32 +3,45 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>飯綱町りんごポータルサイト | りんごのまちいいづな (Appletown Iizuna)</title>
+
+    <!-- Favicon & Apple Touch Icon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/img/apple-logo-red.png">
+
+    <!-- Fonts: Google Fonts (Noto Sans JP) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Peraichi Base Styles & Fonts -->
     <link href="/css/vendor/peraichi-style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
         href="/css/vendor/themeColor-main.css">
     <link rel="stylesheet" type="text/css" href="/css/current-event.css">
-    <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="長野県飯綱町産のりんご専門ポータルサイト「りんごのまちいいづな」。サンふじ等の品種情報や直売所、観光・体験スポット、ビジネス情報まで、飯綱町のりんごに関する魅力を多言語で総合的にお届けします。">
     <meta name="google-site-verification" content="lq1GAoiky6g-0qhIIQuCePhrzO8IsEbvGAxZ6ZFo8IU" />
     
+    <!-- OGP (Open Graph Protocol) -->
     <meta property="og:title" content="飯綱町りんごポータルサイト | りんごのまちいいづな">
     <meta property="og:description" content="長野県飯綱町産のりんご専門ポータルサイト。品種情報から観光・直売所まで、飯綱町のりんごに関する魅力を総合的にお届けします。">
-    <meta property="og:image" content="https://appletown-iizuna.com/img/apple-logo-red.png">
+    <meta property="og:image" content="https://appletown-iizuna.com/img/hero/ogp-thumbnail.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://appletown-iizuna.com/">
+    <meta property="og:site_name" content="りんごのまちいいづな">
+    <meta property="og:locale" content="ja_JP">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="飯綱町りんごポータルサイト | りんごのまちいいづな">
     <meta name="twitter:description" content="長野県飯綱町産のりんご専門ポータルサイト。品種情報から観光・直売所まで、飯綱町のりんごに関する魅力を総合的にお届けします。">
-    <meta name="twitter:image" content="https://appletown-iizuna.com/img/apple-logo-red.png">
+    <meta name="twitter:image" content="https://appletown-iizuna.com/img/hero/ogp-thumbnail.jpg">
 
     <style>
         /* 画面読み込み時のちらつき防止 */
@@ -39,6 +52,7 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Noto Sans JP', sans-serif;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -53,6 +67,19 @@
             margin: 0 auto;
             padding: 0 20px;
         }
+
+        /* SEO & アクセシビリティ用視覚非表示スタイル */
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
     </style>
 
     <!-- UI Components Scripts (Copied from Old Design) -->
@@ -64,6 +91,7 @@
 </head>
 
 <body>
+    <h1 class="visually-hidden">飯綱町りんごポータルサイト「りんごのまちいいづな」</h1>
 
     <!-- 1. Top Slideshow Plugin Placeholder -->
     <!-- Images will be injected here. Note: data-images needs to contain an array of fallback images for the background -->

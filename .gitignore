@@ -12,6 +12,9 @@ wrangler.log
 Materials/
 official/
 
+# Scratch and temporary directories
+scratch/
+
 # OS files
 Thumbs.db
 Desktop.ini

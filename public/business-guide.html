@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>【農家・事業者向け】りんごのまちいいづな ポータル活用ガイド</title>
+
+    <!-- Favicon & Apple Touch Icon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/img/apple-logo-red.png">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="長野県飯綱町のりんご農家・事業者向けポータル活用ガイド。記事掲載や情報発信、直売所情報の更新方法などを分かりやすく解説します。">
+
+    <!-- OGP (Open Graph Protocol) -->
+    <meta property="og:title" content="【農家・事業者向け】りんごのまちいいづな ポータル活用ガイド">
+    <meta property="og:description" content="長野県飯綱町のりんご農家・事業者向けポータル活用ガイド。記事掲載や情報発信、直売所情報の更新方法などを分かりやすく解説します。">
+    <meta property="og:image" content="https://appletown-iizuna.com/img/hero/ogp-thumbnail.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://appletown-iizuna.com/business-guide">
+    <meta property="og:site_name" content="りんごのまちいいづな">
+    <meta property="og:locale" content="ja_JP">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="【農家・事業者向け】りんごのまちいいづな ポータル活用ガイド">
+    <meta name="twitter:description" content="長野県飯綱町のりんご農家・事業者向けポータル活用ガイド。記事掲載や情報発信、直売所情報の更新方法などを分かりやすく解説します。">
+    <meta name="twitter:image" content="https://appletown-iizuna.com/img/hero/ogp-thumbnail.jpg">
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --color-primary: #cf3a3a;
+            --color-primary-dark: #b82d2d;
+            --color-primary-light: #fff3f3;
+            --color-accent: #d4af37;
+            --color-text-dark: #2c2c2c;
+            --color-text-muted: #666666;
+            --color-bg-light: #fdfbfb;
+            --color-bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #f5ecec 100%);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 20px rgba(207, 58, 58, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background: var(--color-bg-gradient);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 1.1rem; /* パワポ的に少し大きめの文字サイズ */
+        }
+
+        /* ヘッダー */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(207, 58, 58, 0.1);
+            padding: 15px 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--color-primary);
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        .header-logo img {
+            height: 32px;
+        }
+
+        .header-badge {
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid rgba(207, 58, 58, 0.2);
+        }
+
+        /* コンテナ */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            text-align: center;
+            padding: 20px 0 40px;
+        }
+
+        .hero-tag {
+            color: var(--color-primary);
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: inline-block;
+            background: rgba(207, 58, 58, 0.08);
+            padding: 6px 16px;
+            border-radius: 30px;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--color-text-dark);
+            line-height: 1.4;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span {
+            color: var(--color-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(212, 175, 55, 0.3);
+            z-index: -1;
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 700;
+        }
+
+        /* 方針セクションカード */
+        .policy-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 35px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .policy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--color-primary);
+        }
+
+        .policy-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--color-primary);
+        }
+
+        .policy-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .policy-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .policy-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: 900;
+        }
+
+        /* セクションタイトル */
+        .section-header {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .section-badge {
+            background: var(--color-accent);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-header h2 i {
+            color: var(--color-primary);
+        }
+
+        /* 機能カード */
+        .feature-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 35px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+            border: 1px solid rgba(207, 58, 58, 0.05);
+        }
+
+        .feature-desc-list {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .feature-desc-list li {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* スマホプッシュ通知のモックアップ */
+        .phone-mockup {
+            background: #fdfbfb;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin: 20px auto;
+            border: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 500px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .phone-mockup-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .notification {
+            background: #ffffff;
+            border-left: 4px solid var(--color-primary);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .notification:nth-child(2) { border-left-color: #27ae60; }
+        .notification:nth-child(3) { border-left-color: #f39c12; }
+
+        .noti-icon {
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .notification:nth-child(2) .noti-icon { background: #e8f8f0; color: #27ae60; }
+        .notification:nth-child(3) .noti-icon { background: #fef5e7; color: #f39c12; }
+
+        .noti-content {
+            flex-grow: 1;
+        }
+
+        .noti-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-bottom: 2px;
+        }
+
+        .noti-source {
+            font-weight: 700;
+        }
+
+        .noti-text {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            line-height: 1.4;
+        }
+
+        /* マッチングフロー */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .flow-step {
+            background: var(--color-bg-light);
+            border: 1px solid #ebdcdc;
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flow-step-num {
+            background: var(--color-primary);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(207, 58, 58, 0.2);
+        }
+
+        .flow-step-body {
+            flex-grow: 1;
+        }
+
+        .flow-step-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .flow-step-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .flow-arrow {
+            text-align: center;
+            color: var(--color-primary);
+            font-size: 1.2rem;
+            margin: -5px 0;
+            opacity: 0.6;
+        }
+
+        /* ご意見・ご要望募集セクション (スタンス提示) */
+        .feedback-section {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffebeb 100%);
+            border-radius: var(--radius-lg);
+            padding: 35px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+            border: 1px solid rgba(207, 58, 58, 0.15);
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 15px;
+        }
+
+        .feedback-badge {
+            background: #ffffff;
+            color: var(--color-primary);
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(207, 58, 58, 0.1);
+        }
+
+        .feedback-header h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--color-primary-dark);
+        }
+
+        .feedback-content {
+            font-size: 1rem;
+            color: var(--color-text-dark);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .feedback-card {
+            background: #ffffff;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(207, 58, 58, 0.05);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feedback-card i {
+            font-size: 1.4rem;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+        }
+
+        .feedback-card-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* 登録フローとCTA */
+        .cta-section {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--color-primary-light);
+        }
+
+        .cta-section h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .cta-section p {
+            color: var(--color-text-muted);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .reg-steps {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .reg-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .reg-step-icon {
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(207, 58, 58, 0.1);
+        }
+
+        .reg-step-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .reg-step-desc {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-main {
+            background: var(--color-primary);
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 800;
+            padding: 15px 40px;
+            border-radius: 40px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(207, 58, 58, 0.25);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-main:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(207, 58, 58, 0.35);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: var(--color-text-dark);
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            border: 2px solid #ebdcdc;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary-light);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--color-text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 50px;
+        }
+
+        /* レスポンス対応 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .feedback-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reg-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .btn-main {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 簡易ヘッダー -->
+    <header>
+        <div class="header-container">
+            <a href="/" class="header-logo">
+                <img src="/img/apple-logo-red.png" alt="">
+                <span>りんごのまちいいづな</span>
+            </a>
+            <span class="header-badge">農家・事業者用説明資料</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- ヒーローセクション -->
+        <section class="hero">
+            <span class="hero-tag">令和8年度 方針＆新機能</span>
+            <h1>事業者と町・県・消費者を<br><span>つなぐポータル機能</span>を拡充</h1>
+            <p class="hero-desc">
+                大きな方向性はそのままに、事業者の方にもメリットのあるサイトを目指して新機能を追加します。
+            </p>
+        </section>
+
+        <!-- 今年度の機能拡充方針 -->
+        <section class="policy-card">
+            <h2 class="policy-title">
+                <i class="fa-solid fa-compass"></i> 主な機能拡充のポイント
+            </h2>
+            <ul class="policy-list">
+                <li>「魅力を伝える」に加えて「つながる」ための機能を新しく追加</li>
+                <li>農家・事業者と、町・県（農村支援センター）、そしてバイヤーをデジタルで直接接続</li>
+                <li>日々の農作業に直結する重要なお知らせ・速報を直接お届け</li>
+            </ul>
+        </section>
+
+        <!-- 機能1: プッシュ通知 -->
+        <section class="feature-card">
+            <div class="section-header">
+                <span class="section-badge">機能 1</span>
+                <h2><i class="fa-solid fa-bell"></i> 営農に必要な重要情報をプッシュ通知</h2>
+            </div>
+            <ul class="feature-desc-list">
+                <li>長野県（農村支援センター）や飯綱町役場から、最新の重要情報を直接お届け</li>
+                <li>メールやLINEなどで受信できるため、自分でホームページを確認しに行く手間を削減</li>
+            </ul>
+
+            <!-- 通知の具体例モック -->
+            <div class="phone-mockup">
+                <div class="phone-mockup-title">
+                    <i class="fa-solid fa-mobile-screen"></i> 配信されるプッシュ通知の具体例
+                </div>
+
+                <div class="notification">
+                    <div class="noti-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div class="noti-content">
+                        <div class="noti-meta">
+                            <span class="noti-source">長野県農村支援センター</span>
+                            <span class="noti-time">速報</span>
+                        </div>
+                        <div class="noti-text">【防除速報】黒星病の子のう胞子初飛散日を確認しました。速やかに防除を実施してください。</div>
+                    </div>
+                </div>
+
+                <div class="notification">
+                    <div class="noti-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <div class="noti-content">
+                        <div class="noti-meta">
+                            <span class="noti-source">飯綱町 役場</span>
+                            <span class="noti-time">補助金</span>
+                        </div>
+                        <div class="noti-text">【補助金】令和8年度「りんご高密植化推進事業」の公募が開始されました。申請〆切：〇月〇日。</div>
+                    </div>
+                </div>
+
+                <div class="notification">
+                    <div class="noti-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+                    <div class="noti-content">
+                        <div class="noti-meta">
+                            <span class="noti-source">長野県 農業試験場</span>
+                            <span class="noti-time">生育状況</span>
+                        </div>
+                        <div class="noti-text">【生育速報】本日の農業試験場におけるりんご（サンふじ）の果実肥大状況・着色状況データを公開。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 機能2: 流通マッチング -->
+        <section class="feature-card">
+            <div class="section-header">
+                <span class="section-badge">機能 2</span>
+                <h2><i class="fa-solid fa-handshake"></i> 流通相談マッチング体制の構築（中長期的な取り組み）</h2>
+            </div>
+            <ul class="feature-desc-list">
+                <li>バイヤーや町・県へ寄せられる「特定の品種を、この時期に手配できないか？」という流通相談にスムーズに応じる仕組みを目指します。</li>
+                <li>事前に品種や出荷時期をご登録いただくことで、条件に合う農家さんへ直接相談を届ける基盤を作っていきます。</li>
+                <li style="color: var(--color-primary); font-weight: 700;">※確実な取引結果を保証するものではありませんが、中長期的な取引チャンス創出のため、ぜひ多くの農家さんのご登録・ご協力をお願いいたします。</li>
+            </ul>
+
+            <!-- マッチングフロー図 -->
+            <div class="flow-container">
+                <div class="flow-step">
+                    <div class="flow-step-num">1</div>
+                    <div class="flow-step-body">
+                        <div class="flow-step-title">情報の事前登録へのご協力</div>
+                        <div class="flow-step-desc">作っている品種、出荷できる可能性のある時期をシステムに入力します。</div>
+                    </div>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+                <div class="flow-step">
+                    <div class="flow-step-num">2</div>
+                    <div class="flow-step-body">
+                        <div class="flow-step-title">流通相談の発生</div>
+                        <div class="flow-step-desc">「ブラムリーを急ぎ手配できないか？」等の相談がバイヤーから町や県に入ります。</div>
+                    </div>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+                <div class="flow-step">
+                    <div class="flow-step-num">3</div>
+                    <div class="flow-step-body">
+                        <div class="flow-step-title">マッチング・相談のご連絡</div>
+                        <div class="flow-step-desc">登録データをもとに該当する農家さんがピックアップされ、直接のご相談やお問い合わせに繋がります。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ご意見・ご要望の募集 (スタンスの提示) -->
+        <section class="feedback-section">
+            <div class="feedback-header">
+                <span class="feedback-badge">随時受付中！</span>
+                <h3>皆様からのご意見・ご要望をもとにサイトを日々改善</h3>
+            </div>
+            <div class="feedback-content">
+                このポータルは、地域の事業者・農家の皆様のためのシステムです。そのため、「こういう情報を載せてほしい」「こういう人を繋いでほしい」といったご希望を大歓迎しております。
+            </div>
+
+            <div class="feedback-grid">
+                <div class="feedback-card">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <div class="feedback-card-title">「〇〇という情報もプッシュで通知してほしい」</div>
+                </div>
+                <div class="feedback-card">
+                    <i class="fa-solid fa-pencil"></i>
+                    <div class="feedback-card-title">「自園のこんなこだわりを新しく掲載したい」</div>
+                </div>
+                <div class="feedback-card">
+                    <i class="fa-solid fa-people-arrows"></i>
+                    <div class="feedback-card-title">「こういうバイヤーや業者と繋げてほしい」</div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- CTA / 登録セクション -->
+        <section class="cta-section">
+            <h3>まずは事業者登録（無料）をお願いします</h3>
+            <p>新機能やマッチング機能の利用には、アカウントの作成が必要です。</p>
+
+            <div class="reg-steps">
+                <div class="reg-step">
+                    <div class="reg-step-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <div class="reg-step-title">① メール・SNS連携</div>
+                    <div class="reg-step-desc">LINEやGoogle連携ならワンタップで仮登録完了</div>
+                </div>
+                <div class="reg-step">
+                    <div class="reg-step-icon"><i class="fa-solid fa-key"></i></div>
+                    <div class="reg-step-title">② パスワード設定</div>
+                    <div class="reg-step-desc">届いたメールのURLからログイン用のパスワードを設定</div>
+                </div>
+                <div class="reg-step">
+                    <div class="reg-step-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="reg-step-title">③ 登録完了・詳細入力</div>
+                    <div class="reg-step-desc">管理画面から、農園情報や栽培品種を登録</div>
+                </div>
+            </div>
+
+
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Iizuna Town All Rights Reserved. / 飯綱町多言語アップルプロジェクト</p>
+    </footer>
+
+</body>
+
+</html>

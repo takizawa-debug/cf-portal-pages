@@ -3,17 +3,43 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>りんごのまちいいづな｜飯綱町産りんごポータルサイト</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>サイトポリシー | 飯綱町りんごポータルサイト | りんごのまちいいづな (Appletown Iizuna)</title>
+
+    <!-- Favicon & Apple Touch Icon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/img/apple-logo-red.png">
+
+    <!-- Fonts: Google Fonts (Noto Sans JP) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Peraichi Base Styles & Fonts -->
-    <link href="//assets.peraichi.com/template_root/v2/template_files/css/style.css?1772770402" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/pageCustomStylesheets/2300389/themeColor_1762752043.css">
-    <script src="//webfont.fontplus.jp/accessor/script/fontplus.js?5qoPx6QyJ8k%3D&aa=1" charset="utf-8"></script>
+    <link href="/css/vendor/peraichi-style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/vendor/themeColor-main.css">
 
-    <!-- Basic Meta Data -->
-    <meta name="description" content="長野県飯綱町産のりんごポータルサイト。">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="りんごのまちいいづな（Appletown Iizuna）のサイトポリシーです。著作権、シェア・印刷機能の利用条件、免責事項などをご説明します。">
+    <meta name="google-site-verification" content="lq1GAoiky6g-0qhIIQuCePhrzO8IsEbvGAxZ6ZFo8IU" />
+
+    <!-- OGP (Open Graph Protocol) -->
+    <meta property="og:title" content="サイトポリシー | りんごのまちいいづな">
+    <meta property="og:description" content="りんごのまちいいづなのサイトポリシーです。">
+    <meta property="og:image" content="https://appletown-iizuna.com/img/hero/ogp-thumbnail.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://appletown-iizuna.com/site-policy">
+    <meta property="og:site_name" content="りんごのまちいいづな">
+    <meta property="og:locale" content="ja_JP">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="サイトポリシー | りんごのまちいいづな">
+    <meta name="twitter:description" content="りんごのまちいいづなのサイトポリシーです。">
+    <meta name="twitter:image" content="https://appletown-iizuna.com/img/hero/ogp-thumbnail.jpg">
 
     <style>
         /* 画面読み込み時のちらつき防止 */
@@ -24,6 +50,7 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Noto Sans JP', sans-serif;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -38,6 +65,19 @@
             margin: 0 auto;
             padding: 0 20px;
         }
+
+        /* SEO & アクセシビリティ用視覚非表示スタイル */
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
     </style>
 
     <!-- UI Components Scripts (Copied from Old Design) -->
@@ -49,6 +89,7 @@
 </head>
 
 <body>
+    <h1 class="visually-hidden">サイトポリシー | 飯綱町りんごポータルサイト「りんごのまちいいづな」</h1>
 
     <!-- 1. Slideshow -->
     <style>
@@ -65,7 +106,7 @@
     </style>
 
     <div id="lz-slideshow-app" data-text-ja="サイトポリシー" data-text-en="SITE POLICY" data-text-zh="網站政策"
-        data-images='["https://cdn.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/d3038120-8d6a-013e-c3c9-0a58a9feac02/%E5%87%9B%E5%A4%8F2.jpg"]'>
+        data-images='["/img/hero/rinnatsu-2.jpg"]'>
     </div>
 
 
@@ -304,7 +345,7 @@
     <script src="/js/section.js"></script>
     <script src="/js/modal-search.js?v=5"></script>
     <script src="/js/search.js"></script>
-    <script src="/js/modal.js?v=7"></script>
+    <script src="/js/modal.js?v=8"></script>
 
     <!-- Header & Footer Components -->
     <!-- These will automatically inject their own HTML to the body based on config.js paths -->
