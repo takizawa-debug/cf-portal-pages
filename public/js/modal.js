@@ -11,6 +11,7 @@ window.lzModal = (function () {
 
   var MODAL_ACTIVE_LANG = null;
   var ORIGINAL_SITE_LANG = null;
+  var ORIGINAL_PATHNAME = null;
   var MODAL_OPEN_SOURCE = 'card'; // モーダルを開いた経路
   var MODAL_CUMULATIVE_ACTIVE_MS = 0; // アクティブな滞在時間の合計
   var MODAL_LAST_RESUME_TS = 0; // 直近の計測開始タイミング
@@ -66,7 +67,9 @@ window.lzModal = (function () {
       '.lz-m-lang-btn { padding: 8px 20px; border-radius: 999px; font-size: 1.25rem; font-weight: 700; cursor: pointer; border: none; background: transparent; color: #666; transition: all .2s; }',
       '.lz-m-lang-btn.active { background: #fff; color: #cf3a3a; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }',
       '.lz-modal-content { display: flex; flex-direction: row; height: 100%; overflow-y: auto; }',
-      '@media(max-width:768px) { .lz-modal-content { flex-direction: column; } }',
+      '.lz-modal-content.lz-no-media { display: block; }',
+      '.lz-modal-content.lz-no-media .lz-modal-right { max-width: 860px; margin: 0 auto; width: 100%; padding: 32px 40px 48px; box-sizing: border-box; }',
+      '@media(max-width:768px) { .lz-modal-content { flex-direction: column; } .lz-modal-content.lz-no-media .lz-modal-right { padding: 20px 20px 32px; } }',
       '.lz-modal-left { flex: 0 0 clamp(300px, 40%, 450px); padding: 0 0 24px 24px; display: flex; flex-direction: column; gap: 20px; position: sticky; top: 0; align-self: flex-start; }',
       '@media(max-width:768px) { .lz-modal-left { flex: none; width: 100%; padding: 0; position: relative; } }',
       '.lz-mm { position: relative; background: #faf7f5; border-radius: 12px; overflow: hidden; }',
@@ -213,7 +216,9 @@ window.lzModal = (function () {
     var linkedBody = window.lzSearchEngine ? window.lzSearchEngine.applyLinks(bodyText, d.id, MODAL_ACTIVE_LANG) : bodyText;
 
     var url = new URL(window.location.href);
-    url.searchParams.set('lang', MODAL_ACTIVE_LANG); url.searchParams.set('id', d.id);
+    url.pathname = '/article/' + encodeURIComponent(d.id);
+    url.searchParams.set('lang', MODAL_ACTIVE_LANG);
+    url.searchParams.delete('id');
     window.history.replaceState(null, "", url.toString());
     document.title = title + " | " + C.originalTitle;
 
@@ -314,11 +319,13 @@ window.lzModal = (function () {
       '  </div>',
       '</div>',
       langTabs,
-      '<div class="lz-modal-content">',
-      '  <div class="lz-modal-left">',
-      (gallery.length ? '    <div class="lz-mm"><img loading="lazy" id="lz-mainimg" src="' + C.esc(gallery[0]) + '" referrerpolicy="no-referrer-when-downgrade"></div>' : ''),
-      (gallery.length > 1 ? '    <div class="lz-g">' + gallery.map(function (u, i) { return '<img loading="lazy" src="' + C.esc(u) + '" data-idx="' + i + '" class="' + (i === 0 ? 'is-active' : '') + '">'; }).join('') + '</div>' : ''),
-      '  </div>',
+      '<div class="lz-modal-content' + (gallery.length ? '' : ' lz-no-media') + '">',
+      (gallery.length ? [
+        '  <div class="lz-modal-left">',
+        '    <div class="lz-mm"><img loading="lazy" id="lz-mainimg" src="' + C.esc(gallery[0]) + '" alt="' + C.esc(title) + '" referrerpolicy="no-referrer-when-downgrade"></div>',
+        (gallery.length > 1 ? '    <div class="lz-g">' + gallery.map(function (u, i) { return '<img loading="lazy" src="' + C.esc(u) + '" alt="' + C.esc(title) + ' サムネイル ' + (i + 1) + '" data-idx="' + i + '" class="' + (i === 0 ? 'is-active' : '') + '">'; }).join('') + '</div>' : ''),
+        '  </div>'
+      ].join('\n') : ''),
       '  <div class="lz-modal-right">',
       (lead ? '    <div class="lz-lead-strong">' + C.esc(lead) + '</div>' : ''),
       '    <div class="lz-txt lz-modal-body-txt" data-id="' + d.id + '">' + linkedBody + '</div>',
@@ -424,17 +431,41 @@ window.lzModal = (function () {
       HOST.classList.remove("open");
     }
     document.title = C.originalTitle;
-    var url = new URL(location.href); url.searchParams.delete('id'); url.searchParams.set('lang', ORIGINAL_SITE_LANG);
+    var url = new URL(location.href);
+    url.pathname = ORIGINAL_PATHNAME || '/';
+    url.searchParams.delete('id');
+    url.searchParams.set('lang', ORIGINAL_SITE_LANG);
     window.history.replaceState(null, "", url.toString());
     MODAL_ACTIVE_LANG = null; MODAL_CUMULATIVE_ACTIVE_MS = 0; MODAL_LAST_RESUME_TS = 0;
+    ORIGINAL_PATHNAME = null;
   }
 
   var checkDeepLink = function () {
-    var rawId = new URLSearchParams(location.search).get('id'); if (!rawId) return;
+    var rawId = new URLSearchParams(location.search).get('id') || new URLSearchParams(location.search).get('title');
+    var pathParts = window.location.pathname.split('/');
+    if (pathParts[1] === 'article' && pathParts[2]) {
+        rawId = pathParts[2];
+    }
+    if (!rawId) return;
     var urlId = decodeURIComponent(rawId).trim(); var attempts = 0;
     var timer = setInterval(function () {
       var cards = document.querySelectorAll(".lz-card");
-      for (var i = 0; i < cards.length; i++) { if (decodeURIComponent(cards[i].dataset.id).trim() === urlId) { clearInterval(timer); window.lzModal.open(cards[i]); return; } }
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        var cardId = decodeURIComponent(card.dataset.id || "").trim();
+        var cardTitle = decodeURIComponent(card.dataset.title || "").trim();
+        var itemId = "";
+        try {
+          var itemObj = JSON.parse(card.dataset.item || "{}");
+          itemId = (itemObj.id || "").trim();
+        } catch(e){}
+
+        if (cardId === urlId || cardTitle === urlId || itemId === urlId) {
+          clearInterval(timer);
+          window.lzModal.open(card);
+          return;
+        }
+      }
       if (++attempts > 100) clearInterval(timer);
     }, 150);
   };
@@ -455,7 +486,13 @@ window.lzModal = (function () {
           if (!el) return;
           e.preventDefault();
           if (el.dataset.gotoId) {
-            render(document.querySelector('.lz-card[data-id="' + el.dataset.gotoId + '"]'), MODAL_ACTIVE_LANG);
+            var targetCard = document.querySelector('.lz-card[data-id="' + el.dataset.gotoId + '"]');
+            if (targetCard) {
+              render(targetCard, MODAL_ACTIVE_LANG);
+            } else {
+              // カードがDOMに無い場合（別カテゴリの記事）は記事ページへ遷移
+              location.href = '/article/' + encodeURIComponent(el.dataset.gotoId) + '?lang=' + MODAL_ACTIVE_LANG;
+            }
           } else if (window.lzSearchEngine) {
             window.lzSearchEngine.run(el.dataset.keyword, MODAL_ACTIVE_LANG, MODAL, function () {
               render(CURRENT_CARD, MODAL_ACTIVE_LANG);
@@ -467,6 +504,9 @@ window.lzModal = (function () {
         document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
       }
       ORIGINAL_SITE_LANG = window.LZ_CURRENT_LANG; MODAL_ACTIVE_LANG = ORIGINAL_SITE_LANG;
+      if (!ORIGINAL_PATHNAME) {
+          ORIGINAL_PATHNAME = window.location.pathname.startsWith('/article/') ? '/' : window.location.pathname;
+      }
       MODAL_CUMULATIVE_ACTIVE_MS = 0;
       MODAL_LAST_RESUME_TS = Date.now();
       MODAL_OPEN_SOURCE = 'card';

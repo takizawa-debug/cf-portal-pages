@@ -165,7 +165,7 @@
 
       return `
       <li><button class="apz-item-btn" type="button" data-idx="${idx}">
-        <div class="apz-thumb"><img loading="lazy" src="${it.mainImage ? esc(it.mainImage) : FALLBACK_IMG}"></div>
+        <div class="apz-thumb"><img loading="lazy" src="${it.mainImage ? esc(it.mainImage) : FALLBACK_IMG}" alt="${esc(title)}"></div>
         <div class="apz-meta">
           <div class="apz-l2l3">${categoryLine}</div>
           <div class="apz-title">${highlight(title, query)}</div>
@@ -225,7 +225,7 @@
       });
     }
 
-    location.href = `${MENU_URL[hit.l1] || location.origin}?lang=${window.LZ_CURRENT_LANG}&id=${encodeURIComponent(targetDeepLinkId)}`;
+    location.href = `/article/${encodeURIComponent(targetDeepLinkId)}?lang=${window.LZ_CURRENT_LANG}`;
   };
   D.addEventListener("click", (e) => { if (!e.target.closest(".apz-search-card") && !e.target.closest("#apzSearchFab")) float.classList.remove("is-open"); });
 })();

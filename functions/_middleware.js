@@ -294,42 +294,6 @@ function buildCollectionPage(name, url) {
     };
 }
 
-/** 飯綱町りんごFAQデータ（ゼロクリック検索 & AI Overview対応） */
-const IIZUNA_APPLE_FAQS = [
-    {
-        q: "長野県飯綱町のりんごの旬（収穫時期）はいつですか？",
-        a: "飯綱町では8月下旬の極早生品種（夏明り・シナノリップ等）から始まり、9月〜10月の秋映・シナノスイート・シナノゴールド（りんご三兄弟）、そして11月〜12月の完熟サンふじまで、約4ヶ月にわたって多様な旬のりんごを楽しめます。最も人気の高い蜜入り「サンふじ」の最盛期は11月中旬から12月上旬です。"
-    },
-    {
-        q: "飯綱町で栽培されている代表的なりんごの品種は何ですか？",
-        a: "代表品種は、国内生産量No.1の「サンふじ」をはじめ、長野県オリジナル品種の「秋映」「シナノスイート」「シナノゴールド」、さらには英国原産の希少なクッキングアップル「ブラムリー」や「高坂りんご（和りんご）」など、飯綱町では町内だけで約50品種以上が栽培されています。"
-    },
-    {
-        q: "飯綱町でりんご狩りや農業体験はできますか？",
-        a: "はい、毎年9月上旬から11月下旬にかけて、町内の観光りんご園やりんご農園でりんご狩り体験が楽しめます。また、りんごの花が咲く5月上旬の花摘み体験やりんごシードル醸造所の見学ツアーなども開催されています。"
-    },
-    {
-        q: "飯綱町の新鮮なりんごはどこで直接購入できますか？",
-        a: "町内の「いいづなマルシェ むれ」やりんご街道沿いの各農園直売所、JAながの直売所などで採れたてのりんごや加工品（ジュース・シードル・ジャム・スイーツ）を直接購入できます。地方発送・通信販売に対応した直売所も多数あります。"
-    }
-];
-
-/** FAQPage スキーマ（ゼロクリック検索・AI Overview対応） */
-function buildFAQPage(items) {
-    return {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": items.map(item => ({
-            "@type": "Question",
-            "name": item.q,
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": item.a
-            }
-        }))
-    };
-}
-
 /** Event スキーマ（イベント記事用） */
 function buildEvent(article, pageUrl) {
     if (!article.start_date) return null;
@@ -690,12 +654,8 @@ async function handleStaticPage(url, path, lang, response, env) {
         let categoryArticles = [];
 
         if (path === '/' || path === '') {
-            // トップページ: WebSite スキーマ + FAQPage スキーマ追加
+            // トップページ: WebSite スキーマ
             jsonLd.push(buildWebSite());
-            jsonLd.push(buildFAQPage(IIZUNA_APPLE_FAQS));
-        } else if (path === '/discover') {
-            // 知るページ: FAQPage スキーマ追加
-            jsonLd.push(buildFAQPage(IIZUNA_APPLE_FAQS));
         }
 
         if (isCategory) {
