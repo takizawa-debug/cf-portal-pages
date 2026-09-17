@@ -485,6 +485,56 @@
   line-height: 1.35;
 }
 
+/* モーダル内言語切り替えタブ (.lz-m-lang-tabs 互換) */
+.lz-m-lang-tabs {
+  display: flex;
+  padding: 8px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #f0eae4;
+  justify-content: flex-end;
+}
+
+.lz-m-lang-tabs-inner {
+  display: inline-flex;
+  background: #f1f1f2;
+  padding: 4px;
+  border-radius: 999px;
+  gap: 2px;
+}
+
+.lz-m-lang-btn {
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.lz-m-lang-btn:hover {
+  color: #cf3a3a;
+}
+
+.lz-m-lang-btn.active {
+  background: #ffffff;
+  color: #cf3a3a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 768px) {
+  .lz-m-lang-tabs {
+    padding: 8px 16px;
+    justify-content: center;
+  }
+  .lz-m-lang-btn {
+    padding: 6px 14px;
+    font-size: 1.2rem;
+  }
+}
+
 /* アクションボタン群 (.lz-actions / .lz-btn 互換) */
 .rc-modal-actions {
   display: flex;

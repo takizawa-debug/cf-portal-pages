@@ -76,7 +76,155 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-chicken-honey-herb-saute.jpg",
-    "image_webp": "/img/recipes/webp/apple-chicken-honey-herb-saute.webp"
+    "image_webp": "/img/recipes/webp/apple-chicken-honey-herb-saute.webp",
+    "en": {
+      "title": "Apple & Chicken Honey Herb Sauté",
+      "category": "Main Dish: Meat",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2",
+      "cooking_time": "Approx. 40 mins",
+      "description": "An authentic main dish of tender chicken thigh seasoned with herb salt, seared to perfection, and simmered with apples and zucchini in a sweet and tangy honey-mustard sauce.",
+      "ingredients": [
+        {
+          "name": "Chicken thigh fillet",
+          "amount": "1 piece"
+        },
+        {
+          "name": "Apple",
+          "amount": "1"
+        },
+        {
+          "name": "Zucchini",
+          "amount": "1/2"
+        },
+        {
+          "name": "King oyster mushroom",
+          "amount": "1"
+        },
+        {
+          "name": "Vegetable oil",
+          "amount": "As needed"
+        },
+        {
+          "name": "Flour",
+          "amount": "As needed"
+        },
+        {
+          "name": "Herb salt",
+          "amount": "Pinch"
+        },
+        {
+          "name": "Butter",
+          "amount": "15 g"
+        },
+        {
+          "name": "Water",
+          "amount": "250 ml"
+        },
+        {
+          "name": "Consomé cube",
+          "amount": "1"
+        },
+        {
+          "name": "Curry powder",
+          "amount": "Pinch"
+        },
+        {
+          "name": "Mustard",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Honey",
+          "amount": "10 g"
+        }
+      ],
+      "steps": [
+        "Butterfly the chicken thigh fillet and tenderize it using the back of a kitchen knife.",
+        "Rub herb salt evenly onto the chicken and lightly dust with flour.",
+        "Cut the apple into wedges, peel, core, and slice into fan shapes. Slice the zucchini and king oyster mushroom into rounds.",
+        "Heat vegetable oil in a skillet and sear the chicken on both sides until cooked through, then remove and set aside.",
+        "In the same skillet, melt the butter over medium heat.",
+        "Add the sliced vegetables and apples, sautéing until lightly browned.",
+        "Add water, consommé cube, curry powder, mustard, and honey, then bring to a simmer to reduce the sauce.",
+        "Return the chicken to the skillet and simmer until fully cooked through and thoroughly coated in the sauce."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果香草蜂蜜煎雞肉",
+      "category": "主菜・肉類料理",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2人份",
+      "cooking_time": "約40分鐘",
+      "description": "將雞腿肉以香草鹽醃製並煎至香氣四溢，再與蘋果及櫛瓜一同放入蜂蜜芥末特調醬汁中燉煮，交織出酸甜濃郁風味的道地主菜。",
+      "ingredients": [
+        {
+          "name": "雞腿肉",
+          "amount": "1塊"
+        },
+        {
+          "name": "蘋果",
+          "amount": "1個"
+        },
+        {
+          "name": "櫛瓜",
+          "amount": "1/2根"
+        },
+        {
+          "name": "杏鮑菇",
+          "amount": "1個"
+        },
+        {
+          "name": "沙拉油",
+          "amount": "適量"
+        },
+        {
+          "name": "麵粉",
+          "amount": "適量"
+        },
+        {
+          "name": "香草鹽",
+          "amount": "少許"
+        },
+        {
+          "name": "奶油",
+          "amount": "15g"
+        },
+        {
+          "name": "水",
+          "amount": "250ml"
+        },
+        {
+          "name": "高湯塊",
+          "amount": "1個"
+        },
+        {
+          "name": "咖哩粉",
+          "amount": "少許"
+        },
+        {
+          "name": "芥末醬",
+          "amount": "1大匙"
+        },
+        {
+          "name": "蜂蜜",
+          "amount": "10g"
+        }
+      ],
+      "steps": [
+        "將雞腿肉剖開，用刀背輕敲拍鬆肉質。",
+        "抹上香草鹽入味，並撒上一層薄薄的麵粉。",
+        "蘋果切成楔形塊後削皮去芯，再切成銀杏葉狀薄片。櫛瓜與杏鮑菇切成圓片。",
+        "平底鍋倒入沙拉油加熱，將雞肉表面煎至兩面熟透後取出備用。",
+        "使用原鍋融化奶油。",
+        "放入蔬菜與蘋果翻煎至微微金黃。",
+        "加入水、高湯塊、咖哩粉、芥末醬及蜂蜜，煮至湯汁收乾濃縮。",
+        "將雞肉放回鍋中，燉煮至完全熟透且吸飽醬汁精華。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_02",
@@ -144,7 +292,133 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-gratin-pie.jpg",
-    "image_webp": "/img/recipes/webp/apple-gratin-pie.webp"
+    "image_webp": "/img/recipes/webp/apple-gratin-pie.webp",
+    "en": {
+      "title": "Apple Gratin Pie",
+      "category": "Main Dish: Baking",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 4",
+      "cooking_time": "Approx. 40 mins",
+      "description": "A festive gratin pie featuring the natural sweetness of apples, savory bacon, rich cheese, and white sauce, all wrapped in crisp puff pastry and baked to perfection.",
+      "ingredients": [
+        {
+          "name": "Apple",
+          "amount": "1"
+        },
+        {
+          "name": "Bacon",
+          "amount": "50g"
+        },
+        {
+          "name": "Butter",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Flour",
+          "amount": "20g"
+        },
+        {
+          "name": "Milk",
+          "amount": "200g"
+        },
+        {
+          "name": "Shredded Cheese",
+          "amount": "30g"
+        },
+        {
+          "name": "Honey",
+          "amount": "30g"
+        },
+        {
+          "name": "Consommé Powder",
+          "amount": "1 tsp"
+        },
+        {
+          "name": "Frozen Puff Pastry Sheets",
+          "amount": "4 sheets"
+        },
+        {
+          "name": "Egg Wash (1 egg yolk, 1 tbsp mirin)",
+          "amount": "As needed"
+        }
+      ],
+      "steps": [
+        "Cut the apple into wedges, remove the core, and thinly slice with the skin on into quarter-rounds. Cut the bacon into 2 cm strips.",
+        "Melt butter in a pot, then add the apple and bacon to sauté.",
+        "Once cooked through, sprinkle in the flour and sauté together.",
+        "Gradually add the milk in several portions, stirring continuously.",
+        "When it comes to a boil, add the consommé powder and cheese, stirring until thickened.",
+        "Preheat the oven to 200°C.",
+        "Cut each puff pastry sheet into 4 equal pieces.",
+        "Prick holes with a fork on half of the pastry pieces.",
+        "Wrap the filling with the pastry sheets, shape them, brush the top surface with egg wash, and bake in the oven for 15 to 20 minutes."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果焗烤派",
+      "category": "主菜・烘焙",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "4人份",
+      "cooking_time": "約40分鐘",
+      "description": "結合蘋果的自然甘甜、培根的鹹香，以及濃郁起司與白醬，再用香酥派皮包裹烘烤而成，讓餐桌增添華麗色彩的焗烤派。",
+      "ingredients": [
+        {
+          "name": "蘋果",
+          "amount": "1個"
+        },
+        {
+          "name": "培根",
+          "amount": "50g"
+        },
+        {
+          "name": "奶油",
+          "amount": "1大匙"
+        },
+        {
+          "name": "麵粉",
+          "amount": "20g"
+        },
+        {
+          "name": "牛奶",
+          "amount": "200g"
+        },
+        {
+          "name": "披薩用起司絲",
+          "amount": "30g"
+        },
+        {
+          "name": "蜂蜜",
+          "amount": "30g"
+        },
+        {
+          "name": "雞精粉",
+          "amount": "1小匙"
+        },
+        {
+          "name": "冷凍派皮",
+          "amount": "4張"
+        },
+        {
+          "name": "蛋液（蛋黃1個、味醂1大匙）",
+          "amount": "適量"
+        }
+      ],
+      "steps": [
+        "將蘋果切成楔形去芯，帶皮切成銀杏葉狀薄片。培根切成2公分寬。",
+        "在鍋中融化奶油，加入蘋果和培根拌炒。",
+        "食材炒熟後，撒入麵粉拌炒。",
+        "分次倒入牛奶拌勻。",
+        "煮沸後加入雞精粉與起司，持續攪拌至濃稠。",
+        "將烤箱預熱至200℃。",
+        "將每張派皮切成4等份。",
+        "用叉子在其中一半的派皮上打洞。",
+        "包入內餡並捏合整形，表面塗上蛋液後，放入烤箱烘烤15～20分鐘。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_03",
@@ -197,7 +471,103 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-keema-curry.jpg",
-    "image_webp": "/img/recipes/webp/apple-keema-curry.webp"
+    "image_webp": "/img/recipes/webp/apple-keema-curry.webp",
+    "en": {
+      "title": "Apple Keema Curry",
+      "category": "Staple: Curry",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2–3",
+      "cooking_time": "Approx. 30 mins",
+      "description": "A quick-and-easy keema curry where the crisp texture and fruity sweetness of diced apples perfectly complement the savory, spicy minced pork.",
+      "ingredients": [
+        {
+          "name": "Curry roux",
+          "amount": "1/2 box"
+        },
+        {
+          "name": "Minced pork",
+          "amount": "300g"
+        },
+        {
+          "name": "Onion",
+          "amount": "1 medium"
+        },
+        {
+          "name": "Carrot",
+          "amount": "1 medium"
+        },
+        {
+          "name": "Apple",
+          "amount": "1 small"
+        },
+        {
+          "name": "Vegetable oil",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Water",
+          "amount": "300ml"
+        }
+      ],
+      "steps": [
+        "Finely chop the onion and carrot.",
+        "Peel and core the apple, then cut into 1cm cubes.",
+        "Heat the vegetable oil in a frying pan and thoroughly sauté the chopped onion and carrot from step 1.",
+        "Add the minced pork and cook thoroughly until the meat changes color.",
+        "Add water, bring to a boil, skim off any foam, then cover and simmer over low to medium heat for about 5 minutes.",
+        "Temporarily turn off the heat, push the ingredients to one side, add the curry roux to the cleared space to melt it, then add the diced apple from step 2 and simmer again over low heat for about 5 minutes, stirring occasionally."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果乾咖哩",
+      "category": "主食・咖哩",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2～3人份",
+      "cooking_time": "約30分鐘",
+      "description": "這款省時乾咖哩將切丁蘋果的清脆口感與水果甜味，與香辣絞肉的鮮美完美融合，堪稱絕配。",
+      "ingredients": [
+        {
+          "name": "咖哩塊",
+          "amount": "1/2盒"
+        },
+        {
+          "name": "豬絞肉",
+          "amount": "300g"
+        },
+        {
+          "name": "洋蔥",
+          "amount": "中等大小1個"
+        },
+        {
+          "name": "紅蘿蔔",
+          "amount": "中等大小1根"
+        },
+        {
+          "name": "蘋果",
+          "amount": "小1個"
+        },
+        {
+          "name": "沙拉油",
+          "amount": "1大匙"
+        },
+        {
+          "name": "水",
+          "amount": "300毫升"
+        }
+      ],
+      "steps": [
+        "將洋蔥和紅蘿蔔切成碎末。",
+        "將蘋果去皮去核，切成1公分大小的丁狀。",
+        "在平底鍋中熱沙拉油，將步驟①的洋蔥和紅蘿蔔充分翻炒。",
+        "加入豬絞肉，炒至肉色變白。",
+        "加入水，煮沸後撈去浮沫，蓋上鍋蓋以小火至中火燉煮約5分鐘。",
+        "暫時熄火，將食材撥到鍋子一側，在空出來的地方放入咖哩塊使其融化，接著加入步驟②的蘋果丁，再次以小火燉煮約5分鐘，其間不時攪拌。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_04",
@@ -257,7 +627,117 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-pumpkin-okara-cake.jpg",
-    "image_webp": "/img/recipes/webp/apple-pumpkin-okara-cake.webp"
+    "image_webp": "/img/recipes/webp/apple-pumpkin-okara-cake.webp",
+    "en": {
+      "title": "Apple, Pumpkin & Okara Cake",
+      "category": "Sweets & Snacks",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Makes 10 paper cups",
+      "cooking_time": "Approx. 40 mins",
+      "description": "A healthy and gently sweet muffin-style cake made with okara (soy pulp) and rice flour, highlighting the fluffy texture of pumpkin and the refreshing acidity of apples.",
+      "ingredients": [
+        {
+          "name": "Apple",
+          "amount": "1"
+        },
+        {
+          "name": "Vegetable oil",
+          "amount": "40g"
+        },
+        {
+          "name": "Milk",
+          "amount": "50g"
+        },
+        {
+          "name": "Pumpkin (mashed)",
+          "amount": "200g"
+        },
+        {
+          "name": "Sugar",
+          "amount": "50g"
+        },
+        {
+          "name": "Rice flour",
+          "amount": "100g"
+        },
+        {
+          "name": "Lemon juice",
+          "amount": "10g"
+        },
+        {
+          "name": "Okara (soy pulp)",
+          "amount": "150g"
+        },
+        {
+          "name": "Vegetable oil (for greasing the molds)",
+          "amount": "As needed"
+        }
+      ],
+      "steps": [
+        "Wash the apple thoroughly. Core it and cut into desired size and thickness, such as ginkgo-leaf slices, leaving the skin on (you may peel it if preferred).",
+        "In a bowl, combine all ingredients except the okara and the apple slices, and mix thoroughly.",
+        "Preheat the oven to 190°C (375°F).",
+        "Fold the okara and the sliced apples from Step 1 into the mixture from Step 2, then spoon into paper cups. (If using metal molds such as aluminum, grease them with vegetable oil beforehand.)",
+        "Bake in the preheated oven at 190°C for 20 minutes."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果南瓜豆渣蛋糕",
+      "category": "甜點・點心",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "10個紙杯份量",
+      "cooking_time": "約40分鐘",
+      "description": "使用豆渣與米粉製成，充分展現南瓜的鬆軟口感與蘋果的清爽酸味，是一款健康且甜度溫和的馬芬風蛋糕。",
+      "ingredients": [
+        {
+          "name": "蘋果",
+          "amount": "1個"
+        },
+        {
+          "name": "沙拉油",
+          "amount": "40g"
+        },
+        {
+          "name": "牛奶",
+          "amount": "50g"
+        },
+        {
+          "name": "南瓜（泥狀）",
+          "amount": "200g"
+        },
+        {
+          "name": "砂糖",
+          "amount": "50g"
+        },
+        {
+          "name": "米粉",
+          "amount": "100g"
+        },
+        {
+          "name": "檸檬汁",
+          "amount": "10g"
+        },
+        {
+          "name": "豆渣",
+          "amount": "150g"
+        },
+        {
+          "name": "沙拉油（塗抹烤模用）",
+          "amount": "適量"
+        }
+      ],
+      "steps": [
+        "將蘋果徹底洗淨，保留外皮並去芯，切成喜好的大小與厚度（如銀杏葉片狀，亦可依個人喜好削皮）。",
+        "將豆渣與蘋果以外的所有材料放入碗中，充分攪拌均勻。",
+        "將烤箱預熱至190℃。",
+        "在步驟②中加入豆渣與步驟①的蘋果混合均勻，裝入紙杯中（若使用鋁製等金屬烤模，請先塗抹一層沙拉油後再倒入）。",
+        "放入190℃的烤箱中烘烤20分鐘。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_05",
@@ -326,7 +806,135 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-chicken-millefeuille-tomato.jpg",
-    "image_webp": "/img/recipes/webp/apple-chicken-millefeuille-tomato.webp"
+    "image_webp": "/img/recipes/webp/apple-chicken-millefeuille-tomato.webp",
+    "en": {
+      "title": "Apple & Chicken Mille-Feuille Style Bake ~Tomato Sauce Ver.~",
+      "category": "Main Dish: Oven-Baked",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2-3",
+      "cooking_time": "Approx. 45 mins",
+      "description": "A juicy, flavorful oven-baked dish featuring thinly sliced chicken breast and apples layered mille-feuille style with tomato sauce and melted cheese.",
+      "ingredients": [
+        {
+          "name": "Chicken breast",
+          "amount": "160g"
+        },
+        {
+          "name": "Cake flour",
+          "amount": "As needed"
+        },
+        {
+          "name": "Salt & pepper",
+          "amount": "A pinch"
+        },
+        {
+          "name": "Apple",
+          "amount": "1"
+        },
+        {
+          "name": "● Canned diced tomatoes",
+          "amount": "200g"
+        },
+        {
+          "name": "● Consommé bouillon cube",
+          "amount": "1/2 cube"
+        },
+        {
+          "name": "● Sugar",
+          "amount": "1 tsp"
+        },
+        {
+          "name": "● Grated garlic",
+          "amount": "1 cm (from a tube)"
+        },
+        {
+          "name": "● Olive oil",
+          "amount": "1 tsp"
+        },
+        {
+          "name": "Olive oil",
+          "amount": "As needed (for greasing)"
+        },
+        {
+          "name": "Pizza cheese",
+          "amount": "30g"
+        }
+      ],
+      "steps": [
+        "Preheat the oven to 200°C.",
+        "Slice the chicken breast diagonally into thin bite-sized pieces, then coat both sides with cake flour, salt, and pepper.",
+        "Wedge the apple, remove the core, and slice thinly with the skin on.",
+        "Combine the ● ingredients in a small saucepan and simmer for about 5 minutes while stirring to reduce into a special tomato sauce.",
+        "Grease a gratin dish with olive oil, then layer the ingredients in order: apple → tomato sauce → chicken → cheese.",
+        "Cover with aluminum foil and bake in the oven at 200°C for 35 minutes. (To brown the top, remove the foil after the first 20 minutes of baking)."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果雞肉千層燒 〜番茄醬風味〜",
+      "category": "主菜・烤箱料理",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2～3人份",
+      "cooking_time": "約45分鐘",
+      "description": "將薄切雞胸肉與蘋果，搭配番茄醬和起司如千層般疊放後烤製，是一道多汁且鮮美濃郁的烤箱料理。",
+      "ingredients": [
+        {
+          "name": "雞胸肉",
+          "amount": "160g"
+        },
+        {
+          "name": "低筋麵粉",
+          "amount": "適量"
+        },
+        {
+          "name": "鹽、胡椒",
+          "amount": "少許"
+        },
+        {
+          "name": "蘋果",
+          "amount": "1顆"
+        },
+        {
+          "name": "● 罐裝切丁番茄",
+          "amount": "200g"
+        },
+        {
+          "name": "● 高湯塊",
+          "amount": "1/2個"
+        },
+        {
+          "name": "● 砂糖",
+          "amount": "1小匙"
+        },
+        {
+          "name": "● 蒜泥",
+          "amount": "1公分"
+        },
+        {
+          "name": "● 橄欖油",
+          "amount": "1小匙"
+        },
+        {
+          "name": "橄欖油",
+          "amount": "適量"
+        },
+        {
+          "name": "披薩用起司絲",
+          "amount": "30g"
+        }
+      ],
+      "steps": [
+        "將烤箱預熱至200℃。",
+        "將雞胸肉斜切成薄片，兩面均勻撒上低筋麵粉、鹽和胡椒。",
+        "蘋果切成楔形並去芯，保留外皮切成薄片。",
+        "將●材料放入小鍋中，一邊攪拌一邊燉煮約5分鐘至濃稠，製成特製番茄醬。",
+        "在焗烤盤上塗抹適量橄欖油，依序疊放 蘋果 → 番茄醬 → 雞肉 → 起司。",
+        "蓋上鋁箔紙，放入200℃的烤箱烘烤35分鐘（為了烤出漂亮焦色，烘烤20分鐘後請取下鋁箔紙）。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_06",
@@ -388,7 +996,121 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-yogurt-jelly.jpg",
-    "image_webp": "/img/recipes/webp/apple-yogurt-jelly.webp"
+    "image_webp": "/img/recipes/webp/apple-yogurt-jelly.webp",
+    "en": {
+      "title": "Apple & Yogurt Jelly",
+      "category": "Sweets & Chilled Desserts",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2–3",
+      "cooking_time": "Approx. 20 mins (excluding chilling time)",
+      "description": "A refreshing dessert that combines a pale pink apple compote, easily made in a microwave, with a refreshing yogurt jelly.",
+      "ingredients": [
+        {
+          "name": "Apple",
+          "amount": "1"
+        },
+        {
+          "name": "Water",
+          "amount": "25 ml"
+        },
+        {
+          "name": "Sugar",
+          "amount": "20 g"
+        },
+        {
+          "name": "Lemon juice",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Plain yogurt",
+          "amount": "120 g"
+        },
+        {
+          "name": "Milk",
+          "amount": "80 ml"
+        },
+        {
+          "name": "Sugar",
+          "amount": "20 g"
+        },
+        {
+          "name": "Powdered gelatin",
+          "amount": "5 g"
+        },
+        {
+          "name": "Water (for gelatin)",
+          "amount": "60 ml"
+        }
+      ],
+      "steps": [
+        "Wash the apple thoroughly, cut into wedges, core, and cut into small bite-sized pieces. (Leaving the skin on gives the compote a lovely pale pink color.)",
+        "Place the apple, 25 ml water, 20 g sugar, and lemon juice in a microwave-safe dish or bowl, and stir gently.",
+        "Cover with plastic wrap and microwave at 600W for 3.5 minutes (or 500W for 4 minutes).",
+        "Sprinkle the powdered gelatin into 60 ml of water, stir, and let it bloom for about 10 minutes.",
+        "Combine milk, 20 g sugar, and the bloomed gelatin in a small saucepan. Place over low heat and stir until dissolved, being careful not to let it boil.",
+        "Remove from heat once dissolved, mix in the yogurt, then stir in the apple compote from step 3 (reserving some for garnish). Pour into serving dishes and refrigerate until set.",
+        "Once the jelly has set, top with the reserved apple pieces and syrup to taste."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果優格果凍",
+      "category": "甜點・冰品",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2～3人份",
+      "cooking_time": "約20分鐘 (不含冷藏凝固時間)",
+      "description": "這款清涼感十足的甜點，結合了用微波爐便能輕鬆製作、帶有淡淡粉紅色的糖煮蘋果（Compote），以及口感清爽的優格果凍。",
+      "ingredients": [
+        {
+          "name": "蘋果",
+          "amount": "1個"
+        },
+        {
+          "name": "水",
+          "amount": "25毫升"
+        },
+        {
+          "name": "砂糖",
+          "amount": "20公克"
+        },
+        {
+          "name": "檸檬汁",
+          "amount": "1大匙"
+        },
+        {
+          "name": "原味優格",
+          "amount": "120公克"
+        },
+        {
+          "name": "牛乳",
+          "amount": "80毫升"
+        },
+        {
+          "name": "砂糖",
+          "amount": "20公克"
+        },
+        {
+          "name": "吉利丁粉",
+          "amount": "5公克"
+        },
+        {
+          "name": "水（吉利丁用）",
+          "amount": "60毫升"
+        }
+      ],
+      "steps": [
+        "將蘋果徹底洗淨、切成楔形（梳子狀），去芯後切成一口大小的小塊（保留果皮可做出帶有淡淡粉紅色的糖煮蘋果）。",
+        "在耐熱盤或適用於微波爐的碗中放入蘋果、水25毫升、砂糖20公克及檸檬汁，輕輕攪拌。",
+        "蓋上保鮮膜，以電子微波爐600W加熱3分半鐘（500W則為4分鐘）。",
+        "將吉利丁粉撒入60毫升的水中，攪拌均勻並靜置約10分鐘使其吸水膨潤。",
+        "在小鍋中放入牛乳、砂糖20公克及膨潤後的吉利丁，開火並以小火加熱攪拌至融化，注意切勿煮至沸騰。",
+        "融化後離火，加入優格攪拌均勻，再混入步驟③的糖煮蘋果（保留一部分作為裝飾），裝入容器中放入冰箱冷藏至凝固。",
+        "果凍冰鎮凝固後，在上方放上適量保留裝飾用的蘋果和湯汁。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_07",
@@ -447,7 +1169,115 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-earl-grey-pudding.jpg",
-    "image_webp": "/img/recipes/webp/apple-earl-grey-pudding.webp"
+    "image_webp": "/img/recipes/webp/apple-earl-grey-pudding.webp",
+    "en": {
+      "title": "Apple Earl Grey Pudding",
+      "category": "Sweets & Pudding",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 3–4",
+      "cooking_time": "Approx. 60 mins",
+      "description": "A rich and sophisticated dessert featuring a smooth pudding infused with the fragrant aroma of Earl Grey, sitting atop apple pieces slowly sautéed in butter.",
+      "ingredients": [
+        {
+          "name": "Eggs",
+          "amount": "2"
+        },
+        {
+          "name": "Sugar",
+          "amount": "40g"
+        },
+        {
+          "name": "Water",
+          "amount": "50ml"
+        },
+        {
+          "name": "Milk",
+          "amount": "200ml"
+        },
+        {
+          "name": "Earl Grey tea leaves",
+          "amount": "4g (or 1 tea bag)"
+        },
+        {
+          "name": "Apple",
+          "amount": "1/2"
+        },
+        {
+          "name": "Sugar (for apples)",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Butter",
+          "amount": "10g"
+        }
+      ],
+      "steps": [
+        "In a bowl, combine the eggs and sugar, and whisk together well.",
+        "Bring water to a boil in a saucepan, add the tea leaves, and simmer over low heat for about 3 minutes to brew a strong tea. Once the flavor and color are fully extracted, strain through a tea strainer. Stir in the milk, and then mix into the egg-sugar mixture from Step 1.",
+        "Peel and core the apple, then cut into small cubes.",
+        "Melt the butter in a frying pan over medium heat, add the diced apples, and cook for 2 to 3 minutes while stirring.",
+        "Add the sugar for the apples and cook for another 5 minutes. Distribute the cooked apples evenly across the bottom of the pudding cups (reserve a small amount for topping).",
+        "Strain the pudding mixture from Step 2 through a fine-mesh strainer as you pour it into the cups over the apples.",
+        "Arrange the cups on a baking sheet, pour hot water around them to create a water bath, and bake in a preheated oven at 150°C for 30 to 40 minutes.",
+        "Remove from the cups and garnish the tops with the reserved sautéed apples."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果紅茶布丁",
+      "category": "甜點・布丁",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "3～4個份",
+      "cooking_time": "約60分鐘",
+      "description": "散發格雷紅茶芳醇香氣的細緻滑順布丁，底層藏著用奶油細火慢煎的美味蘋果，是一款帶有些許奢華感的優雅大人系甜點。",
+      "ingredients": [
+        {
+          "name": "雞蛋",
+          "amount": "2個"
+        },
+        {
+          "name": "砂糖",
+          "amount": "40g"
+        },
+        {
+          "name": "水",
+          "amount": "50ml"
+        },
+        {
+          "name": "牛奶",
+          "amount": "200ml"
+        },
+        {
+          "name": "格雷紅茶茶葉",
+          "amount": "4g（或茶包1包）"
+        },
+        {
+          "name": "蘋果",
+          "amount": "1/2個"
+        },
+        {
+          "name": "砂糖（蘋果用）",
+          "amount": "1大匙"
+        },
+        {
+          "name": "奶油",
+          "amount": "10g"
+        }
+      ],
+      "steps": [
+        "在碗中放入雞蛋和砂糖，攪拌均勻。",
+        "鍋中裝水煮沸，加入茶葉並以小火加熱約3分鐘以萃取出濃郁的茶液。待香氣與茶色充分釋出後，用濾茶器濾出。加入牛奶攪拌均勻，再與步驟①的蛋液混合拌勻。",
+        "將蘋果去皮去芯，切成丁狀。",
+        "平底鍋以中火加熱融化奶油，放入蘋果丁，一邊攪拌一邊加熱拌炒約2至3分鐘。",
+        "加入砂糖，繼續加熱拌炒約5分鐘。接著將炒好的蘋果丁鋪入布丁模具底部（保留少許作為最後裝飾之用）。",
+        "將步驟②的布丁液用濾網過濾，慢慢倒入鋪有蘋果丁的模具中。",
+        "將布丁模具排在烤盤上，在烤盤中注入熱水，放入150℃的烤箱中，以隔水烘烤（湯せん焼き）的方式烤30至40分鐘。",
+        "脫模後，將步驟⑤預留的蘋果丁點綴在布丁上方即成。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_08",
@@ -492,7 +1322,87 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-sweet-potato-salad.jpg",
-    "image_webp": "/img/recipes/webp/apple-sweet-potato-salad.webp"
+    "image_webp": "/img/recipes/webp/apple-sweet-potato-salad.webp",
+    "en": {
+      "title": "Apple & Sweet Potato Salad",
+      "category": "Side Dish & Salad",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2–3",
+      "cooking_time": "Approx. 20 mins",
+      "description": "A deli-style ultimate gourmet salad featuring warm, fluffy sweet potatoes coated in rich cream cheese, paired with juicy apples and fragrant roasted nuts.",
+      "ingredients": [
+        {
+          "name": "Sweet potato",
+          "amount": "1 medium"
+        },
+        {
+          "name": "Mixed nuts",
+          "amount": "25g"
+        },
+        {
+          "name": "Apple",
+          "amount": "1"
+        },
+        {
+          "name": "Cream cheese",
+          "amount": "50g"
+        },
+        {
+          "name": "Mayonnaise",
+          "amount": "1/2 tbsp"
+        }
+      ],
+      "steps": [
+        "Roughly chop the mixed nuts.",
+        "Wash the sweet potato thoroughly, leave the skin on, cut into 2 cm cubes, and soak in water to remove bitterness.",
+        "Drain the sweet potato, place in a pot of cold water, and boil until a bamboo skewer easily pierces through.",
+        "Cut the apple vertically into 8 wedges, core them, and slice into 5 mm thin pieces.",
+        "While the sweet potato is still hot, add the cream cheese and mix well, allowing the residual heat to melt it.",
+        "Add the sliced apple from step 4, chopped nuts from step 1, and mayonnaise to the sweet potato mixture from step 5, then toss gently."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果地瓜沙拉",
+      "category": "配菜・沙拉",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2～3人份",
+      "cooking_time": "約20分鐘",
+      "description": "鬆軟溫熱的地瓜裹上濃郁奶油乳酪，搭配多汁鮮甜的蘋果與香氣四溢的堅果，打造出熟食店風格的頂級美味沙拉。",
+      "ingredients": [
+        {
+          "name": "地瓜",
+          "amount": "中等大小1根"
+        },
+        {
+          "name": "綜合堅果",
+          "amount": "25g"
+        },
+        {
+          "name": "蘋果",
+          "amount": "1顆"
+        },
+        {
+          "name": "奶油乳酪",
+          "amount": "50g"
+        },
+        {
+          "name": "美乃滋",
+          "amount": "1/2大匙"
+        }
+      ],
+      "steps": [
+        "將綜合堅果粗略切碎。",
+        "將地瓜徹底洗淨，帶皮切成2公分見方的塊狀，浸泡於水中去除澀味。",
+        "將地瓜瀝乾水分，放入鍋中加水加熱，煮至竹籤能輕鬆穿透的程度。",
+        "將蘋果縱向切成8等份，去核後切成5公釐厚的薄片。",
+        "趁地瓜尚熱時加入奶油乳酪，利用餘熱使其融化並混合均勻。",
+        "在步驟5中加入步驟4的蘋果、步驟1的堅果及美乃滋，輕柔地將整體和勻。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_09",
@@ -548,7 +1458,109 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-carrot-salad.jpg",
-    "image_webp": "/img/recipes/webp/apple-carrot-salad.webp"
+    "image_webp": "/img/recipes/webp/apple-carrot-salad.webp",
+    "en": {
+      "title": "Apple and Carrot Salad",
+      "category": "Side Dish & Salad",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2–3",
+      "cooking_time": "Approx. 20 mins",
+      "description": "A carrot rappés-style salad combining vibrant julienned carrots with the crisp texture of fresh apples. Accented with a special vinegar dressing and crunchy mixed nuts.",
+      "ingredients": [
+        {
+          "name": "Carrot",
+          "amount": "1 medium"
+        },
+        {
+          "name": "Apple",
+          "amount": "1 small"
+        },
+        {
+          "name": "Mixed nuts",
+          "amount": "25g"
+        },
+        {
+          "name": "Lemon juice",
+          "amount": "1 tsp"
+        },
+        {
+          "name": "Salt",
+          "amount": "1/2 tsp"
+        },
+        {
+          "name": "Olive oil",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Vinegar",
+          "amount": "1 tsp"
+        },
+        {
+          "name": "Sugar",
+          "amount": "1/2 tsp"
+        }
+      ],
+      "steps": [
+        "Coarsely chop the mixed nuts.",
+        "Julienne the carrot, rub with salt, and let sit for about 5 minutes until softened.",
+        "Julienne the apple and drizzle with lemon juice to prevent discoloration.",
+        "Squeeze out excess moisture from the carrot and combine with the julienned apple.",
+        "Whisk together the olive oil, vinegar, and sugar to make the dressing, then add to the salad and toss well."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果胡蘿蔔沙拉",
+      "category": "副菜・沙拉",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2～3人份",
+      "cooking_time": "約20分鐘",
+      "description": "鮮橘色的切絲胡蘿蔔搭配蘋果的爽脆口感。淋上特製醋醬汁並撒上堅果提味，是一道法式胡蘿蔔沙拉風味的清爽佳餚。",
+      "ingredients": [
+        {
+          "name": "胡蘿蔔",
+          "amount": "中等大小1根"
+        },
+        {
+          "name": "蘋果",
+          "amount": "小顆1個"
+        },
+        {
+          "name": "綜合堅果",
+          "amount": "25公克"
+        },
+        {
+          "name": "檸檬汁",
+          "amount": "1茶匙"
+        },
+        {
+          "name": "鹽",
+          "amount": "1/2茶匙"
+        },
+        {
+          "name": "橄欖油",
+          "amount": "1湯匙"
+        },
+        {
+          "name": "醋",
+          "amount": "1茶匙"
+        },
+        {
+          "name": "砂糖",
+          "amount": "1/2茶匙"
+        }
+      ],
+      "steps": [
+        "將綜合堅果粗粗切碎。",
+        "胡蘿蔔切絲後加鹽抓勻，靜置約5分鐘至變軟。",
+        "蘋果切絲，淋上檸檬汁拌勻以防氧化變色。",
+        "確實擠乾胡蘿蔔的水分，與步驟3的蘋果絲混合。",
+        "將橄欖油、醋與砂糖充分攪拌均勻調成醬汁，倒入步驟4中拌勻即可。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_10",
@@ -613,7 +1625,127 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-chicken-millefeuille-white.jpg",
-    "image_webp": "/img/recipes/webp/apple-chicken-millefeuille-white.webp"
+    "image_webp": "/img/recipes/webp/apple-chicken-millefeuille-white.webp",
+    "en": {
+      "title": "Apple and Chicken Mille-Feuille Bake with White Sauce",
+      "category": "Main Dish: Oven-Baked",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2-3",
+      "cooking_time": "Approx. 45 mins",
+      "description": "A comforting winter gratin style dish featuring rich, homemade white sauce, melted cheese, the gentle sweetness of apples, and tender chicken layered together beautifully.",
+      "ingredients": [
+        {
+          "name": "Chicken breast",
+          "amount": "160g"
+        },
+        {
+          "name": "Cake flour",
+          "amount": "As needed"
+        },
+        {
+          "name": "Salt and pepper",
+          "amount": "A pinch"
+        },
+        {
+          "name": "Apple",
+          "amount": "1/2"
+        },
+        {
+          "name": "● Salted butter",
+          "amount": "20g"
+        },
+        {
+          "name": "● Cake flour",
+          "amount": "20g"
+        },
+        {
+          "name": "● Milk",
+          "amount": "200ml"
+        },
+        {
+          "name": "● Salt and pepper",
+          "amount": "A pinch"
+        },
+        {
+          "name": "Olive oil",
+          "amount": "As needed"
+        },
+        {
+          "name": "Shredded pizza cheese",
+          "amount": "30g"
+        }
+      ],
+      "steps": [
+        "Preheat the oven to 200°C.",
+        "Slice the chicken breast diagonally into thin bite-sized pieces, then lightly dust both sides with cake flour, salt, and pepper.",
+        "Cut the apple into wedges, remove the core, and slice thinly with the skin on.",
+        "Melt the butter in a small saucepan, stir in the cake flour and cook briefly. Gradually add the milk while stirring constantly to prevent lumps, then season with salt and pepper to create a smooth white sauce.",
+        "Grease a gratin dish with olive oil, then layer the ingredients in the following order: apple slices, white sauce, chicken, and pizza cheese.",
+        "Cover with aluminum foil and bake in the preheated oven at 200°C for 35 minutes (remove the foil after the first 20 minutes of baking to allow the top to brown beautifully)."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果雞肉千層燒 〜白醬風味〜",
+      "category": "主菜・烤箱料理",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2～3人份",
+      "cooking_time": "約45分鐘",
+      "description": "手作濃郁白醬與牽絲起司交融，搭配蘋果的溫和甘甜與軟嫩雞肉層層堆疊，是一款非常適合冬季餐桌的華麗焗烤風料理。",
+      "ingredients": [
+        {
+          "name": "雞胸肉",
+          "amount": "160g"
+        },
+        {
+          "name": "低筋麵粉",
+          "amount": "適量"
+        },
+        {
+          "name": "鹽、胡椒",
+          "amount": "少許"
+        },
+        {
+          "name": "蘋果",
+          "amount": "1/2個"
+        },
+        {
+          "name": "● 有鹽奶油",
+          "amount": "20g"
+        },
+        {
+          "name": "● 低筋麵粉",
+          "amount": "20g"
+        },
+        {
+          "name": "● 牛奶",
+          "amount": "200ml"
+        },
+        {
+          "name": "● 鹽、胡椒",
+          "amount": "少許"
+        },
+        {
+          "name": "橄欖油",
+          "amount": "適量"
+        },
+        {
+          "name": "披薩用起司絲",
+          "amount": "30g"
+        }
+      ],
+      "steps": [
+        "將烤箱預熱至200℃。",
+        "將雞胸肉斜切成薄片，雙面均勻地撒上薄薄一層低筋麵粉及鹽、胡椒。",
+        "蘋果切成切片並去芯，保留外皮切成薄片。",
+        "在小鍋中融化奶油，加入低筋麵粉拌炒，接著一邊攪拌一邊分次慢慢加入牛奶（以防結塊），最後以鹽、胡椒調味，製成柔滑的白醬。",
+        "在焗烤盤內側刷上一層橄欖油，依序疊放：蘋果 → 白醬 → 雞肉 → 起司絲。",
+        "蓋上鋁箔紙，放入200℃的烤箱烘烤35分鐘（烘烤開始20分鐘後取下鋁箔紙，使表面烤出漂亮的金黃烤色）。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_11",
@@ -676,7 +1808,123 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-pumpkin-moist-cake.jpg",
-    "image_webp": "/img/recipes/webp/apple-pumpkin-moist-cake.webp"
+    "image_webp": "/img/recipes/webp/apple-pumpkin-moist-cake.webp",
+    "en": {
+      "title": "Moist Apple & Pumpkin Cake",
+      "category": "Dessert & Pastry",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Makes 1 cake",
+      "cooking_time": "Approx. 50 mins",
+      "description": "An authentic cake featuring a moist batter generously made with plenty of pureed pumpkin and fresh cream, beautifully topped with fragrant caramelized apples.",
+      "ingredients": [
+        {
+          "name": "Pumpkin",
+          "amount": "400-500g"
+        },
+        {
+          "name": "Apple (for batter)",
+          "amount": "1/2"
+        },
+        {
+          "name": "● Sugar",
+          "amount": "60g"
+        },
+        {
+          "name": "● Eggs",
+          "amount": "2"
+        },
+        {
+          "name": "● Heavy cream",
+          "amount": "200ml"
+        },
+        {
+          "name": "● Cake flour",
+          "amount": "30g"
+        },
+        {
+          "name": "[For Caramelization] Apple",
+          "amount": "1"
+        },
+        {
+          "name": "[For Caramelization] Butter",
+          "amount": "20g"
+        },
+        {
+          "name": "[For Caramelization] Sugar",
+          "amount": "2 tbsp"
+        }
+      ],
+      "steps": [
+        "Preheat the oven to 170°C.",
+        "Remove the skin, seeds, and pulp from the pumpkin. Cut into bite-sized pieces, boil until soft, and press through a sieve to puree.",
+        "Cut the apples into wedges, peel, and core. Thinly slice 1 apple for caramelization, and chop 1/2 apple into fan-shaped slices for the batter.",
+        "Add the ● ingredients to the pureed pumpkin from step 2 and mix well. Once combined, fold in the chopped apples for the batter.",
+        "Line a cake tin with parchment paper, pour in the batter, and bake in the oven at 170°C for 30 minutes.",
+        "While baking, melt the butter in a frying pan over medium heat and sauté the thinly sliced apples for 2 to 3 minutes.",
+        "Add the sugar to the frying pan and heat for another 5 minutes while stirring with a wooden spatula until beautifully caramelized and glossy.",
+        "Once the cake is baked, let it cool slightly, remove it from the tin, and beautifully decorate the top with the caramelized apples."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "香甜鬆軟蘋果南瓜蛋糕",
+      "category": "甜點・烘焙點心",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "1個烤模份量",
+      "cooking_time": "約50分鐘",
+      "description": "奢華使用大量南瓜泥與鮮奶油烘烤出的濕潤蛋糕體，表面鋪上香氣誘人的焦糖蘋果裝飾，是一款精緻美味的經典蛋糕。",
+      "ingredients": [
+        {
+          "name": "南瓜",
+          "amount": "400～500g"
+        },
+        {
+          "name": "蘋果（蛋糕體用）",
+          "amount": "1/2個"
+        },
+        {
+          "name": "● 砂糖",
+          "amount": "60g"
+        },
+        {
+          "name": "● 雞蛋",
+          "amount": "2個"
+        },
+        {
+          "name": "● 鮮奶油",
+          "amount": "200ml"
+        },
+        {
+          "name": "● 低筋麵粉",
+          "amount": "30g"
+        },
+        {
+          "name": "【焦糖蘋果用】蘋果",
+          "amount": "1個"
+        },
+        {
+          "name": "【焦糖蘋果用】奶油",
+          "amount": "20g"
+        },
+        {
+          "name": "【焦糖蘋果用】砂糖",
+          "amount": "2大匙"
+        }
+      ],
+      "steps": [
+        "將烤箱預熱至170℃。",
+        "去除南瓜皮、籽和瓢囊，切成一口大小，煮至變軟後壓成細泥。",
+        "將蘋果切成楔形並去皮去核。將用於焦糖化的一顆切成薄片，用於蛋糕體之半顆切成1/4圓扇形薄片。",
+        "在步驟②的南瓜泥中加入●材料並充分攪拌均勻，接著加入切成扇形的蘋果片，一同混合均勻。",
+        "烤模鋪上烘焙紙，倒入蛋糕糊，放入170℃的烤箱中烘烤30分鐘。",
+        "在烘烤蛋糕的同時，於平底鍋中以中火加熱融化奶油，加入切成薄片的蘋果翻炒2-3分鐘。",
+        "在步驟⑥中加入砂糖，一邊用木鏟攪拌一邊繼續加熱約5分鐘，直至炒出光澤誘人的焦糖色。",
+        "步驟⑤的蛋糕烤好後，靜置放涼至不燙手，脫模後將焦糖蘋果美觀地裝飾於蛋糕表面。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_12",
@@ -771,7 +2019,187 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-chili-con-carne.jpg",
-    "image_webp": "/img/recipes/webp/apple-chili-con-carne.webp"
+    "image_webp": "/img/recipes/webp/apple-chili-con-carne.webp",
+    "en": {
+      "title": "Apple Chili Con Carne",
+      "category": "Main Dish: Meat",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 1",
+      "cooking_time": "Approx. 30 mins",
+      "description": "A spicy chili con carne simmered with ground meat, soybeans, and tomatoes, enhanced by the surprising depth and richness created by the sweet and tart flavors of diced apples.",
+      "ingredients": [
+        {
+          "name": "Ground mixed meat",
+          "amount": "150g"
+        },
+        {
+          "name": "Boiled soybeans",
+          "amount": "150g"
+        },
+        {
+          "name": "Apple",
+          "amount": "1 small"
+        },
+        {
+          "name": "Onion",
+          "amount": "1 small"
+        },
+        {
+          "name": "Carrot",
+          "amount": "45g"
+        },
+        {
+          "name": "Grated garlic",
+          "amount": "To taste"
+        },
+        {
+          "name": "Chili powder",
+          "amount": "A pinch"
+        },
+        {
+          "name": "Canned diced tomatoes",
+          "amount": "300g"
+        },
+        {
+          "name": "Water",
+          "amount": "75ml"
+        },
+        {
+          "name": "Consomme bouillon cube",
+          "amount": "1"
+        },
+        {
+          "name": "Ketchup",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Salt and pepper",
+          "amount": "To taste"
+        },
+        {
+          "name": "Vegetable oil",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Honey",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Worcestershire sauce",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Bay leaf",
+          "amount": "1"
+        },
+        {
+          "name": "Dried parsley",
+          "amount": "A pinch"
+        }
+      ],
+      "steps": [
+        "Cut the carrot, onion, and cored apple into small dice.",
+        "Boil the carrot in water until cooked through.",
+        "Heat vegetable oil and grated garlic in a pot, add the ground mixed meat, boiled carrot, and onion, and sauté over medium heat.",
+        "Add chili powder and sauté further until fragrant.",
+        "Add the canned diced tomatoes, water, consomme cube, ketchup, boiled soybeans, and bay leaf. Partially cover with a lid and simmer over low to medium heat for about 8 minutes.",
+        "Add the diced apple, remove the lid, and cook down until thickened, allowing excess moisture to evaporate.",
+        "Add salt, pepper, honey, and Worcestershire sauce to season and adjust the flavor.",
+        "Serve in a bowl and sprinkle with dried parsley to finish."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "蘋果辣肉醬",
+      "category": "主菜・肉類料理",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "1人份",
+      "cooking_time": "約30分鐘",
+      "description": "在加入絞肉、大豆與番茄一同燉煮的辛香辣肉醬中，融入丁狀蘋果的酸甜滋味，為整體增添令人驚豔的深度與濃郁層次。",
+      "ingredients": [
+        {
+          "name": "合碎肉（牛豬混合絞肉）",
+          "amount": "150g"
+        },
+        {
+          "name": "水煮大豆",
+          "amount": "150g"
+        },
+        {
+          "name": "蘋果",
+          "amount": "小1顆"
+        },
+        {
+          "name": "洋蔥",
+          "amount": "小1顆"
+        },
+        {
+          "name": "紅蘿蔔",
+          "amount": "45g"
+        },
+        {
+          "name": "蒜泥",
+          "amount": "適量"
+        },
+        {
+          "name": "辣椒粉",
+          "amount": "少許"
+        },
+        {
+          "name": "切丁番茄罐頭",
+          "amount": "300g"
+        },
+        {
+          "name": "水",
+          "amount": "75ml"
+        },
+        {
+          "name": "高湯塊",
+          "amount": "1個"
+        },
+        {
+          "name": "番茄醬",
+          "amount": "1大匙"
+        },
+        {
+          "name": "鹽、胡椒粉",
+          "amount": "適量"
+        },
+        {
+          "name": "沙拉油",
+          "amount": "1大匙"
+        },
+        {
+          "name": "蜂蜜",
+          "amount": "1大匙"
+        },
+        {
+          "name": "伍斯特醬",
+          "amount": "1大匙"
+        },
+        {
+          "name": "月桂葉",
+          "amount": "1片"
+        },
+        {
+          "name": "洋香菜（乾燥）",
+          "amount": "少許"
+        }
+      ],
+      "steps": [
+        "將紅蘿蔔、洋蔥、去芯蘋果切成丁狀。",
+        "將紅蘿蔔放入水中煮熟，撈起備用。",
+        "在鍋中熱沙拉油與蒜泥，加入合碎肉、煮熟的紅蘿蔔及洋蔥，以中火翻炒。",
+        "加入辣椒粉，持續翻炒至香氣釋出。",
+        "加入切丁番茄罐頭、水、高湯塊、番茄醬、水煮大豆及月桂葉，將鍋蓋稍微留縫，以中小火燉煮約8分鐘。",
+        "加入蘋果丁並打開鍋蓋，燉煮至醬汁收汁濃稠，蒸發多餘水分。",
+        "加入鹽、胡椒粉、蜂蜜、伍斯特醬調味。",
+        "盛入器皿中，最後撒上乾燥洋香菜即成。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_13",
@@ -857,7 +2285,169 @@
     ],
     "points": [],
     "image_jpg": "/img/recipes/original_jpg/apple-chicken-sweet-sour-saute.jpg",
-    "image_webp": "/img/recipes/webp/apple-chicken-sweet-sour-saute.webp"
+    "image_webp": "/img/recipes/webp/apple-chicken-sweet-sour-saute.webp",
+    "en": {
+      "title": "Sweet and Sour Stir-Fried Chicken & Apples",
+      "category": "Main Dish: Stir-fry",
+      "source": "Joint Research Report by Nagano Prefectural University & Iizuna Town",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 2",
+      "cooking_time": "Approx. 40 mins",
+      "description": "A colorful, hearty dish featuring juicy chicken, apples, and root vegetables like sweet potato and lotus root. Tossed in a special sweet and sour glaze, this exquisite main dish pairs perfectly with steamed rice.",
+      "ingredients": [
+        {
+          "name": "Chicken breast",
+          "amount": "140g"
+        },
+        {
+          "name": "Apple",
+          "amount": "1 small"
+        },
+        {
+          "name": "Sweet potato",
+          "amount": "1/2"
+        },
+        {
+          "name": "Lotus root",
+          "amount": "80g"
+        },
+        {
+          "name": "Red bell pepper",
+          "amount": "70g"
+        },
+        {
+          "name": "Salt and pepper",
+          "amount": "To taste"
+        },
+        {
+          "name": "Potato starch (for coating)",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Vegetable oil",
+          "amount": "As needed"
+        },
+        {
+          "name": "● Vinegar",
+          "amount": "1 1/2 tbsp"
+        },
+        {
+          "name": "● Ketchup",
+          "amount": "1 1/2 tbsp"
+        },
+        {
+          "name": "● Sugar",
+          "amount": "1 1/2 tbsp"
+        },
+        {
+          "name": "● Soy sauce",
+          "amount": "1 1/3 tbsp"
+        },
+        {
+          "name": "● Salt",
+          "amount": "A pinch"
+        },
+        {
+          "name": "● Potato starch",
+          "amount": "1/2 tbsp"
+        },
+        {
+          "name": "● Water",
+          "amount": "100ml"
+        }
+      ],
+      "steps": [
+        "Cut the chicken breast diagonally into bite-sized slices, then coat evenly with salt, pepper, and potato starch.",
+        "Peel and core the apple, then cut into bite-sized pieces. Slice the sweet potato into rounds, peel and slice the lotus root into quarter-rounds, and cut the red bell pepper into small, bite-sized pieces.",
+        "Place the apple, sweet potato, and lotus root into separate microwave-safe containers, cover with plastic wrap, and microwave at 600W for approximately 1 minute per 100g to pre-cook.",
+        "In a small bowl, thoroughly mix the sauce ingredients (●: vinegar, ketchup, sugar, soy sauce, salt, potato starch, and water).",
+        "Heat the vegetable oil in a frying pan and sear the chicken on both sides until golden brown.",
+        "Once the chicken is cooked through, add the red bell pepper and stir-fry briefly.",
+        "Add the microwaved apple, sweet potato, lotus root, and the pre-mixed sweet and sour sauce. Toss quickly over low to medium heat until the sauce thickens and coats all the ingredients."
+      ],
+      "points": []
+    },
+    "zh": {
+      "title": "糖醋炒蘋果與雞肉",
+      "category": "主菜・炒物",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "2人份",
+      "cooking_time": "約40分鐘",
+      "description": "一道色彩豐富、料多實在的美味佳餚，將鮮嫩多汁的雞肉與蘋果、地瓜、蓮藕等根莖類蔬菜一同入鍋。裹上特製的糖醋醬汁，非常下飯，是令人垂涎的絕佳主菜。",
+      "ingredients": [
+        {
+          "name": "雞胸肉",
+          "amount": "140g"
+        },
+        {
+          "name": "蘋果",
+          "amount": "小1個"
+        },
+        {
+          "name": "地瓜",
+          "amount": "1/2個"
+        },
+        {
+          "name": "蓮藕",
+          "amount": "80g"
+        },
+        {
+          "name": "紅甜椒",
+          "amount": "70g"
+        },
+        {
+          "name": "鹽、胡椒",
+          "amount": "適量"
+        },
+        {
+          "name": "太白粉（裹粉用）",
+          "amount": "1大匙"
+        },
+        {
+          "name": "沙拉油",
+          "amount": "適量"
+        },
+        {
+          "name": "● 醋",
+          "amount": "1又1/2大匙"
+        },
+        {
+          "name": "● 番茄醬",
+          "amount": "1又1/2大匙"
+        },
+        {
+          "name": "● 砂糖",
+          "amount": "1又1/2大匙"
+        },
+        {
+          "name": "● 醬油",
+          "amount": "1又1/3大匙"
+        },
+        {
+          "name": "● 鹽",
+          "amount": "1小撮"
+        },
+        {
+          "name": "● 太白粉",
+          "amount": "1/2大匙"
+        },
+        {
+          "name": "● 水",
+          "amount": "100ml"
+        }
+      ],
+      "steps": [
+        "將雞胸肉切成一口大小的斜片，均勻撒上鹽、胡椒並裹上一層太白粉。",
+        "將蘋果去皮去核切成一口大小；地瓜切成圓片；蓮藕去皮切成扇形片；紅甜椒切成一口大小的小塊。",
+        "將蘋果、地瓜、蓮藕分別放入耐熱容器中，蓋上保鮮膜，以微波爐（600W）加熱（基準為每100g加熱1分鐘）進行預熱處理。",
+        "在小碗中將●的調味料（醋、番茄醬、砂糖、醬油、鹽、太白粉、水）充分攪拌均勻。",
+        "在平底鍋中倒入沙拉油熱鍋，將雞肉下鍋煎至兩面呈金黃色。",
+        "雞肉煎熟後，加入紅甜椒稍微拌炒。",
+        "加入微波預熱好的蘋果、地瓜、蓮藕，並倒入調好的糖醋醬汁，以小火至中火快速拌炒均勻，直到醬汁變濃稠且均勻裹在食材上。"
+      ],
+      "points": []
+    }
   },
   {
     "id": "recipe_14",
@@ -919,7 +2509,121 @@
       "粉チーズと黒コショウの代わりに、はちみつや粉砂糖をかけると、デザート感覚で味わえます。"
     ],
     "image_jpg": "/img/recipes/original_jpg/apple-ginger-chijimi.jpg",
-    "image_webp": "/img/recipes/webp/apple-ginger-chijimi.webp"
+    "image_webp": "/img/recipes/webp/apple-ginger-chijimi.webp",
+    "en": {
+      "title": "Warming Apple & Ginger Savory Pancake (Jeon)",
+      "category": "Staples & Snacks",
+      "source": "Nagano Prefectural University & Iizuna Town Joint Research Report",
+      "author": "Nagano Prefectural University Faculty of Health and Nutrition",
+      "servings": "Serves 3 (Makes 2 pancakes)",
+      "cooking_time": "Approx. 20 mins",
+      "description": "A novel Korean-style savory pancake (jeon) featuring shredded apples, spicy ginger, and aromatic cheese, pan-fried to a crispy, golden finish. It can be enjoyed either as a savory snack with black pepper, or as a dessert-like treat with a drizzle of honey.",
+      "ingredients": [
+        {
+          "name": "Apple (peeled and cored)",
+          "amount": "120g"
+        },
+        {
+          "name": "Ginger",
+          "amount": "20g"
+        },
+        {
+          "name": "Shredded pizza cheese",
+          "amount": "35g"
+        },
+        {
+          "name": "Flour",
+          "amount": "45g"
+        },
+        {
+          "name": "Potato starch",
+          "amount": "45g"
+        },
+        {
+          "name": "Water",
+          "amount": "80ml"
+        },
+        {
+          "name": "Sesame oil",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Grated parmesan cheese",
+          "amount": "To taste"
+        },
+        {
+          "name": "Black pepper",
+          "amount": "To taste"
+        }
+      ],
+      "steps": [
+        "Peel and core the apple, peel the ginger, and julienne both.",
+        "In a bowl, combine the flour, potato starch, and water. Whisk well until the batter is smooth and free of lumps.",
+        "Add the julienned apple, ginger, and shredded pizza cheese to the batter, folding gently to distribute them evenly.",
+        "Heat 1/2 tbsp of sesame oil in a frying pan over medium heat. Pour in half of the batter and spread it out thinly. Pan-fry for about 3 minutes until golden brown, then flip and cook the other side until crispy. Repeat the process for the second pancake with the remaining sesame oil and batter.",
+        "Transfer to a plate and sprinkle with grated parmesan cheese and black pepper as desired."
+      ],
+      "points": [
+        "Instead of parmesan cheese and black pepper, you can drizzle with honey or dust with powdered sugar to enjoy it as a sweet dessert."
+      ]
+    },
+    "zh": {
+      "title": "暖心蘋果生薑煎餅",
+      "category": "主食・輕食",
+      "source": "長野縣立大學＆飯綱町 受託研究成果報告書",
+      "author": "長野縣立大學 健康發達學部 食健康學科",
+      "servings": "3人份（2片份）",
+      "cooking_time": "約20分鐘",
+      "description": "將切絲的蘋果、微辣的生薑與香氣四溢的起司完美結合，煎至外皮金黃酥脆的新感覺煎餅。搭配黑胡椒即可作為絕佳的下酒小菜，淋上蜂蜜則能變身為甜點般的多重美味。",
+      "ingredients": [
+        {
+          "name": "蘋果（去皮、去芯）",
+          "amount": "120克"
+        },
+        {
+          "name": "生薑",
+          "amount": "20克"
+        },
+        {
+          "name": "披薩用起司絲",
+          "amount": "35克"
+        },
+        {
+          "name": "麵粉",
+          "amount": "45克"
+        },
+        {
+          "name": "太白粉",
+          "amount": "45克"
+        },
+        {
+          "name": "水",
+          "amount": "80毫升"
+        },
+        {
+          "name": "麻油",
+          "amount": "1大匙"
+        },
+        {
+          "name": "起司粉",
+          "amount": "適量"
+        },
+        {
+          "name": "黑胡椒",
+          "amount": "適量"
+        }
+      ],
+      "steps": [
+        "蘋果去皮去芯，生薑去皮，兩者皆切成細絲。",
+        "在碗中放入麵粉、太白粉和水，充分攪拌均勻至無粉粒。",
+        "在麵糊中加入蘋果絲、生薑絲和披薩用起司絲，輕輕翻拌均勻。",
+        "平底鍋中倒入1/2大匙麻油以中火加熱，將半份麵糊倒入並均勻鋪平。煎約3分鐘，待煎出焦香金黃色澤後翻面，將另一面也煎至酥脆。剩餘的另一半麵糊也以同樣方式煎熟。",
+        "盛入盤中，依個人喜好撒上起司粉和黑胡椒。"
+      ],
+      "points": [
+        "可以用蜂蜜或糖粉代替起司粉和黑胡椒，即可享用如甜點般的好滋味。"
+      ]
+    }
   },
   {
     "id": "recipe_15",
@@ -982,7 +2686,123 @@
       "擦りおろすことで、豊富なリンゴ酸によりお肉がとても柔らかくなるため、パサつきやすい鶏むね肉でもしっとりジューシーに仕上がります。"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-tandoori-chicken.jpg",
-    "image_webp": "/img/recipes/webp/bramley-tandoori-chicken.webp"
+    "image_webp": "/img/recipes/webp/bramley-tandoori-chicken.webp",
+    "en": {
+      "title": "Easy and Tender Tandoori Chicken with Grated Bramley's Seedling",
+      "category": "Main Dish: Meat",
+      "source": "Bramley Recipe Book",
+      "author": "Pakaarn Coffee Stand yuka",
+      "servings": "Serves 2–3",
+      "cooking_time": "Approx. 40 mins (excluding marinating time)",
+      "description": "An authentic tandoori chicken recipe where the meat becomes surprisingly tender and juicy. By marinating the chicken in grated Bramley's Seedling—a specialty Green Apple of Iizuna Town—the power of malic acid works wonders on the texture.",
+      "ingredients": [
+        {
+          "name": "Chicken (thigh or breast meat)",
+          "amount": "Approx. 500g"
+        },
+        {
+          "name": "Salt and pepper",
+          "amount": "A pinch"
+        },
+        {
+          "name": "Oil",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "A: Plain yogurt",
+          "amount": "2 tbsp"
+        },
+        {
+          "name": "A: Tomato ketchup",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "A: Curry powder",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "A: Iizuna Town-grown Bramley's Seedling (grated)",
+          "amount": "1/4 piece"
+        },
+        {
+          "name": "A: Garlic (grated)",
+          "amount": "1 clove"
+        },
+        {
+          "name": "A: Ginger (grated)",
+          "amount": "5g"
+        }
+      ],
+      "steps": [
+        "Cut the chicken into large bite-sized pieces and season with salt and pepper.",
+        "In a bowl, combine all ingredients under A and mix well. Add the chicken and massage the marinade into the meat. Drizzle in the oil, mix thoroughly, and let it rest for about 30 minutes.",
+        "Heat a small amount of oil (not listed in ingredients) in a frying pan, place the chicken skin-side down, and cook over medium heat.",
+        "Once nicely browned, flip the chicken over, cover with a lid, and steam-cook over low to medium heat for about 5 minutes until fully cooked."
+      ],
+      "points": [
+        "Seasoning the chicken with salt and pepper first helps remove excess moisture and odor, making the meat tender.",
+        "For a fruitier flavor, you can grate 1/2 of a Bramley's Seedling; it will turn out delicious.",
+        "Grating the apple releases abundant malic acid, which tenderizes the meat beautifully, ensuring even chicken breast—which tends to dry out—remains moist and juicy."
+      ]
+    },
+    "zh": {
+      "title": "磨泥布拉姆利 (Bramley's Seedling) 打造軟嫩口感 簡易坦都里烤雞",
+      "category": "主菜・肉類料理",
+      "source": "布拉姆利食譜書",
+      "author": "Pakaarn Coffee Stand yuka",
+      "servings": "2〜3人份",
+      "cooking_time": "約40分鐘（不含醃製時間）",
+      "description": "這款道地的坦都里烤雞，是將飯綱町特產的青蘋果「布拉姆利 (Bramley's Seedling)」磨成泥後加入醃料中。利用蘋果酸的力量，使雞肉質地變得驚人地濕潤且極致軟嫩。",
+      "ingredients": [
+        {
+          "name": "雞肉（雞腿肉、雞胸肉）",
+          "amount": "約500g"
+        },
+        {
+          "name": "鹽、胡椒",
+          "amount": "少許"
+        },
+        {
+          "name": "油",
+          "amount": "1大匙"
+        },
+        {
+          "name": "A 原味優格",
+          "amount": "2大匙"
+        },
+        {
+          "name": "A 番茄醬",
+          "amount": "1大匙"
+        },
+        {
+          "name": "A 咖哩粉",
+          "amount": "1大匙"
+        },
+        {
+          "name": "A 飯綱町產布拉姆利 (Bramley's Seedling)（磨泥）",
+          "amount": "1/4個"
+        },
+        {
+          "name": "A 大蒜（磨泥）",
+          "amount": "1瓣"
+        },
+        {
+          "name": "A 生薑（磨泥）",
+          "amount": "5g"
+        }
+      ],
+      "steps": [
+        "將雞肉切成稍大的好入口大小，並撒上鹽和胡椒。",
+        "在碗中將所有 A 的材料混合均勻，放入雞肉抓醃入味。最後繞圈淋入油並充分攪拌，靜置醃製約30分鐘。",
+        "在平底鍋中倒入少許油（分量外），將雞肉皮朝下排入鍋中，以中火煎烤。",
+        "待煎出誘人的焦色後翻面，蓋上鍋蓋，以中小火燜煎約5分鐘即可完成。"
+      ],
+      "points": [
+        "先在雞肉上撒鹽和胡椒，可以去除多餘的水分和腥味，使肉質更為軟嫩。",
+        "若想呈現更豐富的水果風味，也可以將布拉姆利 (Bramley's Seedling) 增加至1/2個磨泥，味道也會非常美味。",
+        "透過磨成泥，蘋果富含的蘋果酸能使肉質變得極為軟嫩，即使是容易乾柴的雞胸肉，也能烹調得濕潤多汁。"
+      ]
+    }
   },
   {
     "id": "recipe_16",
@@ -1049,7 +2869,131 @@
       "火を入れすぎるとりんごや野菜のシャキッとした食感がなくなるので、手早くサッと火を通すのがコツです。"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-cabbage-peperoncino.jpg",
-    "image_webp": "/img/recipes/webp/bramley-cabbage-peperoncino.webp"
+    "image_webp": "/img/recipes/webp/bramley-cabbage-peperoncino.webp",
+    "en": {
+      "title": "Refreshing Bramley Peperoncino with Whitebait and Cabbage",
+      "category": "Staple: Pasta & Rice",
+      "source": "Bramley's Seedling Recipe Book",
+      "author": "Pakaan Coffee Stand / yuka",
+      "servings": "Serves 2",
+      "cooking_time": "Approx. 15 mins",
+      "description": "The refreshingly crisp acidity unique to Bramley's Seedling pairs exquisitely with the rich depth of olive oil and butter! An exquisite oil pasta highlighting the savory umami of whitebait and the natural sweetness of cabbage.",
+      "ingredients": [
+        {
+          "name": "Pasta",
+          "amount": "200g"
+        },
+        {
+          "name": "Butter",
+          "amount": "10g"
+        },
+        {
+          "name": "Onion",
+          "amount": "1/2"
+        },
+        {
+          "name": "Garlic",
+          "amount": "1 clove"
+        },
+        {
+          "name": "Cabbage",
+          "amount": "40g"
+        },
+        {
+          "name": "Whitebait (shirasu)",
+          "amount": "60g"
+        },
+        {
+          "name": "Iizuna Town Bramley's Seedling apple",
+          "amount": "1/2"
+        },
+        {
+          "name": "Salt and black pepper",
+          "amount": "To taste"
+        },
+        {
+          "name": "Italian parsley",
+          "amount": "To taste"
+        },
+        {
+          "name": "Red chili pepper (takanotsume)",
+          "amount": "To taste"
+        }
+      ],
+      "steps": [
+        "Bring a generous pot of water to a boil, add salt (not listed in ingredients), and cook the pasta slightly less than the package instructions.",
+        "Dice the onion into 1 cm cubes. Peel and slice the Bramley's Seedling apple into ginkgo-leaf wedges, then soak briefly in salted water to prevent browning. Roughly chop the cabbage, and crush the garlic with the flat side of a knife blade.",
+        "Heat butter and garlic in a skillet over low heat. Once fragrant, add the onion, Bramley's Seedling, and cabbage, season with a pinch of salt and pepper, and sauté. When the vegetables begin to soften, gently fold in the whitebait.",
+        "Add 2 tablespoons of pasta cooking water to the skillet, shaking vigorously to emulsify the sauce, then add the boiled pasta and toss quickly to coat thoroughly.",
+        "Adjust seasoning with salt and pepper to taste, transfer to a serving dish, garnish with chopped Italian parsley, and serve."
+      ],
+      "points": [
+        "The refreshing acidity of Bramley's Seedling creates an invigorating accent. Slicing the apple slightly thicker lets you savor an even bolder, fresh tanginess♪",
+        "Overcooking causes the apples and cabbage to lose their crisp texture, so sautéing quickly over high heat is the secret to perfection."
+      ]
+    },
+    "zh": {
+      "title": "布拉姆利清爽風味！吻仔魚高麗菜香蒜辣椒義大利麵",
+      "category": "主食・義大利麵與飯食",
+      "source": "布拉姆利 (Bramley's Seedling)食譜書",
+      "author": "Pakaan Coffee Stand yuka",
+      "servings": "2人份",
+      "cooking_time": "約15分鐘",
+      "description": "布拉姆利 (Bramley's Seedling)獨具特色的明亮清爽酸味，與橄欖油、奶油的濃郁醇厚達到完美平衡！充分烘托出吻仔魚鮮甜海味與高麗菜甘美滋味的極品清炒義大利麵。",
+      "ingredients": [
+        {
+          "name": "義大利麵",
+          "amount": "200公克"
+        },
+        {
+          "name": "奶油",
+          "amount": "10公克"
+        },
+        {
+          "name": "洋蔥",
+          "amount": "1/2顆"
+        },
+        {
+          "name": "大蒜",
+          "amount": "1瓣"
+        },
+        {
+          "name": "高麗菜",
+          "amount": "40公克"
+        },
+        {
+          "name": "吻仔魚",
+          "amount": "60公克"
+        },
+        {
+          "name": "飯綱町產布拉姆利 (Bramley's Seedling)",
+          "amount": "1/2顆"
+        },
+        {
+          "name": "鹽、胡椒",
+          "amount": "少許"
+        },
+        {
+          "name": "義大利歐芹",
+          "amount": "適量"
+        },
+        {
+          "name": "乾辣椒",
+          "amount": "適量"
+        }
+      ],
+      "steps": [
+        "於湯鍋中煮沸充足水分，加入少許鹽（份量外），將義大利麵煮至比包裝標示時間稍短一些撈起。",
+        "洋蔥切成1公分丁狀。布拉姆利 (Bramley's Seedling)削皮後切成銀杏葉薄片，浸泡於淡鹽水中防止變色。高麗菜粗略切塊，大蒜用刀背壓碎。",
+        "在平底鍋中放入奶油與大蒜以小火加熱，散發香氣後加入洋蔥、布拉姆利 (Bramley's Seedling)與高麗菜，撒入少許鹽與胡椒翻炒。待蔬菜變軟後，加入吻仔魚拌勻。",
+        "在平底鍋中加入2大匙煮麵水，快速搖晃鍋身使其充分乳化，隨後放入剛煮好的義大利麵迅速拌勻入味。",
+        "以鹽、胡椒調整整體調味，盛入盤中並撒上義大利歐芹即告完成。"
+      ],
+      "points": [
+        "布拉姆利 (Bramley's Seedling)清爽爽口的酸味是點亮整道料理的精華。切得稍厚一些，更能品嚐到鮮明的清新果酸♪",
+        "若加熱時間過長，蘋果與蔬菜的清脆口感容易流失，因此動作俐落、迅速快炒出鍋是維持美味的秘訣。"
+      ]
+    }
   },
   {
     "id": "recipe_17",
@@ -1127,7 +3071,153 @@
       "煮込み時間を15分と短めに設定しているため、豚肉とブラムリーの火入れに差が出ないよう、ブラムリーの切り方や大きさを均一に揃えてください。"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-white-pork-kakuni.jpg",
-    "image_webp": "/img/recipes/webp/bramley-white-pork-kakuni.webp"
+    "image_webp": "/img/recipes/webp/bramley-white-pork-kakuni.webp",
+    "en": {
+      "title": "White Pork Kakuni Braised with Bramley's Seedling",
+      "category": "Main Dish: Meat",
+      "source": "Bramley's Seedling Recipe Book",
+      "author": "yuka (PAKAAN COFFEE STAND)",
+      "servings": "Serves 3–4",
+      "cooking_time": "Approx. 30 mins (excluding resting time)",
+      "description": "By braising with shio-koji (salted rice malt) and the acidity of Bramley's Seedling instead of soy sauce, this new-style 'white' kakuni (braised pork) becomes incredibly tender, beautiful to look at, and refreshingly delicious.",
+      "ingredients": [
+        {
+          "name": "Pork block (belly or loin)",
+          "amount": "600g"
+        },
+        {
+          "name": "Shio-koji (salted rice malt)",
+          "amount": "2 tbsp"
+        },
+        {
+          "name": "Sake",
+          "amount": "2 tbsp"
+        },
+        {
+          "name": "Garlic",
+          "amount": "3 cloves"
+        },
+        {
+          "name": "Sesame oil",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "Iizuna-grown Bramley's Seedling",
+          "amount": "1"
+        },
+        {
+          "name": "Ginger",
+          "amount": "10g"
+        },
+        {
+          "name": "Green part of scallion",
+          "amount": "To taste (optional)"
+        },
+        {
+          "name": "A Grain vinegar",
+          "amount": "2 tbsp"
+        },
+        {
+          "name": "A Shaoxing wine (or cooking sake)",
+          "amount": "1 tbsp"
+        },
+        {
+          "name": "A Water",
+          "amount": "200ml"
+        },
+        {
+          "name": "A Sugar",
+          "amount": "1.5 tbsp"
+        },
+        {
+          "name": "[Garnish] Bok choy, shredded scallion (shiraga negi), boiled egg",
+          "amount": "To taste"
+        }
+      ],
+      "steps": [
+        "Cut the pork into 5mm thick slices, rub in the shio-koji and sake, and let it rest at room temperature for about 20 minutes.",
+        "Combine the ingredients in A in a bowl. Crush the garlic, peel and roughly chop the Bramley's Seedling, and thinly slice the ginger.",
+        "Heat sesame oil and garlic in a frying pan over medium heat. Once fragrant, arrange the pork slices in the pan and lightly sear both sides, taking care not to let them burn.",
+        "When both sides of the pork turn white, add the mixed seasoning A, Bramley's Seedling, ginger, and the green part of the scallion. Cover with a drop-lid (otoshibuta) and bring to a boil. Once boiling, reduce the heat to low and simmer gently for about 15 minutes.",
+        "It is done when the Bramley's Seedling is tender enough to be easily pierced with chopsticks and starts to break down, and the flavors have thoroughly penetrated the pork. Garnish with boiled bok choy, shredded scallion, and boiled eggs if desired."
+      ],
+      "points": [
+        "Since the simmering time is set short at 15 minutes, please cut the Bramley's Seedling into uniform shapes and sizes to ensure that the pork and apples cook evenly without any difference in texture."
+      ]
+    },
+    "zh": {
+      "title": "與布拉姆利 (Bramley's Seedling)一同燉煮的白味日式角煮",
+      "category": "主菜・肉類料理",
+      "source": "布拉姆利 (Bramley's Seedling)食譜書",
+      "author": "PAKAAN COFFEE STAND yuka",
+      "servings": "3～4人份",
+      "cooking_time": "約30分鐘（不含靜置時間）",
+      "description": "不使用醬油，而是利用鹽麴和布拉姆利 (Bramley's Seedling)的酸味進行燉煮。這款新感覺的「白燉日式角煮」，肉質驚人地軟嫩，外觀優雅精緻，入口清爽不膩。",
+      "ingredients": [
+        {
+          "name": "豬肉塊（五花肉或里肌肉）",
+          "amount": "600g"
+        },
+        {
+          "name": "鹽麴",
+          "amount": "2大匙"
+        },
+        {
+          "name": "清酒",
+          "amount": "2大匙"
+        },
+        {
+          "name": "大蒜",
+          "amount": "3瓣"
+        },
+        {
+          "name": "麻油",
+          "amount": "1大匙"
+        },
+        {
+          "name": "飯綱町產布拉姆利 (Bramley's Seedling)",
+          "amount": "1個"
+        },
+        {
+          "name": "生薑",
+          "amount": "10g"
+        },
+        {
+          "name": "青蔥綠色部分",
+          "amount": "適量（依個人喜好）"
+        },
+        {
+          "name": "A 穀物醋",
+          "amount": "2大匙"
+        },
+        {
+          "name": "A 紹興酒（或料理酒）",
+          "amount": "1大匙"
+        },
+        {
+          "name": "A 水",
+          "amount": "200ml"
+        },
+        {
+          "name": "A 砂糖",
+          "amount": "1.5大匙"
+        },
+        {
+          "name": "【配菜】青江菜、蔥絲、水煮蛋",
+          "amount": "適量（依個人喜好）"
+        }
+      ],
+      "steps": [
+        "將豬肉切成5毫米厚的片狀，揉入鹽麴和清酒，在室溫下靜置約20分鐘。",
+        "在碗中將調味料A混合均勻。大蒜壓碎，布拉姆利 (Bramley's Seedling)去皮後粗切成塊，生薑切薄片。",
+        "在平底鍋中倒入麻油和大蒜，以中火加熱。散發香氣後，排入豬肉片，將兩面輕輕煎至微黃，注意不要燒焦。",
+        "當豬肉兩面變白後，加入調好的調味汁A、布拉姆利 (Bramley's Seedling)、生薑和青蔥綠色部分，蓋上落蓋（落とし蓋）煮沸。煮沸後轉小火，慢火燉煮約15分鐘。",
+        "當布拉姆利 (Bramley's Seedling)燉煮至用筷子能輕易切開的軟爛程度、豬肉充分入味時即完成。依個人喜好擺上燙好的青江菜、蔥絲及水煮蛋裝飾。"
+      ],
+      "points": [
+        "由於燉煮時間設定在較短的15分鐘，為了避免豬肉與布拉姆利 (Bramley's Seedling)的熟程度產生落差，請將布拉姆利 (Bramley's Seedling)切成均勻的大小與形狀。"
+      ]
+    }
   },
   {
     "id": "recipe_18",
@@ -1189,7 +3279,121 @@
       "ブラムリーを一番手軽に「生食」で楽しめるおすすめレシピ。酸味がキリッと効いて、食欲が落ちる夏でもさっぱり食べられます♪"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-salmon-ponzu-salad.jpg",
-    "image_webp": "/img/recipes/webp/bramley-salmon-ponzu-salad.webp"
+    "image_webp": "/img/recipes/webp/bramley-salmon-ponzu-salad.webp",
+    "en": {
+      "title": "Raw Bramley's Seedling and Salmon Salad with Ponzu",
+      "category": "Appetizers & Salads",
+      "source": "Bramley Recipe Book",
+      "author": "Pakaarn Coffee Stand yuka",
+      "servings": "Serves 2",
+      "cooking_time": "Approx. 10 mins",
+      "description": "Enjoy Bramley's Seedling, widely known as a Cooking Apple, raw! Tossed with cucumber, nagaimo, and rich, fatty salmon in a refreshing ponzu dressing, this premium carpaccio-style salad is perfect for beating the summer heat.",
+      "ingredients": [
+        {
+          "name": "Salmon (sashimi grade)",
+          "amount": "200g"
+        },
+        {
+          "name": "Cucumber",
+          "amount": "1"
+        },
+        {
+          "name": "Tomato",
+          "amount": "1/2"
+        },
+        {
+          "name": "Nagaimo (Japanese mountain yam)",
+          "amount": "100g"
+        },
+        {
+          "name": "Shiso leaves (or your choice of vegetables)",
+          "amount": "3 leaves"
+        },
+        {
+          "name": "Bramley's Seedling from Iizuna Town",
+          "amount": "1 medium"
+        },
+        {
+          "name": "Salt",
+          "amount": "A pinch"
+        },
+        {
+          "name": "Ponzu sauce",
+          "amount": "3 tbsp"
+        },
+        {
+          "name": "Olive oil",
+          "amount": "1 tbsp"
+        }
+      ],
+      "steps": [
+        "Cut all the vegetables (cucumber, tomato, and nagaimo) into 1 cm cubes. Slice the salmon into bite-sized pieces.",
+        "Peel the Bramley's Seedling and cut into 1 cm cubes. Briefly soak in salted water (not listed in ingredients) to prevent discoloration, then drain well.",
+        "In a bowl, combine the chopped vegetables, salmon, and Bramley's Seedling. Add a pinch of salt and the ponzu sauce, then toss everything together gently.",
+        "Plate the salad and finish by drizzling a high-quality olive oil over the top!"
+      ],
+      "points": [
+        "You can substitute any seasonal vegetables of your choice. Adding mozzarella or cubed cheese will give it a richer, more decadent finish.",
+        "This is the easiest and most recommended recipe to enjoy the crisp texture of raw Bramley's Seedling. Its sharp acidity makes it highly refreshing and easy to eat, even when you lose your appetite during hot summers."
+      ]
+    },
+    "zh": {
+      "title": "生食級布拉姆利搭配鮭魚！清爽橙醋沙拉",
+      "category": "前菜・沙拉",
+      "source": "布拉姆利食譜書",
+      "author": "Pakaarn Coffee Stand yuka",
+      "servings": "2人份",
+      "cooking_time": "約10分鐘",
+      "description": "將以料理用蘋果 (Cooking Apple) 聞名的布拉姆利 (Bramley's Seedling) 大膽以「生食」方式呈現！與小黃瓜、山藥、油脂豐美的鮭魚一同用橙醋涼拌，是一道能一掃夏日疲憊的極致生魚片風沙拉。",
+      "ingredients": [
+        {
+          "name": "生食級鮭魚",
+          "amount": "200g"
+        },
+        {
+          "name": "小黃瓜",
+          "amount": "1根"
+        },
+        {
+          "name": "番茄",
+          "amount": "1/2個"
+        },
+        {
+          "name": "山藥",
+          "amount": "100g"
+        },
+        {
+          "name": "紫蘇葉（亦可使用喜愛的蔬菜）",
+          "amount": "3片"
+        },
+        {
+          "name": "飯綱町產布拉姆利 (Bramley's Seedling)",
+          "amount": "中型1個"
+        },
+        {
+          "name": "鹽",
+          "amount": "少許"
+        },
+        {
+          "name": "橙醋 (Ponzu)",
+          "amount": "3大匙"
+        },
+        {
+          "name": "橄欖油",
+          "amount": "1大匙"
+        }
+      ],
+      "steps": [
+        "將蔬菜（小黃瓜、番茄、山藥）全部切成1公分大小的丁狀。鮭魚也切成易於食用的一口大小。",
+        "將布拉姆利 (Bramley's Seedling) 去皮並切成1公分丁狀，為了防止變色，快速浸泡於鹽水（份量外）中，然後瀝乾水分。",
+        "在盆中放入切好的蔬菜、鮭魚與布拉姆利 (Bramley's Seedling)，加入一小夾鹽與橙醋拌勻。",
+        "盛盤，最後淋上優質橄欖油即完成！"
+      ],
+      "points": [
+        "可替換為任何喜愛的時令蔬菜。加入莫札瑞拉起司或起司丁，也能呈現濃郁美味的效果。",
+        "這是最能輕鬆以「生食」方式享受布拉姆利 (Bramley's Seedling) 的推薦食譜。爽口的酸度能提振食慾，非常適合在食欲不振的炎炎夏日裡享用♪"
+      ]
+    }
   },
   {
     "id": "recipe_19",
@@ -1247,7 +3451,113 @@
       "塩をひとつまみ入れることで、ブラムリーの酸味と甘みの輪郭が際立ち、味に奥深い深みが生まれます。"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-jam-lassi.jpg",
-    "image_webp": "/img/recipes/webp/bramley-jam-lassi.webp"
+    "image_webp": "/img/recipes/webp/bramley-jam-lassi.webp",
+    "en": {
+      "title": "Authentic Lassi with Bramley's Seedling Jam",
+      "category": "Drink",
+      "source": "Bramley's Seedling Recipe Book",
+      "author": "yuka (Pacaan Coffee Stand)",
+      "servings": "1 serving",
+      "cooking_time": "Approx. 3 mins",
+      "description": "An authentic Indian-style lassi made by blending homemade Bramley's Seedling jam and yogurt with water, accented with spices. Its light and refreshing taste makes it the perfect accompaniment to curry and meat dishes.",
+      "ingredients": [
+        {
+          "name": "A Plain yogurt",
+          "amount": "50g"
+        },
+        {
+          "name": "A Bramley's Seedling jam from Iizuna Town",
+          "amount": "20g"
+        },
+        {
+          "name": "A Agave syrup (or honey)",
+          "amount": "15g"
+        },
+        {
+          "name": "A Salt",
+          "amount": "A pinch"
+        },
+        {
+          "name": "Water",
+          "amount": "150ml"
+        },
+        {
+          "name": "Cinnamon powder",
+          "amount": "A pinch (optional)"
+        },
+        {
+          "name": "Cardamom powder",
+          "amount": "A pinch (optional)"
+        },
+        {
+          "name": "Black pepper",
+          "amount": "A pinch (optional)"
+        }
+      ],
+      "steps": [
+        "In a bowl, combine ingredients A (plain yogurt, Bramley's Seedling jam, agave syrup, and salt) and mix thoroughly with a spoon or a whisk.",
+        "Gradually pour in the water while whisking constantly, then pour the mixture into a glass filled with ice.",
+        "Top with spices such as cinnamon, cardamom, or black pepper as desired, and serve."
+      ],
+      "points": [
+        "By using water instead of milk to dilute the yogurt, this authentic lassi stays light, refreshing, and incredibly smooth to drink.",
+        "Please adjust the amount of agave syrup according to the sweetness of the Bramley's Seedling jam you use.",
+        "Adding just a pinch of salt highlights the crisp contrast between the acidity and sweetness of the Bramley's Seedling, creating a deeper and richer flavor."
+      ]
+    },
+    "zh": {
+      "title": "布拉姆利 (Bramley's Seedling)果醬調製 道地印度拉西",
+      "category": "飲品",
+      "source": "布拉姆利 (Bramley's Seedling)食譜書",
+      "author": "yuka (Pacaan Coffee Stand)",
+      "servings": "1杯份",
+      "cooking_time": "約3分鐘",
+      "description": "以自製布拉姆利 (Bramley's Seedling)果醬與優格加水調和，並加入香料點綴的道地印度風拉西（Lassi）。口感清爽順口，是搭配咖哩或肉類料理的最佳飲品。",
+      "ingredients": [
+        {
+          "name": "A 原味優格",
+          "amount": "50g"
+        },
+        {
+          "name": "A 飯綱町產布拉姆利 (Bramley's Seedling)果醬",
+          "amount": "20g"
+        },
+        {
+          "name": "A 龍舌蘭糖漿（或蜂蜜）",
+          "amount": "15g"
+        },
+        {
+          "name": "A 鹽",
+          "amount": "少許"
+        },
+        {
+          "name": "水",
+          "amount": "150ml"
+        },
+        {
+          "name": "肉桂粉",
+          "amount": "少許（依個人喜好）"
+        },
+        {
+          "name": "豆蔻粉",
+          "amount": "少許（依個人喜好）"
+        },
+        {
+          "name": "黑胡椒",
+          "amount": "少許（依個人喜好）"
+        }
+      ],
+      "steps": [
+        "將A（優格、布拉姆利 (Bramley's Seedling)果醬、龍舌蘭糖漿、鹽）倒入碗中，用湯匙或打蛋器充分攪拌均勻。",
+        "一邊徐徐倒入水，一邊用打蛋器確實攪拌均勻，接著倒入裝有冰塊的杯中。",
+        "依個人喜好撒上肉桂粉、豆蔻粉或黑胡椒等香料，即可享用。"
+      ],
+      "points": [
+        "本道地拉西不加牛奶而改用水調和，口感更顯輕盈爽口、順喉易飲。",
+        "請根據所使用的布拉姆利 (Bramley's Seedling)果醬糖度，自行調整龍舌蘭糖漿的用量。",
+        "加入少許鹽能更突顯布拉姆利 (Bramley's Seedling)的酸甜層次，讓風味更加深邃立體。"
+      ]
+    }
   },
   {
     "id": "recipe_20",
@@ -1289,7 +3599,79 @@
       "・特徴：加熱すると短時間で果肉がピュレ状に煮崩れ、熱を加えても爽やかな青りんごのアロマが失われません。新鮮なうちにジャムやパイに加工し、冷凍保存するのもおすすめです。"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-microwave-jam-and-column.jpg",
-    "image_webp": "/img/recipes/webp/bramley-microwave-jam-and-column.webp"
+    "image_webp": "/img/recipes/webp/bramley-microwave-jam-and-column.webp",
+    "en": {
+      "title": "Easy Microwave Bramley's Seedling Jam & Bramley's Seedling Basics",
+      "category": "Preserves / Jam & Column",
+      "source": "Bramley's Seedling Recipe Book",
+      "author": "Pacan Coffee Stand yuka / Iizuna Town",
+      "servings": "Easy-to-make quantity (Approx. 200g)",
+      "cooking_time": "Approx. 10 mins",
+      "description": "Using the unique property of Bramley's Seedling which melts instantly when heated, this exquisite fresh jam can be made in the microwave in just 6 minutes. Also featuring a detailed guide to the characteristics of the British-born Green Apple, 'Bramley's Seedling'.",
+      "ingredients": [
+        {
+          "name": "Iizuna-grown Bramley's Seedling",
+          "amount": "1 apple (approx. 200–250g net weight)"
+        },
+        {
+          "name": "Granulated sugar",
+          "amount": "60g"
+        },
+        {
+          "name": "Lemon juice",
+          "amount": "1 tbsp"
+        }
+      ],
+      "steps": [
+        "Peel and core the Bramley's Seedling, then slice it thinly.",
+        "Place the sliced Bramley's Seedling, granulated sugar, and lemon juice into a heat-resistant glass bowl and mix lightly.",
+        "Cover loosely with plastic wrap and microwave at 600W for about 6 minutes.",
+        "Remove from the microwave and stir well with a whisk or spoon. The flesh of the Bramley's Seedling will break down naturally, creating a smooth, golden jam."
+      ],
+      "points": [
+        "【About Bramley's Seedling】",
+        "・Harvest Season: A rare Green Apple harvested only during a short period from late August to mid-September.",
+        "・Size: Large, weighing 300g to 500g per apple, with a slightly flattened oblate shape.",
+        "・Flavor: When raw, it is characterized by an intense acidity rather than sweetness, along with a rich aroma, making it the king of Cooking Apples.",
+        "・Characteristics: When heated, the flesh quickly collapses into a puree-like consistency, yet it retains its refreshing Green Apple aroma. It is recommended to process them into jam or pies while fresh and store them in the freezer."
+      ]
+    },
+    "zh": {
+      "title": "微波爐輕鬆做！布拉姆利 (Bramley's Seedling)果醬 ＆ 布拉姆利 (Bramley's Seedling)基礎知識",
+      "category": "保存食・果醬與專欄",
+      "source": "布拉姆利 (Bramley's Seedling)食譜書",
+      "author": "Pacan Coffee Stand yuka / 飯綱町",
+      "servings": "方便製作的分量（約200g）",
+      "cooking_time": "約10分鐘",
+      "description": "充分利用加熱即融的布拉姆利 (Bramley's Seedling)特性，只需使用微波爐加熱6分鐘，即可做出美味的鮮果醬。同時詳細介紹誕生於英國的青蘋果「布拉姆利 (Bramley's Seedling)」之特色。",
+      "ingredients": [
+        {
+          "name": "飯綱町產布拉姆利 (Bramley's Seedling)",
+          "amount": "1個（淨重200～250g）"
+        },
+        {
+          "name": "細砂糖",
+          "amount": "60g"
+        },
+        {
+          "name": "檸檬汁",
+          "amount": "1大匙"
+        }
+      ],
+      "steps": [
+        "將布拉姆利 (Bramley's Seedling)削皮、去芯後切成薄片。",
+        "將切片的布拉姆利 (Bramley's Seedling)、細砂糖與檸檬汁全部放入耐熱玻璃碗中，輕輕攪拌均勻。",
+        "蓬鬆地蓋上保鮮膜，以微波爐（600W）加熱約6分鐘。",
+        "從微波爐取出後，用打蛋器或湯匙充分攪拌，布拉姆利 (Bramley's Seedling)的果肉便會自然融化，呈現出滑順的黃金成果醬。"
+      ],
+      "points": [
+        "【關於布拉姆利 (Bramley's Seedling)】",
+        "・採收期：僅在8月下旬至9月中旬的極短期間內採收，是非常珍貴的青蘋果。",
+        "・大小：單顆重達300g至500g，果實碩大且形狀略扁。",
+        "・風味：生食時強烈的酸味與濃郁的香氣遠勝於甜味，被譽為料理用蘋果的王者。",
+        "・特色：加熱後果肉會在極短時間內融化呈泥狀，即便加熱，青蘋果特有的清爽香氣也完全不會流失。建議趁新鮮加工製成果醬或派餅，並放進冷凍庫保存。"
+      ]
+    }
   },
   {
     "id": "recipe_21",
@@ -1368,7 +3750,155 @@
       "イギリスでは豚肉料理にりんごを合わせるのが伝統的な黄金コンビネーションです。ブラムリーがソースに溶け込み、濃厚なシードルの煮込みに極上の酸味と軽快さを与えます。"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-pork-cider-sage-casserole.jpg",
-    "image_webp": "/img/recipes/webp/bramley-pork-cider-sage-casserole.webp"
+    "image_webp": "/img/recipes/webp/bramley-pork-cider-sage-casserole.webp",
+    "en": {
+      "title": "Autumn Casserole: Pork and Bramley's Seedling with Cider and Sage",
+      "category": "Main Dish: Meat",
+      "source": "Bramley's Seedling Recipe Book",
+      "author": "Mornington Crescent: Stacey Ward",
+      "servings": "Serves 4",
+      "cooking_time": "Approx. 3 hours (including simmering time)",
+      "description": "A traditional British slow-cooked stew. Pork chunks and diced Bramley's Seedling are gently simmered for two and a half hours in dry Cider and fresh sage, resulting in a melt-in-the-mouth, deeply rich casserole infused with fragrant herbs.",
+      "ingredients": [
+        {
+          "name": "Pork chunks",
+          "amount": "500g"
+        },
+        {
+          "name": "Salt",
+          "amount": "2g"
+        },
+        {
+          "name": "Vegetable oil",
+          "amount": "2–3 tbsp"
+        },
+        {
+          "name": "Pearl onions (or onions/shallots)",
+          "amount": "200g"
+        },
+        {
+          "name": "Flour",
+          "amount": "25g"
+        },
+        {
+          "name": "Brown mushrooms",
+          "amount": "110g"
+        },
+        {
+          "name": "Dry Cider",
+          "amount": "400g"
+        },
+        {
+          "name": "Chicken bouillon",
+          "amount": "300g"
+        },
+        {
+          "name": "Bramley's Seedling from Iizuna Town",
+          "amount": "Approx. 200g"
+        },
+        {
+          "name": "Fresh sage",
+          "amount": "1–2g"
+        },
+        {
+          "name": "Salt and pepper",
+          "amount": "To taste"
+        },
+        {
+          "name": "[Optional] Crispy fried fresh sage leaves",
+          "amount": "As needed"
+        },
+        {
+          "name": "[Optional] Caramelized apple slices",
+          "amount": "As needed"
+        }
+      ],
+      "steps": [
+        "Cut the pork into approximately 3 cm cubes and sprinkle with 2 g of salt. Heat the vegetable oil in a frying pan over medium heat, add the pork, and sear all sides thoroughly until nicely browned. Transfer the pork to a bowl and dust with flour.",
+        "In the same pan, sauté the pearl onions (or onions cut into large wedges) until they are nicely browned and fragrant.",
+        "Pour a small amount of Cider into the pan, scraping the bottom to deglaze and dissolve the flavorful browned bits into the liquid.",
+        "In a pot (such as a cast-iron enameled pot, or a heat-resistant glass or ceramic covered casserole dish), combine the pork, onions, diced Bramley's Seedling, roughly chopped sage, Cider, and chicken bouillon. Cover with a lid and simmer gently over low heat for 2.5 hours.",
+        "Add the brown mushrooms (cut in half if large) and simmer over low heat for another 30 minutes.",
+        "Taste the sauce and season with salt and pepper to preference, then serve on warmed plates. If desired, garnish beautifully with fried sage and caramelized apple slices."
+      ],
+      "points": [
+        "In the UK, pairing pork with apples is a classic, traditional combination. The Bramley's Seedling melts into the sauce, lending an exquisite acidity and a light, refreshing touch to the rich Cider stew."
+      ]
+    },
+    "zh": {
+      "title": "秋之砂鍋燉菜：豬肉與布拉姆利 (Bramley's Seedling) 的蘋果酒及鼠尾草風味",
+      "category": "主菜・肉類料理",
+      "source": "布拉姆利 (Bramley's Seedling) 食譜書",
+      "author": "Mornington Crescent: Stacey Ward",
+      "servings": "4人份",
+      "cooking_time": "約3小時（含小火慢燉時間）",
+      "description": "英國傳統的慢火燉煮料理。將大塊豬肉與切丁的布拉姆利 (Bramley's Seedling) 搭配不甜的蘋果酒與新鮮鼠尾草，慢火燉煮兩個半小時，是一道入口即化、口感濃郁且香草芬芳四溢的精緻佳作。",
+      "ingredients": [
+        {
+          "name": "塊狀豬肉",
+          "amount": "500g"
+        },
+        {
+          "name": "鹽",
+          "amount": "2g"
+        },
+        {
+          "name": "沙拉油",
+          "amount": "2～3大匙"
+        },
+        {
+          "name": "珍珠洋蔥（或洋蔥、紅蔥頭）",
+          "amount": "200g"
+        },
+        {
+          "name": "低筋麵粉",
+          "amount": "25g"
+        },
+        {
+          "name": "褐菇",
+          "amount": "110g"
+        },
+        {
+          "name": "不甜蘋果酒",
+          "amount": "400g"
+        },
+        {
+          "name": "雞高湯",
+          "amount": "300g"
+        },
+        {
+          "name": "飯綱町產布拉姆利 (Bramley's Seedling)",
+          "amount": "約200g"
+        },
+        {
+          "name": "新鮮鼠尾草",
+          "amount": "1～2g"
+        },
+        {
+          "name": "鹽、胡椒",
+          "amount": "適量"
+        },
+        {
+          "name": "【香脆配料】油炸新鮮鼠尾草葉",
+          "amount": "適量"
+        },
+        {
+          "name": "【香脆配料】焦糖化蘋果片",
+          "amount": "適量"
+        }
+      ],
+      "steps": [
+        "將豬肉切成約3公分的塊狀，並撒上2克鹽。在炒鍋中倒入沙拉油並以中火加熱，放入豬肉將表面煎至金黃微焦。煎好後撈出放入碗中，均勻裹上低筋麵粉。",
+        "在同一個炒鍋中，將珍珠洋蔥（若使用一般洋蔥則切大塊）也煎至表面金黃、香氣散出。",
+        "倒入少許蘋果酒至炒鍋中，刮起鍋底燒焦的肉香精華並融入液體中。",
+        "將豬肉、洋蔥、切丁的布拉姆利 (Bramley's Seedling)、粗切的鼠尾草、蘋果酒與雞高湯全部倒入鍋中（建議使用鑄鐵琺瑯鍋，或耐熱玻璃、陶製的有蓋砂鍋），蓋上鍋蓋，以小火慢燉2個半小時。",
+        "加入褐菇（較大的褐菇可對半切），再以小火繼續燉煮30分鐘。",
+        "試吃醬汁味道，依個人喜好以鹽和胡椒調味，裝入溫熱的盤中。可依喜好擺上油炸鼠尾草與焦糖蘋果片，讓料理視覺更顯華麗。"
+      ],
+      "points": [
+        "在英國，將豬肉與蘋果搭配在一起是經典的傳統黃金組合。布拉姆利 (Bramley's Seedling) 融入醬汁中，能為濃郁的蘋果酒燉肉增添絕佳的酸度與輕盈的口感。"
+      ]
+    }
   },
   {
     "id": "recipe_22",
@@ -1472,6 +4002,204 @@
       "酸味の強いブラムリーに、甘みの強い「シナノスイート」と野性味ある「ブラックベリー」を組み合わせることで、英国菓子ならではの完璧な味のコントラストが生まれます。"
     ],
     "image_jpg": "/img/recipes/original_jpg/bramley-blackberry-crumble-custard.jpg",
-    "image_webp": "/img/recipes/webp/bramley-blackberry-crumble-custard.webp"
+    "image_webp": "/img/recipes/webp/bramley-blackberry-crumble-custard.webp",
+    "en": {
+      "title": "Bramley Apple and Blackberry Crumble with Custard",
+      "category": "Sweets & Traditional British Confectionery",
+      "source": "Bramley Recipe Book",
+      "author": "Stacey Ward, Mornington Crescent",
+      "servings": "Serves 4–6",
+      "cooking_time": "Approx. 50 mins",
+      "description": "A classic British dessert. A flavorful combination of tart Bramley's Seedling filling, sweet Shinano Sweet, and rustic blackberries, topped with a fragrant, golden oat crumble and baked to perfection. Serve generously with warm, homemade custard.",
+      "ingredients": [
+        {
+          "name": "[Apple Filling] Iizuna-grown Bramley's Seedling",
+          "amount": "300g"
+        },
+        {
+          "name": "[Apple Filling] Granulated sugar",
+          "amount": "35g"
+        },
+        {
+          "name": "[Apple Filling] Unsalted butter",
+          "amount": "10g"
+        },
+        {
+          "name": "[Apple Filling] Salt",
+          "amount": "A pinch"
+        },
+        {
+          "name": "[Apple Filling] Cinnamon and sugar",
+          "amount": "To taste"
+        },
+        {
+          "name": "[Apple Filling] Shinano Sweet",
+          "amount": "80g"
+        },
+        {
+          "name": "[Apple Filling] Blackberries",
+          "amount": "40g"
+        },
+        {
+          "name": "[Crumble] All-purpose flour (or a 50:50 mix of bread and cake flour)",
+          "amount": "90g"
+        },
+        {
+          "name": "[Crumble] Unsalted butter (cold)",
+          "amount": "45g"
+        },
+        {
+          "name": "[Crumble] Granulated sugar",
+          "amount": "45g"
+        },
+        {
+          "name": "[Crumble] Rolled oats (oatmeal)",
+          "amount": "20g"
+        },
+        {
+          "name": "[Crumble] Salt",
+          "amount": "A pinch"
+        },
+        {
+          "name": "[Custard Sauce] Heavy cream",
+          "amount": "120g"
+        },
+        {
+          "name": "[Custard Sauce] Milk",
+          "amount": "100g"
+        },
+        {
+          "name": "[Custard Sauce] Egg (S size)",
+          "amount": "1 (approx. 50g)"
+        },
+        {
+          "name": "[Custard Sauce] Granulated sugar",
+          "amount": "20g"
+        },
+        {
+          "name": "[Custard Sauce] Cornstarch",
+          "amount": "5g"
+        },
+        {
+          "name": "[Custard Sauce] Vanilla oil",
+          "amount": "1g"
+        },
+        {
+          "name": "[Custard Sauce] Salt",
+          "amount": "A pinch"
+        }
+      ],
+      "steps": [
+        "Peel and roughly chop the Bramley's Seedling apples. Place them in a small saucepan with granulated sugar, salt, and unsalted butter. Cover and cook over medium heat until the apples start to break down (remove the lid occasionally to stir with a wooden spatula, adding 1 tablespoon of water if needed). Adjust the taste with cinnamon or additional sugar if desired.",
+        "Put the flour and salt in a bowl, add the cold cubed butter, and rub them together with your fingertips until the mixture resembles fine breadcrumbs or sand. Add the granulated sugar and rolled oats, mixing lightly to create the crumble topping.",
+        "In a heatproof baking dish, combine the cooked Bramley's Seedling filling, raw diced Shinano Sweet, and blackberries, spreading them evenly. Gently scatter the crumble topping over the fruit layer.",
+        "Bake in an oven preheated to 180°C (350°F) for about 30 minutes. It is done when the crumble turns golden brown and the fruit juices around the edges are bubbling.",
+        "[To make the special custard] Combine the milk and heavy cream in a small saucepan and heat over medium heat until just before boiling. In a separate heatproof bowl, whisk the egg, granulated sugar, cornstarch, vanilla oil, and salt together until pale and smooth.",
+        "Gradually pour the warm milk mixture into the egg bowl while whisking constantly. Once fully combined, pour everything back into the saucepan. Cook over low-medium heat, stirring the bottom continuously with a rubber spatula until thickened. (If lumps form, quickly whisk with a balloon whisk to smooth them out).",
+        "Portion the freshly baked hot crumble onto plates and serve generously drizzled with the warm custard sauce."
+      ],
+      "points": [
+        "By pairing the highly acidic Bramley's Seedling with the very sweet Shinano Sweet and rustic blackberries, you achieve the perfect flavor contrast characteristic of traditional British sweets."
+      ]
+    },
+    "zh": {
+      "title": "卡士達醬佐布拉姆利 (Bramley's Seedling)與黑莓金黃酥頂點心",
+      "category": "甜點・英國傳統糕點",
+      "source": "布拉姆利 (Bramley's Seedling)食譜書",
+      "author": "Mornington Crescent：Stacey Ward",
+      "servings": "4～6人份",
+      "cooking_time": "約50分鐘",
+      "description": "英國最具代表性的國民甜點。將酸味強烈的布拉姆利 (Bramley's Seedling)內餡、甘甜的信浓甜 (Shinano Sweet)與黑莓完美結合，撒上香氣濃郁的燕麥酥頂烘烤，最後淋上溫熱的手作卡士達醬一同享用，交織出美妙的美味層次。",
+      "ingredients": [
+        {
+          "name": "【蘋果內餡】飯綱町產布拉姆利 (Bramley's Seedling)",
+          "amount": "300g"
+        },
+        {
+          "name": "【蘋果內餡】細砂糖",
+          "amount": "35g"
+        },
+        {
+          "name": "【蘋果內餡】無鹽奶油",
+          "amount": "10g"
+        },
+        {
+          "name": "【蘋果內餡】鹽",
+          "amount": "少許"
+        },
+        {
+          "name": "【蘋果內餡】肉桂粉、糖",
+          "amount": "適量"
+        },
+        {
+          "name": "【蘋果內餡】信浓甜 (Shinano Sweet)",
+          "amount": "80g"
+        },
+        {
+          "name": "【蘋果內餡】黑莓",
+          "amount": "40g"
+        },
+        {
+          "name": "【酥頂】中筋麵粉（或高筋與低筋麵粉各半）",
+          "amount": "90g"
+        },
+        {
+          "name": "【酥頂】無鹽奶油（冰冷狀態）",
+          "amount": "45g"
+        },
+        {
+          "name": "【酥頂】細砂糖",
+          "amount": "45g"
+        },
+        {
+          "name": "【酥頂】大燕麥片（燕麥片）",
+          "amount": "20g"
+        },
+        {
+          "name": "【酥頂】鹽",
+          "amount": "少許"
+        },
+        {
+          "name": "【卡士達醬】鮮奶油",
+          "amount": "120g"
+        },
+        {
+          "name": "【卡士達醬】牛奶",
+          "amount": "100g"
+        },
+        {
+          "name": "【卡士達醬】雞蛋（S尺寸）",
+          "amount": "1個（約50g）"
+        },
+        {
+          "name": "【卡士達醬】細砂糖",
+          "amount": "20g"
+        },
+        {
+          "name": "【卡士達醬】玉米澱粉",
+          "amount": "5g"
+        },
+        {
+          "name": "【卡士達醬】香草精",
+          "amount": "1g"
+        },
+        {
+          "name": "【卡士達醬】鹽",
+          "amount": "少許"
+        }
+      ],
+      "steps": [
+        "將布拉姆利 (Bramley's Seedling)削皮並切粗丁，與細砂糖、鹽、無鹽奶油一同放入小鍋中。蓋上鍋蓋以中火加熱至蘋果稍微煮至糊化（途中可打開鍋蓋用木鏟攪拌，若有需要可加入1大匙水）。依個人喜好加入肉桂粉或糖調整口味。",
+        "在盆中放入中筋麵粉與鹽，加入切成小塊的冰冷奶油，用指尖輕輕搓揉揉合，使其呈現沙粒或細麵包粉狀。均勻後加入細砂糖與大燕麥片輕輕拌勻，即完成酥頂麵團。",
+        "在耐熱烤盤中，鋪入步驟①的布拉姆利 (Bramley's Seedling)內餡、切丁的生信浓甜 (Shinano Sweet)與黑莓。接著將步驟②的酥頂均勻且蓬鬆地撒在最上層。",
+        "放入預熱至180℃的烤箱中烘烤約30分鐘。當表面酥頂呈現金黃色、邊緣的果汁沸騰起泡時，即可出爐。",
+        "【製作特製卡士達醬】將牛奶與鮮奶油倒入小鍋中，以中火加熱至即將沸騰前熄火。在另一個耐熱盆中放入雞蛋、細砂糖、玉米澱粉、香草精與鹽，用打蛋器充分攪打至呈現微白粘稠狀。",
+        "將溫熱的牛奶液一點一點徐徐倒入裝有蛋液的盆中並同時攪拌。均勻後倒回鍋中，以偏弱的中火加熱，期間需用刮刀不斷攪拌底部以防燒焦，加熱至呈現濃稠狀（若產生結塊，請迅速用打蛋器快速攪拌使其滑順）。",
+        "將剛烤好熱氣騰騰的酥頂點心分裝至盤中，淋上滿滿的溫熱特製卡士達醬即可享用。"
+      ],
+      "points": [
+        "將酸味強烈的布拉姆利 (Bramley's Seedling)與甜味濃郁的「信浓甜 (Shinano Sweet)」以及帶有野性風味的「黑莓」相結合，便能創造出英國傳統糕點所獨有的完美風味對比。"
+      ]
+    }
   }
 ]
