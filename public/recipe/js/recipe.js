@@ -216,8 +216,8 @@
               ${ICONS.print}
               <span class="lz-label rc-btn-label">印刷</span>
             </button>
-            <button type="button" class="lz-btn rc-modal-btn rc-share-btn" id="rc-modal-share-btn" title="共有">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <button type="button" class="lz-btn lz-share rc-modal-btn rc-share-btn" id="rc-modal-share-btn" title="共有">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="18" cy="5" r="3"/>
                 <circle cx="6" cy="12" r="3"/>
                 <circle cx="18" cy="19" r="3"/>
@@ -573,7 +573,7 @@
       const newUrl = newQuery ? `/recipe?${newQuery}` : "/recipe";
       history.pushState(null, "", newUrl);
     }
-    document.title = "飯綱町りんごレシピ集（全22品）｜りんごのまちいいづな";
+    document.title = "飯綱町りんごレシピ集｜りんごのまちいいづな";
   }
 
   // 8. イベントリスナー統合
