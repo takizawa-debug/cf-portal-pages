@@ -517,35 +517,22 @@
   transform: scale(1.02);
 }
 
-.rc-modal-btn.is-line {
-  background: #f2fcf5;
-  color: #06c755;
-  border-color: #d1f2dc;
+.rc-share-btn {
+  background: #fdfaf8;
+  color: #a82626;
+  border-color: #eee;
 }
 
-.rc-modal-btn.is-line:hover {
-  background: #e6f9ed;
-  color: #05a847;
+.rc-share-btn:hover {
+  background: #feebeb;
+  color: #cf3a3a;
+  border-color: #f5caca;
 }
 
 .rc-modal-btn svg {
   width: 20px;
   height: 20px;
   stroke-width: 2.5;
-}
-
-@media (max-width: 768px) {
-  .rc-modal-header {
-    padding: 14px 16px;
-  }
-  .rc-modal-btn {
-    width: 44px;
-    height: 44px;
-    padding: 0;
-  }
-  .rc-modal-btn .rc-btn-label {
-    display: none;
-  }
 }
 
 /* モーダルコンテンツ (.lz-modal-content 互換) */
@@ -558,33 +545,6 @@
   -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 768px) {
-  .lz-modal-recipe {
-    height: auto !important;
-    max-height: 90vh !important;
-    max-height: 90svh !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  #rc-detail-container,
-  #rc-detail-container > div {
-    height: auto !important;
-    overflow: visible !important;
-    flex: none !important;
-  }
-  .rc-modal-content-wrap {
-    flex-direction: column;
-    overflow-y: visible !important;
-    height: auto !important;
-    flex: none !important;
-  }
-  .rc-modal-header {
-    position: sticky;
-    top: 0;
-    z-index: 30;
-  }
-}
-
 /* 左カラム：画像・メタ情報 (.lz-modal-left 互換) */
 .rc-modal-left {
   flex: 0 0 clamp(320px, 42%, 460px);
@@ -594,14 +554,6 @@
   gap: 20px;
   align-self: flex-start;
   box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .rc-modal-left {
-    flex: none;
-    width: 100%;
-    padding: 20px 20px 0;
-  }
 }
 
 .rc-modal-photo {
@@ -674,13 +626,6 @@
   flex-direction: column;
   gap: 32px;
   box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .rc-modal-right {
-    padding: 20px 20px 36px;
-    gap: 26px;
-  }
 }
 
 /* リード文 (.lz-lead-strong 互換) - 大きく読みやすいフォント */
@@ -920,6 +865,286 @@
 .rc-cta-action-btn.is-green:hover {
   background: #547410;
 }
+
+/* ==========================================================================
+   5. スマホ専用 最適化レイアウト (@media (max-width: 768px))
+   スマートフォンの片手操作・縦スクロール・可読性を徹底追求した仕様
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* バックドロップとシェル：画面下部に吸着するモダンなボトムシートスタイル */
+  .lz-shell {
+    align-items: flex-end !important;
+    padding: 0 !important;
+    height: 100% !important;
+    margin: 0 !important;
+  }
+
+  .lz-modal-recipe {
+    width: 100% !important;
+    height: 94vh !important;
+    height: 94dvh !important;
+    max-height: 94vh !important;
+    max-height: 94dvh !important;
+    border-radius: 24px 24px 0 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  /* モーダル内部コンテナの高さ制約と縦スクロール */
+  #rc-detail-container,
+  #rc-detail-container > div {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* ヘッダー：すっきりと上部固定され、パンくず・タイトル・操作ボタンを視認性高く配置 */
+  .rc-modal-header {
+    padding: 12px 16px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 40 !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid #ebe5df !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 12px !important;
+  }
+
+  .rc-modal-breadcrumb {
+    font-size: 1.15rem !important;
+    margin-bottom: 3px !important;
+    gap: 5px !important;
+  }
+
+  .rc-modal-title {
+    font-size: clamp(1.75rem, 4.8vw, 2.1rem) !important;
+    line-height: 1.35 !important;
+  }
+
+  /* ★ スマホ時は印刷ボタンを完全非表示（不要） ★ */
+  #rc-modal-print-btn {
+    display: none !important;
+  }
+
+  /* アクションボタン群（共有・閉じる）：親指で押しやすい40pxタッチターゲット */
+  .rc-modal-actions {
+    gap: 8px !important;
+  }
+
+  .rc-modal-btn {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .rc-modal-btn .rc-btn-label {
+    display: none !important;
+  }
+
+  .rc-modal-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* モーダルコンテンツ全体の縦スクロール */
+  .rc-modal-content-wrap {
+    flex-direction: column !important;
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    padding-bottom: 60px !important;
+  }
+
+  /* 左カラム：写真＋メタ情報 */
+  .rc-modal-left {
+    flex: none !important;
+    width: 100% !important;
+    padding: 16px 16px 0 !important;
+    gap: 12px !important;
+  }
+
+  .rc-modal-photo {
+    border-radius: 14px !important;
+    max-height: 260px !important;
+    overflow: hidden !important;
+  }
+
+  .rc-modal-photo img {
+    height: 260px !important;
+    object-fit: cover !important;
+  }
+
+  /* ★ メタ情報のスマホ2カラムグリッド化（スクロール長を大幅圧縮） ★ */
+  .rc-modal-infolist {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
+  .rc-modal-infoitem {
+    padding: 10px 12px !important;
+    border-radius: 10px !important;
+    gap: 3px !important;
+  }
+
+  /* 3つ目の「考案・研究」は2列ぶち抜き横幅100% */
+  .rc-modal-infoitem:nth-child(3) {
+    grid-column: 1 / -1 !important;
+  }
+
+  .rc-modal-infolabel {
+    font-size: 1.15rem !important;
+    gap: 5px !important;
+  }
+
+  .rc-modal-infolabel::before {
+    width: 5px !important;
+    height: 5px !important;
+  }
+
+  .rc-modal-infoval {
+    font-size: 1.45rem !important;
+    line-height: 1.35 !important;
+  }
+
+  /* 右カラム：リード文・材料・手順・ポイント・CTA */
+  .rc-modal-right {
+    flex: none !important;
+    padding: 14px 16px 36px !important;
+    gap: 22px !important;
+  }
+
+  /* リード文 */
+  .rc-modal-lead {
+    font-size: 1.5rem !important;
+    line-height: 1.75 !important;
+    padding-bottom: 14px !important;
+  }
+
+  /* セクション見出し（材料・作り方） */
+  .rc-section-head-sm {
+    font-size: 1.65rem !important;
+    margin-bottom: 10px !important;
+  }
+
+  .rc-ing-subtext {
+    font-size: 1.2rem !important;
+  }
+
+  /* 材料カード */
+  .rc-ingredients-card {
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+  }
+
+  .rc-ing-row {
+    padding: 13px 4px !important;
+    font-size: 1.55rem !important;
+    min-height: 48px !important; /* タップしやすいiOS親指領域 */
+    box-sizing: border-box !important;
+  }
+
+  .rc-ing-chk {
+    width: 22px !important;
+    height: 22px !important;
+    margin-right: 10px !important;
+  }
+
+  .rc-ing-name {
+    font-size: 1.5rem !important;
+  }
+
+  .rc-ing-amount {
+    font-size: 1.5rem !important;
+  }
+
+  /* 作り方ステップ */
+  .rc-steps-list {
+    gap: 14px !important;
+  }
+
+  .rc-step-item {
+    gap: 12px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px dashed #f0eae4 !important;
+  }
+
+  .rc-step-item:last-child {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  .rc-step-badge {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 1.25rem !important;
+    margin-top: 2px !important;
+  }
+
+  .rc-step-text {
+    font-size: 1.55rem !important;
+    line-height: 1.75 !important;
+  }
+
+  /* コツ・ポイント */
+  .rc-points-callout {
+    padding: 14px 16px !important;
+    border-radius: 12px !important;
+  }
+
+  .rc-points-head {
+    font-size: 1.45rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .rc-points-body {
+    font-size: 1.4rem !important;
+    line-height: 1.7 !important;
+    padding-left: 18px !important;
+  }
+
+  /* 下部CTAバナー */
+  .rc-modal-cta {
+    padding: 18px 16px !important;
+    border-radius: 12px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .rc-cta-heading {
+    font-size: 1.5rem !important;
+  }
+
+  .rc-cta-p {
+    font-size: 1.3rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .rc-cta-action-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 13px 18px !important;
+    font-size: 1.45rem !important;
+    box-sizing: border-box !important;
+  }
+}
+
 
 /* ==========================================================================
    ピクトグラム用共通スタイル（色付きSVGアイコン）

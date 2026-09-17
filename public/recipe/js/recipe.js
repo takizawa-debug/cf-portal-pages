@@ -195,7 +195,6 @@
     injectStructuredData(recipe);
 
     const shareUrl = `${window.location.origin}/recipe?id=${encodeURIComponent(recipe.slug)}`;
-    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}`;
 
     detailContainerEl.innerHTML = `
       <div class="${isBramley ? "is-bramley-modal" : ""}">
@@ -217,10 +216,16 @@
               ${ICONS.print}
               <span class="lz-label rc-btn-label">印刷</span>
             </button>
-            <a href="${lineShareUrl}" target="_blank" rel="noopener noreferrer" class="lz-btn rc-modal-btn is-line" title="LINEで共有">
-              <svg viewBox="0.5 5.5 21 21" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M10.656 5.938c5.938 0 10.719 3.875 10.719 8.688 0 2.344-1.156 4.406-2.969 6.031-2.938 2.906-8 5.844-8.531 5.625-0.875-0.344 0.656-2.219 0.031-3.031-0.094-0.125-0.438-0.094-1.063-0.188-5.156-0.688-8.844-4.094-8.844-8.469 0-4.813 4.75-8.656 10.656-8.656z"/></svg>
-              <span class="lz-label rc-btn-label">LINE共有</span>
-            </a>
+            <button type="button" class="lz-btn rc-modal-btn rc-share-btn" id="rc-modal-share-btn" title="共有">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+              <span class="lz-label rc-btn-label">共有</span>
+            </button>
             <button type="button" class="lz-btn rc-modal-btn" id="rc-modal-close-trigger" title="閉じる">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               <span class="lz-label rc-btn-label">閉じる</span>
@@ -359,6 +364,48 @@
       } finally {
         if (btn) btn.style.opacity = "1";
         if (label) label.textContent = "印刷";
+      }
+    });
+
+    // 共有ボタンのイベントリスナー（modal.js 互換 Web Share API & コピー）
+    detailContainerEl.querySelector("#rc-modal-share-btn")?.addEventListener("click", async () => {
+      const pageShareUrl = `${window.location.origin}/recipe?id=${encodeURIComponent(recipe.slug)}`;
+      const payload = [
+        `【飯綱町りんごレシピ】${recipe.title}`,
+        recipe.description,
+        "ーーー",
+        "詳しくはこちら:",
+        pageShareUrl,
+        "",
+        "#飯綱町 #りんごレシピ #長野県"
+      ].filter(Boolean).join("\n");
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `${recipe.title} | 飯綱町りんごレシピ`,
+            text: payload,
+            url: pageShareUrl,
+          });
+        } catch (e) {
+          // ユーザーキャンセル時はスキップ
+        }
+      } else {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(payload);
+          } else {
+            const ta = document.createElement("textarea");
+            ta.value = payload;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+          }
+          alert("共有テキストとURLをコピーしました！");
+        } catch (err) {
+          alert("コピーに失敗しました。URL: " + pageShareUrl);
+        }
       }
     });
 
