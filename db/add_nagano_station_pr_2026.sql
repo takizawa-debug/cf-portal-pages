@@ -51,7 +51,7 @@ https://prtimes.jp/main/html/rd/p/000000295.000076519.html',
     'どなたでもお気軽にお越しください',
     '参加無料（試飲無料）',
     '飯綱町',
-    '["/img/news/nagano_station_pr_2026_1.webp","/img/news/nagano_station_pr_2026_2.webp","/img/news/nagano_station_pr_2026_3.webp","/img/news/nagano_station_pr_2026_4.webp"]',
+    '["/img/news/nagano_station_pr_event_1.webp","/img/news/nagano_station_pr_event_2.webp","/img/news/nagano_station_pr_event_3.webp","/img/news/nagano_station_pr_event_4.webp"]',
     '2026-09-17 10:00:00',
     '2026-09-17 10:00:00'
 );
