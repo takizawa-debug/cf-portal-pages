@@ -6,7 +6,7 @@ window.LZ_CONFIG = {
 
   // ② アナリティクス
   ANALYTICS: {
-    ENDPOINT: "https://script.google.com/macros/s/AKfycbyMsHN1c9KSk3DUfU94Z7Axr18-8TYAEOWuJSGh3_upEFNAAc4Z9PmrA3uXbbRoGACXSg/exec",
+    ENDPOINT: "/api/analytics/track",
     VISITOR_COOKIE: "apz_vid_v1",
     VISITOR_LSKEY: "apz_vid_ls_v1",
     SESSION_TTL: 30 * 60 * 1000
@@ -14,8 +14,8 @@ window.LZ_CONFIG = {
 
   // ③ 共通アセット
   ASSETS: {
-    LOGO_WHITE: "https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/8ca7ecd0-96ba-013e-3700-0a58a9feac02/%E3%82%8A%E3%82%93%E3%81%93%E3%82%99%E3%83%AD%E3%82%B3%E3%82%99_%E7%99%BD.png",
-    LOGO_RED: "https://s3-ap-northeast-1.amazonaws.com/s3.peraichi.com/userData/cadd36d5-015f-4440-aa3c-b426c32c22a0/img/8ca4e300-96ba-013e-36ff-0a58a9feac02/%E3%82%8A%E3%82%93%E3%81%93%E3%82%99%E3%83%AD%E3%82%B3%E3%82%99_%E8%B5%A4.png"
+    LOGO_WHITE: "/img/apple-logo-white.png",
+    LOGO_RED: "/img/apple-logo-red.png"
   },
 
   // ④ ナビゲーション設定
@@ -30,6 +30,7 @@ window.LZ_CONFIG = {
 
   // ⑤ フッター用設定
   FOOTER_LINKS: [
+    { label: "りんごレシピ", url: "/recipe" },
     { label: "お問い合わせ", url: "/contact" },
     { label: "サイトマップ", url: "/site-map" },
     { label: "サイトポリシー", url: "/site-policy" },
@@ -163,3 +164,16 @@ window.LZ_CONFIG = {
     }
   }
 };
+
+// 🍎 アナリティクス自動読み込み（全ページ共通）
+// config.jsは全ページに読み込まれるため、ここでanalytics.jsを動的注入する
+(function() {
+  if (window.__apz_loader) return;
+  window.__apz_loader = true;
+  var s = document.createElement('script');
+  s.src = '/js/analytics.js?v=4';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+
+// Client-side SEO injection has been migrated to SSR (_middleware.js) for optimal crawler performance.

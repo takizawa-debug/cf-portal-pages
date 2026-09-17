@@ -1,0 +1,214 @@
+/* ==========================================================================
+   飯綱町りんごレシピ トップページ特設バナー スタイル
+   既存サイト（current-event.css / common.css）完全調和版
+   ========================================================================== */
+
+.lz-recipe-banner-container {
+  max-width: 1120px;
+  margin: 15px auto 40px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.lz-recipe-banner-card {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 32px;
+  align-items: center;
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f6 100%);
+  border: 1px solid rgba(220, 195, 180, 0.65);
+  border-radius: 18px;
+  padding: 32px 36px;
+  box-shadow: 0 10px 30px rgba(91, 58, 30, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 左端の上品なりんごレッドアクセントライン */
+.lz-recipe-banner-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: linear-gradient(180deg, #cf3a3a 0%, #e06060 100%);
+}
+
+.lz-recipe-banner-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(207, 58, 58, 0.4);
+  box-shadow: 0 16px 36px rgba(168, 38, 38, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* --------------------------------------------------------------------------
+   左側：テキスト・CTAエリア
+   -------------------------------------------------------------------------- */
+.lz-rb-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lz-rb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  background: #fdf1f1;
+  border: 1px solid #f9d5d5;
+  color: #cf3a3a;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.lz-rb-title {
+  font-size: clamp(2.2rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: #2e2620;
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+}
+
+.lz-rb-desc {
+  font-size: 1.45rem;
+  color: #5a524a;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.lz-rb-action {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.lz-rb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #cf3a3a;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(207, 58, 58, 0.25);
+  transition: all 0.25s ease;
+}
+
+.lz-recipe-banner-card:hover .lz-rb-btn {
+  background: #b82828;
+  transform: translateX(4px);
+  box-shadow: 0 6px 18px rgba(207, 58, 58, 0.35);
+}
+
+.lz-rb-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.lz-recipe-banner-card:hover .lz-rb-btn svg {
+  transform: translateX(3px);
+}
+
+
+/* --------------------------------------------------------------------------
+   右側：4枚写真グリッドギャラリー
+   -------------------------------------------------------------------------- */
+.lz-rb-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.lz-rb-photo-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #f0eae4;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.lz-rb-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.lz-recipe-banner-card:hover .lz-rb-photo-item img {
+  transform: scale(1.06);
+}
+
+.lz-rb-photo-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(35, 30, 26, 0.78);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+}
+
+.lz-rb-photo-item.is-bramley-tag .lz-rb-photo-tag {
+  background: rgba(104, 142, 23, 0.9);
+}
+
+/* --------------------------------------------------------------------------
+   レスポンシブ対応
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .lz-recipe-banner-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 26px 24px;
+  }
+
+  .lz-rb-gallery {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .lz-recipe-banner-container {
+    margin: 10px auto 30px auto;
+    padding: 0 16px;
+  }
+
+  .lz-recipe-banner-card {
+    padding: 22px 18px;
+  }
+
+  .lz-rb-desc br {
+    display: none;
+  }
+
+  .lz-rb-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 20px;
+  }
+
+  .lz-rb-action {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

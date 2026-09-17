@@ -1,0 +1,1225 @@
+/* ==========================================================================
+   飯綱町りんごPRWEB - りんごレシピ集 (recipe.css)
+   既存サイト（Peraichi / Common / modal.js / section.js）トーン＆マナー完全準拠版
+   フォント: Noto Sans JP
+   コンテナ幅: 1100px (.content-wrap 互換)
+   フォントサイズ: 可読性を大幅向上（本文・材料・手順 16px〜18px）
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 基本レイアウト・全体コンテナ
+   -------------------------------------------------------------------------- */
+.rc-page-wrap {
+  background-color: #ffffff;
+  color: #2b2621;
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 80vh;
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+
+/* 既存サイト準拠のコンテンツコンテナ (.content-wrap と完全一致) */
+.rc-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   2. 見出しエリア（既存サイト .lz-titlewrap と完全同一）
+   -------------------------------------------------------------------------- */
+.rc-head-section {
+  margin-bottom: 36px;
+}
+
+.rc-titlewrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 36px 12px 20px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, rgba(207, 58, 58, 0.05) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border-left: 5px solid #cf3a3a;
+  border-radius: 0 40px 40px 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  margin-bottom: 18px;
+}
+
+.rc-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 4.5vw, 2.8rem);
+  color: #5b3a1e;
+  letter-spacing: .06em;
+  line-height: 1.3;
+}
+
+.rc-intro-text {
+  font-size: 1.6rem;
+  color: #4a443e;
+  line-height: 1.9;
+  max-width: 960px;
+  margin: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. フィルターナビゲーションバー
+   -------------------------------------------------------------------------- */
+.rc-filter-bar {
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 20px;
+  background: #faf7f5;
+  border-radius: 14px;
+  border: 1px solid rgba(231, 211, 200, 0.6);
+}
+
+.rc-filter-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #5b3a1e;
+  margin-right: 4px;
+}
+
+.rc-filter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rc-filter-btn {
+  border: 1px solid rgba(231, 211, 200, 0.9);
+  background: #ffffff;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.rc-filter-btn:hover {
+  border-color: #cf3a3a;
+  color: #cf3a3a;
+  background: #fff8f8;
+}
+
+.rc-filter-btn.is-bramley:hover {
+  border-color: #688e17;
+  color: #557512;
+  background: #f2f7e8;
+}
+
+.rc-filter-btn.is-active {
+  background: #cf3a3a;
+  color: #ffffff;
+  border-color: #cf3a3a;
+  box-shadow: 0 4px 12px rgba(207, 58, 58, 0.25);
+}
+
+/* アクティブボタン内のピクトグラムは背景色と同化しないよう白に統一 */
+.rc-filter-btn.is-active svg,
+.rc-filter-btn.is-active .rc-ico,
+.rc-filter-btn.is-active .rc-ico-red,
+.rc-filter-btn.is-active .rc-ico-green {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.rc-filter-btn.is-bramley.is-active {
+  background: #688e17;
+  border-color: #688e17;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(104, 142, 23, 0.25);
+}
+
+.rc-filter-btn.is-bramley.is-active svg,
+.rc-filter-btn.is-bramley.is-active .rc-ico-green {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.rc-count-pill {
+  font-size: 1.25rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.07);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rc-filter-btn.is-active .rc-count-pill {
+  background: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   4. カードグリッド（既存 .lz-card 体系に完全準拠）
+   -------------------------------------------------------------------------- */
+.rc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 960px) {
+  .rc-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .rc-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+/* 既存サイト .lz-card 互換のカードスタイル */
+.rc-card {
+  position: relative;
+  border: 1px solid rgba(231, 211, 200, 0.5);
+  border-radius: 16px;
+  background: #ffffff;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.rc-card:hover, .rc-card.is-active {
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(207, 58, 58, 0.3);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 0 20px rgba(207, 58, 58, 0.05);
+}
+
+/* メディアコンテナ (.lz-media 互換) */
+.rc-card-media {
+  position: relative;
+  background: #fdfaf8;
+  overflow: hidden;
+  width: 100%;
+}
+
+.rc-card-media::before {
+  content: "";
+  display: block;
+  padding-top: 66%; /* 既存セクション比率準拠 */
+}
+
+.rc-card-media > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.rc-card:hover .rc-card-media > img {
+  transform: scale(1.06);
+}
+
+/* カテゴリ・ブラムリーバッジ */
+.rc-badge-cat {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(35, 30, 26, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 6px;
+  letter-spacing: 0.03em;
+  z-index: 2;
+}
+
+.rc-badge-bramley-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(104, 142, 23, 0.92);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.rc-badge-bramley-tag svg,
+.rc-badge-bramley-tag .rc-ico-green {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  width: 14px;
+  height: 14px;
+}
+
+/* カードボディ (.lz-body 互換) */
+.rc-card-body {
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+/* タイトル（既存サイトの葉っぱアイコンアニメーション演出を完全再現） */
+.rc-card-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #1b1b1b;
+  position: relative;
+  transition: padding-left 0.3s ease, color 0.3s ease;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rc-card:hover .rc-card-title {
+  padding-left: 24px;
+  color: #cf3a3a;
+}
+
+.rc-card-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 13px;
+  transform: translateY(-50%) rotate(-15deg);
+  width: 15px;
+  height: 15px;
+  background: #2aa85c;
+  border-radius: 0 80% 0 80%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rc-card:hover .rc-card-title::before {
+  opacity: 1;
+}
+
+/* メタ情報（時間・分量）- 文字サイズ拡大 */
+.rc-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  color: #666;
+  font-weight: 600;
+}
+
+/* リード文 (.lz-lead 互換) - 文字サイズ拡大 */
+.rc-card-lead {
+  font-size: 1.45rem;
+  color: #555;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* フッター */
+.rc-card-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(231, 211, 200, 0.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.35rem;
+  color: #777;
+}
+
+.rc-card-author {
+  font-weight: 500;
+  color: #666;
+  max-width: 65%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rc-card-link-text {
+  color: #cf3a3a;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. 詳細モーダルウィンドウ（既存 modal.js と完全一致）
+   -------------------------------------------------------------------------- */
+.lz-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000;
+}
+
+.lz-backdrop.rc-modal-open {
+  display: flex !important;
+  animation: lzFadeIn 0.3s ease;
+}
+
+@keyframes lzFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lz-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.lz-modal-recipe {
+  position: relative;
+  width: min(1100px, 94vw);
+  height: 88vh;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 20px;
+  z-index: 20001;
+  pointer-events: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lz-backdrop:not(.rc-modal-open) .lz-modal-recipe {
+  transform: translateY(20px);
+}
+
+/* モーダル内部コンテナの高さ制限とスクロール伝播 */
+#rc-detail-container,
+#rc-detail-container > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* モーダルヘッダー (.lz-mh 互換) */
+.rc-modal-header {
+  flex-shrink: 0;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+  padding: 18px 26px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.rc-modal-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.35rem;
+  color: #888;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.rc-modal-breadcrumb a {
+  color: #a82626;
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+
+.rc-modal-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.rc-modal-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(2.0rem, 3.8vw, 2.7rem);
+  color: #a82626;
+  line-height: 1.35;
+}
+
+/* アクションボタン群 (.lz-actions / .lz-btn 互換) */
+.rc-modal-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.rc-modal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #fdfaf8;
+  border: 1px solid #eee;
+  border-radius: 999px;
+  padding: 11px 20px;
+  cursor: pointer;
+  color: #a82626;
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.rc-modal-btn:hover {
+  background: #feebeb;
+  color: #cf3a3a;
+  border-color: #f5caca;
+  transform: scale(1.02);
+}
+
+.rc-modal-btn.is-line {
+  background: #f2fcf5;
+  color: #06c755;
+  border-color: #d1f2dc;
+}
+
+.rc-modal-btn.is-line:hover {
+  background: #e6f9ed;
+  color: #05a847;
+}
+
+.rc-modal-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+}
+
+@media (max-width: 768px) {
+  .rc-modal-header {
+    padding: 14px 16px;
+  }
+  .rc-modal-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+  .rc-modal-btn .rc-btn-label {
+    display: none;
+  }
+}
+
+/* モーダルコンテンツ (.lz-modal-content 互換) */
+.rc-modal-content-wrap {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0%;
+  min-height: 0;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .lz-modal-recipe {
+    height: auto !important;
+    max-height: 90vh !important;
+    max-height: 90svh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  #rc-detail-container,
+  #rc-detail-container > div {
+    height: auto !important;
+    overflow: visible !important;
+    flex: none !important;
+  }
+  .rc-modal-content-wrap {
+    flex-direction: column;
+    overflow-y: visible !important;
+    height: auto !important;
+    flex: none !important;
+  }
+  .rc-modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+}
+
+/* 左カラム：画像・メタ情報 (.lz-modal-left 互換) */
+.rc-modal-left {
+  flex: 0 0 clamp(320px, 42%, 460px);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: flex-start;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .rc-modal-left {
+    flex: none;
+    width: 100%;
+    padding: 20px 20px 0;
+  }
+}
+
+.rc-modal-photo {
+  position: relative;
+  background: #faf7f5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+}
+
+.rc-modal-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* メタ情報リスト (.lz-info-list 互換) */
+.rc-modal-infolist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rc-modal-infoitem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 18px;
+  background: #fdfbf9;
+  border-radius: 12px;
+  border: 1px solid #f0eae4;
+}
+
+.rc-modal-infolabel {
+  font-weight: 700;
+  color: #888;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rc-modal-infolabel::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #cf3a3a;
+  border-radius: 50%;
+}
+
+.is-bramley-modal .rc-modal-infolabel::before {
+  background: #688e17;
+}
+
+.rc-modal-infoval {
+  color: #2b2621;
+  font-size: 1.65rem;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+/* 右カラム：リード文・材料・手順・コツ (.lz-modal-right 互換) */
+.rc-modal-right {
+  flex: 1;
+  padding: 28px 36px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .rc-modal-right {
+    padding: 20px 20px 36px;
+    gap: 26px;
+  }
+}
+
+/* リード文 (.lz-lead-strong 互換) - 大きく読みやすいフォント */
+.rc-modal-lead {
+  font-weight: 700;
+  font-size: clamp(1.65rem, 3.2vw, 2.1rem);
+  line-height: 1.8;
+  color: #222222;
+  padding-bottom: 18px;
+  border-bottom: 2px solid rgba(231, 211, 200, 0.4);
+}
+
+/* セクション見出し (材料・作り方) */
+.rc-section-head-sm {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #5b3a1e;
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rc-ing-subtext {
+  font-size: 1.3rem;
+  font-weight: normal;
+  color: #777;
+}
+
+/* 材料ボックス (.lz-info-item 互換の上品なカードスタイル) */
+.rc-ingredients-card {
+  background: #fcfcfc;
+  border-radius: 14px;
+  border: 1px solid #e8e3dc;
+  padding: 22px 26px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.rc-ing-table {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rc-ing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 6px;
+  border-bottom: 1px dashed #e4ded7;
+  font-size: 1.65rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+  color: #2b2621;
+}
+
+.rc-ing-row:last-child {
+  border-bottom: none;
+}
+
+.rc-ing-row:hover {
+  background: rgba(207, 58, 58, 0.03);
+}
+
+.rc-ing-chk {
+  margin-right: 14px;
+  width: 22px;
+  height: 22px;
+  accent-color: #cf3a3a;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.is-bramley-modal .rc-ing-chk {
+  accent-color: #688e17;
+}
+
+.rc-ing-row.is-done {
+  color: #a09c97;
+  text-decoration: line-through;
+}
+
+.rc-ing-val {
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: #222;
+  margin-left: 16px;
+  white-space: nowrap;
+}
+
+.rc-ing-row.is-done .rc-ing-val {
+  color: #a09c97;
+}
+
+/* 作り方手順セクション - 文字サイズ大幅拡大 & ゆったりステップ */
+.rc-steps-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rc-step-row {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 18px 22px;
+  background: #fdfcfb;
+  border-radius: 14px;
+  border: 1px solid #ede7e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.rc-step-badge {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  background: #cf3a3a;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.is-bramley-modal .rc-step-badge {
+  background: #688e17;
+}
+
+.rc-step-desc {
+  font-size: 1.7rem;
+  line-height: 1.9;
+  color: #2b2621;
+  padding-top: 4px;
+}
+
+/* コツ・ポイントハイライト */
+.rc-points-callout {
+  background: #fffbf0;
+  border-left: 5px solid #e6a100;
+  border-radius: 0 14px 14px 0;
+  padding: 20px 24px;
+  border-top: 1px solid #faeed1;
+  border-right: 1px solid #faeed1;
+  border-bottom: 1px solid #faeed1;
+}
+
+.rc-points-head {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #8c6000;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rc-points-body {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 1.55rem;
+  line-height: 1.85;
+  color: #594000;
+}
+
+.rc-points-body li {
+  margin-bottom: 6px;
+}
+
+.rc-points-body li:last-child {
+  margin-bottom: 0;
+}
+
+/* 相互リンクCTAバナー (.lz-recipe-callout 互換) */
+.rc-modal-cta {
+  margin-top: 8px;
+  padding: 22px 26px;
+  background: linear-gradient(135deg, #f7f3ec 0%, #faede8 100%);
+  border: 1px solid rgba(231, 211, 200, 0.8);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.rc-modal-cta.is-bramley-cta {
+  background: linear-gradient(135deg, #f2f7e8 0%, #eaf4d5 100%);
+  border-color: #abc10d;
+}
+
+.rc-cta-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2b2621;
+  margin: 0 0 6px;
+}
+
+.rc-cta-p {
+  font-size: 1.4rem;
+  color: #555;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.rc-cta-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #cf3a3a;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.45rem;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(207, 58, 58, 0.25);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.rc-cta-action-btn:hover {
+  background: #a82626;
+  transform: translateY(-2px);
+}
+
+.rc-cta-action-btn.is-green {
+  background: #688e17;
+  box-shadow: 0 4px 12px rgba(104, 142, 23, 0.25);
+}
+
+.rc-cta-action-btn.is-green:hover {
+  background: #547410;
+}
+
+/* ==========================================================================
+   ピクトグラム用共通スタイル（色付きSVGアイコン）
+   ========================================================================== */
+.rc-ico {
+  display: inline-block;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+
+.rc-ico-red {
+  color: #cf3a3a;
+  fill: #cf3a3a;
+}
+
+.rc-ico-green {
+  color: #688e17;
+  fill: #688e17;
+}
+
+.rc-ico-gold {
+  color: #8c6000;
+  fill: #8c6000;
+}
+
+/* 画面通常時の印刷シート（画面外配置でレンダリングツリーを構築し、画像を事前ロード・デコードさせる） */
+#rc-print-sheet {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 210mm;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -999;
+}
+
+/* ==========================================================================
+   6. A4 印刷専用スタイル (@media print)
+   civic-report-pdf-engine 規格準拠
+   ========================================================================== */
+@page {
+  size: A4 portrait; /* 210mm x 297mm */
+  margin: 12mm 15mm;
+}
+
+@media print {
+  /* 印刷時は印刷専用シート以外をすべて100%完全非表示 */
+  body > *:not(#rc-print-sheet) {
+    display: none !important;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #rc-print-sheet {
+    display: block !important;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    visibility: visible !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 印刷ヘッダー（自治体公文書・公式レシピカード規格） */
+  .ps-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 5pt;
+    border-bottom: 2pt solid #cf3a3a;
+    margin-bottom: 10pt;
+  }
+
+  .ps-header.is-bramley {
+    border-bottom-color: #688e17;
+  }
+
+  .ps-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 6pt;
+  }
+
+  .ps-logo-title {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #5b3a1e;
+    letter-spacing: 0.04em;
+  }
+
+  .ps-issuer {
+    font-size: 8.5pt;
+    color: #666;
+  }
+
+  /* レシピメイン見出し */
+  .ps-title-wrap {
+    margin-bottom: 8pt;
+  }
+
+  .ps-cat-tag {
+    display: inline-block;
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #ffffff;
+    background: #333333;
+    padding: 1.5pt 6pt;
+    border-radius: 2pt;
+    margin-bottom: 4pt;
+  }
+
+  .ps-cat-tag.is-bramley {
+    background: #688e17;
+  }
+
+  .ps-title {
+    font-size: 17pt;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 5pt;
+    line-height: 1.3;
+    font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  }
+
+  .ps-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14pt;
+    font-size: 9pt;
+    color: #444;
+    font-weight: 600;
+    padding-bottom: 5pt;
+    border-bottom: 0.75pt dotted #bbb;
+    margin-bottom: 8pt;
+  }
+
+  .ps-lead {
+    font-size: 9pt;
+    line-height: 1.6;
+    color: #333;
+    margin: 0 0 10pt;
+  }
+
+  /* 2カラムメイン構成 */
+  .ps-body-grid {
+    display: flex;
+    gap: 14pt;
+  }
+
+  /* 左カラム：写真・ポイント */
+  .ps-col-left {
+    width: 36%;
+    flex-shrink: 0;
+  }
+
+  .ps-photo {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border: 0.75pt solid #ccc;
+    border-radius: 3pt;
+    margin-bottom: 8pt;
+    display: block;
+  }
+
+  .ps-point-box {
+    background: #fdfbf7;
+    border: 0.75pt solid #dcd7ce;
+    border-left: 3pt solid #e6a100;
+    padding: 6pt 8pt;
+    border-radius: 2pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .ps-point-head {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #7d5700;
+    margin-bottom: 3pt;
+  }
+
+  .ps-point-list {
+    margin: 0;
+    padding-left: 12pt;
+    font-size: 8pt;
+    line-height: 1.45;
+    color: #444;
+  }
+
+  .ps-point-list li {
+    margin-bottom: 2pt;
+  }
+
+  /* 右カラム：材料・作り方 */
+  .ps-col-right {
+    width: 64%;
+    flex-grow: 1;
+  }
+
+  .ps-sec-head {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #5b3a1e;
+    border-bottom: 1pt solid #5b3a1e;
+    padding-bottom: 2pt;
+    margin: 0 0 5pt;
+  }
+
+  /* 材料表 */
+  .ps-ing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .ps-ing-table tr {
+    border-bottom: 0.5pt dotted #ccc;
+  }
+
+  .ps-ing-table td {
+    padding: 3pt 2pt;
+    font-size: 8.5pt;
+  }
+
+  .ps-ing-name {
+    color: #222;
+  }
+
+  .ps-ing-amount {
+    text-align: right;
+    font-weight: 700;
+    color: #111;
+  }
+
+  /* 作り方ステップ */
+  .ps-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 5pt;
+  }
+
+  .ps-step-item {
+    display: flex;
+    gap: 6pt;
+    align-items: flex-start;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .ps-step-num {
+    width: 13pt;
+    height: 13pt;
+    background: #cf3a3a;
+    color: #ffffff;
+    font-size: 7.5pt;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1pt;
+  }
+
+  .ps-step-item.is-bramley .ps-step-num {
+    background: #688e17;
+  }
+
+  .ps-step-text {
+    font-size: 8.5pt;
+    line-height: 1.55;
+    color: #222;
+    flex-grow: 1;
+  }
+
+  /* フッター */
+  .ps-footer {
+    margin-top: 12pt;
+    padding-top: 5pt;
+    border-top: 0.5pt solid #bbb;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7pt;
+    color: #666;
+  }
+}
