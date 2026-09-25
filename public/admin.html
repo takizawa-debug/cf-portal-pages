@@ -1465,55 +1465,111 @@ flowchart TD
                 </div>
 
                 <!-- Sub-panel: SEO/Technical -->
-                <!-- Sub-panel: AI Visibility -->
+                <!-- Sub-panel: AI Visibility (リアルタイム可視化 & インサイト強化版) -->
                 <div id="subpanel-ai-visibility" class="analytics-subpanel" style="display:none;">
+                    <!-- KPI Cards -->
                     <div class="row g-3 mb-3">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow-sm border-0 bg-white p-3 text-center">
-                                <div class="text-muted small mb-1">AIクローラー訪問</div>
+                                <div class="text-muted small mb-1">🤖 AIクローラー総収集数</div>
                                 <div id="ai-crawl-count" style="font-size:2rem;font-weight:800;color:#7c3aed;">—</div>
+                                <div id="ai-crawl-sub" class="text-muted" style="font-size:.72rem;">—</div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow-sm border-0 bg-white p-3 text-center">
-                                <div class="text-muted small mb-1">🔗 AI経由の流入</div>
+                                <div class="text-muted small mb-1">📑 クロール巡回済ページ</div>
+                                <div id="ai-pages-count" style="font-size:2rem;font-weight:800;color:#2563eb;">—</div>
+                                <div id="ai-pages-sub" class="text-muted" style="font-size:.72rem;">日・英・繁体字の網羅度</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card shadow-sm border-0 bg-white p-3 text-center">
+                                <div class="text-muted small mb-1">🔗 AI検索からの直接流入</div>
                                 <div id="ai-referral-count" style="font-size:2rem;font-weight:800;color:#059669;">—</div>
+                                <div id="ai-referral-sub" class="text-muted" style="font-size:.72rem;">ChatGPT / Perplexity等</div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow-sm border-0 bg-white p-3 text-center">
-                                <div class="text-muted small mb-1">検索ボット訪問</div>
+                                <div class="text-muted small mb-1">🔍 一般検索ボット訪問</div>
                                 <div id="search-crawl-count" style="font-size:2rem;font-weight:800;color:#0284c7;">—</div>
+                                <div id="search-crawl-sub" class="text-muted" style="font-size:.72rem;">Googlebot / Bingbot等</div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- AIアクセスが意味すること（インテリジェンス・インサイト解説） -->
+                    <div class="card shadow-sm border-0 bg-white p-3 mb-3" style="border-left: 4px solid #7c3aed !important;">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="fw-bold" style="color:#7c3aed; font-size:1.05rem;">
+                                💡 AIアクセスが意味すること（リアルタイム・インサイト評価）
+                            </div>
+                            <span class="badge" style="background:rgba(124,58,237,0.1); color:#7c3aed;">GEO (AI検索最適化) 診断</span>
+                        </div>
+                        <div id="ai-intent-insights" class="row g-2"></div>
+                    </div>
+
+                    <!-- クローラー詳細 & AI経由流入 -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <div class="card shadow-sm border-0 bg-white p-3">
-                                <div class="text-muted small mb-2 fw-bold">AIクローラー詳細</div>
-                                <div id="ai-crawlers-detail" style="max-height:250px;overflow-y:auto;"></div>
+                            <div class="card shadow-sm border-0 bg-white p-3 h-100">
+                                <div class="text-muted small mb-2 fw-bold">🤖 検出されたAIクローラー一覧</div>
+                                <div id="ai-crawlers-detail" style="max-height:280px;overflow-y:auto;"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card shadow-sm border-0 bg-white p-3">
-                                <div class="text-muted small mb-2 fw-bold">🔗 AI経由ユーザー流入</div>
-                                <div id="ai-referrals-detail" style="max-height:250px;overflow-y:auto;"></div>
+                            <div class="card shadow-sm border-0 bg-white p-3 h-100">
+                                <div class="text-muted small mb-2 fw-bold">🔗 AI経由ユーザー流入（人間ユーザー送客）</div>
+                                <div id="ai-referrals-detail" style="max-height:280px;overflow-y:auto;"></div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- どのAIがどの情報にアクセスしたか（対象コンテンツ詳細ランキング） -->
+                    <div class="card shadow-sm border-0 bg-white p-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="text-muted small fw-bold">🎯 AIが注目・収集している情報（アクセス先コンテンツ内訳）</div>
+                            <span class="text-muted" style="font-size:.75rem;">AIが学習・引用のために取得したページTOP50</span>
+                        </div>
+                        <div class="table-responsive" style="max-height:340px; overflow-y:auto;">
+                            <table class="table table-sm table-hover align-middle mb-0" style="font-size:.82rem;">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th style="width:22%;">AIクローラー名</th>
+                                        <th style="width:53%;">対象ページ / コンテンツ</th>
+                                        <th style="width:12%; text-align:right;">収集回数</th>
+                                        <th style="width:13%; text-align:right;">最終収集日時</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ai-crawled-pages-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 検索エンジン分類 & リアルタイムAIログ -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <div class="card shadow-sm border-0 bg-white p-3">
-                                <div class="text-muted small mb-2 fw-bold">検索エンジン分類</div>
+                            <div class="card shadow-sm border-0 bg-white p-3 h-100">
+                                <div class="text-muted small mb-2 fw-bold">🌐 検索エンジン流入分類（オーガニック）</div>
                                 <div id="search-engines-detail"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card shadow-sm border-0 bg-white p-3">
-                                <div class="text-muted small mb-2 fw-bold">検索/SNSクローラー</div>
-                                <div id="other-crawlers-detail" style="max-height:250px;overflow-y:auto;"></div>
+                            <div class="card shadow-sm border-0 bg-white p-3 h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="text-muted small fw-bold">⚡ 直近のリアルタイムAIアクセスログ</div>
+                                    <span class="badge bg-light text-dark border">最新20件</span>
+                                </div>
+                                <div id="ai-recent-feed" style="max-height:250px;overflow-y:auto;font-size:.78rem;"></div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- その他検索・SNSクローラー -->
+                    <div class="card shadow-sm border-0 bg-white p-3">
+                        <div class="text-muted small mb-2 fw-bold">🕷️ 一般検索／SNSクローラー（Google, Bing, LINE, FB等）</div>
+                        <div id="other-crawlers-detail" style="max-height:200px;overflow-y:auto;"></div>
                     </div>
                 </div>
 
