@@ -21,3 +21,9 @@
 /js/*
   Cache-Control: public, max-age=86400
   X-Content-Type-Options: nosniff
+
+# 管理画面用スクリプト（即時反映）
+/js/admin/*
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
