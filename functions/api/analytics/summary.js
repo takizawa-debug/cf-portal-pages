@@ -35,15 +35,30 @@ export async function onRequestGet({ request, env }) {
 
     try {
         // === Batch 1: 概要クエリ（並列実行） ===
-        const [eventCounts, uniques] = await Promise.all([
+        // 人間ユーザー（一般訪問者）とボットを明確に分離
+        const [eventCounts, uniques, botSummary] = await Promise.all([
+            // 人間ユーザーのイベント集計
             db.prepare(`
                 SELECT event_name, COUNT(*) as cnt, COUNT(DISTINCT session_id) as sessions
-                FROM analytics_events WHERE created_at >= ? GROUP BY event_name
+                FROM analytics_events 
+                WHERE created_at >= ? AND (bot_type IS NULL OR bot_type = '') 
+                GROUP BY event_name
             `).bind(fromDate).all(),
+            // 人間ユーザーのユニーク訪問者・セッション数
             db.prepare(`
                 SELECT COUNT(DISTINCT session_id) as total_sessions, 
                        COUNT(DISTINCT ip_hash) as unique_visitors
-                FROM analytics_events WHERE created_at >= ?
+                FROM analytics_events 
+                WHERE created_at >= ? AND (bot_type IS NULL OR bot_type = '')
+            `).bind(fromDate).first(),
+            // ボット・AIクローラーのサマリー（別枠集計）
+            db.prepare(`
+                SELECT 
+                    COUNT(CASE WHEN event_name = 'page_view' THEN 1 END) as bot_page_views,
+                    COUNT(*) as bot_total_requests,
+                    COUNT(DISTINCT bot_name) as distinct_bots
+                FROM analytics_events
+                WHERE created_at >= ? AND bot_type IS NOT NULL AND bot_type != ''
             `).bind(fromDate).first(),
         ]);
 
@@ -66,6 +81,7 @@ export async function onRequestGet({ request, env }) {
                 SELECT AVG(CAST(json_extract(event_data, '$.event_params.engaged_ms') AS REAL)) as avg_engaged
                 FROM analytics_events 
                 WHERE event_name = 'page_close' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND json_extract(event_data, '$.event_params.engaged_ms') IS NOT NULL
             `).bind(fromDate).first();
             avgEngagedMs = Math.round(engRow?.avg_engaged || 0);
@@ -78,6 +94,7 @@ export async function onRequestGet({ request, env }) {
                 SELECT AVG(CAST(json_extract(event_data, '$.event_params.scroll_depth') AS REAL)) as avg_depth
                 FROM analytics_events 
                 WHERE event_name = 'page_close' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND json_extract(event_data, '$.event_params.scroll_depth') IS NOT NULL
             `).bind(fromDate).first();
             avgScrollDepth = Math.round(scrollAvgRow?.avg_depth || 0);
@@ -94,7 +111,8 @@ export async function onRequestGet({ request, env }) {
                     ELSE 'unknown'
                   END as device_type,
                   COUNT(DISTINCT session_id) as sessions
-                FROM analytics_events WHERE created_at >= ?
+                FROM analytics_events 
+                WHERE created_at >= ? AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY device_type ORDER BY sessions DESC
             `).bind(fromDate).all(),
 
@@ -103,7 +121,7 @@ export async function onRequestGet({ request, env }) {
                 SELECT COALESCE(json_extract(event_data, '$.referrer'), '') as referrer,
                        COUNT(DISTINCT session_id) as sessions
                 FROM analytics_events
-                WHERE created_at >= ? AND event_name = 'page_view'
+                WHERE created_at >= ? AND event_name = 'page_view' AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY referrer ORDER BY sessions DESC LIMIT 20
             `).bind(fromDate).all(),
 
@@ -114,7 +132,7 @@ export async function onRequestGet({ request, env }) {
                        json_extract(event_data, '$.utm_campaign') as campaign,
                        COUNT(DISTINCT session_id) as sessions
                 FROM analytics_events
-                WHERE created_at >= ? AND json_extract(event_data, '$.utm_source') IS NOT NULL
+                WHERE created_at >= ? AND (bot_type IS NULL OR bot_type = '') AND json_extract(event_data, '$.utm_source') IS NOT NULL
                 GROUP BY source, medium, campaign ORDER BY sessions DESC LIMIT 10
             `).bind(fromDate).all(),
 
@@ -122,7 +140,8 @@ export async function onRequestGet({ request, env }) {
             db.prepare(`
                 SELECT json_extract(event_data, '$.page_url') as page_url,
                        COUNT(*) as views
-                FROM analytics_events WHERE event_name = 'page_view' AND created_at >= ?
+                FROM analytics_events 
+                WHERE event_name = 'page_view' AND created_at >= ? AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY page_url ORDER BY views DESC LIMIT 15
             `).bind(fromDate).all(),
 
@@ -130,16 +149,18 @@ export async function onRequestGet({ request, env }) {
             db.prepare(`
                 SELECT CAST(strftime('%H', created_at, '+9 hours') AS INTEGER) as hour,
                        COUNT(DISTINCT session_id) as sessions
-                FROM analytics_events WHERE created_at >= ? AND event_name = 'page_view'
+                FROM analytics_events 
+                WHERE created_at >= ? AND event_name = 'page_view' AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY hour ORDER BY hour
             `).bind(fromDate).all(),
 
-            // 日別推移（JST: UTC+9時間で集計）
+            // 日別推移（JST: UTC+9時間で集計・人間とボットPVを両方取得）
             db.prepare(`
                 SELECT DATE(created_at, '+9 hours') as date,
-                       COUNT(DISTINCT session_id) as sessions,
-                       COUNT(CASE WHEN event_name = 'page_view' THEN 1 END) as page_views,
-                       COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN ip_hash END) as unique_visitors
+                       COUNT(DISTINCT CASE WHEN bot_type IS NULL OR bot_type = '' THEN session_id END) as sessions,
+                       COUNT(CASE WHEN (bot_type IS NULL OR bot_type = '') AND event_name = 'page_view' THEN 1 END) as page_views,
+                       COUNT(DISTINCT CASE WHEN (bot_type IS NULL OR bot_type = '') AND event_name = 'page_view' THEN ip_hash END) as unique_visitors,
+                       COUNT(CASE WHEN bot_type IS NOT NULL AND bot_type != '' AND event_name = 'page_view' THEN 1 END) as bot_page_views
                 FROM analytics_events WHERE created_at >= ?
                 GROUP BY date ORDER BY date
             `).bind(fromDate).all(),
@@ -197,15 +218,21 @@ export async function onRequestGet({ request, env }) {
 
         // 日別
         const daily = (dailyRows.results || []).map(r => ({
-            date: r.date, sessions: r.sessions, page_views: r.page_views, unique_visitors: r.unique_visitors
+            date: r.date,
+            sessions: r.sessions,
+            page_views: r.page_views,
+            unique_visitors: r.unique_visitors,
+            bot_page_views: r.bot_page_views || 0,
         }));
 
-        // === Batch 3: 行動・エラー系クエリ（並列実行） ===
+        // === Batch 3: 行動・エラー系クエリ（並列実行・人間アクセスのみ） ===
         const [rageRows, geoRows, fieldRows, scrollRows, vitalRows, perfRow, errorRows, errorDetailRows] = await Promise.all([
             // Rage Click
             db.prepare(`
                 SELECT json_extract(event_data, '$.event_params.target') as target, COUNT(*) as cnt
-                FROM analytics_events WHERE event_name = 'rage_click' AND created_at >= ?
+                FROM analytics_events 
+                WHERE event_name = 'rage_click' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY target ORDER BY cnt DESC LIMIT 5
             `).bind(fromDate).all(),
 
@@ -214,6 +241,7 @@ export async function onRequestGet({ request, env }) {
                 SELECT geo_region, COUNT(DISTINCT session_id) as sessions
                 FROM analytics_events
                 WHERE created_at >= ? AND geo_region IS NOT NULL AND geo_region != ''
+                  AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY geo_region ORDER BY sessions DESC LIMIT 15
             `).bind(fromDate).all(),
 
@@ -222,7 +250,9 @@ export async function onRequestGet({ request, env }) {
                 SELECT json_extract(event_data, '$.event_params.field_id') as field_id,
                        COUNT(*) as hesitation_count,
                        AVG(json_extract(event_data, '$.event_params.pause_ms')) as avg_pause
-                FROM analytics_events WHERE event_name = 'field_hesitation' AND created_at >= ?
+                FROM analytics_events 
+                WHERE event_name = 'field_hesitation' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY field_id ORDER BY hesitation_count DESC LIMIT 10
             `).bind(fromDate).all(),
 
@@ -233,6 +263,7 @@ export async function onRequestGet({ request, env }) {
                        COUNT(*) as sessions
                 FROM analytics_events 
                 WHERE event_name = 'page_close' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND json_extract(event_data, '$.event_params.scroll_depth') IS NOT NULL
                 GROUP BY page_url ORDER BY sessions DESC LIMIT 10
             `).bind(fromDate).all(),
@@ -245,6 +276,7 @@ export async function onRequestGet({ request, env }) {
                 FROM analytics_events 
                 WHERE event_name = 'web_vital' 
                   AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND (
                     (json_extract(event_data, '$.event_params.metric') = 'lcp' AND CAST(json_extract(event_data, '$.event_params.value') AS REAL) <= 60000)
                     OR
@@ -258,7 +290,9 @@ export async function onRequestGet({ request, env }) {
                 SELECT AVG(json_extract(event_data, '$.event_params.ttfb')) as avg_ttfb,
                        AVG(json_extract(event_data, '$.event_params.load')) as avg_load,
                        COUNT(*) as samples
-                FROM analytics_events WHERE event_name = 'page_performance' AND created_at >= ?
+                FROM analytics_events 
+                WHERE event_name = 'page_performance' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
             `).bind(fromDate).first(),
 
             // JSエラー集計
@@ -266,7 +300,9 @@ export async function onRequestGet({ request, env }) {
                 SELECT json_extract(event_data, '$.event_params.message') as message,
                        json_extract(event_data, '$.event_params.source') as source,
                        COUNT(*) as cnt
-                FROM analytics_events WHERE event_name = 'js_error' AND created_at >= ?
+                FROM analytics_events 
+                WHERE event_name = 'js_error' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY message ORDER BY cnt DESC LIMIT 10
             `).bind(fromDate).all(),
 
@@ -281,6 +317,7 @@ export async function onRequestGet({ request, env }) {
                        created_at
                 FROM analytics_events
                 WHERE event_name IN ('js_error', 'resource_error') AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                 ORDER BY created_at DESC LIMIT 30
             `).bind(fromDate).all(),
         ]);
@@ -331,7 +368,7 @@ export async function onRequestGet({ request, env }) {
             };
         });
 
-        // === Batch 4: コンテンツ固有クエリ（並列実行） ===
+        // === Batch 4: コンテンツ固有クエリ（並列実行・人間アクセスのみ） ===
         const [contentEventRows, langRows, searchRows, pdfRows] = await Promise.all([
             // 記事別の操作集計 (card_click, modal_open, modal_close, keyword_click等)
             db.prepare(`
@@ -342,6 +379,7 @@ export async function onRequestGet({ request, env }) {
                        COUNT(*) as cnt
                 FROM analytics_events
                 WHERE created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND event_name IN ('card_click', 'modal_open', 'modal_close', 'modal_pdf_generate', 
                                      'modal_share', 'modal_lang_switch', 'modal_navigate', 'modal_gallery_click',
                                      'keyword_click', 'sns_link_click', 'related_article_click')
@@ -357,6 +395,7 @@ export async function onRequestGet({ request, env }) {
                        COUNT(*) as events
                 FROM analytics_events
                 WHERE created_at >= ? AND event_name = 'page_view'
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND json_extract(event_data, '$.language') IS NOT NULL
                 GROUP BY lang ORDER BY sessions DESC
             `).bind(fromDate).all(),
@@ -367,6 +406,7 @@ export async function onRequestGet({ request, env }) {
                        COUNT(*) as search_count
                 FROM analytics_events
                 WHERE created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND event_name IN ('search_submit', 'search_execute')
                   AND json_extract(event_data, '$.event_params.search_term') IS NOT NULL
                 GROUP BY term ORDER BY search_count DESC LIMIT 20
@@ -377,6 +417,7 @@ export async function onRequestGet({ request, env }) {
                 SELECT event_name, COUNT(*) as cnt
                 FROM analytics_events
                 WHERE created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND event_name IN ('modal_pdf_generate', 'modal_lang_switch')
                 GROUP BY event_name
             `).bind(fromDate).all(),
@@ -419,7 +460,7 @@ export async function onRequestGet({ request, env }) {
         const langSwitchCount = (pdfRows.results || []).find(r => r.event_name === 'modal_lang_switch')?.cnt || 0;
 
         // === Batch 5: AI/ボット・品質分析（並列実行） ===
-        const [botRows, aiReferralRows, searchEngineRows, engagementRows, copyRows, deepNavRows, aiPageRows, aiRecentRows] = await Promise.all([
+        const [botRows, aiReferralRows, searchEngineRows, engagementRows, copyRows, deepNavRows, aiPageRows, aiRecentRows, aiDailyRows] = await Promise.all([
             // AIクローラー・ボットアクセス集計（総リクエスト数とセッション数の両方を正確に集計）
             db.prepare(`
                 SELECT bot_type, bot_name,
@@ -458,7 +499,7 @@ export async function onRequestGet({ request, env }) {
                   COUNT(*) as page_views
                 FROM analytics_events
                 WHERE event_name = 'page_view' AND created_at >= ?
-                  AND bot_type IS NULL
+                  AND (bot_type IS NULL OR bot_type = '')
                   AND COALESCE(json_extract(event_data, '$.referrer'), '') != ''
                 GROUP BY search_engine
                 HAVING search_engine IS NOT NULL
@@ -474,7 +515,7 @@ export async function onRequestGet({ request, env }) {
                 FROM analytics_events
                 WHERE event_name = 'page_close' AND created_at >= ?
                   AND json_extract(event_data, '$.event_params.engagement_score') IS NOT NULL
-                  AND bot_type IS NULL
+                  AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY page_url ORDER BY avg_score DESC LIMIT 20
             `).bind(fromDate).all(),
 
@@ -485,6 +526,7 @@ export async function onRequestGet({ request, env }) {
                        COUNT(*) as copy_count
                 FROM analytics_events
                 WHERE event_name = 'copy_text' AND created_at >= ?
+                  AND (bot_type IS NULL OR bot_type = '')
                 GROUP BY text_preview ORDER BY copy_count DESC LIMIT 15
             `).bind(fromDate).all(),
 
@@ -493,7 +535,7 @@ export async function onRequestGet({ request, env }) {
                 SELECT COUNT(*) as deep_nav_count
                 FROM analytics_events
                 WHERE event_name = 'deep_navigation' AND created_at >= ?
-                  AND bot_type IS NULL
+                  AND (bot_type IS NULL OR bot_type = '')
             `).bind(fromDate).first(),
 
             // AIクローラーがアクセスしたURL・コンテンツ詳細ランキング
@@ -519,6 +561,17 @@ export async function onRequestGet({ request, env }) {
                 WHERE bot_type = 'ai' AND created_at >= ?
                 ORDER BY created_at DESC
                 LIMIT 20
+            `).bind(fromDate).all(),
+
+            // AIクローラー日別推移トレンド（JST集計）
+            db.prepare(`
+                SELECT DATE(created_at, '+9 hours') as date,
+                       bot_name,
+                       COUNT(*) as hits
+                FROM analytics_events
+                WHERE bot_type = 'ai' AND created_at >= ?
+                GROUP BY date, bot_name
+                ORDER BY date, hits DESC
             `).bind(fromDate).all(),
         ]);
 
@@ -562,6 +615,13 @@ export async function onRequestGet({ request, env }) {
             bot_name: r.bot_name,
             page_url: r.page_url,
             created_at: r.created_at
+        }));
+
+        // AI日別トレンド
+        const ai_daily_trends = (aiDailyRows?.results || []).map(r => ({
+            date: r.date,
+            bot_name: r.bot_name,
+            hits: r.hits
         }));
 
         // AI流入
@@ -623,6 +683,10 @@ export async function onRequestGet({ request, env }) {
                 lang_switches: langSwitchCount,
                 avg_engagement_score: avgEngagementScore,
                 deep_nav_rate: deepNavRate,
+                // ボット・AIクローラーのサマリー情報（分離管理用）
+                bot_page_views: botSummary?.bot_page_views || 0,
+                bot_total_requests: botSummary?.bot_total_requests || 0,
+                distinct_bots: botSummary?.distinct_bots || 0,
             },
             pages,
             hourly,
@@ -648,6 +712,7 @@ export async function onRequestGet({ request, env }) {
                 ai_crawlers,
                 ai_crawled_pages,
                 ai_recent_logs,
+                ai_daily_trends,
                 search_crawlers,
                 social_crawlers,
                 ai_referrals,

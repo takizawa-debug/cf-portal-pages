@@ -110,6 +110,9 @@ export async function onRequestPost({ request, env }) {
             const eventName = evt.event_name;
             if (!eventName) continue;
 
+            // ボット判定されている場合は、巡回記録に必要な page_view のみ保存（D1書き込み量の抑制とノイズ排除）
+            if (botType && eventName !== 'page_view') continue;
+
             const sessionId = evt.session_id || 'anonymous';
             const visitorId = evt.visitor_id || null;
             // イベント固有データをまるごとJSONで保存

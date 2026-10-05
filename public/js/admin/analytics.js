@@ -9,6 +9,7 @@ let _analyticsData = null;
 let _realtimeTimer = null;
 let _dailyChart = null;
 let _hourlyChart = null;
+let _aiDailyChart = null;
 let _allErrorDetails = [];
 
 // ==================== タブ切替 ====================
@@ -218,20 +219,37 @@ async function loadAnalytics() {
 // ==================== 概要タブ ====================
 function renderOverview(d) {
     const o = d.overview;
+    // 分離管理バナー（人間アクセスとAIボットの区別を明示）
+    const botPv = o.bot_page_views || 0;
+    const botReq = o.bot_total_requests || 0;
+    const bannerHtml = `
+        <div class="alert alert-light border shadow-sm d-flex flex-wrap justify-content-between align-items-center py-2 px-3 mb-3 small" style="background:#ffffff; border-left: 4px solid #0d6efd !important;">
+            <div>
+                <span class="badge bg-primary me-2">実訪問者（人間）</span>
+                <span class="text-dark fw-bold">一般ユーザーの純粋なアクセス数値</span>
+                <span class="text-muted ms-2 d-none d-md-inline">（※AIクローラー等の自動巡回は除外・分離されています）</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-1 mt-md-0">
+                <span class="badge" style="background:#7c3aed;">🤖 AI・ボット巡回: ${fmt(botPv)} PV (${fmt(botReq)} イベント)</span>
+                <button class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size:.75rem;" onclick="switchAnalyticsTab('ai-visibility')">AI可視性タブで詳細確認 →</button>
+            </div>
+        </div>
+    `;
+
     // KPIカード
     const kpis = [
-        { label: 'セッション数', value: fmt(o.total_sessions), icon: '' },
-        { label: 'ユニークユーザー', value: fmt(o.unique_visitors), icon: '' },
-        { label: 'ページビュー', value: fmt(o.page_views), icon: '' },
-        { label: 'PV/セッション', value: o.pv_per_session, icon: '' },
-        { label: '平均滞在時間', value: msToHuman(o.avg_engaged_ms), icon: '' },
-        { label: '平均スクロール', value: o.avg_scroll_depth + '%', icon: '' },
-        { label: 'PDF発行数', value: fmt(o.pdf_generated), icon: '' },
-        { label: '言語切替', value: fmt(o.lang_switches), icon: '' },
-        { label: 'Engスコア', value: (o.avg_engagement_score || 0) + '/100', icon: '' },
-        { label: '回遊率', value: ((o.deep_nav_rate || 0) * 100).toFixed(1) + '%', icon: '' },
+        { label: '実セッション数', value: fmt(o.total_sessions), icon: '👥' },
+        { label: 'ユニーク訪問者', value: fmt(o.unique_visitors), icon: '👤' },
+        { label: '実ページビュー', value: fmt(o.page_views), icon: '📄' },
+        { label: 'PV/セッション', value: o.pv_per_session, icon: '📊' },
+        { label: '平均滞在時間', value: msToHuman(o.avg_engaged_ms), icon: '⏱️' },
+        { label: '平均スクロール', value: o.avg_scroll_depth + '%', icon: '📜' },
+        { label: 'PDF発行数', value: fmt(o.pdf_generated), icon: '📥' },
+        { label: '言語切替', value: fmt(o.lang_switches), icon: '🌐' },
+        { label: 'Engスコア', value: (o.avg_engagement_score || 0) + '/100', icon: '⭐' },
+        { label: '回遊率', value: ((o.deep_nav_rate || 0) * 100).toFixed(1) + '%', icon: '🔄' },
     ];
-    document.getElementById('analytics-kpi').innerHTML = `<div class="row g-2">${kpis.map(k =>
+    document.getElementById('analytics-kpi').innerHTML = bannerHtml + `<div class="row g-2">${kpis.map(k =>
         `<div class="col-6 col-md-3"><div class="card border-0 shadow-sm bg-white p-2 text-center">
             <div class="text-muted" style="font-size:.7rem;">${k.icon} ${k.label}</div>
             <div class="fw-bold" style="font-size:1.3rem;color:var(--text2);">${k.value}</div>
@@ -261,12 +279,31 @@ function renderDailyChart(daily) {
         data: {
             labels: daily.map(d => d.date?.slice(5)),
             datasets: [
-                { label: 'セッション', data: daily.map(d => d.sessions), borderColor: '#dc3545', backgroundColor: 'rgba(220,53,69,.1)', fill: true, tension: .3 },
-                { label: 'PV', data: daily.map(d => d.page_views), borderColor: '#0d6efd', backgroundColor: 'rgba(13,110,253,.08)', fill: true, tension: .3 },
-                { label: 'UU', data: daily.map(d => d.unique_visitors), borderColor: '#198754', backgroundColor: 'transparent', borderDash: [5, 3], tension: .3 },
+                { label: '人間セッション', data: daily.map(d => d.sessions), borderColor: '#dc3545', backgroundColor: 'rgba(220,53,69,.1)', fill: true, tension: .3 },
+                { label: '人間PV', data: daily.map(d => d.page_views), borderColor: '#0d6efd', backgroundColor: 'rgba(13,110,253,.08)', fill: true, tension: .3 },
+                { label: '人間UU', data: daily.map(d => d.unique_visitors), borderColor: '#198754', backgroundColor: 'transparent', borderDash: [5, 3], tension: .3 },
+                { label: '🤖 AI・ボットPV', data: daily.map(d => d.bot_page_views || 0), borderColor: '#8b5cf6', backgroundColor: 'transparent', borderDash: [2, 2], hidden: false, tension: .3 },
             ]
         },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }, scales: { y: { beginAtZero: true }, x: { ticks: { font: { size: 9 } } } } }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 10 } }
+                },
+                tooltip: {
+                    callbacks: {
+                        footer: function() { return '※凡例クリックでAIボット表示をON/OFF可能'; }
+                    }
+                }
+            },
+            scales: {
+                y: { beginAtZero: true },
+                x: { ticks: { font: { size: 9 } } }
+            }
+        }
     });
 }
 
@@ -523,11 +560,15 @@ function renderAIVisibility(d) {
     const searchSubEl = document.getElementById('search-crawl-sub');
     if (searchSubEl) searchSubEl.textContent = 'Googlebot, Bingbot等';
 
-    // 2. AIアクセスが意味すること（インテリジェンス解説）
+    // 2. AI日別トレンドチャート描画
+    renderAIDailyChart(ai.ai_daily_trends || []);
+
+    // 3. AIアクセスが意味すること（インテリジェンス解説）
     const insightsEl = document.getElementById('ai-intent-insights');
     if (insightsEl) {
         const aiC = ai.ai_crawlers || [];
-        const hasMeta = aiC.some(c => c.name.toLowerCase().includes('meta'));
+        const hasMetaExternal = aiC.some(c => c.name.toLowerCase().includes('meta-external'));
+        const hasMetaWeb = aiC.some(c => c.name.toLowerCase().includes('meta-webindexer'));
         const hasDuck = aiC.some(c => c.name.toLowerCase().includes('duck'));
         const hasPerp = aiC.some(c => c.name.toLowerCase().includes('perplexity'));
         const hasApple = aiC.some(c => c.name.toLowerCase().includes('apple'));
@@ -535,18 +576,18 @@ function renderAIVisibility(d) {
 
         const cards = [];
 
-        // Meta AI
-        if (hasMeta) {
+        // Meta AI (ExternalAgent vs WebIndexer)
+        if (hasMetaExternal || hasMetaWeb) {
             cards.push(`
                 <div class="col-md-6">
                     <div class="p-2 rounded border" style="background:#fcfaff; border-color:#e9d5ff !important;">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <span class="badge" style="background:#7c3aed;">Meta AI (Llama)</span>
-                            <span class="fw-bold small text-dark">世界のSNS & AI検索の回答源</span>
+                            <span class="badge" style="background:#7c3aed;">Meta AI クローラー分析</span>
+                            <span class="fw-bold small text-dark">学習用（一括収集） vs 検索引用用（回答送客）</span>
                         </div>
                         <div class="text-muted" style="font-size:.78rem; line-height:1.45;">
-                            <strong>【収集の目的・意味】</strong> Meta社（Instagram/WhatsApp/Facebook）の生成AIが、飯綱町のりんご品種や直売所、フェア情報を網羅的に事前学習・インデックス化しています。<br>
-                            <strong>【効果】</strong> SNS上のAIアシスタントに「長野でおすすめのりんごは？」「高坂林檎とは？」と聞いた際、飯綱町の正確な情報が回答される土台が確立されています。
+                            <strong>【10月急増の正体】</strong> 10/2以降に急増しているのは<strong>「Meta-ExternalAgent（モデル事前学習用）」</strong>です。膨大なURLを一括収集（フルレンダリング）していますが直接の即時送客は生みません。<br>
+                            <strong>【真に注視すべき指標】</strong> 回答文中の出典リンク送客を担うのは<strong>「Meta-WebIndexer」</strong>です。こちらは現状1日数件ペースで着実に巡回しており、今後の検索回答での露出が期待されます。
                         </div>
                     </div>
                 </div>
@@ -554,13 +595,13 @@ function renderAIVisibility(d) {
         }
 
         // Perplexity & DuckDuckGo (リアルタイム回答エンジン)
-        if (hasPerp || hasDuck) {
+        if (hasPerp || hasDuck || hasOpenAI) {
             cards.push(`
                 <div class="col-md-6">
                     <div class="p-2 rounded border" style="background:#f0fdf4; border-color:#bbf7d0 !important;">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <span class="badge bg-success">Perplexity & DuckAssist</span>
-                            <span class="fw-bold small text-dark">リアルタイム検索での直接引用</span>
+                            <span class="badge bg-success">Perplexity & AI検索</span>
+                            <span class="fw-bold small text-dark">リアルタイム検索での直接引用・URL送客</span>
                         </div>
                         <div class="text-muted" style="font-size:.78rem; line-height:1.45;">
                             <strong>【収集の目的・意味】</strong> ユーザーが「今週末の飯綱りんごイベント」「酸っぱいクッキングアップルの買える場所」等を質問した際、最新情報をリアルタイムに取得して回答に引用しています。<br>
@@ -606,15 +647,24 @@ function renderAIVisibility(d) {
         insightsEl.innerHTML = cards.join('');
     }
 
-    // 3. AIクローラー詳細一覧 (総収集数とセッション数を明記)
+    // 4. AIクローラー詳細一覧 (総収集数とセッション数を明記 + 性質バッジ)
     const aiEl = document.getElementById('ai-crawlers-detail');
     if (ai.ai_crawlers?.length) {
         aiEl.innerHTML = ai.ai_crawlers.map(c => {
             const lastSeen = c.last_seen ? new Date(c.last_seen + 'Z').toLocaleDateString('ja-JP') + ' ' + new Date(c.last_seen + 'Z').toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'}) : '—';
             const req = c.requests || c.visits;
+            // 性質判定
+            const isTraining = c.name.includes('Meta-External') || c.name.includes('Byte') || c.name.includes('CCBot');
+            const roleBadge = isTraining
+                ? '<span class="badge bg-secondary" style="font-size:.68rem;">モデル学習用</span>'
+                : '<span class="badge bg-success" style="font-size:.68rem;">検索・引用用</span>';
+
             return `<div class="d-flex justify-content-between align-items-center small py-2 border-bottom">
                 <div>
-                    <span class="fw-bold" style="color:#7c3aed; font-size:.9rem;">${esc(c.name)}</span><br>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold" style="color:#7c3aed; font-size:.9rem;">${esc(c.name)}</span>
+                        ${roleBadge}
+                    </div>
                     <span class="text-muted" style="font-size:.73rem;">最終収集: ${lastSeen} ・ 巡回範囲: <strong>${c.pages_crawled}</strong> ページ</span>
                 </div>
                 <div class="text-end">
@@ -750,6 +800,61 @@ function renderAIVisibility(d) {
     } else {
         otherEl.innerHTML = '<div class="text-muted small">データなし</div>';
     }
+}
+
+/** AIクローラーの日別巡回推移グラフを描画 */
+function renderAIDailyChart(trends) {
+    const container = document.getElementById('ai-daily-chart-container');
+    if (!container) return;
+    if (!trends?.length) {
+        container.innerHTML = '<div class="text-muted small text-center py-4">この期間のAIクローラー巡回データなし</div>';
+        return;
+    }
+    container.innerHTML = '<canvas id="chart-ai-daily"></canvas>';
+    if (_aiDailyChart) _aiDailyChart.destroy();
+
+    // 日付昇順ソート（重複排除）
+    const dates = Array.from(new Set(trends.map(t => t.date))).sort();
+    // ボット一覧
+    const botNames = Array.from(new Set(trends.map(t => t.bot_name)));
+    const palette = ['#7c3aed', '#059669', '#2563eb', '#d97706', '#dc2626', '#4b5563', '#ec4899'];
+
+    const datasets = botNames.map((name, idx) => {
+        const color = palette[idx % palette.length];
+        const data = dates.map(d => {
+            const found = trends.find(t => t.date === d && t.bot_name === name);
+            return found ? found.hits : 0;
+        });
+        return {
+            label: name,
+            data: data,
+            borderColor: color,
+            backgroundColor: color,
+            tension: 0.25,
+            borderWidth: 2,
+            fill: false,
+        };
+    });
+
+    const ctx = document.getElementById('chart-ai-daily').getContext('2d');
+    _aiDailyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates.map(d => d.slice(5)),
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { font: { size: 10 } } },
+            },
+            scales: {
+                y: { beginAtZero: true },
+                x: { ticks: { font: { size: 9 } } }
+            }
+        }
+    });
 }
 
 // ==================== SEOスコアタブ ====================
