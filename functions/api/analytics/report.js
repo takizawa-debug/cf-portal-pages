@@ -36,6 +36,7 @@ const PREFECTURE_MAP = {
     Fukui: '福井県',
     Kyoto: '京都府',
     Hyogo: '兵庫県',
+    Hyōgo: '兵庫県',
     Hokkaido: '北海道',
     Miyagi: '宮城県',
     Yamagata: '山形県',
@@ -288,19 +289,20 @@ export async function onRequestGet({ request, env }) {
                 GROUP BY event_name
             `).bind(endUtc).all(),
 
-            // ⑨ 都道府県別アクセス TOP15（対象月）
+            // ⑨ 都道府県別アクセス TOP15（対象月・日本国内のページ閲覧ベース）
             db.prepare(`
                 SELECT 
                   COALESCE(geo_region, '不明') as region,
                   COUNT(CASE WHEN event_name = 'page_view' THEN 1 END) as pv,
-                  COUNT(DISTINCT session_id) as sessions,
-                  COUNT(DISTINCT ip_hash) as uu
+                  COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END) as sessions,
+                  COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN ip_hash END) as uu
                 FROM analytics_events
                 WHERE created_at >= ? AND created_at < ?
                   AND (bot_type IS NULL OR bot_type = '')
+                  AND (geo_country = 'JP' OR geo_country = 'Japan' OR geo_country IS NULL OR geo_country = '')
                 GROUP BY region
+                HAVING pv > 0
                 ORDER BY sessions DESC
-                LIMIT 15
             `).bind(startUtc, endUtc).all(),
 
             // ⑩ 言語別PV（対象月）
@@ -535,36 +537,53 @@ export async function onRequestGet({ request, env }) {
         const monthActionTotal = actions.reduce((sum, a) => sum + a.month_cnt, 0);
         const cumActionTotal = actions.reduce((sum, a) => sum + a.cum_cnt, 0);
 
-        // 7. 都道府県別アクセス TOP10
-        let totalRegionSessions = 0;
+        // 7. 都道府県別アクセス TOP10（日本国内の都道府県を対象）
         let top10Sessions = 0;
-        const regionList = (regionRows.results || []).map(r => {
-            const prefName = PREFECTURE_MAP[r.region] || (r.region === 'Unknown' || r.region === '不明' ? '地域不明' : r.region);
-            totalRegionSessions += r.sessions;
-            return {
-                raw_region: r.region,
-                name: prefName,
-                pv: r.pv,
-                sessions: r.sessions,
-                uu: r.uu
-            };
+        let top10Pv = 0;
+        let top10Uu = 0;
+
+        const japanPrefectureList = [];
+        (regionRows.results || []).forEach(r => {
+            const prefName = PREFECTURE_MAP[r.region];
+            if (prefName && r.pv > 0) {
+                // 重複排除（HyogoとHyōgo等があれば合算）
+                const existing = japanPrefectureList.find(p => p.name === prefName);
+                if (existing) {
+                    existing.pv += r.pv;
+                    existing.sessions += r.sessions;
+                    existing.uu += r.uu;
+                } else {
+                    japanPrefectureList.push({
+                        raw_region: r.region,
+                        name: prefName,
+                        pv: r.pv,
+                        sessions: r.sessions,
+                        uu: r.uu
+                    });
+                }
+            }
         });
 
-        const top10Regions = regionList.slice(0, 10).map((r, i) => {
+        japanPrefectureList.sort((a, b) => b.sessions - a.sessions || b.pv - a.pv);
+
+        const top10Regions = japanPrefectureList.slice(0, 10).map((r, i) => {
             top10Sessions += r.sessions;
+            top10Pv += r.pv;
+            top10Uu += r.uu;
             return {
                 rank: i + 1,
                 name: r.name,
                 pv: r.pv,
                 sessions: r.sessions,
                 uu: r.uu,
-                pct: totalRegionSessions > 0 ? ((r.sessions / totalRegionSessions) * 100).toFixed(1) + '%' : '0%'
+                pct: currentSessions > 0 ? ((r.sessions / currentSessions) * 100).toFixed(1) + '%' : '0%'
             };
         });
 
-        const otherSessions = Math.max(0, totalRegionSessions - top10Sessions);
-        const otherPv = Math.max(0, currentPv - top10Regions.reduce((sum, r) => sum + r.pv, 0));
-        const otherUu = Math.max(0, currentUu - top10Regions.reduce((sum, r) => sum + r.uu, 0));
+        const otherSessions = Math.max(0, currentSessions - top10Sessions);
+        const otherPv = Math.max(0, currentPv - top10Pv);
+        const otherUu = Math.max(0, currentUu - top10Uu);
+        const otherPct = currentSessions > 0 ? ((otherSessions / currentSessions) * 100).toFixed(1) + '%' : '0%';
 
         // 8. 言語・利用環境
         let totalLangPv = 0;
@@ -675,9 +694,9 @@ export async function onRequestGet({ request, env }) {
                     sessions: otherSessions,
                     pv: otherPv,
                     uu: otherUu,
-                    pct: totalRegionSessions > 0 ? ((otherSessions / totalRegionSessions) * 100).toFixed(1) + '%' : '0%'
+                    pct: otherPct
                 },
-                total_sessions: totalRegionSessions,
+                total_sessions: currentSessions,
                 total_pv: currentPv,
                 total_uu: currentUu
             },

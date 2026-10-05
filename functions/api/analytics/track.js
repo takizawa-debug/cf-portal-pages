@@ -54,6 +54,9 @@ function classifyBot(ua) {
     if (lower.includes('slackbot'))         return { type: 'social', name: 'SlackBot' };
 
     // === その他のボット（汎用検出） ===
+    if (lower.includes('headless') || lower.includes('lighthouse') || lower.includes('puppeteer') || lower.includes('playwright')) {
+        return { type: 'crawler', name: 'Headless / Automation' };
+    }
     if (lower.includes('bot') || lower.includes('crawler') || lower.includes('spider') || lower.includes('scrapy')) {
         return { type: 'other', name: ua.slice(0, 60) };
     }
