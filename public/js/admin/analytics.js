@@ -6,6 +6,7 @@
 
 // ==================== 状態管理 ====================
 let _analyticsData = null;
+let _reportData = null;
 let _realtimeTimer = null;
 let _dailyChart = null;
 let _hourlyChart = null;
@@ -26,7 +27,11 @@ function switchAnalyticsTab(tabId) {
         if (!_realtimeTimer) _realtimeTimer = setInterval(loadRealtime, 30000);
     } else {
         if (_realtimeTimer) { clearInterval(_realtimeTimer); _realtimeTimer = null; }
-        if (!_analyticsData) loadAnalytics();
+        if (tabId === 'report') {
+            if (!_reportData) loadMonthlyReport();
+        } else {
+            if (!_analyticsData) loadAnalytics();
+        }
     }
 }
 
@@ -1026,3 +1031,448 @@ function msToHuman(ms) {
     const m = Math.floor(s / 60);
     return m + '分' + (s % 60) + '秒';
 }
+
+// ==================== A4提出用月次レポート動的生成 ====================
+async function printCurrentReport() {
+    switchAnalyticsTab('report');
+    if (!_reportData) {
+        await loadMonthlyReport();
+    }
+    setTimeout(() => window.print(), 250);
+}
+
+async function loadMonthlyReport(year, month) {
+    const spinner = document.getElementById('report-loading-spinner');
+    if (spinner) spinner.style.display = 'inline-block';
+
+    const selectEl = document.getElementById('report-month-select');
+    if (!year || !month) {
+        if (selectEl && selectEl.value) {
+            const parts = selectEl.value.split('-');
+            year = parts[0];
+            month = parts[1];
+        }
+    }
+
+    let url = '/api/analytics/report';
+    if (year && month) {
+        url += `?year=${encodeURIComponent(year)}&month=${encodeURIComponent(month)}`;
+    }
+
+    try {
+        const data = await apiFetch(url);
+        _reportData = data;
+
+        // セレクタのオプションを自動構築・同期
+        if (selectEl && data.available_months?.length) {
+            const currentYm = `${data.target.year}-${String(data.target.month).padStart(2, '0')}`;
+            selectEl.innerHTML = data.available_months.map(m => {
+                const isSelected = m.ym === currentYm ? 'selected' : '';
+                return `<option value="${esc(m.ym)}" ${isSelected}>${esc(m.label)}</option>`;
+            }).join('');
+        }
+
+        renderMonthlyReport(data);
+    } catch (err) {
+        console.error('Failed to load monthly report:', err);
+        const container = document.getElementById('a4-report-content');
+        if (container) {
+            container.innerHTML = `<div class="alert alert-danger my-4">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> レポートの取得に失敗しました: ${esc(err.message)}
+            </div>`;
+        }
+    } finally {
+        if (spinner) spinner.style.display = 'none';
+    }
+}
+
+function onReportMonthChange() {
+    const selectEl = document.getElementById('report-month-select');
+    if (!selectEl || !selectEl.value) return;
+    const [y, m] = selectEl.value.split('-');
+    loadMonthlyReport(y, m);
+}
+
+function renderMonthlyReport(data) {
+    const container = document.getElementById('a4-report-content');
+    if (!container) return;
+
+    const t = data.target;
+    const h = data.highlight;
+    const c = data.cumulative;
+
+    // 1. 月別KPI推移テーブル行
+    const trendRowsHtml = (data.monthly_trend || []).map(r => {
+        const rowClass = r.is_selected ? 'table-warning fw-bold' : '';
+        const pvClass = r.is_selected ? 'text-danger' : 'fw-bold';
+        const diffText = r.diff_pct 
+            ? (r.diff_pct.startsWith('+') ? `<span class="text-success fw-bold">${esc(r.diff_pct)}</span>` : `<span class="text-muted">${esc(r.diff_pct)}</span>`)
+            : '<span class="text-muted">-</span>';
+
+        return `<tr class="${rowClass}">
+            <td class="${r.is_selected ? 'text-danger fw-bold' : 'fw-bold'}">${esc(r.label)}</td>
+            <td class="${pvClass}">${fmt(r.pv)}</td>
+            <td>${fmt(r.sessions)}</td>
+            <td>${fmt(r.uu)}</td>
+            <td>${esc(r.avg_engaged_text)}</td>
+            <td>${fmt(r.detail_views)}回</td>
+            <td>${diffText}</td>
+        </tr>`;
+    }).join('');
+
+    // 2. 人気記事・品種ランキング（TOP18を左右2列に分割）
+    const halfCount = Math.ceil((data.top_articles?.length || 0) / 2);
+    const articlesCol1 = (data.top_articles || []).slice(0, halfCount);
+    const articlesCol2 = (data.top_articles || []).slice(halfCount);
+
+    const renderArticleTable = (items) => `
+        <table class="table table-sm table-bordered mb-0" style="font-size:0.8rem;">
+            <thead class="table-light text-center">
+                <tr>
+                    <th style="width:12%;">順位</th>
+                    <th>品種・記事・施設名</th>
+                    <th style="width:24%;">区分</th>
+                    <th style="width:20%;">閲覧回数</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${items.map(a => `
+                    <tr>
+                        <td class="text-center fw-bold ${a.rank <= 3 ? 'text-danger' : ''}">${a.rank}</td>
+                        <td class="fw-bold">${esc(a.title)}</td>
+                        <td><span class="badge ${esc(a.badge_class)}">${esc(a.category)}</span></td>
+                        <td class="text-end fw-bold">${fmt(a.views)}回</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+
+    // 3. 流入元チャネル行
+    const channelRowsHtml = (data.channels?.list || []).map(ch => `
+        <tr>
+            <td class="text-start ${ch.is_bold ? 'fw-bold' : ''}">${esc(ch.name)}</td>
+            <td class="${ch.is_bold ? 'fw-bold' : ''}">${fmt(ch.pv)}</td>
+            <td>${fmt(ch.sessions)}</td>
+            <td class="${ch.is_bold ? 'fw-bold text-danger' : ''}">${esc(ch.pct)}</td>
+        </tr>
+    `).join('');
+
+    // 4. 外部送客・アクション実績行
+    const actionRowsHtml = (data.actions?.list || []).map(act => `
+        <tr>
+            <td class="text-start fw-bold">${esc(act.name)}</td>
+            <td class="fw-bold text-danger">${fmt(act.month_cnt)}件</td>
+            <td class="text-start">${esc(act.effect)}</td>
+        </tr>
+    `).join('');
+
+    // 5. 都道府県別アクセスTOP10行
+    const regionRowsHtml = (data.regions?.top10 || []).map(rg => `
+        <tr>
+            <td class="fw-bold">${rg.rank}</td>
+            <td class="text-start ${rg.rank <= 2 ? 'fw-bold' : ''}">${esc(rg.name)}</td>
+            <td class="${rg.rank <= 2 ? 'fw-bold' : ''}">${fmt(rg.pv)}</td>
+            <td>${fmt(rg.sessions)}</td>
+            <td>${fmt(rg.uu)}</td>
+            <td class="${rg.rank <= 2 ? 'fw-bold text-danger' : ''}">${esc(rg.pct)}</td>
+        </tr>
+    `).join('');
+
+    // 6. 言語・デバイス
+    const langHtml = (data.environment?.languages || []).map(l => `
+        <div class="d-flex justify-content-between mb-1">
+            <span>${esc(l.name)}:</span>
+            <span class="fw-bold">${fmt(l.pv)} PV (${esc(l.pct)})</span>
+        </div>
+    `).join('');
+
+    // 7. 実績総括
+    const factsHtml = (data.summary_facts || []).map(f => `<li>${f}</li>`).join('');
+
+    // 8. 日別推移テーブル
+    const renderDailyTable = (items) => `
+        <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.72rem;">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:28%;">日付</th>
+                    <th style="width:24%;">PV数</th>
+                    <th style="width:24%;">セッション</th>
+                    <th style="width:24%;">UU</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${items.map(d => `
+                    <tr class="${d.is_weekend ? 'table-light' : ''}">
+                        <td>${esc(d.date)}</td>
+                        <td class="${d.pv > 80 ? 'fw-bold text-danger' : ''}">${fmt(d.pv)}</td>
+                        <td>${fmt(d.sessions)}</td>
+                        <td>${fmt(d.uu)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+
+    container.innerHTML = `
+        <!-- Report Header -->
+        <div class="border-bottom pb-3 mb-4 d-flex justify-content-between align-items-end">
+            <div>
+                <span class="badge bg-danger mb-2 px-2 py-1" style="font-size:0.75rem;">りんごのまち いいづな</span>
+                <h2 class="fw-bold mb-1" style="color:#1e293b; font-size:1.6rem; letter-spacing:-0.5px;">飯綱町産りんごPRサイト アクセス解析レポート</h2>
+                <div class="text-muted small">サイト名: りんごのまち いいづな（Appletown Iizuna） / 対象期間: ${esc(t.period_text)}</div>
+            </div>
+            <div class="text-end text-muted small">
+                <div>発行日: ${esc(t.issue_date)}</div>
+                <div class="fw-bold text-dark">株式会社みみずや</div>
+            </div>
+        </div>
+
+        <!-- 1. KPI Highlight Cards -->
+        <div class="row g-2 mb-3">
+            <div class="col-3">
+                <div class="p-3 bg-light rounded text-center border">
+                    <div class="text-muted small mb-1" style="font-size:0.8rem;">当月ページビュー (PV)</div>
+                    <div class="fw-bold text-danger" style="font-size:1.6rem;">${fmt(h.pv)}</div>
+                    <div class="text-muted" style="font-size:0.7rem;">前月比 <span class="fw-bold text-success">${esc(h.mom_growth)}</span></div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="p-3 bg-light rounded text-center border">
+                    <div class="text-muted small mb-1" style="font-size:0.8rem;">当月セッション数 (訪問)</div>
+                    <div class="fw-bold text-dark" style="font-size:1.6rem;">${fmt(h.sessions)}</div>
+                    <div class="text-muted" style="font-size:0.7rem;">サイトへの訪問回数</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="p-3 bg-light rounded text-center border">
+                    <div class="text-muted small mb-1" style="font-size:0.8rem;">当月ユニークユーザー (UU)</div>
+                    <div class="fw-bold text-dark" style="font-size:1.6rem;">${fmt(h.uu)}</div>
+                    <div class="text-muted" style="font-size:0.7rem;">訪れた固有の人数</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="p-3 bg-light rounded text-center border">
+                    <div class="text-muted small mb-1" style="font-size:0.8rem;">平均滞在時間</div>
+                    <div class="fw-bold text-success" style="font-size:1.6rem;">${esc(h.avg_engaged_text)}</div>
+                    <div class="text-muted" style="font-size:0.7rem;">高い記事精読率を記録</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminology Definitions Box -->
+        <div class="p-2 mb-3 bg-light rounded border" style="font-size:0.75rem; line-height:1.5;">
+            <div class="fw-bold text-secondary mb-1"><i class="fa-solid fa-circle-info me-1"></i> 指標の定義と関係性（PV数 ≧ セッション数 ≧ ユニークユーザー数）</div>
+            <div class="text-muted">
+                <strong>・PV（ページビュー）</strong>：閲覧されたページの延べ回数。　
+                <strong>・セッション数</strong>：サイトへの訪問回数（一連の滞在）。　
+                <strong>・UU（ユニークユーザー）</strong>：期間中に訪れた固有の人数。
+            </div>
+        </div>
+
+        <!-- 2. Monthly Trend Table -->
+        <div class="mb-4">
+            <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-3" style="color:#334155; font-size:1.1rem;">
+                1. 月別KPI推移（2026年2月〜${t.month}月）
+            </h5>
+            <table class="table table-sm table-bordered text-center align-middle mb-1" style="font-size:0.85rem;">
+                <thead class="table-light">
+                    <tr class="text-muted">
+                        <th style="width:16%;">月度</th>
+                        <th style="width:14%;">PV数</th>
+                        <th style="width:14%;">セッション数</th>
+                        <th style="width:14%;">ユニークユーザー (UU)</th>
+                        <th style="width:14%;">平均滞在時間</th>
+                        <th style="width:14%;">詳細閲覧数</th>
+                        <th style="width:14%;">前月比 (PV)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${trendRowsHtml}
+                    <tr class="table-light fw-bold">
+                        <td>累計 / 全期間</td>
+                        <td class="text-danger">${fmt(c.total_pv)} PV</td>
+                        <td>${fmt(c.total_sessions)} 回</td>
+                        <td>${fmt(c.total_uu)} 人</td>
+                        <td>${esc(c.avg_engaged_text)} (平均)</td>
+                        <td>${fmt(c.total_detail_views)}回</td>
+                        <td class="text-success">堅調な推移</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-muted text-end" style="font-size:0.7rem; margin-top:2px;">
+                ※注記: 累計ユニークユーザー（${fmt(c.total_uu)}人）は、複数月にまたがるリピーターを重複排除（名寄せ）した実人数です。
+            </div>
+        </div>
+
+        <!-- 3. Top Read Articles & Apple Varieties (Most Important) -->
+        <div class="mb-4">
+            <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-3" style="color:#334155; font-size:1.1rem;">
+                2. 注目された人気品種・記事ランキング（詳細閲覧・記事消費回数）
+            </h5>
+            <div class="row g-2">
+                <div class="col-6">
+                    ${renderArticleTable(articlesCol1)}
+                </div>
+                <div class="col-6">
+                    ${renderArticleTable(articlesCol2)}
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Inflow & Outbound Matrix -->
+        <div class="row g-3 mb-4">
+            <!-- Inflow Channels -->
+            <div class="col-6">
+                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                    3. 流入元チャネル分析（どこから来たか）
+                </h5>
+                <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.75rem;">
+                    <thead class="table-light">
+                        <tr>
+                            <th>流入元チャネル</th>
+                            <th>PV数</th>
+                            <th>セッション</th>
+                            <th>構成比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${channelRowsHtml}
+                        <tr class="table-light fw-bold">
+                            <td class="text-start">合計</td>
+                            <td class="text-danger">${fmt(data.channels?.total_pv)}</td>
+                            <td>${fmt(data.channels?.total_sessions)}</td>
+                            <td>100.0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Outbound Clicks & Actions -->
+            <div class="col-6">
+                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                    4. 外部送客・アクション実績（どこへ流せたか）
+                </h5>
+                <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.75rem;">
+                    <thead class="table-light">
+                        <tr>
+                            <th>送客・アクション種別</th>
+                            <th>件数</th>
+                            <th>主な送客先・効果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${actionRowsHtml}
+                        <tr class="table-light fw-bold">
+                            <td class="text-start">送客・アクション合計</td>
+                            <td class="text-danger">${fmt(data.actions?.month_total)}件</td>
+                            <td class="text-start text-success">リアルな行動・購買・来店・情報拡散へ力強く接続</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 5. Region & Environment Matrix -->
+        <div class="row g-3 mb-4">
+            <!-- Region TOP 10 -->
+            <div class="col-7">
+                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                    5. 都道府県別アクセス TOP 10
+                </h5>
+                <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.75rem;">
+                    <thead class="table-light">
+                        <tr>
+                            <th>順位</th>
+                            <th>都道府県 / 地域</th>
+                            <th>PV数</th>
+                            <th>セッション</th>
+                            <th>UU</th>
+                            <th>構成比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${regionRowsHtml}
+                        <tr class="table-light">
+                            <td colspan="2" class="text-start">その他国内 / 海外</td>
+                            <td>${fmt(data.regions?.other?.pv)}</td>
+                            <td>${fmt(data.regions?.other?.sessions)}</td>
+                            <td>${fmt(data.regions?.other?.uu)}</td>
+                            <td>${esc(data.regions?.other?.pct)}</td>
+                        </tr>
+                        <tr class="table-light fw-bold">
+                            <td colspan="2" class="text-start">合計</td>
+                            <td class="text-danger">${fmt(data.regions?.total_pv)}</td>
+                            <td>${fmt(data.regions?.total_sessions)}</td>
+                            <td>${fmt(data.regions?.total_uu)}</td>
+                            <td>100.0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Language & Device -->
+            <div class="col-5">
+                <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                    6. 言語・利用環境
+                </h5>
+                <div class="card border-0 bg-light p-2 mb-2" style="font-size:0.78rem;">
+                    <div class="fw-bold text-dark mb-1">🌐 言語別PV</div>
+                    ${langHtml}
+                </div>
+                <div class="card border-0 bg-light p-2" style="font-size:0.78rem;">
+                    <div class="fw-bold text-dark mb-1">📱 デバイス分布</div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>モバイル (スマホ):</span>
+                        <span class="fw-bold">${fmt(data.environment?.devices?.mobile?.pv)} PV (${esc(data.environment?.devices?.mobile?.pct)})</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>デスクトップ (PC):</span>
+                        <span class="fw-bold">${fmt(data.environment?.devices?.desktop?.pv)} PV (${esc(data.environment?.devices?.desktop?.pct)})</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Key Facts Summary -->
+        <div class="p-3 bg-light rounded border mb-4">
+            <h6 class="fw-bold text-dark mb-2" style="font-size:0.9rem;">
+                <i class="fa-solid fa-clipboard-check text-danger me-1"></i> 7. 実績総括
+            </h6>
+            <ul class="mb-0 text-muted ps-3" style="font-size:0.8rem; line-height:1.6;">
+                ${factsHtml}
+            </ul>
+        </div>
+
+        <!-- 8. Daily Breakdown -->
+        <div class="mb-2">
+            <h5 class="fw-bold border-start border-4 border-danger ps-2 mb-2" style="color:#334155; font-size:1.0rem;">
+                8. 【別添】${t.year}年${t.month}月 日別アクセス推移
+            </h5>
+            <div class="row g-2">
+                <div class="col-6">
+                    ${renderDailyTable(data.daily?.first_half || [])}
+                </div>
+                <div class="col-6">
+                    ${renderDailyTable(data.daily?.second_half || [])}
+                    <div class="table-responsive mt-1">
+                        <table class="table table-sm table-bordered text-center align-middle mb-0" style="font-size:0.72rem;">
+                            <tbody>
+                                <tr class="table-light fw-bold">
+                                    <td style="width:28%;">${t.month}月合計 (${data.daily?.total_days}日)</td>
+                                    <td class="text-danger" style="width:24%;">${fmt(data.daily?.total_pv)}</td>
+                                    <td style="width:24%;">${fmt(data.daily?.total_sessions)}</td>
+                                    <td style="width:24%;">${fmt(data.daily?.total_uu)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="text-muted text-end mt-1" style="font-size:0.68rem;">
+                ※ ${t.month}月合計UU（${fmt(data.daily?.total_uu)}人）は月内リピーター重複排除後の実人数
+            </div>
+        </div>
+    `;
+}
+
