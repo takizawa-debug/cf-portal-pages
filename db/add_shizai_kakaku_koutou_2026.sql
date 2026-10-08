@@ -1,4 +1,4 @@
--- 令和8年度「農業用生産資材価格高騰対策補助金」お知らせ＆記事追加データ
+-- 令和8年度「農業用生産資材価格高騰対策補助金」お知らせ＆記事追加データ（関連記事ダウンロードリンク対応版）
 
 INSERT OR REPLACE INTO contents (
     id, author_id, type, status, site_scope,
@@ -58,24 +58,15 @@ INSERT OR REPLACE INTO contents (
 郵送 または 電子申請（長野県専用Webサイト）
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-■ 申請書類・様式ダウンロード
+■ 申請書類・様式のダウンロード
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-申請に必要な様式およびチラシ・交付要綱は以下よりダウンロードいただけます。
+申請に必要な様式およびチラシ・交付要綱は、本ページ下部の「関連資料・申請書式ダウンロード」よりダウンロードいただけます。
 
-📄 事業概要チラシ（PDF）：
-https://appletown-iizuna.com/files/shizai_koutou_chirashi.pdf
-
-📘 交付要綱（PDF）：
-https://appletown-iizuna.com/files/01_shizai_koutou_youkou.pdf
-
-📊 交付申請書（様式第1号-1 個人事業主用 / 様式第1号-2 法人・集落営農用）（Excel）：
-https://appletown-iizuna.com/files/02_shizai_koutou_yoshiki_1.xlsx
-
-📝 様式第1号別紙「農具費に含まれる諸材料費の内訳」（Word）：
-https://appletown-iizuna.com/files/03_shizai_koutou_yoshiki_1_besshi.docx
-
-📋 誓約書・各種様式（様式第2号〜第5号）（Word）：
-https://appletown-iizuna.com/files/04_shizai_koutou_yoshiki_2-5.docx
+・事業概要チラシ（PDF）
+・交付要綱（PDF）
+・交付申請書（様式第1号-1 個人事業主用 / 様式第1号-2 法人・集落営農用）（Excel）
+・様式第1号別紙「農具費に含まれる諸材料費の内訳」（Word）
+・誓約書・各種様式（様式第2号〜第5号）（Word）
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 ■ お問い合わせ先
@@ -95,10 +86,10 @@ TEL：026-253-4765
 詳細が決まり次第、町ホームページ等でお知らせします。
 みどり認定に関心のある農業者の方は、産業観光課農政係までご相談ください。',
     'https://appletown-iizuna.com/files/shizai_koutou_chirashi.pdf',
-    '/files/01_shizai_koutou_youkou.pdf',
-    '交付要綱（PDF）',
-    '/files/02_shizai_koutou_yoshiki_1.xlsx',
-    '交付申請書 様式第1号（Excel）',
+    '[{"title":"📄 事業概要チラシ（PDF）","url":"https://appletown-iizuna.com/files/shizai_koutou_chirashi.pdf"},{"title":"📘 交付要綱（PDF）","url":"https://appletown-iizuna.com/files/01_shizai_koutou_youkou.pdf"},{"title":"📊 交付申請書 様式第1号-1・2（Excel）","url":"https://appletown-iizuna.com/files/02_shizai_koutou_yoshiki_1.xlsx"},{"title":"📝 様式第1号別紙 農具費内訳書（Word）","url":"https://appletown-iizuna.com/files/03_shizai_koutou_yoshiki_1_besshi.docx"},{"title":"📋 誓約書・各種様式 様式第2号〜第5号（Word）","url":"https://appletown-iizuna.com/files/04_shizai_koutou_yoshiki_2-5.docx"}]',
+    '関連資料・申請書式一式',
+    NULL,
+    NULL,
     '2026-10-08',
     '2026-12-31',
     '長野県内の農業経営体（個人・法人・集落営農組織）',
@@ -132,12 +123,8 @@ VALUES
 4. Material expenses of at least 50,000 yen
 5. No unpaid Nagano prefectural taxes
 
-■ Download Application Forms:
-- Flyer (PDF): https://appletown-iizuna.com/files/shizai_koutou_chirashi.pdf
-- Guidelines (PDF): https://appletown-iizuna.com/files/01_shizai_koutou_youkou.pdf
-- Application Form (Excel): https://appletown-iizuna.com/files/02_shizai_koutou_yoshiki_1.xlsx
-- Form 1 Appendix (Word): https://appletown-iizuna.com/files/03_shizai_koutou_yoshiki_1_besshi.docx
-- Pledge & Other Forms (Word): https://appletown-iizuna.com/files/04_shizai_koutou_yoshiki_2-5.docx
+■ Download Application Forms & Documents
+Please download the official flyer, guidelines, and application templates from the "Related Documents & Download Forms" section below.
 
 ■ Contact:
 Nagano Agricultural Materials Subsidy Secretariat: TEL 050-8897-0545
@@ -163,12 +150,8 @@ Iizuna Town Agriculture Section: TEL 026-253-4765'
 4. 決算書之諸材料費達 5萬日圓以上
 5. 無欠繳長野縣稅
 
-■ 表格與要綱下載：
-- 簡介傳單（PDF）：https://appletown-iizuna.com/files/shizai_koutou_chirashi.pdf
-- 補助要綱（PDF）：https://appletown-iizuna.com/files/01_shizai_koutou_youkou.pdf
-- 交付申請書（Excel）：https://appletown-iizuna.com/files/02_shizai_koutou_yoshiki_1.xlsx
-- 様式第1號別紙（Word）：https://appletown-iizuna.com/files/03_shizai_koutou_yoshiki_1_besshi.docx
-- 誓約書及相關表格（Word）：https://appletown-iizuna.com/files/04_shizai_koutou_yoshiki_2-5.docx
+■ 申請表格與要綱下載：
+請由頁面下方之「相關資料與申請表格下載」區塊下載活動簡介、補助要綱及各項申請表格。
 
 ■ 諮詢窗口：
 長野縣農業用生產資材補助金事務局：TEL 050-8897-0545
@@ -187,19 +170,15 @@ Iizuna Town Agriculture Section: TEL 026-253-4765'
 ・補助對象經費：最新決算書（個人為令和7年分）所列之「諸材料費」（覆蓋用塑膠布、防草地布、誘引資材、支柱、鐵絲等），達5萬日圓以上者
 ・申請截止日：令和8年12月31日（四）（預定）
 
-■ 申請資格（須符合下列所有條件）：
+■ 申請資格（須符合下列所有条件）：
 1. 申請時設籍於長野縣內（法人為主事務所位於縣內）
 2. 最新決算書中，農業所得占總所得之一半以上
 3. 於長野縣內從事農耕且有持續經營意願
 4. 決算書之諸材料費達 5萬日圓以上
 5. 無欠繳長野縣稅
 
-■ 表格與要綱下載：
-- 簡介傳單（PDF）：https://appletown-iizuna.com/files/shizai_koutou_chirashi.pdf
-- 補助要綱（PDF）：https://appletown-iizuna.com/files/01_shizai_koutou_youkou.pdf
-- 交付申請書（Excel）：https://appletown-iizuna.com/files/02_shizai_koutou_yoshiki_1.xlsx
-- 様式第1號別紙（Word）：https://appletown-iizuna.com/files/03_shizai_koutou_yoshiki_1_besshi.docx
-- 誓約書及相關表格（Word）：https://appletown-iizuna.com/files/04_shizai_koutou_yoshiki_2-5.docx
+■ 申請表格與要綱下載：
+請由頁面下方之「相關資料與申請表格下載」區塊下載活動簡介、補助要綱及各項申請表格。
 
 ■ 諮詢窗口：
 長野縣農業用生產資材補助金事務局：TEL 050-8897-0545

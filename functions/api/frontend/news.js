@@ -17,6 +17,7 @@ export async function onRequestGet(context) {
         const { results } = await env.DB.prepare(`
             SELECT c.id, c.title, c.body_text, c.media_assets,
                    c.site_scope, c.created_at, c.updated_at,
+                   c.related1_url, c.related1_title, c.related2_url, c.related2_title,
                    t_en.title as title_en, t_en.body_text as body_en,
                    t_tw.title as title_tw, t_tw.body_text as body_tw
             FROM contents c
@@ -41,12 +42,27 @@ export async function onRequestGet(context) {
                 }
             } catch (e) {}
 
+            const relatedArticles = [];
+            if (row.related1_url) {
+                if (row.related1_url.startsWith('[') || row.related1_url.startsWith('{')) {
+                    try {
+                        const parsed = JSON.parse(row.related1_url);
+                        if (Array.isArray(parsed)) relatedArticles.push(...parsed);
+                        else if (parsed && typeof parsed === 'object') relatedArticles.push(parsed);
+                    } catch (e) {}
+                } else {
+                    relatedArticles.push({ url: row.related1_url, title: row.related1_title });
+                }
+            }
+            if (row.related2_url) relatedArticles.push({ url: row.related2_url, title: row.related2_title });
+
             return {
                 id: row.id,
                 title: row.title,
                 body: row.body_text,
                 mainImage,
                 images,
+                relatedArticles,
                 date: row.created_at,
                 en: {
                     title: row.title_en,

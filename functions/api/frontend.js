@@ -63,22 +63,29 @@ export async function onRequestGet(context) {
         `;
         const joinClause = `
             LEFT JOIN content_translations t_en ON c.id = t_en.content_id AND t_en.locale = 'en'
-            LEFT JOIN content_translations t_tw ON c.id = t_tw.content_id AND t_tw.locale IN ('zh-TW', 'tw', 'zh')
+            LEFT JOIN (
+                SELECT content_id, title, lead_text, body_text
+                FROM content_translations
+                WHERE locale IN ('zh-TW', 'tw', 'zh')
+                GROUP BY content_id
+            ) t_tw ON c.id = t_tw.content_id
             LEFT JOIN categories cat_l2 ON c.l1 = cat_l2.l1 AND IFNULL(c.l2, '') = IFNULL(cat_l2.l2, '') AND (cat_l2.l3 IS NULL OR cat_l2.l3 = '') AND cat_l2.form_type = 'article'
             LEFT JOIN categories cat_l3 ON c.l1 = cat_l3.l1 AND IFNULL(c.l2, '') = IFNULL(cat_l3.l2, '') AND c.l3_label = cat_l3.l3 AND cat_l3.form_type = 'article'
         `;
 
         const title = url.searchParams.get('title');
+        const id = url.searchParams.get('id');
 
-        if (title) {
-            // タイトル完全一致検索（article.htmlからの呼び出し用。LIKE不要）
-            const { results: titleRows } = await env.DB.prepare(`
+        if (id || title) {
+            // IDまたはタイトル完全一致検索（article.html / ディープリンク呼び出し用）
+            const searchVal = id || title;
+            const { results: targetRows } = await env.DB.prepare(`
                 SELECT ${flatSelect} FROM contents c
                 ${joinClause}
-                WHERE c.status = 'published' AND c.title = ?
+                WHERE c.status = 'published' AND (c.id = ? OR c.title = ?)
                 LIMIT 1
-            `).bind(title).all();
-            dbRows = titleRows;
+            `).bind(searchVal, searchVal).all();
+            dbRows = targetRows;
         } else if (q) {
             let searchPattern = `%${q}%`;
             if (q.trim() === '') searchPattern = '%';
@@ -120,7 +127,22 @@ export async function onRequestGet(context) {
                 };
 
                 const relatedArticles = [];
-                if (row.related1_url) relatedArticles.push({ url: row.related1_url, title: row.related1_title });
+                if (row.related1_url) {
+                    if (row.related1_url.startsWith('[') || row.related1_url.startsWith('{')) {
+                        try {
+                            const parsed = JSON.parse(row.related1_url);
+                            if (Array.isArray(parsed)) {
+                                relatedArticles.push(...parsed);
+                            } else if (parsed && typeof parsed === 'object') {
+                                relatedArticles.push(parsed);
+                            }
+                        } catch (e) {
+                            relatedArticles.push({ url: row.related1_url, title: row.related1_title });
+                        }
+                    } else {
+                        relatedArticles.push({ url: row.related1_url, title: row.related1_title });
+                    }
+                }
                 if (row.related2_url) relatedArticles.push({ url: row.related2_url, title: row.related2_title });
 
                 let rawAssets = [];

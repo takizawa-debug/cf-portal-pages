@@ -285,15 +285,40 @@ window.lzModal = (function () {
       addLink(rawData.sns.tiktok, "tt");
     }
 
-    // --- ③ 関連記事の組み立て (ra.title || ra.url ロジックを適用) ---
+    // --- ③ 関連記事・関連資料の組み立て (ra.title || ra.url ロジックを適用) ---
     var relHtml = "";
     if (rawData.relatedArticles && rawData.relatedArticles.length > 0) {
-      relHtml = '<div style="padding:15px; border-top:1px solid #eee;"><h3 style="font-size:1.1rem; color:#a82626; margin-bottom:10px;">' + getTranslation('関連記事', MODAL_ACTIVE_LANG) + '</h3><div style="display:grid; gap:8px;">' +
+      var hasFiles = rawData.relatedArticles.some(function (ra) {
+        return ra.url && (/\.(pdf|xlsx|docx|doc|xls|zip)($|\?)/i.test(ra.url) || ra.url.includes('/files/'));
+      });
+      var headingText = hasFiles
+        ? (MODAL_ACTIVE_LANG === 'en' ? 'Related Documents & Download Forms' : (MODAL_ACTIVE_LANG === 'zh' ? '相關資料與申請表格下載' : '関連資料・申請書式ダウンロード'))
+        : getTranslation('関連記事', MODAL_ACTIVE_LANG);
+
+      relHtml = '<div style="padding:15px; border-top:1px solid #eee;"><h3 style="font-size:1.15rem; color:#a82626; margin-bottom:12px; font-weight:700;">' + headingText + '</h3><div style="display:grid; gap:10px;">' +
         rawData.relatedArticles.map(function (ra) {
           if (!ra.url) return "";
           var displayTitle = ra.title || ra.url;
-          return '<a href="' + C.esc(ra.url) + '" target="_blank" style="display:block; padding:12px; background:#f9f9f9; border-radius:10px; color:#cf3a3a; text-decoration:none; font-weight:700; border:1px solid #eee; font-size:1.1rem;">🔗 ' + C.esc(displayTitle) + '</a>';
+          var isDoc = /\.(pdf|xlsx|docx|doc|xls|zip)($|\?)/i.test(ra.url) || ra.url.includes('/files/');
+          var icon = isDoc ? '📥 ' : '🔗 ';
+          var downloadAttr = isDoc ? ' download' : '';
+          return '<a href="' + C.esc(ra.url) + '" target="_blank" rel="noopener noreferrer"' + downloadAttr + ' style="display:flex; align-items:center; gap:8px; padding:12px 16px; background:#f9f9f9; border-radius:10px; color:#cf3a3a; text-decoration:none; font-weight:700; border:1px solid #eee; font-size:1.05rem; box-shadow:0 1px 3px rgba(0,0,0,0.03); transition:background 0.2s, transform 0.1s;" onmouseover="this.style.background=\'#f3ecec\'" onmouseout="this.style.background=\'#f9f9f9\'">' + icon + C.esc(displayTitle) + '</a>';
         }).join('') + '</div></div>';
+    }
+
+    // --- ③-B レシピ特設コーナーへの直通導線バナー (ブラムリー連携) ---
+    var recipeBannerHtml = "";
+    var isBramleyArticle = title.includes("ブラムリー") || (rawData.title && rawData.title.includes("ブラムリー"));
+    if (isBramleyArticle) {
+      recipeBannerHtml = '<div class="lz-recipe-callout" style="margin: 20px 0; padding: 18px 20px; background: linear-gradient(135deg, #f2f7e8 0%, #eaf4d5 100%); border: 1.5px solid #abc10d; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; box-shadow: 0 4px 12px rgba(104,142,23,0.1);">' +
+        '  <span style="font-size: 0.8rem; font-weight: 700; color: #688e17; display: flex; align-items: center; gap: 4px; margin-bottom: 2px;"><svg viewBox="0 0 24 24" fill="#688e17" width="13" height="13" aria-hidden="true"><path d="M12 2c0 0 .5 2-1 3-1.5 1-3 .5-3 .5s.5-2 2-3 2-.5 2-.5zm6.5 5.5c-1-1-3-1.5-5-1-1 .3-2 1-2.5 1s-1.5-.7-2.5-1c-2-.5-4 0-5 1-2 2-2 7 0 10.5 1 1.8 2.5 3.5 4.5 3.5 1.5 0 2.2-1 3-1s1.5 1 3 1c2 0 3.5-1.7 4.5-3.5 2-3.5 2-8.5 0-10.5z"/></svg>クッキングアップルの王様</span>' +
+        '  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #2b2621;">ブラムリーの本格料理レシピ集（全8品）</h4>' +
+        '  <p style="margin: 4px 0 0; font-size: 0.85rem; color: #59534c;">タンドリーチキン、豚の角煮、英国伝統キャセロール、クランブルなど公開中！</p>' +
+        '</div>' +
+        '<a href="/recipe?filter=bramley" style="display: inline-flex; align-items: center; gap: 6px; background: #688e17; color: #ffffff; padding: 10px 18px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; text-decoration: none; box-shadow: 0 2px 8px rgba(104,142,23,0.25);">' +
+        '  レシピを見る →' +
+        '</a>' +
+        '</div>';
     }
 
     // --- ④ タブの準備 ---
@@ -364,6 +389,7 @@ window.lzModal = (function () {
       '  <div class="lz-modal-right">',
       (lead ? '    <div class="lz-lead-strong">' + C.esc(lead) + '</div>' : ''),
       '    <div class="lz-txt lz-modal-body-txt" data-id="' + d.id + '">' + linkedBody + '</div>',
+      (recipeBannerHtml ? '    ' + recipeBannerHtml : ''),
       (rows.length ? '    <div class="lz-info-list">' + rows.join('') + '</div>' : ''),
       (snsLinksHtml.length ? '    <div class="lz-sns">' + snsLinksHtml.join('') + '</div>' : ''),
       relHtml,

@@ -184,6 +184,26 @@
                             );
                             html += '  <div class="news-entry-body">' + escapedBody + '</div>';
                         }
+                        if (item.relatedArticles && item.relatedArticles.length > 0) {
+                            var hasFiles = item.relatedArticles.some(function (ra) {
+                                return ra.url && (/\.(pdf|xlsx|docx|doc|xls|zip)($|\?)/i.test(ra.url) || ra.url.includes('/files/'));
+                            });
+                            var heading = hasFiles
+                                ? (lang === 'en' ? 'Related Documents & Forms' : (lang === 'zh' ? '相關資料與表格' : '関連資料・申請書式ダウンロード'))
+                                : (lang === 'en' ? 'Related Links' : (lang === 'zh' ? '相關連結' : '関連リンク'));
+                            html += '  <div class="news-entry-related" style="margin-top:16px; padding-top:16px; border-top:1px dashed #eee;">';
+                            html += '    <div style="font-size:0.95rem; font-weight:700; color:#cf3a3a; margin-bottom:8px;">' + C.esc(heading) + '</div>';
+                            html += '    <div style="display:flex; flex-direction:column; gap:8px;">';
+                            item.relatedArticles.forEach(function (ra) {
+                                if (!ra.url) return;
+                                var isDoc = /\.(pdf|xlsx|docx|doc|xls|zip)($|\?)/i.test(ra.url) || ra.url.includes('/files/');
+                                var icon = isDoc ? '📥 ' : '🔗 ';
+                                var dlAttr = isDoc ? ' download' : '';
+                                html += '      <a href="' + C.esc(ra.url) + '" target="_blank" rel="noopener noreferrer"' + dlAttr + ' style="display:inline-flex; align-items:center; gap:8px; padding:10px 14px; background:#f9f9f9; border:1px solid #e5e5e5; border-radius:8px; color:#cf3a3a; text-decoration:none; font-weight:700; font-size:0.95rem;">' + icon + C.esc(ra.title || ra.url) + '</a>';
+                            });
+                            html += '    </div>';
+                            html += '  </div>';
+                        }
                         html += '</li>';
                     });
                     html += '</ul>';
