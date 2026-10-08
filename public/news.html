@@ -172,7 +172,7 @@
                             // 本文内のURLおよびサイト内パスを安全にリンク変換（二重置換・タグ破壊を防止）
                             var escapedBody = C.esc(body);
                             escapedBody = escapedBody.replace(
-                                /(https?:\/\/[^\s<]+)|(^|[\s：:])(\/(?:experience|article|savor|lifestyle|discover|business)[^\s<]*)/g,
+                                /(https?:\/\/[^\s<]+)|(^|[\s：:])(\/(?:experience|article|savor|lifestyle|discover|business|files)[^\s<]*)/g,
                                 function (match, fullUrl, prefix, relPath) {
                                     if (fullUrl) {
                                         return '<a href="' + fullUrl + '" target="_blank" rel="noopener noreferrer" style="color:#cf3a3a; font-weight:700; text-decoration:underline;">' + fullUrl + '</a>';
