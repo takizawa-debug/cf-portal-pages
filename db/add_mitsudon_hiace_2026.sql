@@ -34,7 +34,7 @@ INSERT OR REPLACE INTO contents (
 
 街で見かけたら、ぜひ手を振ってくださいね！よろしくお願いします🤓🍎',
     'https://town.iizuna.nagano.jp/',
-    '/discover?lang=ja',
+    '/article/02-09-09-0010?lang=ja',
     '飯綱町公式PRキャラクター「みつどん」紹介',
     NULL,
     NULL,
